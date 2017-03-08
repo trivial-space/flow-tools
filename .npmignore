@@ -1,0 +1,14 @@
+.DS_Store
+.vscode
+.idea
+node_modules
+test
+benchmarks
+/*.log
+.tern-project
+.eslintrc
+.atomignore
+karma.conf.js
+webpack.config.js
+tsconfig.json
+.git

@@ -1,10 +1,10 @@
 {
-  "name": "flow-tools",
+  "name": "tvs-flow-tools",
   "version": "0.1.0",
-  "description": "tools to develop and work with flow graphs",
+  "description": "tools to develop and work with trivial space flow graphs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "examples": "webpack-dev-server --config webpack.config.examples.js --port 8081"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,19 @@
   "bugs": {
     "url": "https://github.com/trivial-space/flow-tools/issues"
   },
-  "homepage": "https://github.com/trivial-space/flow-tools#readme"
+  "homepage": "https://github.com/trivial-space/flow-tools#readme",
+  "dependencies": {
+    "tvs-flow": "github:trivial-space/flow",
+    "yo-yo": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/webpack-env": "^1.13.0",
+    "es6-shim": "^0.35.3",
+    "es7-shim": "^6.0.0",
+    "ts-loader": "^2.0.1",
+    "typescript": "^2.2.1",
+    "uglifyjs-webpack-plugin": "^0.3.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  }
 }
