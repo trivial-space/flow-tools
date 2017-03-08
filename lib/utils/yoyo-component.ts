@@ -26,29 +26,34 @@ export function flowComponentFactory(stateFlow: Runtime, dispatchId: string): Co
     stateFlow.set(dispatchId, action)
   }
 
-  return function component (template: Template, viewStateId: string) {
+  function component (template: Template, viewStateId: string) {
     const firstState = stateFlow.get(viewStateId)
+    console.log(firstState)
     const element = template(firstState, dispatch, component)
 
-    const wrapElement = el =>
-      onLoad(el, () => {
-        console.log('element inserted into dom!', el)
-        stateFlow.on(viewStateId, update)
-      }, () => {
-        console.log('element removed from dom!', el)
-        // TODO:
-        // stateFlow.off(viewStateId, update)
-        stateFlow.off(viewStateId)
-      })
+    const onload = () => {
+      console.log('element inserted into dom!', element)
+      stateFlow.on(viewStateId, update)
+    }
+
+    const onunload = () => {
+      console.log('element removed from dom!', element)
+      stateFlow.off(viewStateId, update)
+    }
+
+    const wrapElement = () => onLoad(element, onload, onunload)
 
     const update = newState => {
       const newElement = template(newState, dispatch, component)
-      wrapElement(newElement)
+      console.log('updating', element)
       yo.update(element, newElement)
+      wrapElement()
     }
 
-    wrapElement(element)
+    wrapElement()
 
     return element
   }
+
+  return component
 }

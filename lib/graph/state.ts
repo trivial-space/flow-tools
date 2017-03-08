@@ -8,7 +8,7 @@ export interface ViewState {
 
 
 export const viewState = val<ViewState>({
-  title: 'hello'
+  title: 'hello world'
 })
 
 
