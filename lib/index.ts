@@ -14,14 +14,14 @@ export function start() {
   state.addGraph(getGraphFromModules(graphModules))
   state.flush()
 
-  const component = flowComponentFactory(state, 'events.dispatcher')
+  const component = flowComponentFactory(state, 'events.dispatch')
 
   const element = mainView(component)
 
   document.body.appendChild(element)
 
   function updateFlow(flow: Runtime) {
-     state.set('state.flow', flow)
+     state.set('state.flow.runtime', flow)
   }
 
   function dispose() {

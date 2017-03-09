@@ -28,8 +28,20 @@ export function flowComponentFactory(stateFlow: Runtime, dispatchId: string): Co
 
   function component (template: Template, viewStateId: string) {
     const firstState = stateFlow.get(viewStateId)
-    console.log(firstState)
+
     const element = template(firstState, dispatch, component)
+    element.dataset.tvsComponent = "component"
+
+    const update = newState => {
+      const newElement = template(newState, dispatch, component)
+      console.log('updating', element)
+      yo.update(element, newElement, {
+        childrenOnly: true,
+        onBeforeElUpdated: function(fromEl: HTMLElement) {
+          return fromEl.dataset.tvsComponent !== "component";
+        },
+      })
+    }
 
     const onload = () => {
       console.log('element inserted into dom!', element)
@@ -41,17 +53,7 @@ export function flowComponentFactory(stateFlow: Runtime, dispatchId: string): Co
       stateFlow.off(viewStateId, update)
     }
 
-    const wrapElement = () => onLoad(element, onload, onunload)
-
-    const update = newState => {
-      const newElement = template(newState, dispatch, component)
-      console.log('updating', element)
-      yo.update(element, newElement)
-      wrapElement()
-    }
-
-    wrapElement()
-
+    onLoad(element, onload, onunload)
     return element
   }
 
