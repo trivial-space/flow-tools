@@ -54,6 +54,7 @@ export function flowComponentFactory(stateFlow: Runtime, dispatchId: string): Co
     }
 
     onLoad(element, onload, onunload)
+
     return element
   }
 
