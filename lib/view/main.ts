@@ -1,10 +1,11 @@
-import * as yo from 'yo-yo'
+import {h1, section, ul, li, button, div} from './utils'
 import * as css from 'dom-css'
+import * as cn from 'classnames'
 import { Component } from "utils/yoyo-component";
 
 
 function title(title) {
-  return yo`<h1>${title}</h1>`
+  return h1({}, [title])
 }
 
 
@@ -19,26 +20,29 @@ function controls(visibility, dispatch, component) {
     }
   }
 
-  return yo`<section class="tvs-controls">
-    ${component(title, 'state.gui.title')}
-    <ul id="tvs-controls-btns">
-      <li>
-        <button class="${visibility.tree ? "active": ""}" onclick=${click('tree')}>
-          tree
-        </button>
-      </li>
-      <li>
-        <button class="${visibility.graph ? "active": ""}" onclick=${click('graph')}>
-          graph
-        </button>
-      </li>
-      <li>
-        <button class="${visibility.entities ? "active": ""}" onclick=${click('entities')}>
-          entities
-        </button>
-      </li>
-    </ul>
-  </section>`
+  const el =
+    section({className: 'tvs-controls'}, [
+      component(title, 'state.gui.title'),
+      ul({className: 'tvs-controls-btns'}, [
+        li({}, [
+          button({
+            className: cn({active: visibility.tree}),
+            onclick: click('tree')
+          }, ['tree'])]),
+        li({}, [
+          button({
+            className: cn({active: visibility.graph}),
+            onclick: click('graph')
+          }, ['graph'])]),
+        li({}, [
+          button({
+            className: cn({active: visibility.entities}),
+            onclick: click('entities')
+          }, ['entities'])]),
+      ])
+    ])
+
+  return el
 }
 
 
@@ -48,7 +52,7 @@ const windowStyle = {
 
 
 function treeWindow (tree) {
-  const el = yo`<div id="tvs-tools-tree">Tree</div>`
+  const el = div({"data-key": "tree"}, ['Tree'])
 
   css(el, {
     ...windowStyle,
@@ -61,7 +65,7 @@ function treeWindow (tree) {
 
 
 function graphWindow (graph) {
-  const el = yo`<div id="tvs-tools-graph">Graph</div>`
+  const el = div({"data-key": "graph"}, ['Graph'])
 
   css(el, {
     ...windowStyle,
@@ -73,7 +77,7 @@ function graphWindow (graph) {
 }
 
 function entitiesWindow (entities) {
-  const el = yo`<div id="tvs-tools-entities">Entities</div>`
+  const el = div({"data-key": "entities"}, ['Entities'])
 
   css(el, {
     ...windowStyle,
@@ -91,12 +95,12 @@ function root (visibility, dispatch, component) {
   const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindow') : ''
   const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindow') : ''
 
-  const el = yo`<div id="tvs-tools">
-    ${controls(visibility, dispatch, component)}
-    ${tree}
-    ${graph}
-    ${entities}
-  </div>`
+  const el = div({id: "tvs-tools"}, [
+    controls(visibility, dispatch, component),
+    tree,
+    graph,
+    entities
+  ])
 
   css(el, {
     position: 'fixed',

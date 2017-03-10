@@ -23,14 +23,20 @@
   },
   "homepage": "https://github.com/trivial-space/flow-tools#readme",
   "dependencies": {
+    "hyperscript-helpers": "^3.0.2",
     "tvs-flow": "github:trivial-space/flow",
     "yo-yo": "^1.4.0"
   },
   "devDependencies": {
     "@types/webpack-env": "^1.13.0",
+    "classnames": "^2.2.5",
+    "css-loader": "^0.27.1",
     "dom-css": "^2.1.0",
     "es6-shim": "^0.35.3",
     "es7-shim": "^6.0.0",
+    "style-loader": "^0.13.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "ts-loader": "^2.0.1",
     "typescript": "^2.2.1",
     "uglifyjs-webpack-plugin": "^0.3.0",

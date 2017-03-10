@@ -41,6 +41,9 @@ export function flowComponentFactory(stateFlow: Runtime, dispatchId: string): Co
       const newElement = template(newState, dispatch, component)
       console.log('updating', element)
       yo.update(element, newElement, {
+        getNodeKey: function(node) {
+          return node.id || (node.dataset && node.dataset.key);
+        },
         childrenOnly: true,
         onBeforeElUpdated: function(fromEl: HTMLElement) {
           return fromEl.dataset.tvsComponent !== "component";
