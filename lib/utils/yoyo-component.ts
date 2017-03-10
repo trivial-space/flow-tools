@@ -10,8 +10,13 @@ export interface Action {
 }
 
 
+export interface Dispatcher {
+  (Action): void
+}
+
+
 export interface Template {
-  (state: any, dispatch?: (Action) => void, component?: Component): HTMLElement
+  (state: any, dispatch?: Dispatcher, component?: Component): HTMLElement
 }
 
 

@@ -27,7 +27,7 @@ export const controlsPosition = val<Position>({
 
 
 export const treeWindow = val<WindowDimension>({
-  top: 30,
+  top: 230,
   left: 0,
   width: 100,
   height: 100,
@@ -35,8 +35,16 @@ export const treeWindow = val<WindowDimension>({
 
 
 export const graphWindow = val<WindowDimension>({
-  top: 30,
+  top: 230,
   left: 100,
+  width: 100,
+  height: 100,
+})
+
+
+export const entitiesWindow = val<WindowDimension>({
+  top: 330,
+  left: 0,
   width: 100,
   height: 100,
 })
