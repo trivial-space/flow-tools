@@ -1,5 +1,7 @@
 const { resolve } = require('path')
 const webpack = require('webpack')
+const config = require('./webpack.config')
+
 
 const hotCodeEntry = [
   'es6-shim', 'es7-shim/browser',
@@ -22,19 +24,14 @@ module.exports = {
     hotUpdateMainFilename: "[hash].hot-update.json"
   },
 
-  module: {
-    rules: [
-      { test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/ },
-    ]
-  },
+  module: config.module,
 
   resolve: {
     modules: [
-      'node_modules',
-      resolve(__dirname, 'libs'),
+      ...config.resolve.modules,
       resolve(__dirname, 'examples')
     ],
-    extensions: ['.ts', '.js']
+    extensions: config.resolve.extensions
   },
 
   devtool: 'inline-source-map',

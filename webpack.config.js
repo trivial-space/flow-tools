@@ -18,26 +18,6 @@ module.exports = {
       test: /\.ts$/,
       exclude: /node_modules/,
       use: 'ts-loader'
-    }, {
-      test: /\.styl$/,
-      exclude: /node_modules/,
-      use: [{
-        loader: 'css-loader',
-        options: {
-          modules: true,
-          sourceMap: true,
-          importLoaders: 2
-        }
-      }, {
-          loader: 'postcss-loader',
-          options: {
-            plugins: function() {
-              return [
-                require('autoprefixer')
-              ];
-            }
-          }
-        }]
     }]
   },
 

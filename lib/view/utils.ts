@@ -1,15 +1,15 @@
 import * as bel from 'bel'
-import hh from 'hyperscript-helpers'
 
-export const elements = hh(bel.createElement)
+export function h (elData) {
+  const tag = elData.shift(elData)
 
-export default elements
+  let props = elData[0]
 
-export const {
-  div,
-  section,
-  h1,
-  ul,
-  li,
-  button,
-} = elements
+  if (typeof props === "object" && !Array.isArray(props)) {
+    elData.shift()
+  } else {
+    props = {}
+  }
+
+  return bel.createElement(tag, props, elData.map(el => Array.isArray(el) ? h(el) : el))
+}
