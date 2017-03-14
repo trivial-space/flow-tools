@@ -16,7 +16,7 @@ export interface Position {
 export type WindowDimension = Position & Size
 
 
-export const title = val('hello world')
+export const title = val('flow inspector')
   .accept(unequal)
 
 

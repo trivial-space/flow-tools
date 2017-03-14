@@ -1,8 +1,9 @@
-import { h } from './utils'
-import * as css from 'dom-css'
-import { Component } from 'utils/yoyo-component';
 import { style, classes } from "typestyle";
+import * as css from 'dom-css'
+import { h } from './utils'
+import { Component } from '../utils/yoyo-component';
 import * as icon from "./icons";
+import { highlightColor, buttonStyle, mainStyle, controlsStyle } from "./styles/main";
 
 
 function title(title) {
@@ -11,7 +12,7 @@ function title(title) {
 
 
 const activeButton = style({
-  color: 'cyan'
+  color: highlightColor
 })
 
 
@@ -27,18 +28,28 @@ function controls(visibility, dispatch, component) {
   }
 
   const el =
-    h(['section', {className: 'tvs-controls'},
+    h(['header', {className: classes('tvs-controls', controlsStyle)},
         component(title, 'state.gui.title'),
-        ['ul', {className: 'tvs-controls-btns'},
-          ['li',
-            ['button', { onclick: click('tree') },
-              icon.list(visibility.tree && activeButton)]],
-          ['li',
-            ['button', { onclick: click('graph') },
-              icon.graph(visibility.graph && activeButton)]],
-          ['li',
-            ['button', { onclick: click('entities') },
-              icon.entities(visibility.entities && activeButton)]]]])
+        ['nav', {className: 'tvs-controls-btns'},
+          ['ul',
+            ['li',
+              ['button', {
+                  className: buttonStyle,
+                  onclick: click('tree')
+                },
+                icon.list(visibility.tree && activeButton)]],
+            ['li',
+              ['button', {
+                  className: buttonStyle,
+                  onclick: click('graph')
+                },
+                icon.graph(visibility.graph && activeButton)]],
+            ['li',
+              ['button', {
+                  className: buttonStyle,
+                  onclick: click('entities')
+                },
+                icon.entities(visibility.entities && activeButton)]]]]])
 
   return el
 }
@@ -94,21 +105,13 @@ function entitiesWindow (entities) {
 }
 
 
-const rootStyle = style({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  zIndex: 1000
-})
-
-
 function root (visibility, dispatch, component) {
 
   const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindow') : ''
   const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindow') : ''
   const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindow') : ''
 
-  const el = h(['div', {className: classes('tvs-tools', rootStyle)},
+  const el = h(['article', {className: classes('tvs-tools', mainStyle)},
     controls(visibility, dispatch, component),
     tree,
     graph,
