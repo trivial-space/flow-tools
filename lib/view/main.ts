@@ -33,19 +33,22 @@ function controls(visibility, dispatch, component) {
       component(title, 'state.gui.title'),
       ['nav', {className: 'tvs-controls-btns'},
         ['ul',
-          ['li', iconBtn({
+          ['li',
+            iconBtn({
               className: visibility.tree && activeButton,
               onclick: click('tree'),
               icon: icon.list(),
               title: "toggle entity tree"
             })],
-          ['li', iconBtn({
+          ['li',
+            iconBtn({
               className: visibility.graph && activeButton,
               onclick: click('graph'),
               icon: icon.graph(),
               title: "toggle flow graph"
             })],
-          ['li', iconBtn({
+          ['li',
+            iconBtn({
               className: visibility.entities && activeButton,
               onclick: click('entities'),
               icon: icon.entities(),
@@ -67,10 +70,15 @@ function treeWindow (windowDimensions, _, component) {
 
 
 function treeView (entities) {
-  return h(
-    ["ul", ...Object.keys(entities).map(eName =>
-      ["li", {'data-key': eName}, eName])]
-  )
+  const list: any[] = ['ul']
+
+  if (entities) {
+    const items = Object.keys(entities).map(eName =>
+      ["li", { 'data-key': eName }, eName])
+    list.push(...items)
+  }
+
+  return h(list)
 }
 
 

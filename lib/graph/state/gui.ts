@@ -51,9 +51,9 @@ export const entitiesWindow = val<WindowDimension>({
 
 
 export const visibility = val({
-  tree: false,
-  graph: false,
-  entities: false,
+  tree: true,
+  graph: true,
+  entities: true,
 })
 .react(
   [dispatch.HOT],
