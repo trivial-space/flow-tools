@@ -9,6 +9,10 @@ export const fontSize = 18
 
 export const highlightColor = 'cyan'
 
+export const element = {
+  borderRadius: 4,
+  backgroundColor
+}
 
 
 export const mainStyle = style({
@@ -17,16 +21,15 @@ export const mainStyle = style({
   left: 0,
   zIndex: 1000,
   fontSize,
+  fontFamily: 'sans-serif',
   color,
 })
 
 
-export const buttonStyle = style({
+export const buttonStyle = style(element, {
   margin: '0 4px',
   border: 0,
-  borderRadius: 4,
   color,
-  backgroundColor,
   fontSize: '1.0em',
   $nest: {
     '& > svg': {
@@ -36,11 +39,9 @@ export const buttonStyle = style({
 })
 
 
-export const controlsStyle = style({
+export const controlsStyle = style(element, {
   display: 'inline-block',
   padding: 4,
-  borderRadius: 4,
-  backgroundColor,
   $nest: {
     '& h1': {
       display: 'inline-block',
@@ -64,3 +65,11 @@ export const controlsStyle = style({
     }
   }
 })
+
+
+export const windowStyle = style(element, {
+  position: 'absolute',
+  padding: 8,
+  overflow: 'auto'
+})
+

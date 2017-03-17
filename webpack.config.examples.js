@@ -11,7 +11,8 @@ const hotCodeEntry = [
 
 module.exports = {
   entry: {
-    'basic': [...hotCodeEntry, './basic/src/index.ts']
+    'basic': [...hotCodeEntry, './basic/src/index.ts'],
+    'self': [...hotCodeEntry, './self/src/index.ts']
   },
 
   context: resolve(__dirname, 'examples'),

@@ -9,3 +9,9 @@ export const graph = stream(
   [runtime.HOT],
   (flow: Runtime) => flow.getGraph()
 )
+
+
+export const state = stream(
+  [runtime.HOT],
+  (flow: Runtime) => flow.getState()
+)

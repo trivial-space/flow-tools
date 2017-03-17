@@ -29,8 +29,8 @@ export const controlsPosition = val<Position>({
 export const treeWindow = val<WindowDimension>({
   top: 230,
   left: 0,
-  width: 100,
-  height: 100,
+  width: 300,
+  height: 400,
 })
 
 

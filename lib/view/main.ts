@@ -3,7 +3,8 @@ import * as css from 'dom-css'
 import { h } from './utils'
 import { Component } from '../utils/yoyo-component';
 import * as icon from "./icons";
-import { highlightColor, buttonStyle, mainStyle, controlsStyle } from "./styles/main";
+import { highlightColor, mainStyle, controlsStyle, windowStyle } from "./styles/main";
+import { iconBtn } from "./ui";
 
 
 function title(title) {
@@ -27,51 +28,49 @@ function controls(visibility, dispatch, component) {
     }
   }
 
-  const el =
-    h(['header', {className: classes('tvs-controls', controlsStyle)},
-        component(title, 'state.gui.title'),
-        ['nav', {className: 'tvs-controls-btns'},
-          ['ul',
-            ['li',
-              ['button', {
-                  className: buttonStyle,
-                  onclick: click('tree')
-                },
-                icon.list(visibility.tree && activeButton)]],
-            ['li',
-              ['button', {
-                  className: buttonStyle,
-                  onclick: click('graph')
-                },
-                icon.graph(visibility.graph && activeButton)]],
-            ['li',
-              ['button', {
-                  className: buttonStyle,
-                  onclick: click('entities')
-                },
-                icon.entities(visibility.entities && activeButton)]]]]])
+  return h(
+    ['header', {className: classes('tvs-controls', controlsStyle)},
+      component(title, 'state.gui.title'),
+      ['nav', {className: 'tvs-controls-btns'},
+        ['ul',
+          ['li', iconBtn({
+              className: visibility.tree && activeButton,
+              onclick: click('tree'),
+              icon: icon.list(),
+              title: "toggle entity tree"
+            })],
+          ['li', iconBtn({
+              className: visibility.graph && activeButton,
+              onclick: click('graph'),
+              icon: icon.graph(),
+              title: "toggle flow graph"
+            })],
+          ['li', iconBtn({
+              className: visibility.entities && activeButton,
+              onclick: click('entities'),
+              icon: icon.entities(),
+              title: "toggle entity details"
+            })]]]])
+}
+
+
+function treeWindow (windowDimensions, _, component) {
+  const el = h(['div', {
+    'data-key': 'tree',
+    className: windowStyle
+  }, component(treeView, 'state.flow.state')])
+
+  css(el, windowDimensions)
 
   return el
 }
 
 
-const windowStyle = style({
-  position: 'absolute'
-})
-
-
-function treeWindow (tree) {
-  const el = h(['div', {
-    'data-key': 'tree',
-    className: windowStyle
-  }, 'Tree'])
-
-  css(el, {
-    ...tree,
-    backgroundColor: 'tomato'
-  })
-
-  return el
+function treeView (entities) {
+  return h(
+    ["ul", ...Object.keys(entities).map(eName =>
+      ["li", {'data-key': eName}, eName])]
+  )
 }
 
 
@@ -83,7 +82,7 @@ function graphWindow (graph) {
 
   css(el, {
     ...graph,
-    backgroundColor: 'green'
+    backgroundColor: 'tomato'
   })
 
   return el
@@ -113,9 +112,9 @@ function root (visibility, dispatch, component) {
 
   const el = h(['article', {className: classes('tvs-tools', mainStyle)},
     controls(visibility, dispatch, component),
-    tree,
     graph,
-    entities
+    entities,
+    tree
   ])
 
   return el
