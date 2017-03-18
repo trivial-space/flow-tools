@@ -1,4 +1,5 @@
 import * as yo from 'yo-yo'
+import * as bel from 'bel'
 import * as onLoad from 'on-load'
 
 import { Runtime } from "tvs-flow/dist/lib/runtime-types";
@@ -110,4 +111,25 @@ export function flowComponentFactory(
   }
 
   return component
+}
+
+
+export function h (elData) {
+  const tag = elData.shift(elData)
+
+  let props = elData[0]
+
+  if (typeof props === "object" && !Array.isArray(props)) {
+    elData.shift()
+  } else {
+    props = {}
+  }
+
+  for (let k in props) {
+    if (typeof props[k] === 'boolean') {
+      props[k] = '' + props[k]
+    }
+  }
+
+  return bel.createElement(tag, props, elData.map(el => Array.isArray(el) ? h(el) : el))
 }

@@ -1,4 +1,4 @@
-import { val } from "tvs-flow/dist/lib/utils/entity-reference";
+import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
 import { unequal, defined } from "../../utils/predicates";
 import { dispatch } from "../events";
 
@@ -34,6 +34,26 @@ export const treeWindow = val<WindowDimension>({
 })
 
 
+export const treeViewProps = val({
+  treeViewComponent: 'tree'
+})
+.react(
+  [dispatch.HOT],
+  (self, action) => {
+    if (action.type === "state.gui.setTreeView") {
+      return {...self, treeViewComponent: action.payload}
+    }
+  }
+)
+.accept(defined)
+
+
+export const treeWindowProps = stream(
+  [treeWindow.HOT, treeViewProps.HOT],
+  (dim, props) => ({dimensions: dim, props})
+)
+
+
 export const graphWindow = val<WindowDimension>({
   top: 230,
   left: 100,
@@ -58,7 +78,7 @@ export const visibility = val({
 .react(
   [dispatch.HOT],
   (self, action) => {
-    if (action.type === "update-visibility") {
+    if (action.type === "state.gui.updateVisibility") {
       return {...self, [action.payload]: !self[action.payload]}
     }
   }
