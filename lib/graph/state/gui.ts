@@ -1,7 +1,8 @@
-import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
-import { unequal, defined } from "../../utils/predicates";
+import { val, stream, asyncStream } from "tvs-flow/dist/lib/utils/entity-reference";
+import { unequal, defined, and } from "../../utils/predicates";
 import { dispatch } from "../events";
-import { entityTree } from "./flow";
+import { entityTree, runtime } from "./flow";
+import { Runtime } from "tvs-flow/dist/lib/runtime-types";
 
 
 export interface Size {
@@ -71,7 +72,7 @@ export const treeData = stream(
 
 export const treeWindowProps = stream(
   [treeWindow.HOT, treeViewProps.HOT],
-  (dim, props) => ({dimensions: dim, props})
+  (dimensions, props) => ({dimensions, props})
 )
 
 
@@ -89,6 +90,35 @@ export const entitiesWindow = val<WindowDimension>({
   width: 400,
   height: 500,
 })
+
+
+export const activeEntity = val({})
+.react(
+  [dispatch.HOT],
+  (self, {type, payload}) => {
+    if (type === 'state.gui.openEntity') {
+      return {...self, id: payload}
+    }
+  }
+)
+.accept(and(defined, (a, b) => a.id !== b.id))
+
+
+export const activeValue = asyncStream(
+  [runtime.COLD, activeEntity.HOT],
+  (send, flow: Runtime, entity) => {
+    send(flow.get(entity.id))
+    flow.on(entity.id, send)
+
+    return () => flow.off(entity.id, send)
+  }
+)
+
+
+export const entitiesWindowProps = stream(
+  [entitiesWindow.HOT, activeEntity.HOT],
+  (dimensions, entity) => ({dimensions, entity})
+)
 
 
 export const visibility = val({

@@ -180,25 +180,32 @@ function graphWindow (graph) {
     class: windowStyle
   }, 'Graph'])
 
-  css(el, {
-    ...graph,
-    backgroundColor: 'tomato'
-  })
+  css(el, { ...graph })
 
   return el
 }
 
 
-function entitiesWindow (entities) {
-  const el = h(['div', {
-    'data-key': 'entities',
-    class: windowStyle
-  }, 'Entities'])
+function jsonCode (value) {
+  return h(
+    ['code',
+      ['pre',
+        JSON.stringify(value, null, '   ')]]
+  )
+}
 
-  css(el, {
-    ...entities,
-    backgroundColor: 'aqua'
-  })
+function entitiesWindow ({dimensions, entity}, _, component) {
+  const el = h(
+    ['div', {
+        'data-key': 'entities',
+        class: windowStyle
+      },
+      ['header',
+        icon.entities(), ' ',
+        entity && entity.id],
+      component(jsonCode, 'state.gui.activeValue')])
+
+  css(el, { ...dimensions })
 
   return el
 }
@@ -208,7 +215,7 @@ function root (visibility, dispatch, component) {
 
   const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : ''
   const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindow') : ''
-  const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindow') : ''
+  const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : ''
 
   const el = h(['article', {class: classes('tvs-tools', mainStyle)},
     controls(visibility, dispatch, component),

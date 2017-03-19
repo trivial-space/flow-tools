@@ -9,7 +9,8 @@ export const iconClass = style({
   margin: 4,
   strokeWidth: 0,
   stroke: 'currentColor',
-  fill: 'currentColor'
+  fill: 'currentColor',
+  verticalAlign: 'bottom'
 })
 
 

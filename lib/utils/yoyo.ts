@@ -105,7 +105,7 @@ export function flowComponentFactory(
       stateFlow.off(viewStateId, update)
     }
 
-    onLoad(element, onload, onunload)
+    onLoad(element, onload, onunload, component)
 
     return element
   }
