@@ -2,9 +2,10 @@ import { style, classes } from "typestyle";
 import * as css from 'dom-css'
 import { Component, h } from '../utils/yoyo';
 import * as icon from "./icons";
-import { highlightColor, mainStyle, controlsStyle, windowStyle, treeViewStyle } from "./styles/main";
+import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
 import { radioBtnStyle } from "./styles/ui";
+import { windowContentStyle, controlsStyle, windowStyle, treeViewStyle } from "./styles/components";
 
 
 function title(title) {
@@ -96,7 +97,7 @@ function treeWindow ({props, dimensions}, dispatch, component) {
             checked: props.treeViewComponent !== 'tree'
           }],
           'List']],
-      comp])
+      ['section', {class: windowContentStyle}, comp]])
 
   css(el, dimensions)
 
@@ -203,7 +204,8 @@ function entitiesWindow ({dimensions, entity}, _, component) {
       ['header',
         icon.entities(), ' ',
         entity && entity.id],
-      component(jsonCode, 'state.gui.activeValue')])
+      ['section', { class: windowContentStyle },
+        component(jsonCode, 'state.gui.activeValue')]])
 
   css(el, { ...dimensions })
 

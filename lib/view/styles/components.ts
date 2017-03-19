@@ -31,7 +31,13 @@ export const controlsStyle = style(element, {
 
 export const windowStyle = style(element, {
   position: 'absolute',
-  padding: 8,
+  display: 'flex',
+  flexDirection: 'column',
+  padding: 8
+})
+
+
+export const windowContentStyle = style({
   overflow: 'auto'
 })
 
