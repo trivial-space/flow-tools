@@ -1,5 +1,5 @@
-import { buttonStyle } from "./styles/main";
 import { classes } from "typestyle/lib";
+import { buttonStyle } from "./styles/ui";
 
 
 
@@ -7,15 +7,15 @@ export function iconBtn({
   title,
   onclick,
   icon,
-  className,
+  class: className,
 }: {
   title?: string
   onclick?: Function
   icon?: SVGElement,
-  className?: string
+  class?: string
 }) {
   return ['button', {
-    className: classes(buttonStyle, className),
+    class: classes(buttonStyle, className),
     title,
     onclick
   }, icon]

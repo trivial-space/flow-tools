@@ -4,8 +4,9 @@ import { style, classes } from 'typestyle'
 
 export const iconClass = style({
   display: 'inline-block',
-  width: '1em',
-  height: '1em',
+  width: '1.1em',
+  height: '1.1em',
+  margin: 4,
   strokeWidth: 0,
   stroke: 'currentColor',
   fill: 'currentColor'

@@ -1,6 +1,7 @@
 import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
 import { unequal, defined } from "../../utils/predicates";
 import { dispatch } from "../events";
+import { entityTree } from "./flow";
 
 
 export interface Size {
@@ -8,10 +9,12 @@ export interface Size {
   height: number
 }
 
+
 export interface Position {
   top: number
   left: number
 }
+
 
 export type WindowDimension = Position & Size
 
@@ -27,7 +30,7 @@ export const controlsPosition = val<Position>({
 
 
 export const treeWindow = val<WindowDimension>({
-  top: 230,
+  top: 100,
   left: 0,
   width: 300,
   height: 400,
@@ -48,6 +51,24 @@ export const treeViewProps = val({
 .accept(defined)
 
 
+export const treeFold = val({})
+.react(
+  [dispatch.HOT],
+  (self, {type, payload}) => {
+    if (type === 'state.gui.toggleTreeLevel') {
+      return { ...self, [payload]: !self[payload] }
+    }
+  }
+)
+.accept(defined)
+
+
+export const treeData = stream(
+  [treeFold.HOT, entityTree.HOT],
+  (fold, tree) => ({fold, tree})
+).val({fold: null, tree: null})
+
+
 export const treeWindowProps = stream(
   [treeWindow.HOT, treeViewProps.HOT],
   (dim, props) => ({dimensions: dim, props})
@@ -55,7 +76,7 @@ export const treeWindowProps = stream(
 
 
 export const graphWindow = val<WindowDimension>({
-  top: 230,
+  top: 100,
   left: 100,
   width: 100,
   height: 100,
@@ -63,10 +84,10 @@ export const graphWindow = val<WindowDimension>({
 
 
 export const entitiesWindow = val<WindowDimension>({
-  top: 330,
-  left: 0,
-  width: 100,
-  height: 100,
+  top: 100,
+  left: 400,
+  width: 400,
+  height: 500,
 })
 
 
@@ -77,9 +98,9 @@ export const visibility = val({
 })
 .react(
   [dispatch.HOT],
-  (self, action) => {
-    if (action.type === "state.gui.updateVisibility") {
-      return {...self, [action.payload]: !self[action.payload]}
+  (self, {type, payload}) => {
+    if (type === "state.gui.updateVisibility") {
+      return {...self, [payload]: !self[payload]}
     }
   }
 )

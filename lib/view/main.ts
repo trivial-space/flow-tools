@@ -2,8 +2,9 @@ import { style, classes } from "typestyle";
 import * as css from 'dom-css'
 import { Component, h } from '../utils/yoyo';
 import * as icon from "./icons";
-import { highlightColor, mainStyle, controlsStyle, windowStyle } from "./styles/main";
+import { highlightColor, mainStyle, controlsStyle, windowStyle, treeViewStyle } from "./styles/main";
 import { iconBtn } from "./ui";
+import { radioBtnStyle } from "./styles/ui";
 
 
 function title(title) {
@@ -28,27 +29,27 @@ function controls(visibility, dispatch, component) {
   }
 
   return h(
-    ['header', {className: classes('tvs-controls', controlsStyle)},
+    ['header', {class: classes('tvs-controls', controlsStyle)},
       component(title, 'state.gui.title'),
-      ['nav', {className: 'tvs-controls-btns'},
+      ['nav', {class: 'tvs-controls-btns'},
         ['ul',
           ['li',
             iconBtn({
-              className: visibility.tree && activeButton,
+              class: visibility.tree && activeButton,
               onclick: click('tree'),
               icon: icon.list(),
               title: "toggle entity tree"
             })],
           ['li',
             iconBtn({
-              className: visibility.graph && activeButton,
+              class: visibility.graph && activeButton,
               onclick: click('graph'),
               icon: icon.graph(),
               title: "toggle flow graph"
             })],
           ['li',
             iconBtn({
-              className: visibility.entities && activeButton,
+              class: visibility.entities && activeButton,
               onclick: click('entities'),
               icon: icon.entities(),
               title: "toggle entity details"
@@ -58,7 +59,7 @@ function controls(visibility, dispatch, component) {
 
 function treeWindow ({props, dimensions}, dispatch, component) {
   const comp = props.treeViewComponent === 'tree' ?
-    component(treeView, 'state.flow.entityTree') :
+    component(treeView, 'state.gui.treeData') :
     component(listView, 'state.flow.state')
 
   function changeView(viewName) {
@@ -73,10 +74,11 @@ function treeWindow ({props, dimensions}, dispatch, component) {
   const el = h(
     ['div', {
         'data-key': 'tree',
-        className: windowStyle
+        class: windowStyle
       },
       ['header',
-        ['label',
+        icon.list(),
+        ['label', {class: radioBtnStyle},
           ['input', {
             type: 'radio',
             name: 'viewTreeComponent',
@@ -85,7 +87,7 @@ function treeWindow ({props, dimensions}, dispatch, component) {
             checked: props.treeViewComponent === 'tree'
           }],
           'Tree'],
-        ['label',
+        ['label', {class: radioBtnStyle},
           ['input', {
             type: 'radio',
             name: 'viewTreeComponent',
@@ -102,12 +104,50 @@ function treeWindow ({props, dimensions}, dispatch, component) {
 }
 
 
-function treeView (entities) {
-  const list: any[] = ['ul', {'data-key': 'treeView'}]
+function treeBranch (name, tree, dispatch, fold) {
+  if (tree.__id__) {
+    return ['li',
+      ['div', {
+        onclick: () => dispatch({
+          type: 'state.gui.openEntity',
+          payload: tree.__id__,
+        })
+      }, name]]
+  }
 
-  if (entities) {
-    const items = Object.keys(entities).map(eName =>
-      ["li", { 'data-key': eName }, eName])
+  const li = ['li',
+    ['div', {
+      onclick: () => dispatch({
+        type: 'state.gui.toggleTreeLevel',
+        payload: tree.__path__
+      })
+    }, name]]
+
+
+  if (!fold[tree.__path__]) {
+    const branches: any[] = ['ul']
+
+    for (let k in tree) {
+      if (k === "__path__") continue
+      branches.push(treeBranch(k, tree[k], dispatch, fold))
+    }
+
+    li.push(branches)
+  }
+
+  return li
+}
+
+
+function treeView ({fold, tree}, dispatch) {
+  const list: any[] = ['ul', {
+    'data-key': 'treeView',
+    class: treeViewStyle
+  }]
+
+  if (tree) {
+    const items = Object.keys(tree).map(name =>
+      treeBranch(name, tree[name], dispatch, fold))
     list.push(...items)
   }
 
@@ -115,12 +155,18 @@ function treeView (entities) {
 }
 
 
-function listView (entities) {
+function listView (entities, dispatch) {
   const list: any[] = ['ul', {'data-key': 'listView'}]
 
   if (entities) {
-    const items = Object.keys(entities).map(eName =>
-      ["li", { 'data-key': eName }, eName])
+    const items = Object.keys(entities).map(name =>
+      ["li", {
+        'data-key': name,
+        onclick: () => dispatch({
+          type: 'state.gui.openEntity',
+          payload: name
+        })
+      }, name])
     list.push(...items)
   }
 
@@ -131,7 +177,7 @@ function listView (entities) {
 function graphWindow (graph) {
   const el = h(['div', {
     'data-key': 'graph',
-    className: windowStyle
+    class: windowStyle
   }, 'Graph'])
 
   css(el, {
@@ -146,7 +192,7 @@ function graphWindow (graph) {
 function entitiesWindow (entities) {
   const el = h(['div', {
     'data-key': 'entities',
-    className: windowStyle
+    class: windowStyle
   }, 'Entities'])
 
   css(el, {
@@ -164,7 +210,7 @@ function root (visibility, dispatch, component) {
   const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindow') : ''
   const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindow') : ''
 
-  const el = h(['article', {className: classes('tvs-tools', mainStyle)},
+  const el = h(['article', {class: classes('tvs-tools', mainStyle)},
     controls(visibility, dispatch, component),
     graph,
     entities,

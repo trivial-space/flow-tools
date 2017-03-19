@@ -2,7 +2,7 @@ import tvsFlow from 'tvs-flow/dist/lib'
 import { getGraphFromModules } from "./utils/webpack";
 import { Runtime } from "tvs-flow/dist/lib/runtime-types";
 import { mainView } from "./view/main";
-import { flowComponentFactory } from "./utils/yoyo-component";
+import { flowComponentFactory } from "./utils/yoyo";
 
 const graphModules = require.context('./graph', true, /\.ts$/)
 

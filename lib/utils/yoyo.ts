@@ -119,7 +119,7 @@ export function h (elData) {
 
   let props = elData[0]
 
-  if (typeof props === "object" && !Array.isArray(props)) {
+  if (typeof props === "object" && !Array.isArray(props) && !(props instanceof Element)) {
     elData.shift()
   } else {
     props = {}

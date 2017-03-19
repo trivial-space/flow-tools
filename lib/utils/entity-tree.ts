@@ -15,7 +15,7 @@ export function createEntityTree(entities: { [id: string]: Entity }, separator =
     for(let i = 0; i < parts.length; i++) {
       let p = steps.shift() as string
       if (!steps.length) {
-        subtree[p] = {id}
+        subtree[p] = {__id__: id}
       } else {
         path.push(p)
         subtree = subtree[p] = subtree[p] || {
