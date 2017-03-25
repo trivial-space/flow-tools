@@ -1,8 +1,9 @@
 import { val, stream, asyncStream } from "tvs-flow/dist/lib/utils/entity-reference";
 import { unequal, defined, and } from "../../utils/predicates";
-import { dispatch } from "../events";
+import { dispatch, mouse } from "../events";
 import { entityTree, runtime } from "./flow";
 import { Runtime } from "tvs-flow/dist/lib/runtime-types";
+import { MouseState } from "tvs-libs/dist/lib/events/mouse";
 
 
 export interface Size {
@@ -24,18 +25,82 @@ export const title = val('flow inspector')
   .accept(unequal)
 
 
-export const controlsPosition = val<Position>({
+export const activeWindow = stream(
+  [dispatch.HOT],
+  ({type, payload}) => {
+    if (type === "state.gui.setActiveWindow") {
+      return payload
+    }
+  }
+)
+.accept(and(defined, unequal))
+
+
+export const zIndex = val(0)
+.react(
+  [activeWindow.HOT],
+  self => self + 1
+)
+
+
+export const controlsPosition = val({
   left: 0,
-  top: 0
+  top: 0,
+  zIndex: 0
 })
+.react(
+  [activeWindow.COLD, mouse.HOT],
+  (self, window, mouse: MouseState) => {
+    const delta = mouse.dragDelta
+
+    if (window === 'controls' && (delta.x || delta.y)) {
+      self.left -= delta.x
+      self.top -= delta.y
+      return self
+    }
+  }
+)
+.react(
+  [activeWindow.COLD, zIndex.HOT],
+  (self, window, zIndex) => {
+    if (window === 'controls') {
+      self.zIndex = zIndex
+      return self
+    }
+  }
+)
+.accept(defined)
 
 
-export const treeWindow = val<WindowDimension>({
+export const treeWindow = val({
   top: 100,
   left: 0,
   width: 300,
   height: 400,
+  zIndex: 0
 })
+.react(
+  [activeWindow.COLD, mouse.HOT],
+  (self, window, mouse: MouseState) => {
+    const delta = mouse.dragDelta
+
+    if (window === 'tree' && (delta.x || delta.y)) {
+      self.left -= delta.x
+      self.top -= delta.y
+      return self
+    }
+  }
+)
+.react(
+  [activeWindow.COLD, zIndex.HOT],
+  (self, window, zIndex) => {
+    if (window === 'tree') {
+      self.zIndex = zIndex
+      return self
+    }
+  }
+)
+.accept(defined)
 
 
 export const treeViewProps = val({
@@ -76,20 +141,66 @@ export const treeWindowProps = stream(
 )
 
 
-export const graphWindow = val<WindowDimension>({
+export const graphWindow = val({
   top: 100,
   left: 100,
   width: 100,
   height: 100,
+  zIndex: 0
 })
+.react(
+  [activeWindow.COLD, mouse.HOT],
+  (self, window, mouse: MouseState) => {
+    const delta = mouse.dragDelta
+
+    if (window === 'graph' && (delta.x || delta.y)) {
+      self.left -= delta.x
+      self.top -= delta.y
+      return self
+    }
+  }
+)
+.react(
+  [activeWindow.COLD, zIndex.HOT],
+  (self, window, zIndex) => {
+    if (window === 'graph') {
+      self.zIndex = zIndex
+      return self
+    }
+  }
+)
+.accept(defined)
 
 
-export const entitiesWindow = val<WindowDimension>({
+export const entitiesWindow = val({
   top: 100,
   left: 400,
   width: 400,
   height: 500,
+  zIndex: 0
 })
+.react(
+  [activeWindow.COLD, mouse.HOT],
+  (self, window, mouse: MouseState) => {
+    const delta = mouse.dragDelta
+
+    if (window === 'entities' && (delta.x || delta.y)) {
+      self.left -= delta.x
+      self.top -= delta.y
+      return self
+    }
+  }
+)
+.react(
+  [activeWindow.COLD, zIndex.HOT],
+  (self, window, zIndex) => {
+    if (window === 'entities') {
+      self.zIndex = zIndex
+      return self
+    }
+  }
+)
+.accept(defined)
 
 
 export const activeEntity = val({})
@@ -135,3 +246,9 @@ export const visibility = val({
   }
 )
 .accept(defined)
+
+
+export const controlProps = stream(
+  [visibility.HOT, controlsPosition.HOT],
+  (visibility, position) => ({visibility, position})
+)

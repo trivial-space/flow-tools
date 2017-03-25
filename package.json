@@ -24,6 +24,7 @@
   "homepage": "https://github.com/trivial-space/flow-tools#readme",
   "dependencies": {
     "tvs-flow": "github:trivial-space/flow",
+    "tvs-libs": "github:trivial-space/libs",
     "yo-yo": "^1.4.0"
   },
   "devDependencies": {

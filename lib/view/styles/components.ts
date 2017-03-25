@@ -4,6 +4,7 @@ import { element, fontSize, resetUl } from "./main";
 
 export const controlsStyle = style(element, {
   display: 'inline-block',
+  position: 'relative',
   padding: 4,
   $nest: {
     '& h1': {

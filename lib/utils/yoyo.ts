@@ -17,7 +17,12 @@ export interface Dispatcher {
 
 
 export interface Template {
-  (state: any, dispatch?: Dispatcher, component?: Component): HTMLElement
+  (
+    state: any,
+    dispatch?: Dispatcher,
+    component?: Component,
+    root?: HTMLElement
+  ): HTMLElement
 }
 
 
@@ -30,6 +35,7 @@ let rafActions = {}
 let callRaf = true
 
 function executeRafActions () {
+  console.log('executeRafActions')
   for (let key in rafActions) {
     rafActions[key]()
   }
@@ -61,7 +67,6 @@ export function flowComponentFactory(
     const firstState = stateFlow.get(viewStateId)
 
     const element = template(firstState, dispatch, component)
-    const styleKeys = Object.keys(element.style)
 
     const cid = 'c' + componentCount++
 
@@ -70,7 +75,7 @@ export function flowComponentFactory(
     const updateElement = () => {
       const newState =  stateFlow.get(viewStateId)
 
-      const newElement = template(newState, dispatch, component)
+      const newElement = template(newState, dispatch, component, element)
 
       console.log('updating', element)
 
@@ -84,13 +89,6 @@ export function flowComponentFactory(
         }
       })
 
-      for (let i = 0; i < styleKeys.length; i++) {
-        let key = styleKeys[i];
-        if (element.style[key] !== newElement.style[key]) {
-          console.log("updating style property", key)
-          element.style[key] = newElement.style[key]
-        }
-      }
     }
 
     const update = () => updateOnAnimationFrame(cid, updateElement)

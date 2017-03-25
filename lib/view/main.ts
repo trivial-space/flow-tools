@@ -8,7 +8,7 @@ import { radioBtnStyle } from "./styles/ui";
 import { windowContentStyle, controlsStyle, windowStyle, treeViewStyle } from "./styles/components";
 
 
-function title(title) {
+function title (title) {
   return h(['h1', title])
 }
 
@@ -18,7 +18,14 @@ const activeButton = style({
 })
 
 
-function controls(visibility, dispatch, component) {
+function setActiveWindow(label, dispatch) {
+  return () => dispatch({
+    type: 'state.gui.setActiveWindow',
+    payload: label
+  })
+}
+
+function controls({visibility, position}, dispatch, component, root) {
 
   function click(label) {
     return function() {
@@ -29,8 +36,11 @@ function controls(visibility, dispatch, component) {
     }
   }
 
-  return h(
-    ['header', {class: classes('tvs-controls', controlsStyle)},
+  const el = h(
+    ['header', {
+        class: classes('tvs-controls', controlsStyle),
+        onmousedown: setActiveWindow('controls', dispatch)
+      },
       component(title, 'state.gui.title'),
       ['nav', {class: 'tvs-controls-btns'},
         ['ul',
@@ -55,10 +65,14 @@ function controls(visibility, dispatch, component) {
               icon: icon.entities(),
               title: "toggle entity details"
             })]]]])
+
+  css(root || el, position)
+
+  return el
 }
 
 
-function treeWindow ({props, dimensions}, dispatch, component) {
+function treeWindow ({props, dimensions}, dispatch, component, root) {
   const comp = props.treeViewComponent === 'tree' ?
     component(treeView, 'state.gui.treeData') :
     component(listView, 'state.flow.state')
@@ -75,7 +89,8 @@ function treeWindow ({props, dimensions}, dispatch, component) {
   const el = h(
     ['div', {
         'data-key': 'tree',
-        class: windowStyle
+        class: windowStyle,
+        onmousedown: setActiveWindow('tree', dispatch)
       },
       ['header',
         icon.list(),
@@ -99,7 +114,7 @@ function treeWindow ({props, dimensions}, dispatch, component) {
           'List']],
       ['section', {class: windowContentStyle}, comp]])
 
-  css(el, dimensions)
+  css(root || el, dimensions)
 
   return el
 }
@@ -175,13 +190,14 @@ function listView (entities, dispatch) {
 }
 
 
-function graphWindow (graph) {
+function graphWindow (graph, dispatch, _, root) {
   const el = h(['div', {
     'data-key': 'graph',
-    class: windowStyle
+    class: windowStyle,
+    onmousedown: setActiveWindow('graph', dispatch)
   }, 'Graph'])
 
-  css(el, { ...graph })
+  css(root || el, { ...graph })
 
   return el
 }
@@ -195,32 +211,33 @@ function jsonCode (value) {
   )
 }
 
-function entitiesWindow ({dimensions, entity}, _, component) {
+function entitiesWindow ({dimensions, entity}, dispatch, component, root) {
   const el = h(
     ['div', {
         'data-key': 'entities',
-        class: windowStyle
-      },
+        class: windowStyle,
+        onmousedown: setActiveWindow('entities', dispatch)
+    },
       ['header',
         icon.entities(), ' ',
         entity && entity.id],
       ['section', { class: windowContentStyle },
         component(jsonCode, 'state.gui.activeValue')]])
 
-  css(el, { ...dimensions })
+  css(root || el, { ...dimensions })
 
   return el
 }
 
 
-function root (visibility, dispatch, component) {
+function root (visibility, _, component) {
 
   const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : ''
   const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindow') : ''
   const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : ''
 
   const el = h(['article', {class: classes('tvs-tools', mainStyle)},
-    controls(visibility, dispatch, component),
+    component(controls, 'state.gui.controlProps'),
     graph,
     entities,
     tree

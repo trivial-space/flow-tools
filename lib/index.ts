@@ -20,6 +20,8 @@ export function start() {
 
   document.body.appendChild(element)
 
+  state.set('events.onDom', element)
+
   function updateFlow(flow: Runtime) {
      state.set('state.flow.runtime', flow)
   }
