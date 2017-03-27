@@ -34,7 +34,9 @@ export const windowStyle = style(element, {
   position: 'absolute',
   display: 'flex',
   flexDirection: 'column',
-  padding: 8
+  padding: 8,
+  alignItems: 'stretch',
+  alignContent: 'stretch'
 })
 
 
@@ -53,3 +55,8 @@ export const treeViewStyle = style(
   }
 })
 
+
+export const graphViewStyle = style({
+  position: 'relative',
+  flexGrow: 1
+})

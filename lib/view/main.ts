@@ -6,6 +6,7 @@ import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
 import { radioBtnStyle } from "./styles/ui";
 import { windowContentStyle, controlsStyle, windowStyle, treeViewStyle } from "./styles/components";
+import { graphView } from "view/graph";
 
 
 function title (title) {
@@ -19,22 +20,15 @@ const activeButton = style({
 
 
 function setActiveWindow(label, dispatch) {
-  return () => dispatch({
-    type: 'state.gui.setActiveWindow',
-    payload: label
-  })
+  return () => dispatch('state.gui.setActiveWindow', label)
 }
+
 
 function controls({visibility, position}, dispatch, component, root) {
 
-  function click(label) {
-    return function() {
-      dispatch({
-        type: 'state.gui.updateVisibility',
-        payload: label
-      })
-    }
-  }
+  const click =
+    label =>
+      () => dispatch('state.gui.updateVisibility', label)
 
   const el = h(
     ['header', {
@@ -79,10 +73,7 @@ function treeWindow ({props, dimensions}, dispatch, component, root) {
 
   function changeView(viewName) {
     return function() {
-      dispatch({
-        type: 'state.gui.setTreeView',
-        payload: viewName
-      })
+      dispatch('state.gui.setTreeView', viewName)
     }
   }
 
@@ -124,19 +115,13 @@ function treeBranch (name, tree, dispatch, fold) {
   if (tree.__id__) {
     return ['li',
       ['div', {
-        onclick: () => dispatch({
-          type: 'state.gui.openEntity',
-          payload: tree.__id__,
-        })
+        onclick: () => dispatch('state.gui.openEntity', tree.__id__)
       }, name]]
   }
 
   const li = ['li',
     ['div', {
-      onclick: () => dispatch({
-        type: 'state.gui.toggleTreeLevel',
-        payload: tree.__path__
-      })
+      onclick: () => dispatch('state.gui.toggleTreeLevel', tree.__path__)
     }, name]]
 
 
@@ -177,12 +162,11 @@ function listView (entities, dispatch) {
   if (entities) {
     const items = Object.keys(entities).map(name =>
       ["li", {
-        'data-key': name,
-        onclick: () => dispatch({
-          type: 'state.gui.openEntity',
-          payload: name
-        })
-      }, name])
+          'data-key': name,
+          onclick: () => dispatch('state.gui.openEntity', name)
+        },
+        name])
+
     list.push(...items)
   }
 
@@ -190,14 +174,19 @@ function listView (entities, dispatch) {
 }
 
 
-function graphWindow (graph, dispatch, _, root) {
-  const el = h(['div', {
-    'data-key': 'graph',
-    class: windowStyle,
-    onmousedown: setActiveWindow('graph', dispatch)
-  }, 'Graph'])
+function graphWindow (graphStyle, dispatch, component, root) {
+  const el = root || h(
+    ['div', {
+        'data-key': 'graph',
+        class: windowStyle,
+        onmousedown: setActiveWindow('graph', dispatch)
+      },
+      ['header',
+        icon.graph(), ' ',
+        'Graph'],
+      component(graphView, 'state.graph.viewData')])
 
-  css(root || el, { ...graph })
+  css(el, { ...graphStyle })
 
   return el
 }
@@ -217,7 +206,7 @@ function entitiesWindow ({dimensions, entity}, dispatch, component, root) {
         'data-key': 'entities',
         class: windowStyle,
         onmousedown: setActiveWindow('entities', dispatch)
-    },
+      },
       ['header',
         icon.entities(), ' ',
         entity && entity.id],

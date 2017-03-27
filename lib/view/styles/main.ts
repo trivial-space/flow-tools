@@ -3,15 +3,18 @@ import { rgba } from 'csx'
 
 
 export const color = 'white'
-export const backgroundColor = rgba(0, 0, 0, 0.7).toString()
+export const backgroundColor = rgba(20, 20, 20, 0.7).toString()
 
-export const fontSize = 18
+export const fontSize = 17
 
 export const highlightColor = 'cyan'
 
 export const element = {
   borderRadius: 4,
-  backgroundColor
+  backgroundColor,
+  boxShadow: '0 10px 15px rgba(0,0,0,0.3)',
+  borderTop: '1px solid rgba(255, 255, 255, 0.3)',
+  borderBottom: '1px solid rgba(0, 0, 0, 0.3)'
 }
 
 export const resetUl = {
@@ -29,4 +32,5 @@ export const mainStyle = style({
   fontFamily: 'sans-serif',
   lineHeight: 1.5,
   color,
+  userSelect: 'none',
 })

@@ -1,7 +1,7 @@
 import { val, stream, asyncStream } from "tvs-flow/dist/lib/utils/entity-reference";
 import { unequal, defined, and } from "../../utils/predicates";
-import { dispatch, mouse } from "../events";
-import { entityTree, runtime } from "./flow";
+import { action, mouse } from "../events";
+import { entityTree, runtime, graph } from "./flow";
 import { Runtime } from "tvs-flow/dist/lib/runtime-types";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
 
@@ -26,7 +26,7 @@ export const title = val('flow inspector')
 
 
 export const activeWindow = stream(
-  [dispatch.HOT],
+  [action.HOT],
   ({type, payload}) => {
     if (type === "state.gui.setActiveWindow") {
       return payload
@@ -107,7 +107,7 @@ export const treeViewProps = val({
   treeViewComponent: 'tree'
 })
 .react(
-  [dispatch.HOT],
+  [action.HOT],
   (self, action) => {
     if (action.type === "state.gui.setTreeView") {
       return {...self, treeViewComponent: action.payload}
@@ -119,7 +119,7 @@ export const treeViewProps = val({
 
 export const treeFold = val({})
 .react(
-  [dispatch.HOT],
+  [action.HOT],
   (self, {type, payload}) => {
     if (type === 'state.gui.toggleTreeLevel') {
       return { ...self, [payload]: !self[payload] }
@@ -144,16 +144,17 @@ export const treeWindowProps = stream(
 export const graphWindow = val({
   top: 100,
   left: 100,
-  width: 100,
-  height: 100,
+  width: 600,
+  height: 600,
   zIndex: 0
 })
 .react(
   [activeWindow.COLD, mouse.HOT],
   (self, window, mouse: MouseState) => {
     const delta = mouse.dragDelta
-
-    if (window === 'graph' && (delta.x || delta.y)) {
+    if (window === 'graph'
+        && (delta.event && (delta.event.target as HTMLElement).tagName.toLowerCase() !== 'canvas')
+        && (delta.x || delta.y)) {
       self.left -= delta.x
       self.top -= delta.y
       return self
@@ -205,9 +206,10 @@ export const entitiesWindow = val({
 
 export const activeEntity = val({})
 .react(
-  [dispatch.HOT],
-  (self, {type, payload}) => {
-    if (type === 'state.gui.openEntity') {
+  [action.HOT, graph.COLD],
+  (self, {type, payload}, graph) => {
+    if (type === 'state.gui.openEntity'
+        && graph.entities[payload] != null) {
       return {...self, id: payload}
     }
   }
@@ -238,7 +240,7 @@ export const visibility = val({
   entities: true,
 })
 .react(
-  [dispatch.HOT],
+  [action.HOT],
   (self, {type, payload}) => {
     if (type === "state.gui.updateVisibility") {
       return {...self, [payload]: !self[payload]}
@@ -252,3 +254,4 @@ export const controlProps = stream(
   [visibility.HOT, controlsPosition.HOT],
   (visibility, position) => ({visibility, position})
 )
+

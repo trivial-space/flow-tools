@@ -12,7 +12,10 @@ export interface Action {
 
 
 export interface Dispatcher {
-  (Action): void
+  (
+    action: Action | string,
+    payload?: any
+  ): void
 }
 
 
@@ -53,17 +56,25 @@ function updateOnAnimationFrame(key: string, fn: Function) {
 
 
 let componentCount = 0
+const cachedComponents = {}
 
 export function flowComponentFactory(
   stateFlow: Runtime,
   dispatchId: string
 ): Component {
 
-  function dispatch(action: Action) {
-    stateFlow.set(dispatchId, action)
+  function dispatch(action: Action | string, payload: any) {
+    if (typeof action === "string") {
+      stateFlow.set(dispatchId, {type: action, payload})
+    } else {
+      stateFlow.set(dispatchId, action)
+    }
   }
 
   function component (template: Template, viewStateId: string) {
+    const arghash = viewStateId + template.name
+    if (cachedComponents[arghash]) return cachedComponents[arghash]
+
     const firstState = stateFlow.get(viewStateId)
 
     const element = template(firstState, dispatch, component)
@@ -84,8 +95,9 @@ export function flowComponentFactory(
           return node.id || (node.dataset && node.dataset.key);
         },
         childrenOnly: true,
-        onBeforeElUpdated: function(fromEl: HTMLElement) {
+        onBeforeElUpdated: function(fromEl: HTMLElement, toEl) {
           return fromEl.dataset.tvsComponent !== "component"
+            && fromEl !== toEl
         }
       })
 
@@ -105,6 +117,7 @@ export function flowComponentFactory(
 
     onLoad(element, onload, onunload, component)
 
+    cachedComponents[arghash] = element
     return element
   }
 

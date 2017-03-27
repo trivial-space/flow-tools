@@ -4,13 +4,13 @@ import {windowSize as getWindowSize} from 'tvs-libs/dist/lib/events/dom'
 import { mouse as getMouse, MouseState } from 'tvs-libs/dist/lib/events/mouse'
 
 
-export const dispatch = val<Action>()
+export const action = val<Action>()
 
 export const windowSize = asyncStreamStart(getWindowSize)
 
-export const onDom = val<HTMLElement>()
+export const element = val<HTMLElement>()
 
 export const mouse = asyncStream<MouseState>(
-  [onDom.HOT],
-  (send, element) => getMouse(send, {element, enableRightButton: true})
+  [element.HOT],
+  (send, el) => getMouse(send, {el, enableRightButton: true})
 )
