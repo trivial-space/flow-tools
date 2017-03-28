@@ -54,9 +54,3 @@ export const treeViewStyle = style(
     }
   }
 })
-
-
-export const graphViewStyle = style({
-  position: 'relative',
-  flexGrow: 1
-})

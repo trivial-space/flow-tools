@@ -22,13 +22,11 @@
     "url": "https://github.com/trivial-space/flow-tools/issues"
   },
   "homepage": "https://github.com/trivial-space/flow-tools#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "tvs-flow": "github:trivial-space/flow",
     "tvs-libs": "github:trivial-space/libs",
-    "yo-yo": "^1.4.0"
-  },
-  "devDependencies": {
-    "@types/vis": "^4.17.4",
+    "yo-yo": "^1.4.0",
     "@types/webpack-env": "^1.13.0",
     "csx": "^8.2.1",
     "dom-css": "^2.1.0",
@@ -38,7 +36,6 @@
     "typescript": "^2.2.1",
     "typestyle": "^1.2.0",
     "uglifyjs-webpack-plugin": "^0.3.0",
-    "vis": "^4.19.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
   }

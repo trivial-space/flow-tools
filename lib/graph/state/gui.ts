@@ -142,7 +142,7 @@ export const treeWindowProps = stream(
 
 
 export const graphWindow = val({
-  top: 100,
+  top: 200,
   left: 100,
   width: 600,
   height: 600,
@@ -153,7 +153,7 @@ export const graphWindow = val({
   (self, window, mouse: MouseState) => {
     const delta = mouse.dragDelta
     if (window === 'graph'
-        && (delta.event && (delta.event.target as HTMLElement).tagName.toLowerCase() !== 'canvas')
+        && (delta.event && !(delta.event.target as HTMLElement).closest('svg'))
         && (delta.x || delta.y)) {
       self.left -= delta.x
       self.top -= delta.y
@@ -174,7 +174,7 @@ export const graphWindow = val({
 
 
 export const entitiesWindow = val({
-  top: 100,
+  top: 50,
   left: 400,
   width: 400,
   height: 500,

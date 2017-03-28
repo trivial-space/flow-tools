@@ -1,30 +1,41 @@
-import * as vis from 'vis/dist/vis-network.min'
 import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
-import { action } from "../events";
-import { defined, unequal } from "../../utils/predicates";
+import { mouse } from "../events";
+import { defined } from "../../utils/predicates";
 import { graph } from "./flow";
-import { PORT_TYPES } from "tvs-flow/dist/lib/runtime-types";
-import { title } from "./gui";
+import { PORT_TYPES, Graph } from "tvs-flow/dist/lib/runtime-types";
+import { title, graphWindow, activeEntity } from "./gui";
+import { MouseState } from "tvs-libs/dist/lib/events/mouse";
 
 
-export const nodeState = val({})
+export const nodeState = val<any>({})
 .react(
-  [action.HOT],
-  (self, {type, payload}) => {
-    if (type === "state.gui.updateGraphNodePositions") {
-      Object.assign(self, payload)
+  [graph.HOT, graphWindow.COLD],
+  (self, graph, size) => {
+    for (let eid in graph.entities) {
+      if (!self[eid]) {
+        self[eid] = {
+          x: Math.random() * size.width,
+          y: Math.random() * size.height
+        }
+      }
+    }
+  }
+)
+.react(
+  [activeEntity.COLD, mouse.HOT],
+  (self, {id}, mouse: MouseState) => {
+    const delta: any = mouse.dragDelta
+    if (delta.event
+        && delta.event.target.closest('svg')
+        && self[id]
+        && (delta.x || delta.y)) {
+      self[id].x -= delta.x
+      self[id].y -= delta.y
       return self
     }
   }
 )
 .accept(defined)
-
-
-export const hasCustomUI = stream(
-  [nodeState.HOT],
-  nodes => Object.keys(nodes).length > 0
-)
-.accept(unequal)
 
 
 export const saveNodeState = stream(
@@ -37,37 +48,6 @@ export const saveNodeState = stream(
 )
 
 
-export const graphOptions = val<any>({
-  edges: {
-    arrows: 'to',
-    smooth: false,
-    shadow: { x: 2 },
-    width: 2
-  },
-  nodes: {
-    shape: 'square',
-    shadow: { x: 0 },
-    borderWidthSelected: 1,
-    font: {
-      size: 20,
-      color: 'white',
-      strokeColor: 'black',
-      strokeWidth: 2
-    },
-    size: 23
-  },
-  interaction: {
-    tooltipDelay: 500,
-    multiselect: true
-  },
-  physics: {
-    stabilization: {
-      iterations: 2000
-    }
-  }
-})
-
-
 function getLabelGroup (id) {
   const path = id.split('.')
   const label = path.pop()
@@ -76,144 +56,126 @@ function getLabelGroup (id) {
 }
 
 
-export const graphData = stream(
-  [graph.HOT, nodeState.HOT],
-  (graph, nodeState) => {
+export const graphEntities = stream(
+  [graph.HOT],
+  (graph) => {
 
-    const nodes: any[] = []
-    const edges: any[] = []
+    const entities: any = {}
 
     for (let key in graph.entities) {
 
       const e = graph.entities[key]
 
-      const node = {
-        id: key,
-        title: key,
-        ...getLabelGroup(key)
+      const node: any = {
+        id: e.id,
+        class: 'entity',
+        ...getLabelGroup(key),
+        ...nodeState[key],
       }
 
       if (e.value != null) {
-        Object.assign(node, {
-          borderWidth: 5,
-          borderWidthSelected: 5
-        })
+        node.class = 'initial'
       }
 
-      if (nodeState[key]) {
-        Object.assign(node, nodeState[key])
-      }
-
-      nodes.push(node)
+      entities[key] = node
     }
+
+    return entities
+  }
+)
+.react(
+  [nodeState.HOT],
+  (self, state) => {
+    for (let eid in self) {
+      self[eid].x = state[eid].x
+      self[eid].y = state[eid].y
+    }
+    return self
+  }
+)
+
+
+export const graphProcesses = stream(
+  [graph.HOT], (graph: Graph) => {
+
+    const processes: any = {}
 
     for (let key in graph.processes) {
 
       const p = graph.processes[key]
 
-      const node = {
+      const node: any = {
         id: key,
-        title: key,
-        shape: 'dot',
-        size: 12,
-        group: getLabelGroup(key).group
+        ...getLabelGroup(key),
+        from: [],
+        async: p.async,
+        autostart: p.autostart,
+        acc: p.ports && p.ports.includes(PORT_TYPES.ACCUMULATOR)
       }
 
-      if (p.autostart) {
-        Object.assign(node, {
-          size: 20,
-          borderWidth: 5,
-          borderWidthSelected: 5
-        })
+      for (let akey in graph.arcs) {
+        const a = graph.arcs[akey]
+        if (a.process === key) {
+          if (a.port != null) {
+            node.from.push([a.entity, p.ports && p.ports[a.port]])
+          } else {
+            node.to = a.entity
+          }
+        }
       }
 
-      if (nodeState[key]) {
-        Object.assign(node, nodeState[key])
-      }
-
-      nodes.push(node)
+      processes[key] = node
     }
 
-    for (let key in graph.arcs) {
-
-      const arc = graph.arcs[key]
-      const p = graph.processes[arc.process]
-      const isAcc = p.ports && p.ports.includes(PORT_TYPES.ACCUMULATOR)
-
-      if (arc.port != null) {
-
-        const edge: any = {
-          id: key,
-          from: arc.entity,
-          to: arc.process,
-          length: 200,
-          color: { inherit: 'from' }
-        }
-
-        if (p.ports && p.ports[arc.port] === PORT_TYPES.COLD) {
-
-          Object.assign(edge, {
-            width: 1,
-            dashes: true,
-            title: PORT_TYPES.COLD
-          })
-
-        } else {
-          edge.title = PORT_TYPES.HOT
-        }
-
-        edges.push(edge)
-
-      } else {
-
-        const edge = {
-          id: key,
-          from: arc.process,
-          to: arc.entity,
-          length: 100,
-          color: { inherit: 'to' }
-        }
-
-        if (p.async) {
-
-          Object.assign(edge, {
-            dashes: [1, 10],
-            width: 3
-          })
-
-        } else if (isAcc) {
-
-          Object.assign(edge, {
-            arrows: { from: true, to: true },
-            title: PORT_TYPES.ACCUMULATOR
-          })
-
-        }
-
-        edges.push(edge)
-      }
-    }
-
-    return { edges, nodes }
+    return processes
   }
 )
 
 
-export const graphDataSets = val({
-  nodes: new vis.DataSet([]),
-  edges: new vis.DataSet([])
-})
-.react(
-  [graphData.HOT],
-  (self, data) => {
-    self.nodes.update(data.nodes)
-    self.edges.update(data.edges)
-  }
-)
-.accept(defined)
-
+const pDistance = 40
 
 export const viewData = stream(
-  [graphDataSets.COLD, graphOptions.COLD, hasCustomUI.HOT],
-  (data, options, hasCustomUI) => ({data, options, hasCustomUI})
+  [graphEntities.HOT, graphProcesses.HOT],
+  (entities, processes) => {
+
+    const ps: any[] = []
+    const edges: any[] = []
+
+    for (let pid in processes) {
+      const p = processes[pid]
+      const to = entities[p.to]
+      if (p.from.length) {
+        p.x = 0
+        p.y = 0
+        for (let i = 0; i < p.from.length; i++) {
+          const from = entities[p.from[i][0]]
+          p.x += from.x - to.x
+          p.y += from.y - to.y
+        }
+        const l = Math.sqrt(p.x * p.x + p.y * p.y)
+        p.x = pDistance * p.x / l + to.x
+        p.y = pDistance * p.y / l + to.y
+        for (let i = 0; i < p.from.length; i++) {
+          edges.push({
+            from: entities[p.from[i][0]],
+            to: p
+          })
+        }
+      } else {
+        p.x = to.x
+        p.y = to.y - pDistance
+      }
+      ps.push(p)
+      edges.push({
+        from: p,
+        to
+      })
+    }
+
+    return {
+      entities: Object.values(entities),
+      processes: ps,
+      edges
+    }
+  }
 )
