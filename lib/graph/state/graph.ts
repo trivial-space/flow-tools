@@ -73,8 +73,11 @@ export const graphEntities = stream(
         ...nodeState[key],
       }
 
+      if (e.accept != null) {
+        node.accept = true
+      }
       if (e.value != null) {
-        node.class = 'initial'
+        node.initial = true
       }
 
       entities[key] = node
@@ -132,7 +135,7 @@ export const graphProcesses = stream(
 )
 
 
-const pDistance = 40
+const pDistance = 50
 
 export const viewData = stream(
   [graphEntities.HOT, graphProcesses.HOT],
@@ -156,9 +159,12 @@ export const viewData = stream(
         p.x = pDistance * p.x / l + to.x
         p.y = pDistance * p.y / l + to.y
         for (let i = 0; i < p.from.length; i++) {
+          const [eid, type] = p.from[i]
           edges.push({
-            from: entities[p.from[i][0]],
-            to: p
+            from: entities[eid],
+            to: p,
+            class: 'from' + (type === PORT_TYPES.COLD ? ' cold': ''),
+            title: type
           })
         }
       } else {
@@ -168,8 +174,17 @@ export const viewData = stream(
       ps.push(p)
       edges.push({
         from: p,
-        to
+        to,
+        class: 'to' + (p.async ? ' async' : '')
       })
+      if (p.acc) {
+        edges.push({
+          from: p,
+          to,
+          class: 'to acc'
+        })
+      }
+
     }
 
     return {

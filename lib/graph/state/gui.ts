@@ -153,7 +153,7 @@ export const graphWindow = val({
   (self, window, mouse: MouseState) => {
     const delta = mouse.dragDelta
     if (window === 'graph'
-        && (delta.event && !(delta.event.target as HTMLElement).closest('svg'))
+        && (mouse.pressed[0] && !(mouse.pressed[0].target as HTMLElement).closest('svg'))
         && (delta.x || delta.y)) {
       self.left -= delta.x
       self.top -= delta.y

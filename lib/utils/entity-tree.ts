@@ -1,10 +1,12 @@
 import { Entity } from "tvs-flow/dist/lib/runtime-types";
 
+
 export function createEntityTree(entities: { [id: string]: Entity }, separator = '.') {
 
   const tree = {}
 
-  for (let entityKey in entities) {
+  Object.keys(entities).sort().forEach(entityKey => {
+
     const entity = entities[entityKey]
     const id = entity.id
     const parts = id.split(separator)
@@ -12,6 +14,7 @@ export function createEntityTree(entities: { [id: string]: Entity }, separator =
     let subtree = tree
     const steps = [...parts]
     const path: string[] = []
+
     for(let i = 0; i < parts.length; i++) {
       let p = steps.shift() as string
       if (!steps.length) {
@@ -23,7 +26,7 @@ export function createEntityTree(entities: { [id: string]: Entity }, separator =
         }
       }
     }
-  }
+  })
 
   return tree
 }

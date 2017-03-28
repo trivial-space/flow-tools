@@ -18,45 +18,49 @@ export function graphView (data, dispatch) {
         },
         ...edges.map(e =>
           ['line', {
-                x1: e.from.x,
-                y1: e.from.y,
-                x2: e.to.x,
-                y2: e.to.y,
-                stroke: 'tomato',
-                zIndex: -1
-              }]),
+              x1: e.from.x,
+              y1: e.from.y,
+              x2: e.to.x,
+              y2: e.to.y,
+              class: e.class
+            }]),
         ...processes.map(p =>
-          ['g', {
+          ['circle', {
               'data-key': p.id,
               class: '',
-              transform: `translate(${p.x}, ${p.y})`
-            },
-            ['circle', {
-                cx: 0,
-                cy: 0,
-                r: 5,
-                fill: 'tomato'
-              }]]),
+              transform: `translate(${p.x}, ${p.y})`,
+              cx: 0,
+              cy: 0,
+              r: p.autostart ? 13 : 8,
+              fill: 'tomato',
+              title: p.id
+            }]),
         ...entities.map(e =>
           ['g', {
               'data-key': e.id,
-              class: '',
               transform: `translate(${e.x}, ${e.y})`,
-              onmousedown: () => dispatch('state.gui.openEntity', e.id)
+              onmousedown: () => dispatch('state.gui.openEntity', e.id),
+              title: e.id
             },
             ['rect', {
-                x: -10,
-                y: -10,
-                width: 20,
-                height: 20,
-                fill: 'red'
+                x: -15,
+                y: -15,
+                width: 30,
+                height: 30,
+                class: e.accept ? 'accept' : ''
               }],
             ['text', {
                 'text-anchor': 'middle',
                 x: 0,
                 y: 30
               },
-              e.label]]),
+              e.label],
+            e.initial && ['circle', {
+              cx: 0,
+              cy: 0,
+              r: 6,
+              class: 'initial'
+            }]]),
         ]]
   )
 }

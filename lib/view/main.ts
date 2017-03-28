@@ -160,7 +160,7 @@ function listView (entities, dispatch) {
   const list: any[] = ['ul', {'data-key': 'listView'}]
 
   if (entities) {
-    const items = Object.keys(entities).map(name =>
+    const items = Object.keys(entities).sort().map(name =>
       ["li", {
           'data-key': name,
           onclick: () => dispatch('state.gui.openEntity', name)
