@@ -218,36 +218,6 @@ export const entitiesWindow = val({
 .accept(defined)
 
 
-export const activeEntity = val({})
-.react(
-  [action.HOT, graph.COLD],
-  (self, {type, payload}, graph) => {
-    if (type === 'state.gui.openEntity'
-        && graph.entities[payload] != null) {
-      return {...self, id: payload}
-    }
-  }
-)
-.accept(and(defined, (a, b) => a.id !== b.id))
-
-
-export const activeValue = asyncStream(
-  [runtime.COLD, activeEntity.HOT],
-  (send, flow: Runtime, entity) => {
-    send(flow.get(entity.id))
-    flow.on(entity.id, send)
-
-    return () => flow.off(entity.id, send)
-  }
-)
-
-
-export const entitiesWindowProps = stream(
-  [entitiesWindow.HOT, activeEntity.HOT],
-  (dimensions, entity) => ({dimensions, entity})
-)
-
-
 export const visibility = val({
   tree: true,
   graph: true,
@@ -262,6 +232,81 @@ export const visibility = val({
   }
 )
 .accept(defined)
+
+
+export const activeEntity = val('')
+.react(
+  [action.HOT, graph.COLD],
+  (_, {type, payload}, graph) => {
+    if (type === 'state.gui.openEntity'
+        && graph.entities[payload] != null) {
+      return payload
+    }
+  }
+)
+.accept(and(defined, unequal))
+
+
+export const watchingEntity = val(true)
+.react(
+  [action.HOT],
+  (_, {type, payload}) => {
+    if (type === 'setEntityEditMode') {
+      return !payload
+    } else if (type === 'saveCurrentEntityValue') {
+      return true
+    }
+  }
+)
+.react(
+  [activeEntity.HOT], () => true
+)
+.accept(defined)
+
+
+export const activeValue = asyncStream(
+  [runtime.COLD, activeEntity.HOT, visibility.HOT, watchingEntity.HOT],
+  (send, flow: Runtime, entity, visibility, watching) => {
+    send(flow.get(entity))
+    if (visibility.entities && watching) {
+      flow.on(entity, send)
+      return () => flow.off(entity, send)
+    }
+  }
+)
+
+
+export const editedValue = val('')
+.react(
+  [action.HOT, runtime.COLD],
+  (self, {type, payload}, flow) => {
+    if (type === 'updateEditedValue') {
+      console.log('=========== input!!', payload)
+      return payload
+    } else if (self && type === 'saveCurrentEntityValue') {
+      console.log('=========== saveing!!', self, payload)
+      requestAnimationFrame(function() {
+        flow.set(payload, JSON.parse(self))
+      })
+    }
+  }
+)
+.react(
+  [activeValue.HOT], () => ''
+)
+.accept(and(defined, unequal))
+
+
+export const entityView = stream(
+  [activeValue.HOT, watchingEntity.HOT],
+  (value, watching) => ({value, watching})
+).val({value: null, watching: true})
+
+
+export const entitiesWindowProps = stream(
+  [entitiesWindow.HOT, activeEntity.HOT, watchingEntity.HOT],
+  (dimensions, entity, watching) => ({dimensions, entity, watching})
+)
 
 
 export const controlProps = stream(

@@ -205,15 +205,46 @@ function graphWindow (graphStyle, dispatch, component, root) {
 }
 
 
-function jsonCode (value) {
+function jsonCode ({value, watching}, dispatch) {
   return h(
     ['code',
-      ['pre',
+      ['pre', {
+          contenteditable: !watching,
+          oninput: e => dispatch({
+            type: 'updateEditedValue',
+            payload: e.target.textContent
+          })
+        },
         JSON.stringify(value, null, '   ')]]
   )
 }
 
-function entitiesWindow ({dimensions, entity}, dispatch, component, root) {
+
+function entitiesWindow ({dimensions, entity, watching}, dispatch, component, root) {
+  const buttons: any = ['div', {
+    'data-key': 'entity-buttons'
+  }]
+
+  if (watching) {
+    buttons.push(
+      ['button', {
+        'data-key': 'edit-button',
+        onclick: () => dispatch('setEntityEditMode', true)
+      }, 'Edit']
+    )
+  } else {
+    buttons.push(
+      ['button', {
+        'data-key': 'cancel-button',
+        onclick: () => dispatch('setEntityEditMode', false)
+      }, 'Cancel'],
+      ['button', {
+        'data-key': 'save-button',
+        onclick: () => dispatch('saveCurrentEntityValue', entity)
+      }, 'Save']
+    )
+  }
+
   const el = h(
     ['article', {
         'data-key': 'entities',
@@ -222,9 +253,10 @@ function entitiesWindow ({dimensions, entity}, dispatch, component, root) {
       },
       ['header',
         icon.entities(), ' ',
-        entity && entity.id],
+        entity],
       ['section', { class: windowContentStyle },
-        component(jsonCode, 'state.gui.activeValue')],
+        component(jsonCode, 'state.gui.entityView')],
+      buttons,
       ['footer', {class: 'resize'}]])
 
   css(root || el, { ...dimensions })

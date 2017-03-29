@@ -54,7 +54,9 @@ export const windowStyle = style(element, {
 
 
 export const windowContentStyle = style({
-  overflow: 'auto'
+  overflow: 'auto',
+  position: 'relative',
+  flexGrow: 1,
 })
 
 
