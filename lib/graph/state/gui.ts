@@ -1,5 +1,5 @@
 import { val, stream, asyncStream } from "tvs-flow/dist/lib/utils/entity-reference";
-import { unequal, defined, and } from "../../utils/predicates";
+import { unequal, defined, and, notEmpty } from "../../utils/predicates";
 import { action, mouse } from "../events";
 import { entityTree, runtime, graph } from "./flow";
 import { Runtime } from "tvs-flow/dist/lib/runtime-types";
@@ -22,7 +22,7 @@ export type WindowDimension = Position & Size
 
 
 export const title = val('flow inspector')
-  .accept(unequal)
+  .accept(notEmpty)
 
 
 export const activeWindow = stream(

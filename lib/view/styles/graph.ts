@@ -7,6 +7,7 @@ export const graphViewStyle = style({
 
   $nest: {
     '& svg': {
+      position: 'absolute',
       filter: 'drop-shadow(0 5px 5px #000)',
     },
     '& text': {

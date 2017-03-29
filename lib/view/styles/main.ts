@@ -33,4 +33,10 @@ export const mainStyle = style({
   lineHeight: 1.5,
   color,
   userSelect: 'none',
+  $nest: {
+    '& *': {
+      userSelect: 'none',
+      MozUserSelect: 'none'
+    } as any
+  }
 })

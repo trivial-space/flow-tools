@@ -1,10 +1,53 @@
 import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
-import { mouse } from "../events";
+import { mouse, action } from "../events";
 import { defined } from "../../utils/predicates";
 import { graph } from "./flow";
 import { PORT_TYPES, Graph } from "tvs-flow/dist/lib/runtime-types";
 import { title, graphWindow, activeEntity } from "./gui";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
+
+
+export const viewBox = val({
+  width: 0,
+  height: 0,
+  offsetX: 0,
+  offsetY: 0,
+  scale: 1
+})
+.react(
+  [action.HOT],
+  (self, {type, payload}) => {
+    if (type === 'updateGraphScale'
+        && (payload !== self.scale)) {
+      self.scale = payload
+      return self
+    }
+  }
+)
+.react(
+  [action.HOT],
+  (self, {type, payload}) => {
+    if (type === 'updateGraphSize'
+        && (payload.width !== self.width || payload.height !== self.height)) {
+      self.width = payload.width
+      self.height = payload.height
+      return self
+    }
+  }
+)
+.react(
+  [mouse.HOT],
+  (self, mouse) => {
+    const delta = mouse.dragDelta
+    if (mouse.pressed[0] && mouse.pressed[0].target.tagName.toLowerCase() === 'svg'
+        && (delta.x || delta.y)) {
+      self.offsetX += delta.x
+      self.offsetY += delta.y
+      return self
+    }
+  }
+)
+.accept(defined)
 
 
 export const nodeState = val<any>({})
@@ -22,15 +65,17 @@ export const nodeState = val<any>({})
   }
 )
 .react(
-  [activeEntity.COLD, mouse.HOT],
-  (self, {id}, mouse: MouseState) => {
+  [activeEntity.COLD, mouse.HOT, viewBox.COLD],
+  (self, {id}, mouse: MouseState, viewBox) => {
     const delta: any = mouse.dragDelta
-    if (delta.event
-        && delta.event.target.closest('svg')
+    const t = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
+    const targetId = t && (t.dataset.key || (t.parentElement && t.parentElement.dataset.key))
+    if (targetId
+        && id === targetId
         && self[id]
         && (delta.x || delta.y)) {
-      self[id].x -= delta.x
-      self[id].y -= delta.y
+      self[id].x -= delta.x * viewBox.scale
+      self[id].y -= delta.y * viewBox.scale
       return self
     }
   }
@@ -152,8 +197,15 @@ export const viewData = stream(
         p.y = 0
         for (let i = 0; i < p.from.length; i++) {
           const from = entities[p.from[i][0]]
-          p.x += from.x - to.x
-          p.y += from.y - to.y
+          const type = p.from[i][1]
+          let x = from.x - to.x
+          let y = from.y - to.y
+          if (type === PORT_TYPES.COLD) {
+            x /= 2
+            y /= 2
+          }
+          p.x += x
+          p.y += y
         }
         const l = Math.sqrt(p.x * p.x + p.y * p.y)
         p.x = pDistance * p.x / l + to.x
@@ -192,5 +244,17 @@ export const viewData = stream(
       processes: ps,
       edges
     }
+  }
+)
+.react(
+  [viewBox.HOT],
+  (self: any, viewBox) => {
+    self.viewBox = {
+      x: viewBox.offsetX * viewBox.scale,
+      y: viewBox.offsetY * viewBox.scale,
+      width: viewBox.width * viewBox.scale,
+      height: viewBox.height * viewBox.scale
+    }
+    return self
   }
 )

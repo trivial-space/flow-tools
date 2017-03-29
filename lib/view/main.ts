@@ -6,7 +6,7 @@ import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
 import { radioBtnStyle } from "./styles/ui";
 import { windowContentStyle, controlsStyle, windowStyle, treeViewStyle } from "./styles/components";
-import { graphView } from "view/graph";
+import { graphView, scaleSlider } from "./graph";
 
 
 function title (title) {
@@ -176,6 +176,9 @@ function listView (entities, dispatch) {
 
 
 function graphWindow (graphStyle, dispatch, component, root) {
+
+  const graph = component(graphView, 'state.graph.viewData')
+
   const el = root || h(
     ['article', {
         'data-key': 'graph',
@@ -183,12 +186,20 @@ function graphWindow (graphStyle, dispatch, component, root) {
         onmousedown: setActiveWindow('graph', dispatch)
       },
       ['header',
-        icon.graph(), ' ',
-        'Graph'],
-      component(graphView, 'state.graph.viewData'),
+        icon.graph(),
+        ' Graph ',
+        component(scaleSlider, 'state.graph.viewBox')],
+      graph,
       ['footer', {class: 'resize'}]])
 
   css(el, { ...graphStyle })
+
+  requestAnimationFrame(function() {
+    dispatch('updateGraphSize', {
+      width: graph.clientWidth,
+      height: graph.clientHeight
+    })
+  })
 
   return el
 }

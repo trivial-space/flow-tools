@@ -2,19 +2,34 @@ import { graphViewStyle } from "./styles/graph";
 import { h } from "../utils/yoyo";
 
 
+export function scaleSlider({scale}, dispatch) {
+  return h(
+    ['span',
+      ['input', {
+        type: 'range',
+        value: scale,
+        min: 0.5,
+        max: 3,
+        step: 0.25,
+        onchange: e => dispatch('updateGraphScale', e.target.value),
+        onmousemove: e => e.stopPropagation()
+      }]])
+}
+
+
 export function graphView (data, dispatch) {
 
   if (!data) return h(
     ['section', {class: graphViewStyle}]
   )
 
-  const {entities, processes, edges} = data
-  return h(
-    ['section', {class: graphViewStyle},
+  const {entities, processes, edges, viewBox = {} as any} = data
+  const el = h(
+    ['section', { class: graphViewStyle },
       ['svg', {
           width: '100%',
           height: '100%',
-          style: 'position: absolute'
+          viewBox: `${viewBox.x}, ${viewBox.y}, ${viewBox.width}, ${viewBox.height}`
         },
         ...edges.map(e =>
           ['line', {
@@ -63,4 +78,6 @@ export function graphView (data, dispatch) {
             }]]),
         ]]
   )
+
+  return el
 }
