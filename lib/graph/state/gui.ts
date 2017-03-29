@@ -84,9 +84,14 @@ export const treeWindow = val({
   (self, window, mouse: MouseState) => {
     const delta = mouse.dragDelta
 
-    if (window === 'tree' && (delta.x || delta.y)) {
-      self.left -= delta.x
-      self.top -= delta.y
+    if (window === 'tree' && mouse.pressed[0] && (delta.x || delta.y)) {
+      if ((mouse.pressed[0].target as HTMLElement).className === 'resize') {
+        self.width -= delta.x
+        self.height -= delta.y
+      } else {
+        self.left -= delta.x
+        self.top -= delta.y
+      }
       return self
     }
   }
@@ -152,12 +157,16 @@ export const graphWindow = val({
   [activeWindow.COLD, mouse.HOT],
   (self, window, mouse: MouseState) => {
     const delta = mouse.dragDelta
-    if (window === 'graph'
-        && (mouse.pressed[0] && !(mouse.pressed[0].target as HTMLElement).closest('svg'))
-        && (delta.x || delta.y)) {
-      self.left -= delta.x
-      self.top -= delta.y
-      return self
+    if (window === 'graph' && mouse.pressed[0] && (delta.x || delta.y)) {
+      if ((mouse.pressed[0].target as HTMLElement).className === 'resize') {
+        self.width -= delta.x
+        self.height -= delta.y
+        return self
+      } else if (!(mouse.pressed[0].target as HTMLElement).closest('svg')) {
+        self.left -= delta.x
+        self.top -= delta.y
+        return self
+      }
     }
   }
 )
@@ -185,9 +194,14 @@ export const entitiesWindow = val({
   (self, window, mouse: MouseState) => {
     const delta = mouse.dragDelta
 
-    if (window === 'entities' && (delta.x || delta.y)) {
-      self.left -= delta.x
-      self.top -= delta.y
+    if (window === 'entities' && mouse.pressed[0] && (delta.x || delta.y)) {
+      if ((mouse.pressed[0].target as HTMLElement).className === 'resize') {
+        self.width -= delta.x
+        self.height -= delta.y
+      } else {
+        self.left -= delta.x
+        self.top -= delta.y
+      }
       return self
     }
   }

@@ -78,7 +78,7 @@ function treeWindow ({props, dimensions}, dispatch, component, root) {
   }
 
   const el = h(
-    ['div', {
+    ['article', {
         'data-key': 'tree',
         class: windowStyle,
         onmousedown: setActiveWindow('tree', dispatch)
@@ -103,7 +103,8 @@ function treeWindow ({props, dimensions}, dispatch, component, root) {
             checked: props.treeViewComponent !== 'tree'
           }],
           'List']],
-      ['section', {class: windowContentStyle}, comp]])
+      ['section', {class: windowContentStyle}, comp],
+      ['footer', {class: 'resize'}]])
 
   css(root || el, dimensions)
 
@@ -176,7 +177,7 @@ function listView (entities, dispatch) {
 
 function graphWindow (graphStyle, dispatch, component, root) {
   const el = root || h(
-    ['div', {
+    ['article', {
         'data-key': 'graph',
         class: windowStyle,
         onmousedown: setActiveWindow('graph', dispatch)
@@ -184,7 +185,8 @@ function graphWindow (graphStyle, dispatch, component, root) {
       ['header',
         icon.graph(), ' ',
         'Graph'],
-      component(graphView, 'state.graph.viewData')])
+      component(graphView, 'state.graph.viewData'),
+      ['footer', {class: 'resize'}]])
 
   css(el, { ...graphStyle })
 
@@ -202,7 +204,7 @@ function jsonCode (value) {
 
 function entitiesWindow ({dimensions, entity}, dispatch, component, root) {
   const el = h(
-    ['div', {
+    ['article', {
         'data-key': 'entities',
         class: windowStyle,
         onmousedown: setActiveWindow('entities', dispatch)
@@ -211,7 +213,8 @@ function entitiesWindow ({dimensions, entity}, dispatch, component, root) {
         icon.entities(), ' ',
         entity && entity.id],
       ['section', { class: windowContentStyle },
-        component(jsonCode, 'state.gui.activeValue')]])
+        component(jsonCode, 'state.gui.activeValue')],
+      ['footer', {class: 'resize'}]])
 
   css(root || el, { ...dimensions })
 

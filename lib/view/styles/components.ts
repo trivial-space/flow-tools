@@ -1,5 +1,5 @@
 import { style } from "typestyle/lib";
-import { element, fontSize, resetUl } from "./main";
+import { element, fontSize, resetUl, backgroundColor } from "./main";
 
 
 export const controlsStyle = style(element, {
@@ -36,7 +36,20 @@ export const windowStyle = style(element, {
   flexDirection: 'column',
   padding: 8,
   alignItems: 'stretch',
-  alignContent: 'stretch'
+  alignContent: 'stretch',
+
+  $nest: {
+    '&>.resize': {
+      position: 'absolute',
+      width: 20,
+      height: 20,
+      bottom: 0,
+      right: 0,
+      borderRadius: 4,
+      cursor: 'nwse-resize',
+      background: `linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, ${backgroundColor} 100%)`,
+    }
+  }
 })
 
 
