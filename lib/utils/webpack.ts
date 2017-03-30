@@ -1,4 +1,5 @@
 import { resolveEntityIds, isEntity, getGraphFromAll } from "tvs-flow/dist/lib/utils/entity-reference";
+import { Graph } from "tvs-flow/dist/lib/runtime-types";
 
 
 export function modulePathToNamespace(path, separator = '.') {
@@ -6,7 +7,7 @@ export function modulePathToNamespace(path, separator = '.') {
 }
 
 
-export function getGraphFromModules(graphModules, nsSeparator?) {
+export function getGraphFromModules(graphModules, nsSeparator?): Graph {
   const entities = graphModules.keys()
     .map(path => {
       const module = graphModules(path)

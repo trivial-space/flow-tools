@@ -8,8 +8,8 @@ module.exports = {
 
   output: {
     path: resolve(__dirname, "dist"),
-    filename: "tvs-flow.js",
-    library: 'tvsFlow',
+    filename: "tvs-flow-tools.js",
+    library: 'tvsFlowTools',
     libraryTarget: "umd"
   },
 
@@ -17,7 +17,13 @@ module.exports = {
     rules: [{
       test: /\.ts$/,
       exclude: /node_modules/,
-      use: 'ts-loader'
+      loader: 'ts-loader',
+      options: {
+        compilerOptions: {
+          "outDir": "",
+          "declaration": false
+        }
+      }
     }]
   },
 

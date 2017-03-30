@@ -1,6 +1,6 @@
 import * as flowTools from '../../../lib/index'
 
-export const tools = flowTools.start()
+export const tools = flowTools.ui.start()
 window['toolsFlow'] = tools.getState()
 
 requestAnimationFrame(function() {

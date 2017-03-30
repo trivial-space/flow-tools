@@ -4,4 +4,5 @@
 node_modules
 test/coverage/*
 dist/test
+dist/examples
 /*.log

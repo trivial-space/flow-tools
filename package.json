@@ -4,7 +4,8 @@
   "description": "tools to develop and work with trivial space flow graphs",
   "main": "index.js",
   "scripts": {
-    "examples": "webpack-dev-server --config webpack.config.examples.js --port 8081"
+    "examples": "webpack-dev-server --config webpack.config.examples.js --port 8081",
+    "build": "rm -rf dist; tsc; webpack"
   },
   "repository": {
     "type": "git",
