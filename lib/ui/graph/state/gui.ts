@@ -21,8 +21,7 @@ export interface Position {
 export type WindowDimension = Position & Size
 
 
-export const title: EntityRef<string> = val('flow inspector')
-  .accept(notEmpty)
+export const title: EntityRef<string> = val('').accept(notEmpty)
 
 
 export const activeWindow = stream(
@@ -281,10 +280,8 @@ export const editedValue = val('')
   [action.HOT, runtime.COLD],
   (self, {type, payload}, flow) => {
     if (type === 'updateEditedValue') {
-      console.log('=========== input!!', payload)
       return payload
     } else if (self && type === 'saveCurrentEntityValue') {
-      console.log('=========== saveing!!', self, payload)
       requestAnimationFrame(function() {
         flow.set(payload, JSON.parse(self))
       })

@@ -10,7 +10,7 @@ export function scaleSlider({scale}, dispatch) {
         value: scale,
         min: 0.5,
         max: 3,
-        step: 0.25,
+        step: 0.2,
         onchange: e => dispatch('updateGraphScale', e.target.value),
         onmousemove: e => e.stopPropagation()
       }]])

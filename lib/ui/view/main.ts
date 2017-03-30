@@ -215,14 +215,15 @@ function jsonCode ({value, watching}, dispatch) {
             payload: e.target.textContent
           })
         },
-        JSON.stringify(value, null, '   ')]]
+        value ? JSON.stringify(value, null, '   ') : '']]
   )
 }
 
 
 function entitiesWindow ({dimensions, entity, watching}, dispatch, component, root) {
   const buttons: any = ['div', {
-    'data-key': 'entity-buttons'
+    'data-key': 'entity-buttons',
+    'style': 'margin-top: 4px'
   }]
 
   if (watching) {

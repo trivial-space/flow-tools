@@ -1,17 +1,19 @@
 import { style } from "typestyle/lib";
-import { element, fontSize, resetUl } from "./main";
+import { element, fontSize, resetUl, content } from "./main";
 
 
 export const controlsStyle = style(element, {
   display: 'inline-block',
   position: 'relative',
-  padding: 4,
+  padding: 2,
+  whiteSpace: 'nowrap',
   $nest: {
     '& h1': {
       display: 'inline-block',
       margin: '0 8px',
       fontSize,
-      fontWeight: 'normal'
+      fontWeight: 'normal',
+      verticalAlign: 'middle'
     },
     '& ul': {
       ...resetUl,
@@ -34,7 +36,8 @@ export const windowStyle = style(element, {
   position: 'absolute',
   display: 'flex',
   flexDirection: 'column',
-  padding: 8,
+  padding: 5,
+  paddingTop: 1,
   alignItems: 'stretch',
   alignContent: 'stretch',
 
@@ -53,10 +56,11 @@ export const windowStyle = style(element, {
 })
 
 
-export const windowContentStyle = style({
+export const windowContentStyle = style(content, {
   overflow: 'auto',
   position: 'relative',
   flexGrow: 1,
+  padding: 5,
 })
 
 
@@ -68,4 +72,9 @@ export const treeViewStyle = style(
       paddingLeft: '1em'
     }
   }
+})
+
+
+export const entityViewStyle = style({
+
 })

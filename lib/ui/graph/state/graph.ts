@@ -3,7 +3,7 @@ import { mouse, action } from "../events";
 import { defined } from "tvs-libs/dist/lib/utils/predicates";
 import { graph } from "./flow";
 import { PORT_TYPES, Graph } from "tvs-flow/dist/lib/runtime-types";
-import { title, graphWindow, activeEntity } from "./gui";
+import { graphWindow, activeEntity } from "./gui";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
 
 
@@ -66,7 +66,7 @@ export const nodeState: EntityRef<any> = val({})
 )
 .react(
   [activeEntity.COLD, mouse.HOT, viewBox.COLD],
-  (self, {id}, mouse: MouseState, viewBox) => {
+  (self, id, mouse: MouseState, viewBox) => {
     const delta: any = mouse.dragDelta
     const t = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
     const targetId = t && (t.dataset.key || (t.parentElement && t.parentElement.dataset.key))
@@ -81,16 +81,6 @@ export const nodeState: EntityRef<any> = val({})
   }
 )
 .accept(defined)
-
-
-export const saveNodeState = stream(
-  [nodeState.HOT, title.COLD],
-  (nodes, title) => {
-    if (Object.keys(nodes).length) {
-      localStorage.setItem(title, JSON.stringify(nodes))
-    }
-  }
-)
 
 
 function getLabelGroup (id) {
