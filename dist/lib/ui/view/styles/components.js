@@ -7,17 +7,19 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import { style } from "typestyle/lib";
-import { element, fontSize, resetUl } from "./main";
+import { element, fontSize, resetUl, content } from "./main";
 export var controlsStyle = style(element, {
     display: 'inline-block',
     position: 'relative',
-    padding: 4,
+    padding: 2,
+    whiteSpace: 'nowrap',
     $nest: {
         '& h1': {
             display: 'inline-block',
             margin: '0 8px',
             fontSize: fontSize,
-            fontWeight: 'normal'
+            fontWeight: 'normal',
+            verticalAlign: 'middle'
         },
         '& ul': __assign({}, resetUl, { display: 'inline-block', margin: 0, fontSize: fontSize, fontWeight: 'normal' }),
         '& li': {
@@ -32,7 +34,8 @@ export var windowStyle = style(element, {
     position: 'absolute',
     display: 'flex',
     flexDirection: 'column',
-    padding: 8,
+    padding: 5,
+    paddingTop: 1,
     alignItems: 'stretch',
     alignContent: 'stretch',
     $nest: {
@@ -48,10 +51,11 @@ export var windowStyle = style(element, {
         }
     }
 });
-export var windowContentStyle = style({
+export var windowContentStyle = style(content, {
     overflow: 'auto',
     position: 'relative',
     flexGrow: 1,
+    padding: 5,
 });
 export var treeViewStyle = style(resetUl, {
     $nest: {
@@ -61,4 +65,5 @@ export var treeViewStyle = style(resetUl, {
         }
     }
 });
+export var entityViewStyle = style({});
 //# sourceMappingURL=components.js.map

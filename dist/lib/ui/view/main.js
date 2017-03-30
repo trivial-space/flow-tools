@@ -182,12 +182,13 @@ function jsonCode(_a, dispatch) {
                     payload: e.target.textContent
                 }); }
             },
-            JSON.stringify(value, null, '   ')]]);
+            value ? JSON.stringify(value, null, '   ') : '']]);
 }
 function entitiesWindow(_a, dispatch, component, root) {
     var dimensions = _a.dimensions, entity = _a.entity, watching = _a.watching;
     var buttons = ['div', {
-            'data-key': 'entity-buttons'
+            'data-key': 'entity-buttons',
+            'style': 'margin-top: 4px'
         }];
     if (watching) {
         buttons.push(['button', {

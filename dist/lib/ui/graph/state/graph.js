@@ -11,7 +11,7 @@ import { mouse, action } from "../events";
 import { defined } from "tvs-libs/dist/lib/utils/predicates";
 import { graph } from "./flow";
 import { PORT_TYPES } from "tvs-flow/dist/lib/runtime-types";
-import { title, graphWindow, activeEntity } from "./gui";
+import { graphWindow, activeEntity } from "./gui";
 export var viewBox = val({
     width: 0,
     height: 0,
@@ -57,8 +57,7 @@ export var nodeState = val({})
         }
     }
 })
-    .react([activeEntity.COLD, mouse.HOT, viewBox.COLD], function (self, _a, mouse, viewBox) {
-    var id = _a.id;
+    .react([activeEntity.COLD, mouse.HOT, viewBox.COLD], function (self, id, mouse, viewBox) {
     var delta = mouse.dragDelta;
     var t = mouse.pressed[0] && mouse.pressed[0].target;
     var targetId = t && (t.dataset.key || (t.parentElement && t.parentElement.dataset.key));
@@ -72,11 +71,6 @@ export var nodeState = val({})
     }
 })
     .accept(defined);
-export var saveNodeState = stream([nodeState.HOT, title.COLD], function (nodes, title) {
-    if (Object.keys(nodes).length) {
-        localStorage.setItem(title, JSON.stringify(nodes));
-    }
-});
 function getLabelGroup(id) {
     var path = id.split('.');
     var label = path.pop();

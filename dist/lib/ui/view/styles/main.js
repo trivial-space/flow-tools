@@ -1,8 +1,8 @@
 import { style } from "typestyle/lib";
 import { rgba } from 'csx';
 export var color = 'white';
-export var backgroundColor = rgba(40, 40, 40, 0.7).toString();
-export var fontSize = 17;
+export var backgroundColor = rgba(40, 40, 40, 0.75).toString();
+export var fontSize = 16;
 export var highlightColor = 'cyan';
 export var element = {
     borderRadius: 4,
@@ -10,6 +10,12 @@ export var element = {
     boxShadow: '0 10px 15px rgba(0,0,0,0.3)',
     borderTop: '1px solid rgba(255, 255, 255, 0.4)',
     borderBottom: '1px solid rgba(0, 0, 0, 0.6)'
+};
+export var content = {
+    borderRadius: 4,
+    boxShadow: '0 4px 8px rgba(0,0,0,0.3) inset',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.4)',
+    borderTop: '1px solid rgba(0, 0, 0, 0.6)'
 };
 export var resetUl = {
     padding: 0,
@@ -19,6 +25,8 @@ export var mainStyle = style({
     position: 'fixed',
     top: 0,
     left: 0,
+    width: 0,
+    height: 0,
     zIndex: 1000,
     fontSize: fontSize,
     fontFamily: 'sans-serif',

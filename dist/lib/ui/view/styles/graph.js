@@ -1,11 +1,12 @@
 import { style } from "typestyle/lib";
-export var graphViewStyle = style({
+import { content } from "./main";
+export var graphViewStyle = style(content, {
     position: 'relative',
     flexGrow: 1,
     $nest: {
         '& svg': {
             position: 'absolute',
-            filter: 'drop-shadow(0 5px 5px #000)',
+            filter: 'drop-shadow(0 4px 4px rgba(0,0,0,0.6))',
         },
         '& text': {
             fill: 'white',

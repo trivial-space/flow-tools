@@ -7,7 +7,6 @@ export declare const viewBox: EntityRef<{
     scale: number;
 }>;
 export declare const nodeState: EntityRef<any>;
-export declare const saveNodeState: EntityRef<void>;
 export declare const graphEntities: EntityRef<any>;
 export declare const graphProcesses: EntityRef<any>;
 export declare const viewData: EntityRef<{

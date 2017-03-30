@@ -10,8 +10,7 @@ import { val, stream, asyncStream } from "tvs-flow/dist/lib/utils/entity-referen
 import { unequal, defined, and, notEmpty } from "tvs-libs/dist/lib/utils/predicates";
 import { action, mouse } from "../events";
 import { entityTree, runtime, graph } from "./flow";
-export var title = val('flow inspector')
-    .accept(notEmpty);
+export var title = val('').accept(notEmpty);
 export var activeWindow = stream([action.HOT], function (_a) {
     var type = _a.type, payload = _a.payload;
     if (type === "state.gui.setActiveWindow") {
@@ -191,11 +190,9 @@ export var editedValue = val('')
     .react([action.HOT, runtime.COLD], function (self, _a, flow) {
     var type = _a.type, payload = _a.payload;
     if (type === 'updateEditedValue') {
-        console.log('=========== input!!', payload);
         return payload;
     }
     else if (self && type === 'saveCurrentEntityValue') {
-        console.log('=========== saveing!!', self, payload);
         requestAnimationFrame(function () {
             flow.set(payload, JSON.parse(self));
         });

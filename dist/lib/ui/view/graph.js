@@ -8,7 +8,7 @@ export function scaleSlider(_a, dispatch) {
                 value: scale,
                 min: 0.5,
                 max: 3,
-                step: 0.25,
+                step: 0.2,
                 onchange: function (e) { return dispatch('updateGraphScale', e.target.value); },
                 onmousemove: function (e) { return e.stopPropagation(); }
             }]]);
