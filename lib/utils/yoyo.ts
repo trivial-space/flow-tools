@@ -38,7 +38,6 @@ let rafActions = {}
 let callRaf = true
 
 function executeRafActions () {
-  console.log('executeRafActions')
   for (let key in rafActions) {
     rafActions[key]()
   }
@@ -60,7 +59,8 @@ const cachedComponents = {}
 
 export function flowComponentFactory(
   stateFlow: Runtime,
-  dispatchId: string
+  dispatchId: string,
+  debug = false
 ): Component {
 
   function dispatch(action: Action | string, payload: any) {
@@ -88,7 +88,7 @@ export function flowComponentFactory(
 
       const newElement = template(newState, dispatch, component, element)
 
-      console.log('updating', element)
+      debug && console.log('updating', element)
 
       yo.update(element, newElement, {
         getNodeKey: function(node) {
@@ -106,12 +106,12 @@ export function flowComponentFactory(
     const update = () => updateOnAnimationFrame(cid, updateElement)
 
     const onload = () => {
-      console.log('element inserted into dom!', element)
+      debug && console.log('element inserted into dom!', element)
       stateFlow.on(viewStateId, update)
     }
 
     const onunload = () => {
-      console.log('element removed from dom!', element)
+      debug && console.log('element removed from dom!', element)
       stateFlow.off(viewStateId, update)
     }
 

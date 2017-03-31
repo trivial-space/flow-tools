@@ -16,8 +16,8 @@ export function iconBtn({
 }) {
   return ['button', {
     class: classes(iconButtonStyle, className),
-    title,
-    onclick
+    onmouseup: onclick,
+    title
   }, icon]
 
 }

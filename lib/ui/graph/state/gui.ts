@@ -24,10 +24,27 @@ export type WindowDimension = Position & Size
 export const title: EntityRef<string> = val('').accept(notEmpty)
 
 
+export const visibility = val({
+  tree: false,
+  graph: false,
+  entities: false,
+})
+.react(
+  [action.HOT],
+  (self, {type, payload}) => {
+    if (type === "state.gui.updateVisibility") {
+      return {...self, [payload]: !self[payload]}
+    }
+  }
+)
+.accept(defined)
+
+
 export const activeWindow = stream(
   [action.HOT],
   ({type, payload}) => {
-    if (type === "state.gui.setActiveWindow") {
+    if (type === "state.gui.setActiveWindow"
+        || type === "state.gui.updateVisibility") {
       return payload
     }
   }
@@ -211,22 +228,6 @@ export const entitiesWindow = val({
     if (window === 'entities') {
       self.zIndex = zIndex
       return self
-    }
-  }
-)
-.accept(defined)
-
-
-export const visibility = val({
-  tree: true,
-  graph: true,
-  entities: true,
-})
-.react(
-  [action.HOT],
-  (self, {type, payload}) => {
-    if (type === "state.gui.updateVisibility") {
-      return {...self, [payload]: !self[payload]}
     }
   }
 )

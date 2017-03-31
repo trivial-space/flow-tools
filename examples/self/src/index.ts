@@ -1,11 +1,9 @@
 import * as flowTools from '../../../lib/index'
 
-export const tools = flowTools.ui.start()
+export const tools = flowTools.ui.start('self debug')
 window['toolsFlow'] = tools.getState()
 
-requestAnimationFrame(function() {
-  tools.updateFlow(tools.getState())
-})
+tools.updateFlow(tools.getState())
 
 if (module.hot) {
   module.hot.accept()

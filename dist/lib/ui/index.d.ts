@@ -5,4 +5,4 @@ export interface FlowTool {
     getState: () => Runtime;
     getElement: () => HTMLElement;
 }
-export declare function start(title?: string): FlowTool;
+export declare function start(title?: string, debug?: boolean): FlowTool;

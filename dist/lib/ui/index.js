@@ -18,8 +18,9 @@ function saveAndRecover(title, entity, state) {
     }
     state.on(entity.getId(), function (value) { return localStorage.setItem(storageId, JSON.stringify(value)); });
 }
-export function start(title) {
+export function start(title, debug) {
     if (title === void 0) { title = 'tvs-flow tools'; }
+    if (debug === void 0) { debug = false; }
     var state = tvsFlow.create();
     state.addGraph(getGraphFromModules(graphModules));
     state.set(titleNode.getId(), title);
@@ -30,12 +31,14 @@ export function start(title) {
     saveAndRecover(title, graphWindow, state);
     saveAndRecover(title, treeWindow, state);
     saveAndRecover(title, controlsPosition, state);
-    var component = flowComponentFactory(state, action.getId());
+    var component = flowComponentFactory(state, action.getId(), debug);
     var element = mainView(component);
     document.body.appendChild(element);
     state.set(elementNode.getId(), element);
     function updateFlow(flow) {
-        state.set(flowNode.getId(), flow);
+        requestAnimationFrame(function () {
+            state.set(flowNode.getId(), flow);
+        });
     }
     function dispose() {
         document.body.removeChild(element);

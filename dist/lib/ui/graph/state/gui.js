@@ -11,9 +11,23 @@ import { unequal, defined, and, notEmpty } from "tvs-libs/dist/lib/utils/predica
 import { action, mouse } from "../events";
 import { entityTree, runtime, graph } from "./flow";
 export var title = val('').accept(notEmpty);
+export var visibility = val({
+    tree: false,
+    graph: false,
+    entities: false,
+})
+    .react([action.HOT], function (self, _a) {
+    var type = _a.type, payload = _a.payload;
+    if (type === "state.gui.updateVisibility") {
+        return __assign({}, self, (_b = {}, _b[payload] = !self[payload], _b));
+    }
+    var _b;
+})
+    .accept(defined);
 export var activeWindow = stream([action.HOT], function (_a) {
     var type = _a.type, payload = _a.payload;
-    if (type === "state.gui.setActiveWindow") {
+    if (type === "state.gui.setActiveWindow"
+        || type === "state.gui.updateVisibility") {
         return payload;
     }
 })
@@ -143,19 +157,6 @@ export var entitiesWindow = val({
         self.zIndex = zIndex;
         return self;
     }
-})
-    .accept(defined);
-export var visibility = val({
-    tree: true,
-    graph: true,
-    entities: true,
-})
-    .react([action.HOT], function (self, _a) {
-    var type = _a.type, payload = _a.payload;
-    if (type === "state.gui.updateVisibility") {
-        return __assign({}, self, (_b = {}, _b[payload] = !self[payload], _b));
-    }
-    var _b;
 })
     .accept(defined);
 export var activeEntity = val('')

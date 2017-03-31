@@ -9,6 +9,11 @@ export interface Position {
 }
 export declare type WindowDimension = Position & Size;
 export declare const title: EntityRef<string>;
+export declare const visibility: EntityRef<{
+    tree: boolean;
+    graph: boolean;
+    entities: boolean;
+}>;
 export declare const activeWindow: EntityRef<any>;
 export declare const zIndex: EntityRef<number>;
 export declare const controlsPosition: EntityRef<{
@@ -48,11 +53,6 @@ export declare const entitiesWindow: EntityRef<{
     width: number;
     height: number;
     zIndex: number;
-}>;
-export declare const visibility: EntityRef<{
-    tree: boolean;
-    graph: boolean;
-    entities: boolean;
 }>;
 export declare const activeEntity: EntityRef<string>;
 export declare const watchingEntity: EntityRef<boolean>;

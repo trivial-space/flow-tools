@@ -4,8 +4,8 @@ export function iconBtn(_a) {
     var title = _a.title, onclick = _a.onclick, icon = _a.icon, className = _a.class;
     return ['button', {
             class: classes(iconButtonStyle, className),
-            title: title,
-            onclick: onclick
+            onmouseup: onclick,
+            title: title
         }, icon];
 }
 //# sourceMappingURL=ui.js.map

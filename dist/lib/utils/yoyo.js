@@ -4,7 +4,6 @@ import * as onLoad from 'on-load';
 var rafActions = {};
 var callRaf = true;
 function executeRafActions() {
-    console.log('executeRafActions');
     for (var key in rafActions) {
         rafActions[key]();
     }
@@ -20,7 +19,8 @@ function updateOnAnimationFrame(key, fn) {
 }
 var componentCount = 0;
 var cachedComponents = {};
-export function flowComponentFactory(stateFlow, dispatchId) {
+export function flowComponentFactory(stateFlow, dispatchId, debug) {
+    if (debug === void 0) { debug = false; }
     function dispatch(action, payload) {
         if (typeof action === "string") {
             stateFlow.set(dispatchId, { type: action, payload: payload });
@@ -40,7 +40,7 @@ export function flowComponentFactory(stateFlow, dispatchId) {
         var updateElement = function () {
             var newState = stateFlow.get(viewStateId);
             var newElement = template(newState, dispatch, component, element);
-            console.log('updating', element);
+            debug && console.log('updating', element);
             yo.update(element, newElement, {
                 getNodeKey: function (node) {
                     return node.id || (node.dataset && node.dataset.key);
@@ -54,11 +54,11 @@ export function flowComponentFactory(stateFlow, dispatchId) {
         };
         var update = function () { return updateOnAnimationFrame(cid, updateElement); };
         var onload = function () {
-            console.log('element inserted into dom!', element);
+            debug && console.log('element inserted into dom!', element);
             stateFlow.on(viewStateId, update);
         };
         var onunload = function () {
-            console.log('element removed from dom!', element);
+            debug && console.log('element removed from dom!', element);
             stateFlow.off(viewStateId, update);
         };
         onLoad(element, onload, onunload, component);

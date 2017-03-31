@@ -4,7 +4,7 @@ import { Runtime } from "tvs-flow/dist/lib/runtime-types";
 
 export const flow: Runtime = tvsFlow.create()
 
-export const tools = flowTools.ui.start()
+export const tools = flowTools.ui.start('basic flow example')
 window['toolsFlow'] = tools.getState()
 
 if (module.hot) {

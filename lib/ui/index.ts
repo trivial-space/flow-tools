@@ -33,7 +33,7 @@ function saveAndRecover(title, entity, state) {
 }
 
 
-export function start(title = 'tvs-flow tools'): FlowTool {
+export function start(title = 'tvs-flow tools', debug = false): FlowTool {
 
   const state = tvsFlow.create()
 
@@ -49,7 +49,7 @@ export function start(title = 'tvs-flow tools'): FlowTool {
   saveAndRecover(title, treeWindow, state)
   saveAndRecover(title, controlsPosition, state)
 
-  const component = flowComponentFactory(state, action.getId())
+  const component = flowComponentFactory(state, action.getId(), debug)
   const element = mainView(component)
 
   document.body.appendChild(element)
@@ -57,7 +57,9 @@ export function start(title = 'tvs-flow tools'): FlowTool {
   state.set(elementNode.getId(), element)
 
   function updateFlow(flow: Runtime) {
-    state.set(flowNode.getId(), flow)
+    requestAnimationFrame(function() {
+      state.set(flowNode.getId(), flow)
+    })
   }
 
   function dispose() {

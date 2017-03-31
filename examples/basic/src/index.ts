@@ -7,9 +7,7 @@ flow.addGraph(
     tvsFlow.utils.entityRef.resolveEntityIds(graph)))
 
 
-requestAnimationFrame(function() {
-  tools.updateFlow(flow)
-})
+tools.updateFlow(flow)
 
 
 if (module.hot) {

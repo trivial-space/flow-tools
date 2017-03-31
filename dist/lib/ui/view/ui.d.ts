@@ -5,6 +5,6 @@ export declare function iconBtn({title, onclick, icon, class: className}: {
     class?: string;
 }): (string | SVGElement | {
     class: string;
+    onmouseup: Function | undefined;
     title: string | undefined;
-    onclick: Function | undefined;
 } | undefined)[];

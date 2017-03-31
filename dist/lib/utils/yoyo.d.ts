@@ -12,5 +12,5 @@ export interface Template {
 export interface Component {
     (template: Template, viewStateId: string): HTMLElement;
 }
-export declare function flowComponentFactory(stateFlow: Runtime, dispatchId: string): Component;
+export declare function flowComponentFactory(stateFlow: Runtime, dispatchId: string, debug?: boolean): Component;
 export declare function h(elData: any): any;
