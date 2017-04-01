@@ -96,15 +96,21 @@ export const graphEntities = stream(
   (graph) => {
 
     const entities: any = {}
+    const groups: any = {}
+    let groupNr = 0
 
     for (let key in graph.entities) {
 
       const e = graph.entities[key]
 
+      const {label, group} = getLabelGroup(key)
+
+      groups[group] = groups[group] || (groupNr++ % 7) + 1
+
       const node: any = {
         id: e.id,
-        class: 'entity',
-        ...getLabelGroup(key),
+        class: 'group-' + groups[group],
+        label,
         ...nodeState[key],
       }
 
@@ -182,9 +188,13 @@ export const viewData = stream(
     for (let pid in processes) {
       const p = processes[pid]
       const to = entities[p.to]
+
+      p.class = to.class
+
       if (p.from.length) {
         p.x = 0
         p.y = 0
+
         for (let i = 0; i < p.from.length; i++) {
           const from = entities[p.from[i][0]]
           const type = p.from[i][1]
@@ -197,9 +207,11 @@ export const viewData = stream(
           p.x += x
           p.y += y
         }
+
         const l = Math.sqrt(p.x * p.x + p.y * p.y)
         p.x = pDistance * p.x / l + to.x
         p.y = pDistance * p.y / l + to.y
+
         for (let i = 0; i < p.from.length; i++) {
           const [eid, type] = p.from[i]
           edges.push({
@@ -209,16 +221,20 @@ export const viewData = stream(
             title: type
           })
         }
+
       } else {
         p.x = to.x
         p.y = to.y - pDistance
       }
+
       ps.push(p)
+
       edges.push({
         from: p,
         to,
         class: 'to' + (p.async ? ' async' : '')
       })
+
       if (p.acc) {
         edges.push({
           from: p,
@@ -226,7 +242,6 @@ export const viewData = stream(
           class: 'to acc'
         })
       }
-
     }
 
     return {

@@ -42,12 +42,11 @@ export function graphView (data, dispatch) {
         ...processes.map(p =>
           ['circle', {
               'data-key': p.id,
-              class: '',
+              class: p.class,
               transform: `translate(${p.x}, ${p.y})`,
               cx: 0,
               cy: 0,
               r: p.autostart ? 13 : 8,
-              fill: 'tomato',
               title: p.id
             }]),
         ...entities.map(e =>
@@ -55,7 +54,8 @@ export function graphView (data, dispatch) {
               'data-key': e.id,
               transform: `translate(${e.x}, ${e.y})`,
               onmousedown: () => dispatch('state.gui.openEntity', e.id),
-              title: e.id
+              title: e.id,
+              class: e.class
             },
             ['rect', {
                 x: -15,
