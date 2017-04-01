@@ -79,9 +79,13 @@ function getLabelGroup(id) {
 }
 export var graphEntities = stream([graph.HOT], function (graph) {
     var entities = {};
+    var groups = {};
+    var groupNr = 0;
     for (var key in graph.entities) {
         var e = graph.entities[key];
-        var node = __assign({ id: e.id, class: 'entity' }, getLabelGroup(key), nodeState[key]);
+        var _a = getLabelGroup(key), label = _a.label, group = _a.group;
+        groups[group] = groups[group] || (groupNr++ % 7) + 1;
+        var node = __assign({ id: e.id, class: 'group-' + groups[group], label: label }, nodeState[key]);
         if (e.accept != null) {
             node.accept = true;
         }
@@ -126,6 +130,7 @@ export var viewData = stream([graphEntities.HOT, graphProcesses.HOT], function (
     for (var pid in processes) {
         var p = processes[pid];
         var to = entities[p.to];
+        p.class = to.class;
         if (p.from.length) {
             p.x = 0;
             p.y = 0;

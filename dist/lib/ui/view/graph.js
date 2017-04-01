@@ -32,12 +32,11 @@ export function graphView(data, dispatch) {
         }), processes.map(function (p) {
             return ['circle', {
                     'data-key': p.id,
-                    class: '',
+                    class: p.class,
                     transform: "translate(" + p.x + ", " + p.y + ")",
                     cx: 0,
                     cy: 0,
                     r: p.autostart ? 13 : 8,
-                    fill: 'tomato',
                     title: p.id
                 }];
         }), entities.map(function (e) {
@@ -45,7 +44,8 @@ export function graphView(data, dispatch) {
                     'data-key': e.id,
                     transform: "translate(" + e.x + ", " + e.y + ")",
                     onmousedown: function () { return dispatch('state.gui.openEntity', e.id); },
-                    title: e.id
+                    title: e.id,
+                    class: e.class
                 },
                 ['rect', {
                         x: -15,

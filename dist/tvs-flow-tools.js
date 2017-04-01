@@ -1055,13 +1055,16 @@
             if (a && t === a && e[t] && (i.x || i.y)) return e[t].x -= i.x * r.scale, e[t].y -= i.y * r.scale, 
             e;
         }).accept(a.b), p = n.i(i.stream)([ s.graph.HOT ], function(e) {
-            var t = {};
-            for (var n in e.entities) {
-                var i = e.entities[n], o = l({
-                    id: i.id,
-                    class: "entity"
-                }, r(n), d[n]);
-                null != i.accept && (o.accept = !0), null != i.value && (o.initial = !0), t[n] = o;
+            var t = {}, n = {}, i = 0;
+            for (var o in e.entities) {
+                var a = e.entities[o], s = r(o), u = s.label, c = s.group;
+                n[c] = n[c] || i++ % 7 + 1;
+                var f = l({
+                    id: a.id,
+                    class: "group-" + n[c],
+                    label: u
+                }, d[o]);
+                null != a.accept && (f.accept = !0), null != a.value && (f.initial = !0), t[o] = f;
             }
             return t;
         }).react([ d.HOT ], function(e, t) {
@@ -1089,7 +1092,7 @@
             var n = [], r = [];
             for (var i in t) {
                 var o = t[i], a = e[o.to];
-                if (o.from.length) {
+                if (o.class = a.class, o.from.length) {
                     o.x = 0, o.y = 0;
                     for (var s = 0; s < o.from.length; s++) {
                         var c = e[o.from[s][0]], l = o.from[s][1], f = c.x - a.x, d = c.y - a.y;
@@ -2356,12 +2359,11 @@
             }), i.map(function(e) {
                 return [ "circle", {
                     "data-key": e.id,
-                    class: "",
+                    class: e.class,
                     transform: "translate(" + e.x + ", " + e.y + ")",
                     cx: 0,
                     cy: 0,
                     r: e.autostart ? 13 : 8,
-                    fill: "tomato",
                     title: e.id
                 } ];
             }), r.map(function(e) {
@@ -2371,7 +2373,8 @@
                     onmousedown: function() {
                         return t("state.gui.openEntity", e.id);
                     },
-                    title: e.id
+                    title: e.id,
+                    class: e.class
                 }, [ "rect", {
                     x: -15,
                     y: -15,
@@ -2726,7 +2729,7 @@
                     paintOrder: "stroke"
                 },
                 "& line": {
-                    stroke: "tomato",
+                    stroke: "darkgray",
                     $nest: {
                         "&.to": {
                             strokeWidth: 6
@@ -2747,17 +2750,96 @@
                     }
                 },
                 "& rect": {
-                    fill: "red",
                     $nest: {
                         "&.accept": {
-                            stroke: "darkred",
                             strokeWidth: 3,
                             strokeDasharray: "3, 3"
                         }
                     }
                 },
-                "& .initial": {
+                "& .group-1 rect": {
+                    fill: "orangered"
+                },
+                "& circle.group-1": {
+                    fill: "orangered"
+                },
+                "& .group-1 .initial": {
                     fill: "darkred"
+                },
+                "& .group-1 .accept": {
+                    stroke: "darkred"
+                },
+                "& .group-2 rect": {
+                    fill: "limegreen"
+                },
+                "& circle.group-2": {
+                    fill: "limegreen"
+                },
+                "& .group-2 .initial": {
+                    fill: "darkgreen"
+                },
+                "& .group-2 .accept": {
+                    stroke: "darkgreen"
+                },
+                "& .group-3 rect": {
+                    fill: "cornflowerblue"
+                },
+                "& circle.group-3": {
+                    fill: "cornflowerblue"
+                },
+                "& .group-3 .initial": {
+                    fill: "darkslateblue"
+                },
+                "& .group-3 .accept": {
+                    stroke: "darkslateblue"
+                },
+                "& .group-4 rect": {
+                    fill: "orchid"
+                },
+                "& circle.group-4": {
+                    fill: "orchid"
+                },
+                "& .group-4 .initial": {
+                    fill: "purple"
+                },
+                "& .group-4 .accept": {
+                    stroke: "purple"
+                },
+                "& .group-5 rect": {
+                    fill: "gold"
+                },
+                "& circle.group-5": {
+                    fill: "gold"
+                },
+                "& .group-5 .initial": {
+                    fill: "darkgoldenrod"
+                },
+                "& .group-5 .accept": {
+                    stroke: "darkgoldenrod"
+                },
+                "& .group-6 rect": {
+                    fill: "lightseagreen"
+                },
+                "& circle.group-6": {
+                    fill: "lightseagreen"
+                },
+                "& .group-6 .initial": {
+                    fill: "darkslategray"
+                },
+                "& .group-6 .accept": {
+                    stroke: "darkslategray"
+                },
+                "& .group-7 rect": {
+                    fill: "orange"
+                },
+                "& circle.group-7": {
+                    fill: "orange"
+                },
+                "& .group-7 .initial": {
+                    fill: "saddlebrown"
+                },
+                "& .group-7 .accept": {
+                    stroke: "saddlebrown"
                 }
             }
         });
