@@ -8,7 +8,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 import { style, classes } from "typestyle";
 import * as css from 'dom-css';
-import { h } from 'utils/yoyo';
+import { h } from '../../utils/yoyo';
 import * as icon from "./icons";
 import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
@@ -174,6 +174,15 @@ function graphWindow(graphStyle, dispatch, component, root) {
 }
 function jsonCode(_a, dispatch) {
     var value = _a.value, watching = _a.watching;
+    var code = '';
+    if (value) {
+        try {
+            code = JSON.stringify(value, null, '   ');
+        }
+        catch (e) {
+            code = e.message;
+        }
+    }
     return h(['code',
         ['pre', {
                 contenteditable: !watching,
@@ -182,7 +191,7 @@ function jsonCode(_a, dispatch) {
                     payload: e.target.textContent
                 }); }
             },
-            value ? JSON.stringify(value, null, '   ') : '']]);
+            code]]);
 }
 function entitiesWindow(_a, dispatch, component, root) {
     var dimensions = _a.dimensions, entity = _a.entity, watching = _a.watching;

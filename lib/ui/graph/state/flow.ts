@@ -1,6 +1,6 @@
 import { val, stream, EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
 import { Runtime, Graph } from "tvs-flow/dist/lib/runtime-types";
-import { createEntityTree } from "utils/entity-tree";
+import { createEntityTree } from "../../../utils/entity-tree";
 
 
 export const runtime: EntityRef<Runtime> = val()

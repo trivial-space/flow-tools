@@ -29,7 +29,7 @@
             return t.d(n, "a", n), n;
         }, t.o = function(e, t) {
             return Object.prototype.hasOwnProperty.call(e, t);
-        }, t.p = "", t(t.s = 65);
+        }, t.p = "", t(t.s = 46);
     }([ function(e, t, n) {
         "use strict";
         function r(e, t) {
@@ -181,7 +181,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var i = n(61), o = n(62);
+        var i = n(62), o = n(63);
         t.types = o;
         var a = n(22);
         t.extend = a.extend, t.classes = a.classes, t.media = a.media;
@@ -516,13 +516,13 @@
                 }, t;
             }(O);
             t.FreeStyle = A, t.create = h;
-        }).call(t, n(41));
+        }).call(t, n(42));
     }, function(e, t, n) {
         "use strict";
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var r = n(0), i = n(55), o = n(56);
+        var r = n(0), i = n(56), o = n(57);
         n.d(t, "action", function() {
             return a;
         }), n.d(t, "windowSize", function() {
@@ -650,7 +650,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var a = n(18), s = n(54);
+        var a = n(18), s = n(55);
         t.createEntity = r, t.createProcess = i, t.createArc = o, n.d(t, "PORT_TYPES", function() {
             return c;
         });
@@ -902,37 +902,40 @@
                 if (Array.isArray(e)) for (var t = 0; t < e.length; t++) {
                     var n = e[t];
                     if (Array.isArray(n)) o(n); else {
-                        if (("number" == typeof n || "boolean" == typeof n || n instanceof Date || n instanceof RegExp) && (n = n.toString()), 
+                        if (("number" == typeof n || "boolean" == typeof n || "function" == typeof n || n instanceof Date || n instanceof RegExp) && (n = n.toString()), 
                         "string" == typeof n) {
-                            if (f.lastChild && "#text" === f.lastChild.nodeName) {
-                                f.lastChild.nodeValue += n;
+                            if (d.lastChild && "#text" === d.lastChild.nodeName) {
+                                d.lastChild.nodeValue += n;
                                 continue;
                             }
                             n = i.createTextNode(n);
                         }
-                        n && n.nodeType && f.appendChild(n);
+                        n && n.nodeType && d.appendChild(n);
                     }
                 }
             }
-            var f;
-            l.indexOf(e) !== -1 && (t.namespace = s);
-            var d = !1;
-            if (t.namespace && (d = t.namespace, delete t.namespace), f = d ? i.createElementNS(d, e) : i.createElement(e), 
-            t.onload || t.onunload) {
-                var p = t.onload || function() {}, h = t.onunload || function() {};
-                a(f, function() {
-                    p(f);
+            var d;
+            f.indexOf(e) !== -1 && (t.namespace = s);
+            var p = !1;
+            if (t.namespace && (p = t.namespace, delete t.namespace), p) d = i.createElementNS(p, e); else {
+                if (e === l) return i.createComment(t.comment);
+                d = i.createElement(e);
+            }
+            if (t.onload || t.onunload) {
+                var h = t.onload || function() {}, v = t.onunload || function() {};
+                a(d, function() {
+                    h(d);
                 }, function() {
-                    h(f);
+                    v(d);
                 }, r.caller.caller.caller), delete t.onload, delete t.onunload;
             }
-            for (var v in t) if (t.hasOwnProperty(v)) {
-                var g = v.toLowerCase(), y = t[v];
-                if ("classname" === g && (g = "class", v = "class"), "htmlFor" === v && (v = "for"), 
-                c[g]) if ("true" === y) y = g; else if ("false" === y) continue;
-                "on" === g.slice(0, 2) ? f[v] = y : d ? "xlink:href" === v ? f.setAttributeNS(u, v, y) : /^xmlns($|:)/i.test(v) || f.setAttributeNS(null, v, y) : f.setAttribute(v, y);
+            for (var g in t) if (t.hasOwnProperty(g)) {
+                var y = g.toLowerCase(), m = t[g];
+                if ("classname" === y && (y = "class", g = "class"), "htmlFor" === g && (g = "for"), 
+                c[y]) if ("true" === m) m = y; else if ("false" === m) continue;
+                "on" === y.slice(0, 2) ? d[g] = m : p ? "xlink:href" === g ? d.setAttributeNS(u, g, m) : /^xmlns($|:)/i.test(g) || d.setAttributeNS(null, g, m) : d.setAttribute(g, m);
             }
-            return o(n), f;
+            return o(n), d;
         }
         var i = n(13), o = n(39), a = n(14), s = "http://www.w3.org/2000/svg", u = "http://www.w3.org/1999/xlink", c = {
             autofocus: 1,
@@ -945,11 +948,13 @@
             required: 1,
             selected: 1,
             willvalidate: 1
-        }, l = [ "svg", "altGlyph", "altGlyphDef", "altGlyphItem", "animate", "animateColor", "animateMotion", "animateTransform", "circle", "clipPath", "color-profile", "cursor", "defs", "desc", "ellipse", "feBlend", "feColorMatrix", "feComponentTransfer", "feComposite", "feConvolveMatrix", "feDiffuseLighting", "feDisplacementMap", "feDistantLight", "feFlood", "feFuncA", "feFuncB", "feFuncG", "feFuncR", "feGaussianBlur", "feImage", "feMerge", "feMergeNode", "feMorphology", "feOffset", "fePointLight", "feSpecularLighting", "feSpotLight", "feTile", "feTurbulence", "filter", "font", "font-face", "font-face-format", "font-face-name", "font-face-src", "font-face-uri", "foreignObject", "g", "glyph", "glyphRef", "hkern", "image", "line", "linearGradient", "marker", "mask", "metadata", "missing-glyph", "mpath", "path", "pattern", "polygon", "polyline", "radialGradient", "rect", "set", "stop", "switch", "symbol", "text", "textPath", "title", "tref", "tspan", "use", "view", "vkern" ];
-        e.exports = o(r), e.exports.default = e.exports, e.exports.createElement = r;
+        }, l = "!--", f = [ "svg", "altGlyph", "altGlyphDef", "altGlyphItem", "animate", "animateColor", "animateMotion", "animateTransform", "circle", "clipPath", "color-profile", "cursor", "defs", "desc", "ellipse", "feBlend", "feColorMatrix", "feComponentTransfer", "feComposite", "feConvolveMatrix", "feDiffuseLighting", "feDisplacementMap", "feDistantLight", "feFlood", "feFuncA", "feFuncB", "feFuncG", "feFuncR", "feGaussianBlur", "feImage", "feMerge", "feMergeNode", "feMorphology", "feOffset", "fePointLight", "feSpecularLighting", "feSpotLight", "feTile", "feTurbulence", "filter", "font", "font-face", "font-face-format", "font-face-name", "font-face-src", "font-face-uri", "foreignObject", "g", "glyph", "glyphRef", "hkern", "image", "line", "linearGradient", "marker", "mask", "metadata", "missing-glyph", "mpath", "path", "pattern", "polygon", "polyline", "radialGradient", "rect", "set", "stop", "switch", "symbol", "text", "textPath", "title", "tref", "tspan", "use", "view", "vkern" ];
+        e.exports = o(r, {
+            comments: !0
+        }), e.exports.default = e.exports, e.exports.createElement = r;
     }, function(e, t, n) {
         (function(t) {
-            var r = void 0 !== t ? t : "undefined" != typeof window ? window : {}, i = n(64);
+            var r = void 0 !== t ? t : "undefined" != typeof window ? window : {}, i = n(65);
             if ("undefined" != typeof document) e.exports = document; else {
                 var o = r["__GLOBAL_DOCUMENT_CACHE@4"];
                 o || (o = r["__GLOBAL_DOCUMENT_CACHE@4"] = i), e.exports = o;
@@ -1236,7 +1241,7 @@
         };
     }, function(e, t, n) {
         "use strict";
-        var r = n(58), i = n(59), o = (n.n(i), n(21));
+        var r = n(59), i = n(60), o = (n.n(i), n(21));
         n.d(t, "b", function() {
             return o.a;
         }), n.d(t, "a", function() {
@@ -1315,7 +1320,7 @@
         }
         e.exports = n;
     }, function(e, t, n) {
-        var r = n(12), i = n(40), o = n(63);
+        var r = n(12), i = n(40), o = n(64);
         e.exports = r, e.exports.update = function(e, t, n) {
             function r(e, t) {
                 for (var r = n.events || o, i = 0; i < r.length; i++) {
@@ -1331,7 +1336,7 @@
     }, function(e, t, n) {
         "use strict";
         function r(e, t, n) {
-            var r = e + "::" + t.getId(), i = localStorage.getItem(r);
+            var r = "tvsFlowTools" + (e ? "::" + e : "") + "::" + t.getId(), i = localStorage.getItem(r);
             if (i) {
                 var o = JSON.parse(i);
                 o.zIndex && (o.zIndex = 0), n.set(t.getId(), o);
@@ -1349,9 +1354,9 @@
             function h() {
                 document.body.removeChild(y);
             }
-            void 0 === e && (e = "tvs-flow tools"), void 0 === t && (t = !1);
+            void 0 === t && (t = !1);
             var v = o.a.create();
-            v.addGraph(n.i(a.getGraphFromModules)(p)), v.set(c.title.getId(), e), r(e, d.viewBox, v), 
+            v.addGraph(n.i(a.getGraphFromModules)(p)), e && v.set(c.title.getId(), e), r(e, d.viewBox, v), 
             r(e, d.nodeState, v), r(e, c.visibility, v), r(e, c.entitiesWindow, v), r(e, c.graphWindow, v), 
             r(e, c.treeWindow, v), r(e, c.controlsPosition, v);
             var g = n.i(u.flowComponentFactory)(v, l.action.getId(), t), y = n.i(s.a)(g);
@@ -1369,7 +1374,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var o = n(52), a = n(11), s = n(48), u = n(2), c = n(9), l = n(4), f = n(5), d = n(15);
+        var o = n(53), a = n(11), s = n(49), u = n(2), c = n(9), l = n(4), f = n(5), d = n(15);
         t.start = i;
         var p = n(26);
     }, function(e, t, n) {
@@ -1520,7 +1525,8 @@
                     if (!s && !o) throw new Error("unsupported color string");
                     n = k;
                 }
-                return new T(n, parseFloat(t[1]), a || i ? parseFloat(t[2]) : w.ensurePercent(t[2]), a || i ? parseFloat(t[3]) : w.ensurePercent(t[3]), u ? parseFloat(t[4]) : 1, u);
+                var c = parseFloat(t[1]), l = a || i ? parseFloat(t[2]) : w.ensurePercent(t[2]), f = a || i ? parseFloat(t[3]) : w.ensurePercent(t[3]), d = u ? parseFloat(t[4]) : 1;
+                return new T(n, c, l, f, d, u);
             }
         }
         var w = n(8), _ = "undefined" != typeof Float32Array, x = 0, k = 1, O = (A = {}, 
@@ -1927,7 +1933,7 @@
         function a() {
             2 === arguments.length ? "string" == typeof arguments[1] ? arguments[0].style.cssText = arguments[1] : i(arguments[0], arguments[1]) : r(arguments[0], arguments[1], arguments[2]);
         }
-        var s = n(42), u = n(43), c = {
+        var s = n(41), u = n(43), c = {
             float: "cssFloat"
         }, l = n(27);
         e.exports = a, e.exports.set = a, e.exports.get = function(e, t) {
@@ -2083,9 +2089,12 @@
             },
             TEXTAREA: function(e, t) {
                 var n = t.value;
-                if (e.value !== n && (e.value = n), e.firstChild) {
-                    if ("" === n && e.firstChild.nodeValue === e.placeholder) return;
-                    e.firstChild.nodeValue = n;
+                e.value !== n && (e.value = n);
+                var r = e.firstChild;
+                if (r) {
+                    var i = r.nodeValue;
+                    if (i == n || !n && i == e.placeholder) return;
+                    r.nodeValue = n;
                 }
             },
             SELECT: function(e, t) {
@@ -2194,6 +2203,18 @@
         }(s);
         e.exports = _;
     }, function(e, t) {
+        var n = null, r = [ "Webkit", "Moz", "O", "ms" ];
+        e.exports = function(e) {
+            n || (n = document.createElement("div"));
+            var t = n.style;
+            if (e in t) return e;
+            for (var i = e.charAt(0).toUpperCase() + e.slice(1), o = r.length; o >= 0; o--) {
+                var a = r[o] + i;
+                if (a in t) return a;
+            }
+            return !1;
+        };
+    }, function(e, t) {
         function n() {
             throw new Error("setTimeout has not been defined");
         }
@@ -2275,18 +2296,6 @@
         }, d.umask = function() {
             return 0;
         };
-    }, function(e, t) {
-        var n = null, r = [ "Webkit", "Moz", "O", "ms" ];
-        e.exports = function(e) {
-            n || (n = document.createElement("div"));
-            var t = n.style;
-            if (e in t) return e;
-            for (var i = e.charAt(0).toUpperCase() + e.slice(1), o = r.length; o >= 0; o--) {
-                var a = r[o] + i;
-                if (a in t) return a;
-            }
-            return !1;
-        };
     }, function(e, t, n) {
         function r(e) {
             return i(e).replace(/\s(\w)/g, function(e, t) {
@@ -2319,6 +2328,22 @@
         }
         var i = n(44);
         e.exports = r;
+    }, function(e, t, n) {
+        "use strict";
+        Object.defineProperty(t, "__esModule", {
+            value: !0
+        });
+        var r = n(25), i = n(10), o = n(11), a = n(2);
+        n.d(t, "ui", function() {
+            return s;
+        }), n.d(t, "utils", function() {
+            return u;
+        }), t.default = r;
+        var s = r, u = {
+            entityTree: i,
+            webpack: o,
+            yoyo: a
+        };
     }, function(e, t, n) {
         "use strict";
         function r(e, t) {
@@ -2393,7 +2418,7 @@
                 } ] ];
             })) ]);
         }
-        var o = n(50), a = n(2);
+        var o = n(51), a = n(2);
         t.b = r, t.a = i;
     }, function(e, t, n) {
         "use strict";
@@ -2565,7 +2590,12 @@
             }), s;
         }
         function f(e, t) {
-            var r = e.value, i = e.watching;
+            var r = e.value, i = e.watching, o = "";
+            if (r) try {
+                o = JSON.stringify(r, null, "   ");
+            } catch (e) {
+                o = e.message;
+            }
             return n.i(y.h)([ "code", [ "pre", {
                 contenteditable: !i,
                 oninput: function(e) {
@@ -2574,7 +2604,7 @@
                         payload: e.target.textContent
                     });
                 }
-            }, r ? JSON.stringify(r, null, "   ") : "" ] ]);
+            }, o ] ]);
         }
         function d(e, t, r, o) {
             var a = e.dimensions, s = e.entity, u = e.watching, c = [ "div", {
@@ -2620,7 +2650,7 @@
         function h(e) {
             return e(p, "state.gui.visibility");
         }
-        var v = n(20), g = n(36), y = (n.n(g), n(2)), m = n(47), b = n(6), w = n(51), _ = n(16), x = n(49), k = n(46);
+        var v = n(20), g = n(36), y = (n.n(g), n(2)), m = n(48), b = n(6), w = n(52), _ = n(16), x = n(50), k = n(47);
         t.a = h;
         var O = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
@@ -2857,7 +2887,7 @@
         t.a = r;
     }, function(e, t, n) {
         "use strict";
-        var r = n(53);
+        var r = n(54);
         n(0), n(17), n(7);
         t.a = r;
         r.create;
@@ -3188,7 +3218,7 @@
         t.a = r, t.b = i;
     }, function(e, t, n) {
         "use strict";
-        var r = n(57), i = n(21), o = n(3);
+        var r = n(58), i = n(21), o = n(3);
         n.n(o);
         n.d(t, "a", function() {
             return s;
@@ -3299,7 +3329,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var r = n(60), i = n(22), o = n(3), a = function() {
+        var r = n(61), i = n(22), o = n(3), a = function() {
             return o.create(void 0, !0);
         }, s = function() {
             function e(e) {
@@ -3373,21 +3403,5 @@
         });
     }, function(e, t) {
         e.exports = [ "onclick", "ondblclick", "onmousedown", "onmouseup", "onmouseover", "onmousemove", "onmouseout", "ondragstart", "ondrag", "ondragenter", "ondragleave", "ondragover", "ondrop", "ondragend", "onkeydown", "onkeypress", "onkeyup", "onunload", "onabort", "onerror", "onresize", "onscroll", "onselect", "onchange", "onsubmit", "onreset", "onfocus", "onblur", "oninput", "oncontextmenu", "onfocusin", "onfocusout" ];
-    }, function(e, t) {}, function(e, t, n) {
-        "use strict";
-        Object.defineProperty(t, "__esModule", {
-            value: !0
-        });
-        var r = n(25), i = n(10), o = n(11), a = n(2);
-        n.d(t, "ui", function() {
-            return s;
-        }), n.d(t, "utils", function() {
-            return u;
-        }), t.default = r;
-        var s = r, u = {
-            entityTree: i,
-            webpack: o,
-            yoyo: a
-        };
-    } ]);
+    }, function(e, t) {} ]);
 });

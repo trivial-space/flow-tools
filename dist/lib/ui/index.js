@@ -8,7 +8,7 @@ import { runtime as flowNode } from "./graph/state/flow";
 import { nodeState, viewBox } from "./graph/state/graph";
 var graphModules = require.context('./graph', true, /\.ts$/);
 function saveAndRecover(title, entity, state) {
-    var storageId = title + '::' + entity.getId();
+    var storageId = 'tvsFlowTools' + (title ? '::' + title : '') + '::' + entity.getId();
     var storedState = localStorage.getItem(storageId);
     if (storedState) {
         var value = JSON.parse(storedState);
@@ -19,11 +19,12 @@ function saveAndRecover(title, entity, state) {
     state.on(entity.getId(), function (value) { return localStorage.setItem(storageId, JSON.stringify(value)); });
 }
 export function start(title, debug) {
-    if (title === void 0) { title = 'tvs-flow tools'; }
     if (debug === void 0) { debug = false; }
     var state = tvsFlow.create();
     state.addGraph(getGraphFromModules(graphModules));
-    state.set(titleNode.getId(), title);
+    if (title) {
+        state.set(titleNode.getId(), title);
+    }
     saveAndRecover(title, viewBox, state);
     saveAndRecover(title, nodeState, state);
     saveAndRecover(title, visibility, state);

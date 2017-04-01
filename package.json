@@ -2,7 +2,9 @@
   "name": "tvs-flow-tools",
   "version": "0.1.0",
   "description": "tools to develop and work with trivial space flow graphs",
-  "main": "index.js",
+  "main": "dist/tvs-flow-tools.js",
+  "types": "dist/lib/index.d.ts",
+  "typings": "dist/lib/index.d.ts",
   "scripts": {
     "examples": "webpack-dev-server --config webpack.config.examples.js --port 8081",
     "build": "rm -rf dist; tsc; webpack"

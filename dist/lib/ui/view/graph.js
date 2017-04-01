@@ -1,5 +1,5 @@
 import { graphViewStyle } from "./styles/graph";
-import { h } from "utils/yoyo";
+import { h } from "../../utils/yoyo";
 export function scaleSlider(_a, dispatch) {
     var scale = _a.scale;
     return h(['span',

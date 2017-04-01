@@ -1,6 +1,6 @@
 import { style, classes } from "typestyle";
 import * as css from 'dom-css'
-import { Component, h } from 'utils/yoyo';
+import { Component, h } from '../../utils/yoyo';
 import * as icon from "./icons";
 import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
@@ -206,6 +206,15 @@ function graphWindow (graphStyle, dispatch, component, root) {
 
 
 function jsonCode ({value, watching}, dispatch) {
+  let code = ''
+  if (value) {
+    try {
+      code = JSON.stringify(value, null, '   ')
+    } catch (e) {
+      code = e.message
+    }
+  }
+
   return h(
     ['code',
       ['pre', {
@@ -215,7 +224,7 @@ function jsonCode ({value, watching}, dispatch) {
             payload: e.target.textContent
           })
         },
-        value ? JSON.stringify(value, null, '   ') : '']]
+        code]]
   )
 }
 

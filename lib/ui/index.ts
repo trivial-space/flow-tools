@@ -20,7 +20,7 @@ export interface FlowTool {
 
 
 function saveAndRecover(title, entity, state) {
-  const storageId = title + '::' + entity.getId()
+  const storageId = 'tvsFlowTools' + (title ? '::' + title : '') + '::' + entity.getId()
 
   const storedState = localStorage.getItem(storageId)
   if (storedState) {
@@ -33,13 +33,15 @@ function saveAndRecover(title, entity, state) {
 }
 
 
-export function start(title = 'tvs-flow tools', debug = false): FlowTool {
+export function start(title, debug = false): FlowTool {
 
   const state = tvsFlow.create()
 
   state.addGraph(getGraphFromModules(graphModules))
 
-  state.set(titleNode.getId(), title)
+  if (title) {
+    state.set(titleNode.getId(), title)
+  }
 
   saveAndRecover(title, viewBox, state)
   saveAndRecover(title, nodeState, state)
