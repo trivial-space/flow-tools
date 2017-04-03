@@ -66,7 +66,7 @@ export const nodeState: EntityRef<any> = val({})
 )
 .react(
   [activeEntity.COLD, mouse.HOT, viewBox.COLD],
-  (self, id, mouse: MouseState, viewBox) => {
+  (self, {id}, mouse: MouseState, viewBox) => {
     const delta: any = mouse.dragDelta
     const t = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
     const targetId = t && (t.dataset.key || (t.parentElement && t.parentElement.dataset.key))

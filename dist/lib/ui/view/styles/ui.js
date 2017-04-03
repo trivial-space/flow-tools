@@ -17,6 +17,7 @@ var button = {
     border: 0,
     color: color,
     fontSize: '1.0em',
+    verticalAlign: 'middle',
     $nest: {
         '& > svg': {
             verticalAlign: 'middle'

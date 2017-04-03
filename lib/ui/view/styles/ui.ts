@@ -20,6 +20,7 @@ const button = {
   border: 0,
   color,
   fontSize: '1.0em',
+  verticalAlign: 'middle',
   $nest: {
     '& > svg': {
       verticalAlign: 'middle'

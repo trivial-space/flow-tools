@@ -65,5 +65,9 @@ export var treeViewStyle = style(resetUl, {
         }
     }
 });
-export var entityViewStyle = style({});
+export var entityViewStyle = style({
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+});
 //# sourceMappingURL=components.js.map

@@ -52,3 +52,24 @@ export function entities (...moreClasses: string[]): SVGElement {
 <path d="M16.641 1.688l5.672 5.672-5.672 5.625h4.359v8.016h-8.016v-8.016h3.656l-5.625-5.625v3.656h-8.016v-8.016h8.016v4.359zM3 21v-8.016h8.016v8.016h-8.016z"></path>
 </svg>`
 }
+
+export function play (...moreClasses: string[]): SVGElement {
+  return yo`<svg class="${classes(iconClass, ...moreClasses)}" viewBox="0 0 32 32">
+<title>play</title>
+<path d="M6 4l20 12-20 12z"></path>
+</svg>`
+}
+
+export function stop (...moreClasses: string[]): SVGElement {
+  return yo`<svg class="${classes(iconClass, ...moreClasses)}" viewBox="0 0 32 32">
+<title>stop</title>
+<path d="M4 4h24v24h-24z"></path>
+</svg>`
+}
+
+export function reset (...moreClasses: string[]): SVGElement {
+  return yo`<svg class="${classes(iconClass, ...moreClasses)}" viewBox="0 0 32 32">
+<title>reset</title>
+<path d="M32 12h-12l4.485-4.485c-2.267-2.266-5.28-3.515-8.485-3.515s-6.219 1.248-8.485 3.515c-2.266 2.267-3.515 5.28-3.515 8.485s1.248 6.219 3.515 8.485c2.267 2.266 5.28 3.515 8.485 3.515s6.219-1.248 8.485-3.515c0.189-0.189 0.371-0.384 0.546-0.583l3.010 2.634c-2.933 3.349-7.239 5.464-12.041 5.464-8.837 0-16-7.163-16-16s7.163-16 16-16c4.418 0 8.418 1.791 11.313 4.687l4.687-4.687v12z"></path>
+</svg>`
+}

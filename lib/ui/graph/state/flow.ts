@@ -1,9 +1,28 @@
 import { val, stream, EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
 import { Runtime, Graph } from "tvs-flow/dist/lib/runtime-types";
 import { createEntityTree } from "../../../utils/entity-tree";
+import { action } from "../events";
+import { defined } from "tvs-libs/dist/lib/utils/predicates";
 
 
 export const runtime: EntityRef<Runtime> = val()
+.react(
+  [action.HOT],
+  (self: Runtime, {type, payload}) => {
+    switch (type) {
+      case 'flowProcessRun':
+        self.start(payload)
+        return
+      case 'flowProcessStop':
+        self.stop(payload)
+        return
+      case 'flowEntityReset':
+        self.set(payload, self.getGraph().entities[payload].value)
+        return
+    }
+  }
+)
+.accept(defined)
 
 
 export const graph: EntityRef<Graph> = stream(

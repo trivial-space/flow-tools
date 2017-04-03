@@ -57,7 +57,8 @@ export var nodeState = val({})
         }
     }
 })
-    .react([activeEntity.COLD, mouse.HOT, viewBox.COLD], function (self, id, mouse, viewBox) {
+    .react([activeEntity.COLD, mouse.HOT, viewBox.COLD], function (self, _a, mouse, viewBox) {
+    var id = _a.id;
     var delta = mouse.dragDelta;
     var t = mouse.pressed[0] && mouse.pressed[0].target;
     var targetId = t && (t.dataset.key || (t.parentElement && t.parentElement.dataset.key));

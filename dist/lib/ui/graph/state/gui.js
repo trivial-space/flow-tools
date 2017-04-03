@@ -159,15 +159,25 @@ export var entitiesWindow = val({
     }
 })
     .accept(defined);
-export var activeEntity = val('')
+export var activeEntity = val({})
     .react([action.HOT, graph.COLD], function (_, _a, graph) {
     var type = _a.type, payload = _a.payload;
-    if (type === 'state.gui.openEntity'
-        && graph.entities[payload] != null) {
-        return payload;
+    if (type === 'state.gui.openEntity') {
+        return graph.entities[payload];
     }
 })
-    .accept(and(defined, unequal));
+    .accept(defined);
+export var activeProcess = val({})
+    .react([action.HOT, graph.COLD], function (_, _a, graph) {
+    var type = _a.type, payload = _a.payload;
+    if (type === 'state.gui.openProcess') {
+        return graph.processes[payload];
+    }
+})
+    .accept(defined);
+export var activeNode = val({})
+    .react([activeEntity.HOT], function (_, e) { return e; })
+    .react([activeProcess.HOT], function (_, p) { return p; });
 export var watchingEntity = val(true)
     .react([action.HOT], function (_, _a) {
     var type = _a.type, payload = _a.payload;
@@ -181,10 +191,10 @@ export var watchingEntity = val(true)
     .react([activeEntity.HOT], function () { return true; })
     .accept(defined);
 export var activeValue = asyncStream([runtime.COLD, activeEntity.HOT, visibility.HOT, watchingEntity.HOT], function (send, flow, entity, visibility, watching) {
-    send(flow.get(entity));
+    send(flow.get(entity.id));
     if (visibility.entities && watching) {
-        flow.on(entity, send);
-        return function () { return flow.off(entity, send); };
+        flow.on(entity.id, send);
+        return function () { return flow.off(entity.id, send); };
     }
 });
 export var editedValue = val('')
@@ -202,6 +212,7 @@ export var editedValue = val('')
     .react([activeValue.HOT], function () { return ''; })
     .accept(and(defined, unequal));
 export var entityView = stream([activeValue.HOT, watchingEntity.HOT], function (value, watching) { return ({ value: value, watching: watching }); }).val({ value: null, watching: true });
-export var entitiesWindowProps = stream([entitiesWindow.HOT, activeEntity.HOT, watchingEntity.HOT], function (dimensions, entity, watching) { return ({ dimensions: dimensions, entity: entity, watching: watching }); });
+export var entitiesWindowProps = stream([entitiesWindow.HOT, activeNode.HOT], function (dimensions, node) { return ({ dimensions: dimensions, node: node }); });
+export var entityViewProps = stream([activeEntity.HOT, watchingEntity.HOT], function (entity, watching) { return ({ entity: entity, watching: watching }); });
 export var controlProps = stream([visibility.HOT, controlsPosition.HOT], function (visibility, position) { return ({ visibility: visibility, position: position }); });
 //# sourceMappingURL=gui.js.map

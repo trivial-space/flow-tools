@@ -76,5 +76,7 @@ export const treeViewStyle = style(
 
 
 export const entityViewStyle = style({
-
+  display: 'flex',
+  flexDirection: 'column',
+  flexGrow: 1,
 })

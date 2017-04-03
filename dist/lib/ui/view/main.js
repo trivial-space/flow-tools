@@ -13,7 +13,7 @@ import * as icon from "./icons";
 import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
 import { radioBtnStyle, buttonStyle } from "./styles/ui";
-import { windowContentStyle, controlsStyle, windowStyle, treeViewStyle } from "./styles/components";
+import { windowContentStyle, controlsStyle, windowStyle, treeViewStyle, entityViewStyle } from "./styles/components";
 import { graphView, scaleSlider } from "./graph";
 function title(title) {
     return h(['h1', title]);
@@ -180,7 +180,7 @@ function jsonCode(_a, dispatch) {
             code = JSON.stringify(value, null, '   ');
         }
         catch (e) {
-            code = e.message;
+            code = 'Error: ' + e.message;
         }
     }
     return h(['code',
@@ -193,8 +193,8 @@ function jsonCode(_a, dispatch) {
             },
             code]]);
 }
-function entitiesWindow(_a, dispatch, component, root) {
-    var dimensions = _a.dimensions, entity = _a.entity, watching = _a.watching;
+function entityView(_a, dispatch, component) {
+    var entity = _a.entity, watching = _a.watching;
     var buttons = ['div', {
             'data-key': 'entity-buttons',
             'style': 'margin-top: 4px'
@@ -205,6 +205,13 @@ function entitiesWindow(_a, dispatch, component, root) {
                 'data-key': 'edit-button',
                 onclick: function () { return dispatch('setEntityEditMode', true); }
             }, 'Edit']);
+        if (entity.value) {
+            buttons.push(iconBtn({
+                onclick: function () { return dispatch('flowEntityReset', entity.id); },
+                icon: icon.reset(),
+                title: "Reset entity value"
+            }));
+        }
     }
     else {
         buttons.push(['button', {
@@ -214,9 +221,49 @@ function entitiesWindow(_a, dispatch, component, root) {
             }, 'Cancel'], ['button', {
                 class: buttonStyle,
                 'data-key': 'save-button',
-                onclick: function () { return dispatch('saveCurrentEntityValue', entity); }
+                onclick: function () { return dispatch('saveCurrentEntityValue', entity.id); }
             }, 'Save']);
     }
+    var el = h(['section', {
+            'data-key': 'entity-view',
+            class: entityViewStyle
+        },
+        ['div', { class: windowContentStyle },
+            component(jsonCode, 'state.gui.entityView')],
+        buttons]);
+    return el;
+}
+function processView(process, dispatch) {
+    var buttons = ['div', {
+            'data-key': 'process-buttons',
+            'style': 'margin-top: 4px'
+        }];
+    buttons.push(iconBtn({
+        onclick: function () { return dispatch('flowProcessRun', process.id); },
+        icon: icon.play(),
+        title: "Run process"
+    }));
+    if (process.async) {
+        buttons.push(iconBtn({
+            onclick: function () { return dispatch('flowProcessStop', process.id); },
+            icon: icon.stop(),
+            title: "Stop async process"
+        }));
+    }
+    return h(['section', {
+            'data-key': 'process-view',
+            class: entityViewStyle
+        },
+        ['div', { class: windowContentStyle },
+            ['code',
+                ['pre', process.procedure.toString()]]],
+        buttons]);
+}
+function entitiesWindow(_a, dispatch, component, root) {
+    var dimensions = _a.dimensions, node = _a.node;
+    var view = node.procedure
+        ? processView(node, dispatch)
+        : component(entityView, 'state.gui.entityViewProps');
     var el = h(['article', {
             'data-key': 'entities',
             class: windowStyle,
@@ -224,10 +271,8 @@ function entitiesWindow(_a, dispatch, component, root) {
         },
         ['header',
             icon.entities(), ' ',
-            entity],
-        ['section', { class: windowContentStyle },
-            component(jsonCode, 'state.gui.entityView')],
-        buttons,
+            node.id],
+        view,
         ['footer', { class: 'resize' }]]);
     css(root || el, __assign({}, dimensions));
     return el;

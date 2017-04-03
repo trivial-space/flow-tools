@@ -5,7 +5,7 @@ import * as icon from "./icons";
 import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
 import { radioBtnStyle, buttonStyle } from "./styles/ui";
-import { windowContentStyle, controlsStyle, windowStyle, treeViewStyle } from "./styles/components";
+import { windowContentStyle, controlsStyle, windowStyle, treeViewStyle, entityViewStyle } from "./styles/components";
 import { graphView, scaleSlider } from "./graph";
 
 
@@ -211,7 +211,7 @@ function jsonCode ({value, watching}, dispatch) {
     try {
       code = JSON.stringify(value, null, '   ')
     } catch (e) {
-      code = e.message
+      code = 'Error: ' + e.message
     }
   }
 
@@ -229,34 +229,98 @@ function jsonCode ({value, watching}, dispatch) {
 }
 
 
-function entitiesWindow ({dimensions, entity, watching}, dispatch, component, root) {
+function entityView ({entity, watching}, dispatch, component) {
   const buttons: any = ['div', {
     'data-key': 'entity-buttons',
     'style': 'margin-top: 4px'
   }]
 
   if (watching) {
+
     buttons.push(
       ['button', {
-        class: buttonStyle,
-        'data-key': 'edit-button',
-        onclick: () => dispatch('setEntityEditMode', true)
-      }, 'Edit']
-    )
+          class: buttonStyle,
+          'data-key': 'edit-button',
+          onclick: () => dispatch('setEntityEditMode', true)
+        }, 'Edit'])
+
+    if (entity.value) {
+      buttons.push(
+        iconBtn({
+          onclick: () => dispatch('flowEntityReset', entity.id),
+          icon: icon.reset(),
+          title: "Reset entity value"
+        }))
+    }
+
   } else {
     buttons.push(
       ['button', {
-        class: buttonStyle,
-        'data-key': 'cancel-button',
-        onclick: () => dispatch('setEntityEditMode', false)
-      }, 'Cancel'],
+          class: buttonStyle,
+          'data-key': 'cancel-button',
+          onclick: () => dispatch('setEntityEditMode', false)
+        }, 'Cancel'],
       ['button', {
-        class: buttonStyle,
-        'data-key': 'save-button',
-        onclick: () => dispatch('saveCurrentEntityValue', entity)
-      }, 'Save']
+          class: buttonStyle,
+          'data-key': 'save-button',
+          onclick: () => dispatch('saveCurrentEntityValue', entity.id)
+        }, 'Save']
     )
   }
+
+  const el = h(
+      ['section', {
+          'data-key': 'entity-view',
+          class: entityViewStyle
+        },
+        ['div', { class: windowContentStyle },
+          component(jsonCode, 'state.gui.entityView')],
+        buttons]
+  )
+
+  return el
+}
+
+
+function processView (process, dispatch) {
+  const buttons: any = ['div', {
+    'data-key': 'process-buttons',
+    'style': 'margin-top: 4px'
+  }]
+
+  buttons.push(
+    iconBtn({
+      onclick: () => dispatch('flowProcessRun', process.id),
+      icon: icon.play(),
+      title: "Run process"
+    }))
+
+  if (process.async) {
+    buttons.push(
+      iconBtn({
+        onclick: () => dispatch('flowProcessStop', process.id),
+        icon: icon.stop(),
+        title: "Stop async process"
+      }))
+  }
+
+  return h(
+    ['section', {
+        'data-key': 'process-view',
+        class: entityViewStyle
+      },
+      ['div', { class: windowContentStyle },
+        ['code',
+          ['pre', process.procedure.toString()]]],
+      buttons]
+  )
+}
+
+
+function entitiesWindow ({dimensions, node}, dispatch, component, root) {
+  const view = node.procedure
+    ? processView(node, dispatch)
+    : component(entityView, 'state.gui.entityViewProps')
 
   const el = h(
     ['article', {
@@ -266,10 +330,8 @@ function entitiesWindow ({dimensions, entity, watching}, dispatch, component, ro
       },
       ['header',
         icon.entities(), ' ',
-        entity],
-      ['section', { class: windowContentStyle },
-        component(jsonCode, 'state.gui.entityView')],
-      buttons,
+        node.id],
+      view,
       ['footer', {class: 'resize'}]])
 
   css(root || el, { ...dimensions })

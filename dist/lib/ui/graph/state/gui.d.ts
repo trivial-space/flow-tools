@@ -54,7 +54,9 @@ export declare const entitiesWindow: EntityRef<{
     height: number;
     zIndex: number;
 }>;
-export declare const activeEntity: EntityRef<string>;
+export declare const activeEntity: EntityRef<{}>;
+export declare const activeProcess: EntityRef<{}>;
+export declare const activeNode: EntityRef<{}>;
 export declare const watchingEntity: EntityRef<boolean>;
 export declare const activeValue: EntityRef<{}>;
 export declare const editedValue: EntityRef<string>;
@@ -64,6 +66,9 @@ export declare const entityView: EntityRef<{
 }>;
 export declare const entitiesWindowProps: EntityRef<{
     dimensions: any;
+    node: any;
+}>;
+export declare const entityViewProps: EntityRef<{
     entity: any;
     watching: any;
 }>;

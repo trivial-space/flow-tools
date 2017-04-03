@@ -234,17 +234,33 @@ export const entitiesWindow = val({
 .accept(defined)
 
 
-export const activeEntity = val('')
+export const activeEntity = val({})
 .react(
   [action.HOT, graph.COLD],
   (_, {type, payload}, graph) => {
-    if (type === 'state.gui.openEntity'
-        && graph.entities[payload] != null) {
-      return payload
+    if (type === 'state.gui.openEntity') {
+      return graph.entities[payload]
     }
   }
 )
-.accept(and(defined, unequal))
+.accept(defined)
+
+
+export const activeProcess = val({})
+.react(
+  [action.HOT, graph.COLD],
+  (_, {type, payload}, graph) => {
+    if (type === 'state.gui.openProcess') {
+      return graph.processes[payload]
+    }
+  }
+)
+.accept(defined)
+
+
+export const activeNode = val({})
+.react([activeEntity.HOT], (_, e) => e)
+.react([activeProcess.HOT], (_, p) => p)
 
 
 export const watchingEntity = val(true)
@@ -267,10 +283,10 @@ export const watchingEntity = val(true)
 export const activeValue = asyncStream(
   [runtime.COLD, activeEntity.HOT, visibility.HOT, watchingEntity.HOT],
   (send, flow: Runtime, entity, visibility, watching) => {
-    send(flow.get(entity))
+    send(flow.get(entity.id))
     if (visibility.entities && watching) {
-      flow.on(entity, send)
-      return () => flow.off(entity, send)
+      flow.on(entity.id, send)
+      return () => flow.off(entity.id, send)
     }
   }
 )
@@ -302,8 +318,14 @@ export const entityView = stream(
 
 
 export const entitiesWindowProps = stream(
-  [entitiesWindow.HOT, activeEntity.HOT, watchingEntity.HOT],
-  (dimensions, entity, watching) => ({dimensions, entity, watching})
+  [entitiesWindow.HOT, activeNode.HOT],
+  (dimensions, node) => ({dimensions, node})
+)
+
+
+export const entityViewProps = stream(
+  [activeEntity.HOT, watchingEntity.HOT],
+  (entity, watching) => ({entity, watching})
 )
 
 

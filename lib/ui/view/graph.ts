@@ -44,6 +44,7 @@ export function graphView (data, dispatch) {
               'data-key': p.id,
               class: p.class,
               transform: `translate(${p.x}, ${p.y})`,
+              onmousedown: () => dispatch('state.gui.openProcess', p.id),
               cx: 0,
               cy: 0,
               r: p.autostart ? 13 : 8,
