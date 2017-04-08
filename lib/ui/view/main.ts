@@ -193,10 +193,7 @@ function graphWindow (graphStyle, dispatch, component, root) {
         ' Graph ',
         component(scaleSlider, 'state.graph.viewBox')],
       graph,
-      ['footer', {
-          class: 'resize',
-          'data-key': 'resize'
-        }]])
+      ['footer', {class: 'resize'}]])
 
   css(el, { ...graphStyle })
 

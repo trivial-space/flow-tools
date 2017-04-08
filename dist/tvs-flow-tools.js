@@ -328,8 +328,8 @@
                         i.push([ o, m ]);
                     }
                     for (var b = 0, w = d; b < w.length; b++) {
-                        var _ = w[b], k = _[0], x = _[1];
-                        v += k + f(y, k, x, i, o);
+                        var _ = w[b], x = _[0], k = _[1];
+                        v += x + f(y, x, k, i, o);
                     }
                 } else {
                     var O = o ? l(t, o) : t;
@@ -338,8 +338,8 @@
                         i.push([ O, m ]);
                     }
                     for (var S = 0, A = d; S < A.length; S++) {
-                        var E = A[S], k = E[0], x = E[1];
-                        v += k + f(e, k, x, i, O);
+                        var E = A[S], x = E[0], k = E[1];
+                        v += x + f(e, x, k, i, O);
                     }
                 }
                 return v;
@@ -411,9 +411,9 @@
                 "stroke-dashoffset": !0,
                 "stroke-opacity": !0,
                 "stroke-width": !0
-            }, m = 0, b = [ "-webkit-", "-ms-", "-moz-", "-o-" ]; m < b.length; m++) for (var w = b[m], _ = 0, k = Object.keys(y); _ < k.length; _++) {
-                var x = k[_];
-                y[w + x] = !0;
+            }, m = 0, b = [ "-webkit-", "-ms-", "-moz-", "-o-" ]; m < b.length; m++) for (var w = b[m], _ = 0, x = Object.keys(y); _ < x.length; _++) {
+                var k = x[_];
+                y[w + k] = !0;
             }
             t.stringHash = o;
             var O = function() {
@@ -735,9 +735,9 @@
         }), n.d(t, "graphWindow", function() {
             return _;
         }), n.d(t, "entitiesWindow", function() {
-            return k;
-        }), n.d(t, "activeEntity", function() {
             return x;
+        }), n.d(t, "activeEntity", function() {
+            return k;
         }), n.d(t, "activeProcess", function() {
             return O;
         }), n.d(t, "activeNode", function() {
@@ -829,7 +829,7 @@
                 if ("resize" === a.className) return e.width -= o.x, e.height -= o.y, i(e, r);
                 if (!a.closest("svg")) return e.left -= o.x, e.top -= o.y, i(e, r);
             }
-        }).accept(s.a), k = n.i(a.val)({
+        }).accept(s.a), x = n.i(a.val)({
             top: 50,
             left: 400,
             width: 400,
@@ -839,22 +839,22 @@
             var o = n.dragDelta, a = n.pressed[0] && n.pressed[0].target;
             if ("entities" === t && a && a.closest(".tvs-flow-entities") && (o.x || o.y)) return "resize" === a.className ? (e.width -= o.x, 
             e.height -= o.y) : (e.left -= o.x, e.top -= o.y), i(e, r);
-        }).accept(s.a), x = n.i(a.val)({}).react([ u.action.HOT, c.graph.COLD ], function(e, t, n) {
+        }).accept(s.a), k = n.i(a.val)({}).react([ u.action.HOT, c.graph.COLD ], function(e, t, n) {
             var r = t.type, i = t.payload;
             if ("state.gui.openEntity" === r) return n.entities[i];
         }).accept(s.a), O = n.i(a.val)({}).react([ u.action.HOT, c.graph.COLD ], function(e, t, n) {
             var r = t.type, i = t.payload;
             if ("state.gui.openProcess" === r) return n.processes[i];
-        }).accept(s.a), S = n.i(a.val)({}).react([ x.HOT ], function(e, t) {
+        }).accept(s.a), S = n.i(a.val)({}).react([ k.HOT ], function(e, t) {
             return t;
         }).react([ O.HOT ], function(e, t) {
             return t;
         }), T = n.i(a.val)(!0).react([ u.action.HOT ], function(e, t) {
             var n = t.type, r = t.payload;
             return "setEntityEditMode" === n ? !r : "saveCurrentEntityValue" === n || void 0;
-        }).react([ x.HOT ], function() {
+        }).react([ k.HOT ], function() {
             return !0;
-        }).accept(s.a), C = n.i(a.asyncStream)([ c.runtime.COLD, x.HOT, d.HOT, T.HOT ], function(e, t, n, r, i) {
+        }).accept(s.a), C = n.i(a.asyncStream)([ c.runtime.COLD, k.HOT, d.HOT, T.HOT ], function(e, t, n, r, i) {
             if (e(t.get(n.id)), r.entities && i) return t.on(n.id, e), function() {
                 return t.off(n.id, e);
             };
@@ -874,12 +874,12 @@
         }).val({
             value: null,
             watching: !0
-        }), P = n.i(a.stream)([ k.HOT, S.HOT ], function(e, t) {
+        }), P = n.i(a.stream)([ x.HOT, S.HOT ], function(e, t) {
             return {
                 dimensions: e,
                 node: t
             };
-        }), H = n.i(a.stream)([ x.HOT, T.HOT ], function(e, t) {
+        }), H = n.i(a.stream)([ k.HOT, T.HOT ], function(e, t) {
             return {
                 entity: e,
                 watching: t
@@ -890,8 +890,8 @@
                 position: t
             };
         });
-        r(v, "controls"), r(g, "tree"), r(_, "graph"), r(k, "entities"), o(v), o(g), o(_), 
-        o(k);
+        r(v, "controls"), r(g, "tree"), r(_, "graph"), r(x, "entities"), o(v), o(g), o(_), 
+        o(x);
     }, function(e, t, n) {
         "use strict";
         n.d(t, "d", function() {
@@ -1486,16 +1486,16 @@
             return y(e) || m(e) || b(e) || y("red");
         }
         function i(e, t, n) {
-            return new T(x, c(e), w.ensurePercent(t), w.ensurePercent(n), 1, !1);
+            return new T(k, c(e), w.ensurePercent(t), w.ensurePercent(n), 1, !1);
         }
         function o(e, t, n, r) {
-            return new T(x, c(e), w.ensurePercent(t), w.ensurePercent(n), w.ensurePercent(r), !0);
+            return new T(k, c(e), w.ensurePercent(t), w.ensurePercent(n), w.ensurePercent(r), !0);
         }
         function a(e, t, n) {
-            return new T(k, e, t, n, 1, !1);
+            return new T(x, e, t, n, 1, !1);
         }
         function s(e, t, n, r) {
-            return new T(k, e, t, n, w.ensurePercent(r), !0);
+            return new T(x, e, t, n, w.ensurePercent(r), !0);
         }
         function u(e) {
             var t = Math.round(e);
@@ -1512,13 +1512,13 @@
             o = l === c ? 0 : a === l ? (s - u) / d : s === l ? 2 + (u - a) / d : u === l ? 4 + (a - s) / d : 0, 
             (o = Math.min(60 * o, 360)) < 0 && (o += 360);
             var p;
-            return p = l === c ? 0 : f <= .5 ? d / (l + c) : d / (2 - l - c), new T(x, o, p, f, r, i);
+            return p = l === c ? 0 : f <= .5 ? d / (l + c) : d / (2 - l - c), new T(k, o, p, f, r, i);
         }
         function d(e, t, n, r, i) {
             var o = e / 360, a = t, s = n;
             if (0 === a) {
                 var u = 255 * s;
-                return new T(k, u, u, u, r, i);
+                return new T(x, u, u, u, r, i);
             }
             for (var c = s < .5 ? s * (1 + a) : s + a - s * a, l = 2 * s - c, f = 0, d = 0, p = 0, h = 0; h < 3; h++) {
                 var v = o + 1 / 3 * -(h - 1);
@@ -1527,7 +1527,7 @@
                 u = 6 * v < 1 ? l + 6 * (c - l) * v : 2 * v < 1 ? c : 3 * v < 2 ? l + (c - l) * (2 / 3 - v) * 6 : l, 
                 u *= 255, 0 === h ? f = u : 1 === h ? d = u : p = u;
             }
-            return new T(k, f, d, p, r, i);
+            return new T(x, f, d, p, r, i);
         }
         function p(e, t, n, r, i, o, a) {
             return e === t ? new T(e, n, r, i, o, a) : O[e - t](n, r, i, o, a);
@@ -1551,23 +1551,23 @@
             var t = e.match(/#(([a-f0-9]{6})|([a-f0-9]{3}))$/i);
             if (t) {
                 var n = t[1], r = parseInt(3 === n.length ? n[0] + n[0] + n[1] + n[1] + n[2] + n[2] : n, 16);
-                return new T(k, r >> 16 & 255, r >> 8 & 255, 255 & r, 1, !1);
+                return new T(x, r >> 16 & 255, r >> 8 & 255, 255 & r, 1, !1);
             }
         }
         function b(e) {
             var t = w.parseCSSFunction(e);
             if (t && (4 === t.length || 5 === t.length)) {
                 var n, r = t[0], i = "rgba" === r, o = "hsla" === r, a = "rgb" === r, s = "hsl" === r, u = o || i;
-                if (a || i) n = k; else {
+                if (a || i) n = x; else {
                     if (!s && !o) throw new Error("unsupported color string");
-                    n = x;
+                    n = k;
                 }
                 var c = parseFloat(t[1]), l = a || i ? parseFloat(t[2]) : w.ensurePercent(t[2]), f = a || i ? parseFloat(t[3]) : w.ensurePercent(t[3]), d = u ? parseFloat(t[4]) : 1;
                 return new T(n, c, l, f, d, u);
             }
         }
-        var w = n(8), _ = "undefined" != typeof Float32Array, k = 0, x = 1, O = (A = {}, 
-        A[k - x] = f, A[x - k] = d, A), S = (E = {}, E[k] = h(255, 255, 255, 1), E[x] = h(360, 1, 1, 1), 
+        var w = n(8), _ = "undefined" != typeof Float32Array, x = 0, k = 1, O = (A = {}, 
+        A[x - k] = f, A[k - x] = d, A), S = (E = {}, E[x] = h(255, 255, 255, 1), E[k] = h(360, 1, 1, 1), 
         E);
         t.color = r, t.hsl = i, t.hsla = o, t.rgb = a, t.rgba = s;
         var T = function() {
@@ -1579,78 +1579,78 @@
                 return n === e ? t : O[n - e](r[0], r[1], r[2], r[3], i);
             }, e.prototype.toString = function() {
                 var e, t, n = this._format, r = this._values, i = this._hasAlpha;
-                if (n === k) e = i ? "rgba" : "rgb", t = [ Math.round(r[0]), Math.round(r[1]), Math.round(r[2]) ]; else {
-                    if (n !== x) throw new Error("Invalid color format");
+                if (n === x) e = i ? "rgba" : "rgb", t = [ Math.round(r[0]), Math.round(r[1]), Math.round(r[2]) ]; else {
+                    if (n !== k) throw new Error("Invalid color format");
                     e = i ? "hsla" : "hsl", t = [ Math.round(r[0]), w.formatPercent(l(r[1], 2)), w.formatPercent(l(r[2], 2)) ];
                 }
                 return i && t.push(l(r[3], 5)), w.cssFunction(e, t);
             }, e.prototype.toHexString = function() {
-                var t = e.convertHelper(k, this)._values;
+                var t = e.convertHelper(x, this)._values;
                 return "#" + (u(t[0]) + u(t[1]) + u(t[2])).toUpperCase();
             }, e.prototype.toHSL = function() {
                 var e = this._values;
-                return p(this._format, x, e[0], e[1], e[2], 1, !1);
+                return p(this._format, k, e[0], e[1], e[2], 1, !1);
             }, e.prototype.toHSLA = function() {
                 var e = this._values;
-                return p(this._format, x, e[0], e[1], e[2], e[3], !0);
+                return p(this._format, k, e[0], e[1], e[2], e[3], !0);
             }, e.prototype.toRGB = function() {
                 var e = this._values;
-                return p(this._format, k, e[0], e[1], e[2], 1, !1);
+                return p(this._format, x, e[0], e[1], e[2], 1, !1);
             }, e.prototype.toRGBA = function() {
                 var e = this._values;
-                return p(this._format, k, e[0], e[1], e[2], e[3], !0);
+                return p(this._format, x, e[0], e[1], e[2], e[3], !0);
             }, e.prototype.red = function() {
-                return (this._format === k ? this : this.toRGB())._values[0];
+                return (this._format === x ? this : this.toRGB())._values[0];
             }, e.prototype.green = function() {
-                return (this._format === k ? this : this.toRGB())._values[1];
+                return (this._format === x ? this : this.toRGB())._values[1];
             }, e.prototype.blue = function() {
-                return (this._format === k ? this : this.toRGB())._values[2];
+                return (this._format === x ? this : this.toRGB())._values[2];
             }, e.prototype.hue = function() {
-                return (this._format === x ? this : this.toHSL())._values[0];
+                return (this._format === k ? this : this.toHSL())._values[0];
             }, e.prototype.saturation = function() {
-                return (this._format === x ? this : this.toHSL())._values[1];
+                return (this._format === k ? this : this.toHSL())._values[1];
             }, e.prototype.lightness = function() {
-                return (this._format === x ? this : this.toHSL())._values[2];
+                return (this._format === k ? this : this.toHSL())._values[2];
             }, e.prototype.alpha = function() {
                 return this._values[3];
             }, e.prototype.opacity = function() {
                 return this.alpha();
             }, e.prototype.invert = function() {
-                var t = e.convertHelper(k, this)._values;
-                return e.convertHelper(this._format, new e(k, 255 - t[0], 255 - t[1], 255 - t[2], this._values[3], this._hasAlpha));
+                var t = e.convertHelper(x, this)._values;
+                return e.convertHelper(this._format, new e(x, 255 - t[0], 255 - t[1], 255 - t[2], this._values[3], this._hasAlpha));
             }, e.prototype.lighten = function(t, n) {
-                var r = e.convertHelper(x, this)._values, i = S[x][2], o = r[2] + (n ? i - r[2] : i) * w.ensurePercent(t);
-                return e.convertHelper(this._format, new e(x, r[0], r[1], o, this._values[3], this._hasAlpha));
+                var r = e.convertHelper(k, this)._values, i = S[k][2], o = r[2] + (n ? i - r[2] : i) * w.ensurePercent(t);
+                return e.convertHelper(this._format, new e(k, r[0], r[1], o, this._values[3], this._hasAlpha));
             }, e.prototype.darken = function(t, n) {
-                var r = e.convertHelper(x, this)._values, i = r[2] - (n ? r[2] : S[x][2]) * w.ensurePercent(t);
-                return e.convertHelper(this._format, new e(x, r[0], r[1], i, this._values[3], this._hasAlpha));
+                var r = e.convertHelper(k, this)._values, i = r[2] - (n ? r[2] : S[k][2]) * w.ensurePercent(t);
+                return e.convertHelper(this._format, new e(k, r[0], r[1], i, this._values[3], this._hasAlpha));
             }, e.prototype.saturate = function(t, n) {
-                var r = e.convertHelper(x, this)._values, i = S[x][1], o = r[1] + (n ? i - r[1] : i) * w.ensurePercent(t);
-                return e.convertHelper(this._format, new e(x, r[0], o, r[2], this._values[3], this._hasAlpha));
+                var r = e.convertHelper(k, this)._values, i = S[k][1], o = r[1] + (n ? i - r[1] : i) * w.ensurePercent(t);
+                return e.convertHelper(this._format, new e(k, r[0], o, r[2], this._values[3], this._hasAlpha));
             }, e.prototype.desaturate = function(t, n) {
-                var r = e.convertHelper(x, this)._values, i = S[x][1], o = r[1] - (n ? r[1] : i) * w.ensurePercent(t);
-                return e.convertHelper(this._format, new e(x, r[0], o, r[2], this._values[3], this._hasAlpha));
+                var r = e.convertHelper(k, this)._values, i = S[k][1], o = r[1] - (n ? r[1] : i) * w.ensurePercent(t);
+                return e.convertHelper(this._format, new e(k, r[0], o, r[2], this._values[3], this._hasAlpha));
             }, e.prototype.grayscale = function() {
                 return this.desaturate(1);
             }, e.prototype.fade = function(t) {
-                var n = this._values, r = v(k, 3, w.ensurePercent(t));
+                var n = this._values, r = v(x, 3, w.ensurePercent(t));
                 return e.convertHelper(this._format, new e(this._format, n[0], n[1], n[2], r, !0));
             }, e.prototype.fadeOut = function(t, n) {
-                var r = this._values, i = v(k, 3, r[3] - (n ? r[3] : 1) * w.ensurePercent(t));
+                var r = this._values, i = v(x, 3, r[3] - (n ? r[3] : 1) * w.ensurePercent(t));
                 return e.convertHelper(this._format, new e(this._format, r[0], r[1], r[2], i, !0));
             }, e.prototype.fadeIn = function(t, n) {
-                var r = this._values, i = v(k, 3, r[3] + (n ? r[3] : 1) * w.ensurePercent(t));
+                var r = this._values, i = v(x, 3, r[3] + (n ? r[3] : 1) * w.ensurePercent(t));
                 return e.convertHelper(this._format, new e(this._format, r[0], r[1], r[2], i, !0));
             }, e.prototype.mix = function(t, n) {
-                var r = this, i = g(t), o = e.convertHelper(k, r)._values, a = e.convertHelper(k, i)._values, s = void 0 === n ? .5 : n, u = 2 * s - 1, c = Math.abs(o[3] - a[3]), l = ((u * c == -1 ? u : (u + c) / (1 + u * c)) + 1) / 2, f = 1 - l, d = new e(k, Math.round(o[0] * l + a[0] * f), Math.round(o[1] * l + a[1] * f), Math.round(o[2] * l + a[2] * f), o[3] * s + a[3] * (1 - s), r._hasAlpha || i._hasAlpha);
+                var r = this, i = g(t), o = e.convertHelper(x, r)._values, a = e.convertHelper(x, i)._values, s = void 0 === n ? .5 : n, u = 2 * s - 1, c = Math.abs(o[3] - a[3]), l = ((u * c == -1 ? u : (u + c) / (1 + u * c)) + 1) / 2, f = 1 - l, d = new e(x, Math.round(o[0] * l + a[0] * f), Math.round(o[1] * l + a[1] * f), Math.round(o[2] * l + a[2] * f), o[3] * s + a[3] * (1 - s), r._hasAlpha || i._hasAlpha);
                 return e.convertHelper(this._format, d);
             }, e.prototype.tint = function(e) {
                 return t.white.mix(this, e);
             }, e.prototype.shade = function(e) {
                 return t.black.mix(this, e);
             }, e.prototype.spin = function(t) {
-                var n = e.convertHelper(x, this)._values;
-                return e.convertHelper(this._format, new e(x, c(n[0] + t), n[1], n[2], this._values[3], this._hasAlpha));
+                var n = e.convertHelper(k, this)._values;
+                return e.convertHelper(this._format, new e(k, c(n[0] + t), n[1], n[2], this._values[3], this._hasAlpha));
             }, e;
         }();
         t.ColorHelper = T;
@@ -1910,10 +1910,10 @@
         function _(e, t, n) {
             return S.cssFunction("translate3d", [ e, t, n ]);
         }
-        function k(e) {
+        function x(e) {
             return S.cssFunction("translateX", [ e ]);
         }
-        function x(e) {
+        function k(e) {
             return S.cssFunction("translateY", [ e ]);
         }
         function O(e) {
@@ -1923,7 +1923,7 @@
         t.transform = r, t.matrix = i, t.matrix3d = o, t.perspective = a, t.rotate = s, 
         t.rotate3d = u, t.rotateX = c, t.rotateY = l, t.rotateZ = f, t.scale = d, t.scale3d = p, 
         t.scaleX = h, t.scaleY = v, t.scaleZ = g, t.skew = y, t.skewX = m, t.skewY = b, 
-        t.translate = w, t.translate3d = _, t.translateX = k, t.translateY = x, t.translateZ = O;
+        t.translate = w, t.translate3d = _, t.translateX = x, t.translateY = k, t.translateZ = O;
     }, function(e, t, n) {
         "use strict";
         function r(e) {
@@ -2017,22 +2017,22 @@
                     _ === d && (_ = c);
                     for (var i = 0; i < e.length; i++) {
                         var o = e.charAt(i);
-                        _ === a && "<" === o ? (k.length && n.push([ a, k ]), k = "", _ = s) : ">" !== o || r(_) || _ === m ? _ === m && /-$/.test(k) && "-" === o ? (t.comments && n.push([ p, k.substr(0, k.length - 1) ], [ u ]), 
-                        k = "", _ = a) : _ === s && /^!--$/.test(k) ? (t.comments && n.push([ s, k ], [ l, "comment" ], [ g ]), 
-                        k = o, _ = m) : _ === a || _ === m ? k += o : _ === s && /\s/.test(o) ? (n.push([ s, k ]), 
-                        k = "", _ = c) : _ === s ? k += o : _ === c && /[^\s"'=\/]/.test(o) ? (_ = l, k = o) : _ === c && /\s/.test(o) ? (k.length && n.push([ l, k ]), 
-                        n.push([ y ])) : _ === l && /\s/.test(o) ? (n.push([ l, k ]), k = "", _ = f) : _ === l && "=" === o ? (n.push([ l, k ], [ g ]), 
-                        k = "", _ = d) : _ === l ? k += o : _ !== f && _ !== c || "=" !== o ? _ !== f && _ !== c || /\s/.test(o) ? _ === d && '"' === o ? _ = v : _ === d && "'" === o ? _ = h : _ === v && '"' === o ? (n.push([ p, k ], [ y ]), 
-                        k = "", _ = c) : _ === h && "'" === o ? (n.push([ p, k ], [ y ]), k = "", _ = c) : _ !== d || /\s/.test(o) ? _ === p && /\s/.test(o) ? (n.push([ p, k ], [ y ]), 
-                        k = "", _ = c) : _ !== p && _ !== h && _ !== v || (k += o) : (_ = p, i--) : (n.push([ y ]), 
-                        /[\w-]/.test(o) ? (k += o, _ = l) : _ = c) : (n.push([ g ]), _ = d) : (_ === s ? n.push([ s, k ]) : _ === l ? n.push([ l, k ]) : _ === p && k.length && n.push([ p, k ]), 
-                        n.push([ u ]), k = "", _ = a);
+                        _ === a && "<" === o ? (x.length && n.push([ a, x ]), x = "", _ = s) : ">" !== o || r(_) || _ === m ? _ === m && /-$/.test(x) && "-" === o ? (t.comments && n.push([ p, x.substr(0, x.length - 1) ], [ u ]), 
+                        x = "", _ = a) : _ === s && /^!--$/.test(x) ? (t.comments && n.push([ s, x ], [ l, "comment" ], [ g ]), 
+                        x = o, _ = m) : _ === a || _ === m ? x += o : _ === s && /\s/.test(o) ? (n.push([ s, x ]), 
+                        x = "", _ = c) : _ === s ? x += o : _ === c && /[^\s"'=\/]/.test(o) ? (_ = l, x = o) : _ === c && /\s/.test(o) ? (x.length && n.push([ l, x ]), 
+                        n.push([ y ])) : _ === l && /\s/.test(o) ? (n.push([ l, x ]), x = "", _ = f) : _ === l && "=" === o ? (n.push([ l, x ], [ g ]), 
+                        x = "", _ = d) : _ === l ? x += o : _ !== f && _ !== c || "=" !== o ? _ !== f && _ !== c || /\s/.test(o) ? _ === d && '"' === o ? _ = v : _ === d && "'" === o ? _ = h : _ === v && '"' === o ? (n.push([ p, x ], [ y ]), 
+                        x = "", _ = c) : _ === h && "'" === o ? (n.push([ p, x ], [ y ]), x = "", _ = c) : _ !== d || /\s/.test(o) ? _ === p && /\s/.test(o) ? (n.push([ p, x ], [ y ]), 
+                        x = "", _ = c) : _ !== p && _ !== h && _ !== v || (x += o) : (_ = p, i--) : (n.push([ y ]), 
+                        /[\w-]/.test(o) ? (x += o, _ = l) : _ = c) : (n.push([ g ]), _ = d) : (_ === s ? n.push([ s, x ]) : _ === l ? n.push([ l, x ]) : _ === p && x.length && n.push([ p, x ]), 
+                        n.push([ u ]), x = "", _ = a);
                     }
-                    return _ === a && k.length ? (n.push([ a, k ]), k = "") : _ === p && k.length ? (n.push([ p, k ]), 
-                    k = "") : _ === v && k.length ? (n.push([ p, k ]), k = "") : _ === h && k.length ? (n.push([ p, k ]), 
-                    k = "") : _ === l && (n.push([ l, k ]), k = ""), n;
+                    return _ === a && x.length ? (n.push([ a, x ]), x = "") : _ === p && x.length ? (n.push([ p, x ]), 
+                    x = "") : _ === v && x.length ? (n.push([ p, x ]), x = "") : _ === h && x.length ? (n.push([ p, x ]), 
+                    x = "") : _ === l && (n.push([ l, x ]), x = ""), n;
                 }
-                for (var _ = a, k = "", x = arguments.length, O = [], S = 0; S < o.length; S++) if (S < x - 1) {
+                for (var _ = a, x = "", k = arguments.length, O = [], S = 0; S < o.length; S++) if (S < k - 1) {
                     var T = arguments[S + 1], C = w(o[S]), A = _;
                     A === v && (A = p), A === h && (A = p), A === d && (A = p), A === c && (A = l), 
                     C.push([ 0, A, T ]), O.push.apply(O, C);
@@ -2153,12 +2153,12 @@
         }, m = 1, b = 3, w = 8, _ = function(e) {
             return function(t, n, s) {
                 function u(e) {
-                    k ? k.push(e) : k = [ e ];
+                    x ? x.push(e) : x = [ e ];
                 }
                 function f(e, t) {
                     if (e.nodeType === m) for (var n = e.firstChild; n; ) {
                         var r = void 0;
-                        t && (r = x(n)) ? u(r) : (E(n), n.firstChild && f(n, t)), n = n.nextSibling;
+                        t && (r = k(n)) ? u(r) : (E(n), n.firstChild && f(n, t)), n = n.nextSibling;
                     }
                 }
                 function d(e, t, n) {
@@ -2166,14 +2166,14 @@
                 }
                 function p(e) {
                     if (e.nodeType === m) for (var t = e.firstChild; t; ) {
-                        var n = x(t);
+                        var n = k(t);
                         n && (M[n] = t), p(t), t = t.nextSibling;
                     }
                 }
                 function v(e) {
                     S(e);
                     for (var t = e.firstChild; t; ) {
-                        var n = t.nextSibling, r = x(t);
+                        var n = t.nextSibling, r = k(t);
                         if (r) {
                             var o = M[r];
                             o && i(t, o) && (t.parentNode.replaceChild(o, t), g(o, t));
@@ -2182,38 +2182,38 @@
                     }
                 }
                 function g(r, o, a) {
-                    var s, c = x(o);
+                    var s, c = k(o);
                     if (c && delete M[c], !n.isSameNode || !n.isSameNode(t)) {
                         if (!a) {
                             if (T(r, o) === !1) return;
                             if (e(r, o), C(r), P(r, o) === !1) return;
                         }
                         if ("TEXTAREA" !== r.nodeName) {
-                            var l, f, p, _, k = o.firstChild, S = r.firstChild;
-                            e: for (;k; ) {
-                                for (p = k.nextSibling, l = x(k); S; ) {
-                                    if (f = S.nextSibling, k.isSameNode && k.isSameNode(S)) {
-                                        k = p, S = f;
+                            var l, f, p, _, x = o.firstChild, S = r.firstChild;
+                            e: for (;x; ) {
+                                for (p = x.nextSibling, l = k(x); S; ) {
+                                    if (f = S.nextSibling, x.isSameNode && x.isSameNode(S)) {
+                                        x = p, S = f;
                                         continue e;
                                     }
-                                    s = x(S);
+                                    s = k(S);
                                     var A = S.nodeType, E = void 0;
-                                    if (A === k.nodeType && (A === m ? (l ? l !== s && ((_ = M[l]) ? S.nextSibling === _ ? E = !1 : (r.insertBefore(_, S), 
-                                    f = S.nextSibling, s ? u(s) : d(S, r, !0), S = _) : E = !1) : s && (E = !1), (E = E !== !1 && i(S, k)) && g(S, k)) : A !== b && A != w || (E = !0, 
-                                    S.nodeValue = k.nodeValue)), E) {
-                                        k = p, S = f;
+                                    if (A === x.nodeType && (A === m ? (l ? l !== s && ((_ = M[l]) ? S.nextSibling === _ ? E = !1 : (r.insertBefore(_, S), 
+                                    f = S.nextSibling, s ? u(s) : d(S, r, !0), S = _) : E = !1) : s && (E = !1), (E = E !== !1 && i(S, x)) && g(S, x)) : A !== b && A != w || (E = !0, 
+                                    S.nodeValue = x.nodeValue)), E) {
+                                        x = p, S = f;
                                         continue e;
                                     }
                                     s ? u(s) : d(S, r, !0), S = f;
                                 }
-                                if (l && (_ = M[l]) && i(_, k)) r.appendChild(_), g(_, k); else {
-                                    var H = O(k);
-                                    H !== !1 && (H && (k = H), k.actualize && (k = k.actualize(r.ownerDocument || h)), 
-                                    r.appendChild(k), v(k));
+                                if (l && (_ = M[l]) && i(_, x)) r.appendChild(_), g(_, x); else {
+                                    var H = O(x);
+                                    H !== !1 && (H && (x = H), x.actualize && (x = x.actualize(r.ownerDocument || h)), 
+                                    r.appendChild(x), v(x));
                                 }
-                                k = p, S = f;
+                                x = p, S = f;
                             }
-                            for (;S; ) f = S.nextSibling, (s = x(S)) ? u(s) : d(S, r, !0), S = f;
+                            for (;S; ) f = S.nextSibling, (s = k(S)) ? u(s) : d(S, r, !0), S = f;
                         }
                         var j = y[r.nodeName];
                         j && j(r, o);
@@ -2223,16 +2223,16 @@
                     var _ = n;
                     n = h.createElement("html"), n.innerHTML = _;
                 } else n = r(n);
-                var k, x = s.getNodeKey || l, O = s.onBeforeNodeAdded || c, S = s.onNodeAdded || c, T = s.onBeforeElUpdated || c, C = s.onElUpdated || c, A = s.onBeforeNodeDiscarded || c, E = s.onNodeDiscarded || c, P = s.onBeforeElChildrenUpdated || c, H = s.childrenOnly === !0, M = {};
+                var x, k = s.getNodeKey || l, O = s.onBeforeNodeAdded || c, S = s.onNodeAdded || c, T = s.onBeforeElUpdated || c, C = s.onElUpdated || c, A = s.onBeforeNodeDiscarded || c, E = s.onNodeDiscarded || c, P = s.onBeforeElChildrenUpdated || c, H = s.childrenOnly === !0, M = {};
                 p(t);
                 var j = t, R = j.nodeType, F = n.nodeType;
                 if (!H) if (R === m) F === m ? i(t, n) || (E(t), j = a(t, o(n.nodeName, n.namespaceURI))) : j = n; else if (R === b || R === w) {
                     if (F === R) return j.nodeValue = n.nodeValue, j;
                     j = n;
                 }
-                if (j === n) E(t); else if (g(j, n, H), k) for (var N = 0, L = k.length; N < L; N++) {
-                    var z = M[k[N]];
-                    z && d(z, z.parentNode, !1);
+                if (j === n) E(t); else if (g(j, n, H), x) for (var N = 0, L = x.length; N < L; N++) {
+                    var I = M[x[N]];
+                    I && d(I, I.parentNode, !1);
                 }
                 return !H && j !== t && t.parentNode && (j.actualize && (j = j.actualize(t.ownerDocument || h)), 
                 t.parentNode.replaceChild(j, t)), j;
@@ -2536,17 +2536,17 @@
                 onmousedown: i("controls", t)
             }, o(r, "state.gui.title"), [ "nav", {
                 class: "tvs-controls-btns"
-            }, [ "ul", [ "li", n.i(k.a)({
+            }, [ "ul", [ "li", n.i(x.a)({
                 class: s.tree && C,
                 onclick: c("tree"),
                 icon: w.a(),
                 title: "toggle entity tree"
-            }) ], [ "li", n.i(k.a)({
+            }) ], [ "li", n.i(x.a)({
                 class: s.graph && C,
                 onclick: c("graph"),
                 icon: w.b(),
                 title: "toggle flow graph"
-            }) ], [ "li", n.i(k.a)({
+            }) ], [ "li", n.i(x.a)({
                 class: s.entities && C,
                 onclick: c("entities"),
                 icon: w.c(),
@@ -2565,7 +2565,7 @@
                 class: n.i(y.b)("tvs-flow-tree", O.b),
                 onmousedown: i("tree", t)
             }, [ "header", w.a(), [ "label", {
-                class: x.a
+                class: k.a
             }, [ "input", {
                 type: "radio",
                 name: "viewTreeComponent",
@@ -2573,7 +2573,7 @@
                 onchange: a("tree"),
                 checked: "tree" === s.treeViewComponent
             } ], "Tree" ], [ "label", {
-                class: x.a
+                class: k.a
             }, [ "input", {
                 type: "radio",
                 name: "viewTreeComponent",
@@ -2642,8 +2642,7 @@
                 class: n.i(y.b)("tvs-flow-graph", O.b),
                 onmousedown: i("graph", t)
             }, [ "header", w.b(), " Graph ", r(S.b, "state.graph.viewBox") ], a, [ "footer", {
-                class: "resize",
-                "data-key": "resize"
+                class: "resize"
             } ] ]);
             return m(s, T({}, e)), requestAnimationFrame(function() {
                 t("updateGraphSize", {
@@ -2672,25 +2671,25 @@
                 style: "margin-top: 4px"
             } ];
             return o ? (a.push([ "button", {
-                class: x.b,
+                class: k.b,
                 "data-key": "edit-button",
                 onclick: function() {
                     return t("setEntityEditMode", !0);
                 }
-            }, "Edit" ]), i.value && a.push(n.i(k.a)({
+            }, "Edit" ]), i.value && a.push(n.i(x.a)({
                 onclick: function() {
                     return t("flowEntityReset", i.id);
                 },
                 icon: w.d(),
                 title: "Reset entity value"
             }))) : a.push([ "button", {
-                class: x.b,
+                class: k.b,
                 "data-key": "cancel-button",
                 onclick: function() {
                     return t("setEntityEditMode", !1);
                 }
             }, "Cancel" ], [ "button", {
-                class: x.b,
+                class: k.b,
                 "data-key": "save-button",
                 onclick: function() {
                     return t("saveCurrentEntityValue", i.id);
@@ -2707,13 +2706,13 @@
                 "data-key": "process-buttons",
                 style: "margin-top: 4px"
             } ];
-            return r.push(n.i(k.a)({
+            return r.push(n.i(x.a)({
                 onclick: function() {
                     return t("flowProcessRun", e.id);
                 },
                 icon: w.e(),
                 title: "Run process"
-            })), e.async && r.push(n.i(k.a)({
+            })), e.async && r.push(n.i(x.a)({
                 onclick: function() {
                     return t("flowProcessStop", e.id);
                 },
@@ -2746,7 +2745,7 @@
         function g(e) {
             return e(v, "state.gui.visibility");
         }
-        var y = n(20), m = n(36), b = (n.n(m), n(3)), w = n(48), _ = n(6), k = n(52), x = n(17), O = n(50), S = n(47);
+        var y = n(20), m = n(36), b = (n.n(m), n(3)), w = n(48), _ = n(6), x = n(52), k = n(17), O = n(50), S = n(47);
         t.a = g;
         var T = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
@@ -3028,7 +3027,7 @@
             }
             function l(e, t) {
                 var n = C(e);
-                n.accept && !n.accept(t, n.val) || (n.val = t, L[e] = !0, I = !0, k());
+                n.accept && !n.accept(t, n.val) || (n.val = t, L[e] = !0, z = !0, x());
             }
             function f(e, t) {
                 l(e, t(c(e)));
@@ -3046,7 +3045,7 @@
                 var t = i.createEntity(e);
                 E[t.id] = t;
                 var n = C(t.id);
-                return null != t.value && null == n.val && (n.val = t.value, L[t.id] = !1, I = !0), 
+                return null != t.value && null == n.val && (n.val = t.value, L[t.id] = !1, z = !0), 
                 n.accept = t.accept, t;
             }
             function v(e) {
@@ -3095,8 +3094,8 @@
                 a.ports && null != a.ports[e.port] && (r.sources[e.port] = o, a.ports[e.port] == i.PORT_TYPES.HOT && (o.effects[t] = r))) : (r.out = o, 
                 null != r.acc ? (r.sources[r.acc] = o, o.reactions[t] = r) : delete o.reactions[t], 
                 r.sink = function(e) {
-                    o.accept && !o.accept(e, o.val) || (o.val = e, null != e && (L[o.id] = !0, I = !0), 
-                    z || k());
+                    o.accept && !o.accept(e, o.val) || (o.val = e, null != e && (L[o.id] = !0, z = !0), 
+                    I || x());
                 }));
             }
             function _(e) {
@@ -3105,25 +3104,25 @@
                 if (e.arcs) for (var t in e.arcs) m(e.arcs[t]);
                 e.meta && s(e.meta);
             }
-            function k() {
+            function x() {
                 F && console.log("flushing graph recursively with", L);
                 var e = Object.keys(L);
-                if (I) {
+                if (z) {
                     for (var t = 0; t < e.length; t++) {
                         var n = e[t];
                         if (L[n]) {
                             var r = R.es[n];
-                            for (var i in r.reactions) x(r.reactions[i]);
+                            for (var i in r.reactions) k(r.reactions[i]);
                         }
                     }
                     var o = {};
-                    L = {}, I = !1, z = !0;
+                    L = {}, z = !1, I = !0;
                     for (var t = 0; t < e.length; t++) {
                         var n = e[t], r = R.es[n];
                         r.cb.length > 0 && (N[n] = r);
-                        for (var i in r.effects) o[i] || (x(r.effects[i]), o[i] = !0);
+                        for (var i in r.effects) o[i] || (k(r.effects[i]), o[i] = !0);
                     }
-                    if (z = !1, I) k(); else {
+                    if (I = !1, z) x(); else {
                         var a = Object.keys(N);
                         N = {};
                         for (var t in a) for (var r = R.es[a[t]], s = 0; s < r.cb.length; s++) r.cb[s](r.val);
@@ -3131,7 +3130,7 @@
                     }
                 }
             }
-            function x(e) {
+            function k(e) {
                 for (var t = !0, n = 0; n < e.sources.length; n++) {
                     var r = e.sources[n];
                     if (null == r.val) {
@@ -3146,18 +3145,18 @@
                     if (e.out) {
                         var o = e.out;
                         o.accept && !o.accept(i, o.val) || (o.val = i, null != i && (L[e.out.id] = null == e.acc, 
-                        I = !0));
+                        z = !0));
                     }
                 }
             }
             function O(e) {
                 e.async ? setTimeout(function() {
-                    x(e);
-                }, 10) : (x(e), e.out && (L[e.out.id] = !1, I = !0));
+                    k(e);
+                }, 10) : (k(e), e.out && (L[e.out.id] = !1, z = !0));
             }
             function S(e) {
                 var t = A(e);
-                x(t), t.async || k();
+                k(t), t.async || x();
             }
             function T(e) {
                 var t = A(e);
@@ -3185,7 +3184,7 @@
             var E = {}, P = {}, H = {}, M = {}, j = null, R = {
                 es: {},
                 ps: {}
-            }, F = !1, N = {}, L = {}, z = !1, I = !1;
+            }, F = !1, N = {}, L = {}, I = !1, z = !1;
             return {
                 addEntity: h,
                 removeEntity: v,
@@ -3208,7 +3207,7 @@
                 off: p,
                 start: S,
                 stop: T,
-                flush: k,
+                flush: x,
                 PORT_TYPES: o({}, i.PORT_TYPES)
             };
         }
