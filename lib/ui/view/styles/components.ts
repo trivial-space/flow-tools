@@ -79,4 +79,10 @@ export const entityViewStyle = style({
   display: 'flex',
   flexDirection: 'column',
   flexGrow: 1,
+
+  $nest: {
+    '& pre': {
+      userSelect: 'text'
+    }
+  }
 })

@@ -69,5 +69,10 @@ export var entityViewStyle = style({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
+    $nest: {
+        '& pre': {
+            userSelect: 'text'
+        }
+    }
 });
 //# sourceMappingURL=components.js.map

@@ -7,3 +7,6 @@ export declare function entities(...moreClasses: string[]): SVGElement;
 export declare function play(...moreClasses: string[]): SVGElement;
 export declare function stop(...moreClasses: string[]): SVGElement;
 export declare function reset(...moreClasses: string[]): SVGElement;
+export declare function show(...moreClasses: string[]): SVGElement;
+export declare function copy(...moreClasses: string[]): SVGElement;
+export declare function more(...moreClasses: string[]): SVGElement;

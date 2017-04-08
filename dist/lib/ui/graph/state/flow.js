@@ -15,6 +15,9 @@ export var runtime = val()
         case 'flowEntityReset':
             self.set(payload, self.getGraph().entities[payload].value);
             return;
+        case 'flowEntityInspect':
+            console.log(payload, self.get(payload));
+            return;
     }
 })
     .accept(defined);

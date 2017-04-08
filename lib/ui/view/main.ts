@@ -4,9 +4,11 @@ import { Component, h } from '../../utils/yoyo';
 import * as icon from "./icons";
 import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
-import { radioBtnStyle, buttonStyle } from "./styles/ui";
-import { windowContentStyle, controlsStyle, windowStyle, treeViewStyle, entityViewStyle } from "./styles/components";
+import { radioBtnStyle } from "./styles/ui";
+import { windowContentStyle, controlsStyle, windowStyle } from "./styles/components";
 import { graphView, scaleSlider } from "./graph";
+import { processView, entityView } from "./entities";
+import { treeView, listView } from "./tree";
 
 
 function title (title) {
@@ -115,69 +117,6 @@ function treeWindow ({props, dimensions}, dispatch, component, root) {
 }
 
 
-function treeBranch (name, tree, dispatch, fold) {
-  if (tree.__id__) {
-    return ['li',
-      ['div', {
-        onclick: () => dispatch('state.gui.openEntity', tree.__id__)
-      }, name]]
-  }
-
-  const li = ['li',
-    ['div', {
-      onclick: () => dispatch('state.gui.toggleTreeLevel', tree.__path__)
-    }, name]]
-
-
-  if (!fold[tree.__path__]) {
-    const branches: any[] = ['ul']
-
-    for (let k in tree) {
-      if (k === "__path__") continue
-      branches.push(treeBranch(k, tree[k], dispatch, fold))
-    }
-
-    li.push(branches)
-  }
-
-  return li
-}
-
-
-function treeView ({fold, tree}, dispatch) {
-  const list: any[] = ['ul', {
-    'data-key': 'treeView',
-    class: treeViewStyle
-  }]
-
-  if (tree) {
-    const items = Object.keys(tree).map(name =>
-      treeBranch(name, tree[name], dispatch, fold))
-    list.push(...items)
-  }
-
-  return h(list)
-}
-
-
-function listView (entities, dispatch) {
-  const list: any[] = ['ul', {'data-key': 'listView'}]
-
-  if (entities) {
-    const items = Object.keys(entities).sort().map(name =>
-      ["li", {
-          'data-key': name,
-          onclick: () => dispatch('state.gui.openEntity', name)
-        },
-        name])
-
-    list.push(...items)
-  }
-
-  return h(list)
-}
-
-
 function graphWindow (graphStyle, dispatch, component, root) {
 
   const graph = component(graphView, 'state.graph.viewData')
@@ -205,115 +144,6 @@ function graphWindow (graphStyle, dispatch, component, root) {
   })
 
   return el
-}
-
-
-function jsonCode ({value, watching}, dispatch) {
-  let code = ''
-  if (value) {
-    try {
-      code = JSON.stringify(value, null, '   ')
-    } catch (e) {
-      code = 'Error: ' + e.message
-    }
-  }
-
-  return h(
-    ['code',
-      ['pre', {
-          contenteditable: !watching,
-          oninput: e => dispatch('updateEditedValue', e.target.textContent)
-        },
-        code]]
-  )
-}
-
-
-function entityView ({entity, watching}, dispatch, component) {
-  const buttons: any = ['div', {
-    'data-key': 'entity-buttons',
-    'style': 'margin-top: 4px'
-  }]
-
-  if (watching) {
-
-    buttons.push(
-      ['button', {
-          class: buttonStyle,
-          'data-key': 'edit-button',
-          onclick: () => dispatch('setEntityEditMode', true)
-        }, 'Edit'])
-
-    if (entity.value) {
-      buttons.push(
-        iconBtn({
-          onclick: () => dispatch('flowEntityReset', entity.id),
-          icon: icon.reset(),
-          title: "Reset entity value"
-        }))
-    }
-
-  } else {
-    buttons.push(
-      ['button', {
-          class: buttonStyle,
-          'data-key': 'cancel-button',
-          onclick: () => dispatch('setEntityEditMode', false)
-        }, 'Cancel'],
-      ['button', {
-          class: buttonStyle,
-          'data-key': 'save-button',
-          onclick: () => dispatch('saveCurrentEntityValue', entity.id)
-        }, 'Save']
-    )
-  }
-
-  const el = h(
-    ['section', {
-        'data-key': 'entity-view',
-        class: entityViewStyle
-      },
-      ['div', { class: windowContentStyle },
-        component(jsonCode, 'state.gui.entityValueView')],
-      buttons]
-  )
-
-  return el
-}
-
-
-function processView (process, dispatch) {
-  const buttons: any = ['div', {
-    'data-key': 'process-buttons',
-    'style': 'margin-top: 4px'
-  }]
-
-  buttons.push(
-    iconBtn({
-      onclick: () => dispatch('flowProcessRun', process.id),
-      icon: icon.play(),
-      title: "Run process"
-    }))
-
-  if (process.async) {
-    buttons.push(
-      iconBtn({
-        onclick: () => dispatch('flowProcessStop', process.id),
-        icon: icon.stop(),
-        title: "Stop async process"
-      }))
-  }
-
-  return h(
-    ['section', {
-        'data-key': 'process-view',
-        class: entityViewStyle
-      },
-      ['div', { class: windowContentStyle },
-        ['code',
-          ['pre', process.procedure.toString()]]],
-      buttons]
-  )
 }
 
 

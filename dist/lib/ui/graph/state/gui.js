@@ -138,6 +138,7 @@ export var entitiesWindow = val({
     var target = mouse.pressed[0] && mouse.pressed[0].target;
     if (window === 'entities'
         && target && target.closest('.tvs-flow-entities')
+        && !target.closest('pre')
         && (delta.x || delta.y)) {
         if (target.className === 'resize') {
             self.width -= delta.x;

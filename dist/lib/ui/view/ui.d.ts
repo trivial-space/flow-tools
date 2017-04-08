@@ -1,10 +1,7 @@
-export declare function iconBtn({title, onclick, icon, class: className}: {
+export declare function iconBtn({title, onclick, icon, key, class: className}: {
     title?: string;
     onclick?: Function;
     icon?: SVGElement;
     class?: string;
-}): (string | SVGElement | {
-    class: string;
-    onmouseup: Function | undefined;
-    title: string | undefined;
-} | undefined)[];
+    key?: string;
+}): any;
