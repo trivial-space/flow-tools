@@ -31,9 +31,9 @@ export const visibility = val({
 })
 .react(
   [action.HOT],
-  (self, {type, payload}) => {
+  (self, { type, payload }) => {
     if (type === "state.gui.updateVisibility") {
-      return {...self, [payload]: !self[payload]}
+      return { ...self, [payload]: !self[payload] }
     }
   }
 )
@@ -42,9 +42,9 @@ export const visibility = val({
 
 export const activeWindow = stream(
   [action.HOT],
-  ({type, payload}) => {
+  ({ type, payload }) => {
     if (type === "state.gui.setActiveWindow"
-        || type === "state.gui.updateVisibility") {
+      || type === "state.gui.updateVisibility") {
       return payload
     }
   }
@@ -53,10 +53,10 @@ export const activeWindow = stream(
 
 
 export const zIndex = val(0)
-.react(
+  .react(
   [activeWindow.HOT],
   self => self + 1
-)
+  )
 
 
 export const controlsPosition = val({
@@ -71,8 +71,8 @@ export const controlsPosition = val({
     const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
     if (window === 'controls'
-        && target && target.closest('.tvs-flow-controls')
-        && (delta.x || delta.y)) {
+      && target && target.closest('.tvs-flow-controls')
+      && (delta.x || delta.y)) {
       self.left -= delta.x
       self.top -= delta.y
       if (self.top < 0) self.top = 0
@@ -99,8 +99,8 @@ export const treeWindow = val({
     const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
     if (window === 'tree'
-        && target && target.closest('.tvs-flow-tree')
-        && (delta.x || delta.y)) {
+      && target && target.closest('.tvs-flow-tree')
+      && (delta.x || delta.y)) {
       if (target.className === 'resize') {
         self.width -= delta.x
         self.height -= delta.y
@@ -122,7 +122,7 @@ export const treeViewProps = val({
   [action.HOT],
   (self, action) => {
     if (action.type === "state.gui.setTreeView") {
-      return {...self, treeViewComponent: action.payload}
+      return { ...self, treeViewComponent: action.payload }
     }
   }
 )
@@ -132,7 +132,7 @@ export const treeViewProps = val({
 export const treeFold = val({})
 .react(
   [action.HOT],
-  (self, {type, payload}) => {
+  (self, { type, payload }) => {
     if (type === 'state.gui.toggleTreeLevel') {
       return { ...self, [payload]: !self[payload] }
     }
@@ -143,13 +143,13 @@ export const treeFold = val({})
 
 export const treeData = stream(
   [treeFold.HOT, entityTree.HOT],
-  (fold, tree) => ({fold, tree})
-).val({fold: null, tree: null})
+  (fold, tree) => ({ fold, tree })
+).val({ fold: null, tree: null })
 
 
 export const treeWindowProps = stream(
   [treeWindow.HOT, treeViewProps.HOT],
-  (dimensions, props) => ({dimensions, props})
+  (dimensions, props) => ({ dimensions, props })
 )
 
 
@@ -167,8 +167,8 @@ export const graphWindow = val({
     const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
     if (window === 'graph'
-        && target && target.closest('.tvs-flow-graph')
-        && (delta.x || delta.y)) {
+      && target && target.closest('.tvs-flow-graph')
+      && (delta.x || delta.y)) {
       if (target.className === 'resize') {
         self.width -= delta.x
         self.height -= delta.y
@@ -198,8 +198,8 @@ export const entitiesWindow = val({
     const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
     if (window === 'entities'
-        && target && target.closest('.tvs-flow-entities')
-        && (delta.x || delta.y)) {
+      && target && target.closest('.tvs-flow-entities')
+      && (delta.x || delta.y)) {
       if (target.className === 'resize') {
         self.width -= delta.x
         self.height -= delta.y
@@ -217,7 +217,7 @@ export const entitiesWindow = val({
 export const activeEntity = val({})
 .react(
   [action.HOT, graph.COLD],
-  (_, {type, payload}, graph) => {
+  (_, { type, payload }, graph) => {
     if (type === 'state.gui.openEntity') {
       return graph.entities[payload]
     }
@@ -229,7 +229,7 @@ export const activeEntity = val({})
 export const activeProcess = val({})
 .react(
   [action.HOT, graph.COLD],
-  (_, {type, payload}, graph) => {
+  (_, { type, payload }, graph) => {
     if (type === 'state.gui.openProcess') {
       return graph.processes[payload]
     }
@@ -246,7 +246,7 @@ export const activeNode = val({})
 export const watchingEntity = val(true)
 .react(
   [action.HOT],
-  (_, {type, payload}) => {
+  (_, { type, payload }) => {
     if (type === 'setEntityEditMode') {
       return !payload
     } else if (type === 'saveCurrentEntityValue') {
@@ -275,7 +275,7 @@ export const activeValue = asyncStream(
 export const editedValue = val('')
 .react(
   [action.HOT, runtime.COLD],
-  (self, {type, payload}, flow) => {
+  (self, { type, payload }, flow) => {
     if (type === 'updateEditedValue') {
       return payload
     } else if (self && type === 'saveCurrentEntityValue') {
@@ -293,25 +293,25 @@ export const editedValue = val('')
 
 export const entityValueView = stream(
   [activeValue.HOT, watchingEntity.HOT],
-  (value, watching) => ({value, watching})
-).val({value: null, watching: true})
+  (value, watching) => ({ value, watching })
+).val({ value: null, watching: true })
 
 
 export const entitiesWindowProps = stream(
   [entitiesWindow.HOT, activeNode.HOT],
-  (dimensions, node) => ({dimensions, node})
+  (dimensions, node) => ({ dimensions, node })
 )
 
 
 export const entityViewProps = stream(
   [activeEntity.HOT, watchingEntity.HOT],
-  (entity, watching) => ({entity, watching})
+  (entity, watching) => ({ entity, watching })
 )
 
 
 export const controlProps = stream(
   [visibility.HOT, controlsPosition.HOT],
-  (visibility, position) => ({visibility, position})
+  (visibility, position) => ({ visibility, position })
 )
 
 
@@ -333,7 +333,7 @@ updateWindowZIndex(graphWindow, 'graph')
 updateWindowZIndex(entitiesWindow, 'entities')
 
 
-function setSizeConstrains(dimensions, size) {
+function setSizeConstrains (dimensions, size) {
   if (dimensions.height > size.height - 40) {
     dimensions.height = size.height - 40
   }
