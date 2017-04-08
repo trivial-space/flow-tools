@@ -1,6 +1,6 @@
 import { val, stream, asyncStream, EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
 import { unequal, defined, and, notEmpty } from "tvs-libs/dist/lib/utils/predicates";
-import { action, mouse } from "../events";
+import { action, mouse, windowSize } from "../events";
 import { entityTree, runtime, graph } from "./flow";
 import { Runtime } from "tvs-flow/dist/lib/runtime-types";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
@@ -68,24 +68,21 @@ export const controlsPosition = val({
   [activeWindow.COLD, mouse.HOT],
   (self, window, mouse: MouseState) => {
     const delta = mouse.dragDelta
+    const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
-    if (window === 'controls' && (delta.x || delta.y)) {
+    if (window === 'controls'
+        && target && target.closest('.tvs-flow-controls')
+        && (delta.x || delta.y)) {
       self.left -= delta.x
       self.top -= delta.y
-      return self
-    }
-  }
-)
-.react(
-  [activeWindow.COLD, zIndex.HOT],
-  (self, window, zIndex) => {
-    if (window === 'controls') {
-      self.zIndex = zIndex
+      if (self.top < 0) self.top = 0
+      if (self.left < 0) self.left = 0
       return self
     }
   }
 )
 .accept(defined)
+
 
 
 export const treeWindow = val({
@@ -96,28 +93,22 @@ export const treeWindow = val({
   zIndex: 0
 })
 .react(
-  [activeWindow.COLD, mouse.HOT],
-  (self, window, mouse: MouseState) => {
+  [activeWindow.COLD, mouse.HOT, windowSize.COLD],
+  (self, window, mouse: MouseState, size) => {
     const delta = mouse.dragDelta
+    const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
-    if (window === 'tree' && mouse.pressed[0] && (delta.x || delta.y)) {
-      if ((mouse.pressed[0].target as HTMLElement).className === 'resize') {
+    if (window === 'tree'
+        && target && target.closest('.tvs-flow-tree')
+        && (delta.x || delta.y)) {
+      if (target.className === 'resize') {
         self.width -= delta.x
         self.height -= delta.y
       } else {
         self.left -= delta.x
         self.top -= delta.y
       }
-      return self
-    }
-  }
-)
-.react(
-  [activeWindow.COLD, zIndex.HOT],
-  (self, window, zIndex) => {
-    if (window === 'tree') {
-      self.zIndex = zIndex
-      return self
+      return setSizeConstrains(self, size)
     }
   }
 )
@@ -170,28 +161,23 @@ export const graphWindow = val({
   zIndex: 0
 })
 .react(
-  [activeWindow.COLD, mouse.HOT],
-  (self, window, mouse: MouseState) => {
+  [activeWindow.COLD, mouse.HOT, windowSize.COLD],
+  (self, window, mouse: MouseState, size) => {
     const delta = mouse.dragDelta
-    if (window === 'graph' && mouse.pressed[0] && (delta.x || delta.y)) {
-      if ((mouse.pressed[0].target as HTMLElement).className === 'resize') {
+    const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
+
+    if (window === 'graph'
+        && target && target.closest('.tvs-flow-graph')
+        && (delta.x || delta.y)) {
+      if (target.className === 'resize') {
         self.width -= delta.x
         self.height -= delta.y
-        return self
-      } else if (!(mouse.pressed[0].target as HTMLElement).closest('svg')) {
+        return setSizeConstrains(self, size)
+      } else if (!target.closest('svg')) {
         self.left -= delta.x
         self.top -= delta.y
-        return self
+        return setSizeConstrains(self, size)
       }
-    }
-  }
-)
-.react(
-  [activeWindow.COLD, zIndex.HOT],
-  (self, window, zIndex) => {
-    if (window === 'graph') {
-      self.zIndex = zIndex
-      return self
     }
   }
 )
@@ -206,28 +192,22 @@ export const entitiesWindow = val({
   zIndex: 0
 })
 .react(
-  [activeWindow.COLD, mouse.HOT],
-  (self, window, mouse: MouseState) => {
+  [activeWindow.COLD, mouse.HOT, windowSize.COLD],
+  (self, window, mouse: MouseState, size) => {
     const delta = mouse.dragDelta
+    const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
-    if (window === 'entities' && mouse.pressed[0] && (delta.x || delta.y)) {
-      if ((mouse.pressed[0].target as HTMLElement).className === 'resize') {
+    if (window === 'entities'
+        && target && target.closest('.tvs-flow-entities')
+        && (delta.x || delta.y)) {
+      if (target.className === 'resize') {
         self.width -= delta.x
         self.height -= delta.y
       } else {
         self.left -= delta.x
         self.top -= delta.y
       }
-      return self
-    }
-  }
-)
-.react(
-  [activeWindow.COLD, zIndex.HOT],
-  (self, window, zIndex) => {
-    if (window === 'entities') {
-      self.zIndex = zIndex
-      return self
+      return setSizeConstrains(self, size)
     }
   }
 )
@@ -311,7 +291,7 @@ export const editedValue = val('')
 .accept(and(defined, unequal))
 
 
-export const entityView = stream(
+export const entityValueView = stream(
   [activeValue.HOT, watchingEntity.HOT],
   (value, watching) => ({value, watching})
 ).val({value: null, watching: true})
@@ -334,3 +314,49 @@ export const controlProps = stream(
   (visibility, position) => ({visibility, position})
 )
 
+
+function updateWindowZIndex (entity, name) {
+  entity.react(
+    [activeWindow.COLD, zIndex.HOT],
+    (self, window, zIndex) => {
+      if (window === name) {
+        self.zIndex = zIndex
+        return self
+      }
+    }
+  )
+}
+
+updateWindowZIndex(controlsPosition, 'controls')
+updateWindowZIndex(treeWindow, 'tree')
+updateWindowZIndex(graphWindow, 'graph')
+updateWindowZIndex(entitiesWindow, 'entities')
+
+
+function setSizeConstrains(dimensions, size) {
+  if (dimensions.height > size.height - 40) {
+    dimensions.height = size.height - 40
+  }
+  if (dimensions.width > size.width - 40) {
+    dimensions.width = size.width - 40
+  }
+  if (dimensions.top > size.height - 20) {
+    dimensions.top = size.height - 20
+  }
+  if (dimensions.left > size.width - 20) {
+    dimensions.left = size.width - 20
+  }
+  if (dimensions.top < 0) dimensions.top = 0
+  if (dimensions.left < 0) dimensions.left = 0
+  return dimensions
+}
+
+
+function updateWindowPosition (entity) {
+  entity.react([windowSize.HOT], setSizeConstrains)
+}
+
+updateWindowPosition(controlsPosition)
+updateWindowPosition(treeWindow)
+updateWindowPosition(graphWindow)
+updateWindowPosition(entitiesWindow)

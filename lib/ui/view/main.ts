@@ -32,7 +32,7 @@ function controls({visibility, position}, dispatch, component, root) {
 
   const el = h(
     ['header', {
-        class: classes('tvs-controls', controlsStyle),
+        class: classes('tvs-flow-controls', controlsStyle),
         onmousedown: setActiveWindow('controls', dispatch)
       },
       component(title, 'state.gui.title'),
@@ -80,7 +80,7 @@ function treeWindow ({props, dimensions}, dispatch, component, root) {
   const el = h(
     ['article', {
         'data-key': 'tree',
-        class: windowStyle,
+        class: classes('tvs-flow-tree', windowStyle),
         onmousedown: setActiveWindow('tree', dispatch)
       },
       ['header',
@@ -104,7 +104,10 @@ function treeWindow ({props, dimensions}, dispatch, component, root) {
           }],
           'List']],
       ['section', {class: windowContentStyle}, comp],
-      ['footer', {class: 'resize'}]])
+      ['footer', {
+          class: 'resize',
+          'data-key': 'resize'
+        }]])
 
   css(root || el, dimensions)
 
@@ -182,7 +185,7 @@ function graphWindow (graphStyle, dispatch, component, root) {
   const el = root || h(
     ['article', {
         'data-key': 'graph',
-        class: windowStyle,
+        class: classes('tvs-flow-graph', windowStyle),
         onmousedown: setActiveWindow('graph', dispatch)
       },
       ['header',
@@ -190,7 +193,10 @@ function graphWindow (graphStyle, dispatch, component, root) {
         ' Graph ',
         component(scaleSlider, 'state.graph.viewBox')],
       graph,
-      ['footer', {class: 'resize'}]])
+      ['footer', {
+          class: 'resize',
+          'data-key': 'resize'
+        }]])
 
   css(el, { ...graphStyle })
 
@@ -219,10 +225,7 @@ function jsonCode ({value, watching}, dispatch) {
     ['code',
       ['pre', {
           contenteditable: !watching,
-          oninput: e => dispatch({
-            type: 'updateEditedValue',
-            payload: e.target.textContent
-          })
+          oninput: e => dispatch('updateEditedValue', e.target.textContent)
         },
         code]]
   )
@@ -269,13 +272,13 @@ function entityView ({entity, watching}, dispatch, component) {
   }
 
   const el = h(
-      ['section', {
-          'data-key': 'entity-view',
-          class: entityViewStyle
-        },
-        ['div', { class: windowContentStyle },
-          component(jsonCode, 'state.gui.entityView')],
-        buttons]
+    ['section', {
+        'data-key': 'entity-view',
+        class: entityViewStyle
+      },
+      ['div', { class: windowContentStyle },
+        component(jsonCode, 'state.gui.entityValueView')],
+      buttons]
   )
 
   return el
@@ -325,14 +328,17 @@ function entitiesWindow ({dimensions, node}, dispatch, component, root) {
   const el = h(
     ['article', {
         'data-key': 'entities',
-        class: windowStyle,
+        class: classes('tvs-flow-entities', windowStyle),
         onmousedown: setActiveWindow('entities', dispatch)
       },
       ['header',
         icon.entities(), ' ',
         node.id],
       view,
-      ['footer', {class: 'resize'}]])
+      ['footer', {
+          class: 'resize',
+          'data-key': 'resize'
+        }]])
 
   css(root || el, { ...dimensions })
 
@@ -346,7 +352,7 @@ function root (visibility, _, component) {
   const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindow') : ''
   const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : ''
 
-  const el = h(['article', {class: classes('tvs-tools', mainStyle)},
+  const el = h(['article', {class: classes('tvs-flow-tools', mainStyle)},
     component(controls, 'state.gui.controlProps'),
     graph,
     entities,

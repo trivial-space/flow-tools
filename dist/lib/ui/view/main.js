@@ -30,7 +30,7 @@ function controls(_a, dispatch, component, root) {
         return function () { return dispatch('state.gui.updateVisibility', label); };
     };
     var el = h(['header', {
-            class: classes('tvs-controls', controlsStyle),
+            class: classes('tvs-flow-controls', controlsStyle),
             onmousedown: setActiveWindow('controls', dispatch)
         },
         component(title, 'state.gui.title'),
@@ -72,7 +72,7 @@ function treeWindow(_a, dispatch, component, root) {
     }
     var el = h(['article', {
             'data-key': 'tree',
-            class: windowStyle,
+            class: classes('tvs-flow-tree', windowStyle),
             onmousedown: setActiveWindow('tree', dispatch)
         },
         ['header',
@@ -96,7 +96,10 @@ function treeWindow(_a, dispatch, component, root) {
                     }],
                 'List']],
         ['section', { class: windowContentStyle }, comp],
-        ['footer', { class: 'resize' }]]);
+        ['footer', {
+                class: 'resize',
+                'data-key': 'resize'
+            }]]);
     css(root || el, dimensions);
     return el;
 }
@@ -154,7 +157,7 @@ function graphWindow(graphStyle, dispatch, component, root) {
     var graph = component(graphView, 'state.graph.viewData');
     var el = root || h(['article', {
             'data-key': 'graph',
-            class: windowStyle,
+            class: classes('tvs-flow-graph', windowStyle),
             onmousedown: setActiveWindow('graph', dispatch)
         },
         ['header',
@@ -162,7 +165,10 @@ function graphWindow(graphStyle, dispatch, component, root) {
             ' Graph ',
             component(scaleSlider, 'state.graph.viewBox')],
         graph,
-        ['footer', { class: 'resize' }]]);
+        ['footer', {
+                class: 'resize',
+                'data-key': 'resize'
+            }]]);
     css(el, __assign({}, graphStyle));
     requestAnimationFrame(function () {
         dispatch('updateGraphSize', {
@@ -186,10 +192,7 @@ function jsonCode(_a, dispatch) {
     return h(['code',
         ['pre', {
                 contenteditable: !watching,
-                oninput: function (e) { return dispatch({
-                    type: 'updateEditedValue',
-                    payload: e.target.textContent
-                }); }
+                oninput: function (e) { return dispatch('updateEditedValue', e.target.textContent); }
             },
             code]]);
 }
@@ -229,7 +232,7 @@ function entityView(_a, dispatch, component) {
             class: entityViewStyle
         },
         ['div', { class: windowContentStyle },
-            component(jsonCode, 'state.gui.entityView')],
+            component(jsonCode, 'state.gui.entityValueView')],
         buttons]);
     return el;
 }
@@ -266,14 +269,17 @@ function entitiesWindow(_a, dispatch, component, root) {
         : component(entityView, 'state.gui.entityViewProps');
     var el = h(['article', {
             'data-key': 'entities',
-            class: windowStyle,
+            class: classes('tvs-flow-entities', windowStyle),
             onmousedown: setActiveWindow('entities', dispatch)
         },
         ['header',
             icon.entities(), ' ',
             node.id],
         view,
-        ['footer', { class: 'resize' }]]);
+        ['footer', {
+                class: 'resize',
+                'data-key': 'resize'
+            }]]);
     css(root || el, __assign({}, dimensions));
     return el;
 }
@@ -281,7 +287,7 @@ function root(visibility, _, component) {
     var tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : '';
     var graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindow') : '';
     var entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : '';
-    var el = h(['article', { class: classes('tvs-tools', mainStyle) },
+    var el = h(['article', { class: classes('tvs-flow-tools', mainStyle) },
         component(controls, 'state.gui.controlProps'),
         graph,
         entities,

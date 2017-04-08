@@ -60,7 +60,7 @@ export declare const activeNode: EntityRef<{}>;
 export declare const watchingEntity: EntityRef<boolean>;
 export declare const activeValue: EntityRef<{}>;
 export declare const editedValue: EntityRef<string>;
-export declare const entityView: EntityRef<{
+export declare const entityValueView: EntityRef<{
     value: any;
     watching: any;
 }>;
