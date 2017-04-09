@@ -21,6 +21,7 @@ const button = {
   color,
   fontSize: '1.0em',
   verticalAlign: 'middle',
+  cursor: 'pointer',
   $nest: {
     '& > svg': {
       verticalAlign: 'middle'
@@ -33,7 +34,18 @@ const iconButton = {
   padding: '0 4px',
 }
 
+
 export const buttonStyle = style(element, button)
 
 export const iconButtonStyle = style(element, button, iconButton)
+
+export const iconButtonLightStyle = style({
+  display: 'inline-block',
+  margin: '0 2px',
+  padding: 0,
+  border: 0,
+  background: 'transparent',
+  boxShadow: 'none',
+  fontSize: '0.9em'
+})
 

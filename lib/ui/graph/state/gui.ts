@@ -50,6 +50,7 @@ export const activeWindow = stream(
   }
 )
 .accept(and(defined, unequal))
+.val('')
 
 
 export const zIndex = val(0)
@@ -127,12 +128,6 @@ export const treeFold = val({})
   }
 )
 .accept(defined)
-
-
-export const treeData = stream(
-  [treeFold.HOT, entityTree.HOT],
-  (fold, tree) => ({ fold, tree })
-).val({ fold: null, tree: null })
 
 
 export const graphWindow = val({
@@ -237,9 +232,7 @@ export const watchingEntity = val(true)
     }
   }
 )
-.react(
-  [activeEntity.HOT], () => true
-)
+.react([activeEntity.HOT], () => true)
 .accept(defined)
 
 
@@ -268,9 +261,7 @@ export const editedValue = val('')
     }
   }
 )
-.react(
-  [activeValue.HOT], () => ''
-)
+.react([activeValue.HOT], () => '')
 .accept(and(defined, unequal))
 
 
@@ -281,9 +272,9 @@ export const entityValueView = stream(
 
 
 export const entitiesWindowProps = stream(
-  [entitiesWindow.HOT, activeNode.HOT],
-  (dimensions, node) => ({ dimensions, node })
-)
+  [entitiesWindow.HOT, activeNode.HOT, activeWindow.HOT],
+  (dimensions, node, window) => ({ dimensions, node, window })
+).val({} as any)
 
 
 export const entityViewProps = stream(
@@ -296,6 +287,24 @@ export const controlProps = stream(
   [visibility.HOT, controlsPosition.HOT],
   (visibility, position) => ({ visibility, position })
 )
+
+
+export const treeWindowProps = stream(
+  [treeWindow.HOT, activeWindow.HOT],
+  (dimensions, window) => ({ dimensions, window })
+).val({} as any)
+
+
+export const graphWindowProps = stream(
+  [graphWindow.HOT, activeWindow.HOT],
+  (dimensions, window) => ({ dimensions, window })
+).val({} as any)
+
+
+export const treeData = stream(
+  [treeFold.HOT, entityTree.HOT, activeEntity.HOT],
+  (fold, tree, selected) => ({ fold, tree, selected })
+).val({ fold: null, tree: null, selected: {} })
 
 
 function updateWindowZIndex (entity, name) {

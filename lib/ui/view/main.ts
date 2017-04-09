@@ -67,7 +67,7 @@ function controls({visibility, position}, dispatch, component, root) {
 }
 
 
-function treeWindow (dimensions, dispatch, component, root) {
+function treeWindow ({dimensions, window}, dispatch, component, root) {
   const el = h(
     ['article', {
         'data-key': 'tree',
@@ -75,7 +75,7 @@ function treeWindow (dimensions, dispatch, component, root) {
         onmousedown: setActiveWindow('tree', dispatch)
       },
       ['header',
-        icon.list(),
+        icon.list(window === "tree" ? 'selected': ''),
         ' Tree'],
       ['section', {class: windowContentStyle}, component(treeView, 'state.gui.treeData')],
       ['footer', {
@@ -89,24 +89,27 @@ function treeWindow (dimensions, dispatch, component, root) {
 }
 
 
-function graphWindow (graphStyle, dispatch, component, root) {
+function graphWindow ({dimensions, window}, dispatch, component, root) {
 
   const graph = component(graphView, 'state.graph.viewData')
 
-  const el = root || h(
+  const el = h(
     ['article', {
         'data-key': 'graph',
         class: classes('tvs-flow-graph', windowStyle),
         onmousedown: setActiveWindow('graph', dispatch)
       },
       ['header',
-        icon.graph(),
+        icon.graph(window === "graph" ? 'selected': ''),
         ' Graph ',
         component(scaleSlider, 'state.graph.viewBox')],
       graph,
-      ['footer', {class: 'resize'}]])
+      ['footer', {
+          'data-key': 'resize',
+          class: 'resize'
+        }]])
 
-  css(el, { ...graphStyle })
+  css(root || el, { ...dimensions })
 
   requestAnimationFrame(function() {
     dispatch('updateGraphSize', {
@@ -119,8 +122,8 @@ function graphWindow (graphStyle, dispatch, component, root) {
 }
 
 
-function entitiesWindow ({dimensions, node}, dispatch, component, root) {
-  const view = node.procedure
+function entitiesWindow ({dimensions, node, window}, dispatch, component, root) {
+  const view = node && node.procedure
     ? processView(node, dispatch)
     : component(entityView, 'state.gui.entityViewProps')
 
@@ -131,8 +134,9 @@ function entitiesWindow ({dimensions, node}, dispatch, component, root) {
         onmousedown: setActiveWindow('entities', dispatch)
       },
       ['header',
-        icon.entities(), ' ',
-        node.id],
+        icon.entities(window === "entities" ? 'selected': ''),
+        ' ',
+        node && node.id],
       view,
       ['footer', {
           class: 'resize',
@@ -147,8 +151,8 @@ function entitiesWindow ({dimensions, node}, dispatch, component, root) {
 
 function root (visibility, _, component) {
 
-  const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindow') : ''
-  const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindow') : ''
+  const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : ''
+  const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindowProps') : ''
   const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : ''
 
   const el = h(['article', {class: classes('tvs-flow-tools', mainStyle)},

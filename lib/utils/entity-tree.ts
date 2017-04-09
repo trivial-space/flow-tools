@@ -8,8 +8,7 @@ export function createEntityTree(entities: { [id: string]: Entity }, separator =
   Object.keys(entities).sort().forEach(entityKey => {
 
     const entity = entities[entityKey]
-    const id = entity.id
-    const parts = id.split(separator)
+    const parts = entity.id.split(separator)
 
     let subtree = tree
     const steps = [...parts]
@@ -18,7 +17,7 @@ export function createEntityTree(entities: { [id: string]: Entity }, separator =
     for(let i = 0; i < parts.length; i++) {
       let p = steps.shift() as string
       if (!steps.length) {
-        subtree[p] = {__id__: id}
+        subtree[p] = {__entity__: entity}
       } else {
         path.push(p)
         subtree = subtree[p] = subtree[p] || {

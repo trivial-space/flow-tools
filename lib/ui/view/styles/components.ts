@@ -80,6 +80,9 @@ export const treeViewStyle = style( resetUl, {
     },
     '& .entity-item:hover>.entity-controls': {
       display: 'inline'
+    },
+    '& .entity-item.selected': {
+      color: 'cyan'
     }
   }
 })
@@ -92,7 +95,9 @@ export const entityViewStyle = style({
 
   $nest: {
     '& pre': {
+      margin: 0,
+      MozUserSelect: 'text',
       userSelect: 'text'
-    }
+    } as any
   }
 })

@@ -11,7 +11,12 @@ export const iconClass = style({
   strokeWidth: 0,
   stroke: 'currentColor',
   fill: 'currentColor',
-  verticalAlign: 'bottom'
+  verticalAlign: 'bottom',
+  $nest: {
+    '&.selected': {
+      fill: 'cyan'
+    }
+  }
 })
 
 
@@ -68,6 +73,19 @@ export function stop (...moreClasses: string[]): SVGElement {
 <title>stop</title>
 <path d="M4 4h24v24h-24z"></path>
 </svg>`
+}
+
+
+export function stopMarked (...moreClasses: string[]): SVGElement {
+  return h(
+    ['svg', {
+        class: classes(iconClass, ...moreClasses),
+        viewBox: "0 0 32 32"
+      },
+      ['title', 'stopMarked'],
+      ['path', { d: "M4 4h24v24h-24z" }],
+      ['circle', { cx: "16", cy: "16", r: "6", fill: "#666" }]]
+  )
 }
 
 
