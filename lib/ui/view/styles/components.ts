@@ -64,12 +64,22 @@ export const windowContentStyle = style(content, {
 })
 
 
-export const treeViewStyle = style(
-  resetUl, {
+export const treeViewStyle = style( resetUl, {
+  margin: 0,
   $nest: {
     '& ul': resetUl,
     '& li': {
-      paddingLeft: '1em'
+      paddingLeft: '1.5em',
+      cursor: 'pointer'
+    },
+    '&>li': {
+      paddingLeft: 0
+    },
+    '& .entity-controls': {
+      display: 'none'
+    },
+    '& .entity-item:hover>.entity-controls': {
+      display: 'inline'
     }
   }
 })

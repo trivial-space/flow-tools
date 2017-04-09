@@ -65,8 +65,8 @@ export const controlsPosition = val({
   zIndex: 0
 })
 .react(
-  [activeWindow.COLD, mouse.HOT],
-  (self, window, mouse: MouseState) => {
+  [activeWindow.COLD, mouse.HOT, windowSize.COLD],
+  (self, window, mouse: MouseState, size) => {
     const delta = mouse.dragDelta
     const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
@@ -77,6 +77,8 @@ export const controlsPosition = val({
       self.top -= delta.y
       if (self.top < 0) self.top = 0
       if (self.left < 0) self.left = 0
+      if (self.top > size.height - 20) self.top = size.height - 20
+      if (self.left > size.width - 20) self.left = size.width - 20
       return self
     }
   }
@@ -115,20 +117,6 @@ export const treeWindow = val({
 .accept(defined)
 
 
-export const treeViewProps = val({
-  treeViewComponent: 'tree'
-})
-.react(
-  [action.HOT],
-  (self, action) => {
-    if (action.type === "state.gui.setTreeView") {
-      return { ...self, treeViewComponent: action.payload }
-    }
-  }
-)
-.accept(defined)
-
-
 export const treeFold = val({})
 .react(
   [action.HOT],
@@ -145,12 +133,6 @@ export const treeData = stream(
   [treeFold.HOT, entityTree.HOT],
   (fold, tree) => ({ fold, tree })
 ).val({ fold: null, tree: null })
-
-
-export const treeWindowProps = stream(
-  [treeWindow.HOT, treeViewProps.HOT],
-  (dimensions, props) => ({ dimensions, props })
-)
 
 
 export const graphWindow = val({

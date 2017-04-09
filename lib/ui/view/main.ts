@@ -4,11 +4,10 @@ import { Component, h } from '../../utils/yoyo';
 import * as icon from "./icons";
 import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
-import { radioBtnStyle } from "./styles/ui";
 import { windowContentStyle, controlsStyle, windowStyle } from "./styles/components";
 import { graphView, scaleSlider } from "./graph";
 import { processView, entityView } from "./entities";
-import { treeView, listView } from "./tree";
+import { treeView } from "./tree";
 
 
 function title (title) {
@@ -68,17 +67,7 @@ function controls({visibility, position}, dispatch, component, root) {
 }
 
 
-function treeWindow ({props, dimensions}, dispatch, component, root) {
-  const comp = props.treeViewComponent === 'tree' ?
-    component(treeView, 'state.gui.treeData') :
-    component(listView, 'state.flow.state')
-
-  function changeView(viewName) {
-    return function() {
-      dispatch('state.gui.setTreeView', viewName)
-    }
-  }
-
+function treeWindow (dimensions, dispatch, component, root) {
   const el = h(
     ['article', {
         'data-key': 'tree',
@@ -87,25 +76,8 @@ function treeWindow ({props, dimensions}, dispatch, component, root) {
       },
       ['header',
         icon.list(),
-        ['label', {class: radioBtnStyle},
-          ['input', {
-            type: 'radio',
-            name: 'viewTreeComponent',
-            value: 'tree',
-            onchange: changeView('tree'),
-            checked: props.treeViewComponent === 'tree'
-          }],
-          'Tree'],
-        ['label', {class: radioBtnStyle},
-          ['input', {
-            type: 'radio',
-            name: 'viewTreeComponent',
-            value: 'list',
-            onchange: changeView('list'),
-            checked: props.treeViewComponent !== 'tree'
-          }],
-          'List']],
-      ['section', {class: windowContentStyle}, comp],
+        ' Tree'],
+      ['section', {class: windowContentStyle}, component(treeView, 'state.gui.treeData')],
       ['footer', {
           class: 'resize',
           'data-key': 'resize'
@@ -175,7 +147,7 @@ function entitiesWindow ({dimensions, node}, dispatch, component, root) {
 
 function root (visibility, _, component) {
 
-  const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : ''
+  const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindow') : ''
   const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindow') : ''
   const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : ''
 

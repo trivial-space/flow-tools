@@ -1,19 +1,35 @@
 import { h } from '../../utils/yoyo';
 import { treeViewStyle } from "./styles/components";
+import { style } from "typestyle/lib";
+import * as icon from "./icons";
+
+
+const openIcon = style({
+  transform: 'rotate(90deg)'
+})
 
 
 function treeBranch (name, tree, dispatch, fold) {
   if (tree.__id__) {
     return ['li',
       ['div', {
-        onclick: () => dispatch('state.gui.openEntity', tree.__id__)
-      }, name]]
+          class: 'entity-item',
+          onclick: () => dispatch('state.gui.openEntity', tree.__id__)
+        },
+        icon.stop(),
+        ' ' + name + ' ',
+        ['span', {
+            class: 'entity-controls'
+          },
+          icon.show()]]]
   }
 
   const li = ['li',
     ['div', {
-      onclick: () => dispatch('state.gui.toggleTreeLevel', tree.__path__)
-    }, name]]
+        onclick: () => dispatch('state.gui.toggleTreeLevel', tree.__path__)
+      },
+      icon.more(fold[tree.__path__] ? '' : openIcon),
+      ' ' + name]]
 
   if (!fold[tree.__path__]) {
     const branches: any[] = ['ul']
@@ -44,23 +60,3 @@ export function treeView ({fold, tree}, dispatch) {
 
   return h(list)
 }
-
-
-export function listView (entities, dispatch) {
-  const list: any[] = ['ul', {'data-key': 'listView'}]
-
-  if (entities) {
-    const items = Object.keys(entities).sort().map(name =>
-      ["li", {
-          'data-key': name,
-          onclick: () => dispatch('state.gui.openEntity', name)
-        },
-        name])
-
-    list.push(...items)
-  }
-
-  return h(list)
-}
-
-
