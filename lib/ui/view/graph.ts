@@ -1,5 +1,6 @@
 import { graphViewStyle } from "./styles/graph";
 import { h } from "../../utils/yoyo";
+import { classes } from "typestyle/lib";
 
 
 export function scaleSlider({scale}, dispatch) {
@@ -37,12 +38,12 @@ export function graphView (data, dispatch) {
               y1: e.from.y,
               x2: e.to.x,
               y2: e.to.y,
-              class: e.class
+              class: classes(e.class, e.active && 'active')
             }]),
         ...processes.map(p =>
           ['circle', {
               'data-key': p.id,
-              class: p.class,
+              class: classes(p.class, p.active && 'active'),
               transform: `translate(${p.x}, ${p.y})`,
               onmousedown: () => dispatch('state.gui.openProcess', p.id),
               cx: 0,
@@ -56,7 +57,7 @@ export function graphView (data, dispatch) {
               transform: `translate(${e.x}, ${e.y})`,
               onmousedown: () => dispatch('state.gui.openEntity', e.id),
               title: e.id,
-              class: e.class
+              class: classes(e.class, e.active && 'active')
             },
             ['rect', {
                 x: -15,

@@ -7,7 +7,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import { style } from "typestyle/lib";
-import { element, fontSize, resetUl, content } from "./main";
+import { element, fontSize, resetUl, content, highlightColor } from "./main";
 export var controlsStyle = style(element, {
     display: 'inline-block',
     position: 'relative',
@@ -58,10 +58,24 @@ export var windowContentStyle = style(content, {
     padding: 5,
 });
 export var treeViewStyle = style(resetUl, {
+    margin: 0,
     $nest: {
         '& ul': resetUl,
         '& li': {
-            paddingLeft: '1em'
+            paddingLeft: '1.5em',
+            cursor: 'pointer'
+        },
+        '&>li': {
+            paddingLeft: 0
+        },
+        '& .entity-controls': {
+            display: 'none'
+        },
+        '& .entity-item:hover>.entity-controls': {
+            display: 'inline'
+        },
+        '& .entity-item.selected': {
+            color: highlightColor
         }
     }
 });
@@ -69,8 +83,11 @@ export var entityViewStyle = style({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
+    overflow: 'auto',
     $nest: {
         '& pre': {
+            margin: 0,
+            MozUserSelect: 'text',
             userSelect: 'text'
         }
     }

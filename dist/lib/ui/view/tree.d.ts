@@ -1,5 +1,5 @@
-export declare function treeView({fold, tree}: {
+export declare function treeView({fold, tree, selected}: {
     fold: any;
     tree: any;
+    selected: any;
 }, dispatch: any): any;
-export declare function listView(entities: any, dispatch: any): any;

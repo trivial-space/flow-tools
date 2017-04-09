@@ -16,6 +16,9 @@ export var graphViewStyle = style(content, {
         '& line': {
             stroke: 'darkgray',
             $nest: {
+                '&.active': {
+                    stroke: '#ff7',
+                },
                 '&.to': {
                     strokeWidth: 6
                 },
@@ -45,8 +48,16 @@ export var graphViewStyle = style(content, {
         '& .group-1 rect': {
             fill: 'orangered'
         },
+        '& .group-1.active rect': {
+            fill: 'lightsalmon',
+            stroke: 'orangered',
+            strokeWidth: 5
+        },
         '& circle.group-1': {
             fill: 'orangered'
+        },
+        '& circle.group-1.active': {
+            fill: 'lightsalmon'
         },
         '& .group-1 .initial': {
             fill: 'darkred',
@@ -57,8 +68,16 @@ export var graphViewStyle = style(content, {
         '& .group-2 rect': {
             fill: 'limegreen'
         },
+        '& .group-2.active rect': {
+            fill: 'palegreen',
+            stroke: 'limegreen',
+            strokeWidth: 5
+        },
         '& circle.group-2': {
             fill: 'limegreen'
+        },
+        '& circle.group-2.active': {
+            fill: 'palegreen'
         },
         '& .group-2 .initial': {
             fill: 'darkgreen',
@@ -69,8 +88,16 @@ export var graphViewStyle = style(content, {
         '& .group-3 rect': {
             fill: 'cornflowerblue'
         },
+        '& .group-3.active rect': {
+            fill: 'lightblue',
+            stroke: 'cornflowerblue',
+            strokeWidth: 5
+        },
         '& circle.group-3': {
             fill: 'cornflowerblue'
+        },
+        '& circle.group-3.active': {
+            fill: 'lightblue'
         },
         '& .group-3 .initial': {
             fill: 'darkslateblue',
@@ -81,8 +108,16 @@ export var graphViewStyle = style(content, {
         '& .group-4 rect': {
             fill: 'orchid'
         },
+        '& .group-4.active rect': {
+            fill: 'thistle',
+            stroke: 'orchid',
+            strokeWidth: 5
+        },
         '& circle.group-4': {
             fill: 'orchid'
+        },
+        '& circle.group-4.active': {
+            fill: 'thistle'
         },
         '& .group-4 .initial': {
             fill: 'purple',
@@ -93,8 +128,16 @@ export var graphViewStyle = style(content, {
         '& .group-5 rect': {
             fill: 'gold'
         },
+        '& .group-5.active rect': {
+            fill: 'palegoldenrod',
+            stroke: 'gold',
+            strokeWidth: 5
+        },
         '& circle.group-5': {
             fill: 'gold'
+        },
+        '& circle.group-5.active': {
+            fill: 'beige'
         },
         '& .group-5 .initial': {
             fill: 'darkgoldenrod',
@@ -105,8 +148,16 @@ export var graphViewStyle = style(content, {
         '& .group-6 rect': {
             fill: 'lightseagreen'
         },
+        '& .group-6.active rect': {
+            fill: 'paleturquoise',
+            stroke: 'lightseagreen',
+            strokeWidth: 5
+        },
         '& circle.group-6': {
             fill: 'lightseagreen'
+        },
+        '& circle.group-6.active': {
+            fill: 'paleturquoise'
         },
         '& .group-6 .initial': {
             fill: 'darkslategray',
@@ -117,8 +168,16 @@ export var graphViewStyle = style(content, {
         '& .group-7 rect': {
             fill: 'orange'
         },
+        '& .group-7.active rect': {
+            fill: 'moccasin',
+            stroke: 'orange',
+            strokeWidth: 5
+        },
         '& circle.group-7': {
             fill: 'orange'
+        },
+        '& circle.group-7.active': {
+            fill: 'moccasin'
         },
         '& .group-7 .initial': {
             fill: 'saddlebrown',

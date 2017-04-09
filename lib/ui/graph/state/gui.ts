@@ -54,10 +54,10 @@ export const activeWindow = stream(
 
 
 export const zIndex = val(0)
-  .react(
+.react(
   [activeWindow.HOT],
   self => self + 1
-  )
+)
 
 
 export const controlsPosition = val({
@@ -201,6 +201,14 @@ export const activeEntity = val({})
     }
   }
 )
+.react(
+  [mouse.HOT],
+  (_, mouse) => {
+    if (mouse.pressed[2] && mouse.pressed[2].target.closest('svg')) {
+      return {id: ''}
+    }
+  }
+)
 .accept(defined)
 
 
@@ -210,6 +218,14 @@ export const activeProcess = val({})
   (_, { type, payload }, graph) => {
     if (type === 'state.gui.openProcess') {
       return graph.processes[payload]
+    }
+  }
+)
+.react(
+  [mouse.HOT],
+  (_, mouse) => {
+    if (mouse.pressed[2] && mouse.pressed[2].target.closest('svg')) {
+      return {id: ''}
     }
   }
 )
@@ -239,10 +255,14 @@ export const watchingEntity = val(true)
 export const activeValue = asyncStream(
   [runtime.COLD, activeEntity.HOT, visibility.HOT, watchingEntity.HOT],
   (send, flow: Runtime, entity, visibility, watching) => {
-    send(flow.get(entity.id))
-    if (visibility.entities && watching) {
-      flow.on(entity.id, send)
-      return () => flow.off(entity.id, send)
+    if (entity && entity.id) {
+      send(flow.get(entity.id))
+      if (visibility.entities && watching) {
+        flow.on(entity.id, send)
+        return () => flow.off(entity.id, send)
+      }
+    } else {
+      send('')
     }
   }
 )
@@ -256,7 +276,12 @@ export const editedValue = val('')
       return payload
     } else if (self && type === 'saveCurrentEntityValue') {
       requestAnimationFrame(function() {
-        flow.set(payload, JSON.parse(self))
+        try {
+          flow.set(payload, JSON.parse(self))
+        } catch (e) {
+          console.error('could not save value to entity', payload, self)
+          console.error(e)
+        }
       })
     }
   }
@@ -326,11 +351,11 @@ updateWindowZIndex(entitiesWindow, 'entities')
 
 
 function setSizeConstrains (dimensions, size) {
-  if (dimensions.height > size.height - 40) {
-    dimensions.height = size.height - 40
+  if (dimensions.height > size.height - 20) {
+    dimensions.height = size.height - 20
   }
-  if (dimensions.width > size.width - 40) {
-    dimensions.width = size.width - 40
+  if (dimensions.width > size.width - 20) {
+    dimensions.width = size.width - 20
   }
   if (dimensions.top > size.height - 20) {
     dimensions.top = size.height - 20

@@ -18,6 +18,7 @@ var button = {
     color: color,
     fontSize: '1.0em',
     verticalAlign: 'middle',
+    cursor: 'pointer',
     $nest: {
         '& > svg': {
             verticalAlign: 'middle'
@@ -29,4 +30,13 @@ var iconButton = {
 };
 export var buttonStyle = style(element, button);
 export var iconButtonStyle = style(element, button, iconButton);
+export var iconButtonLightStyle = style({
+    display: 'inline-block',
+    margin: '0 2px',
+    padding: 0,
+    border: 0,
+    background: 'transparent',
+    boxShadow: 'none',
+    fontSize: '0.9em'
+});
 //# sourceMappingURL=ui.js.map

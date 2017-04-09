@@ -84,10 +84,31 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var s = n(27), u = (n.n(s), n(15)), c = (n.n(u), n(17));
+        var s = n(27), u = (n.n(s), n(17)), c = (n.n(u), n(19));
         n.n(c);
         t.flowComponentFactory = o, t.h = a;
         var l = {}, f = !0, d = 0, p = {};
+    }, function(e, t, n) {
+        "use strict";
+        function r(e) {
+            var t = new i.TypeStyle({
+                autoGenerateTag: !1
+            });
+            return e && t.setStylesTarget(e), t;
+        }
+        Object.defineProperty(t, "__esModule", {
+            value: !0
+        });
+        var i = n(64), o = n(65);
+        t.types = o;
+        var a = n(25);
+        t.extend = a.extend, t.classes = a.classes, t.media = a.media;
+        var s = new i.TypeStyle({
+            autoGenerateTag: !0
+        });
+        t.setStylesTarget = s.setStylesTarget, t.cssRaw = s.cssRaw, t.cssRule = s.cssRule, 
+        t.forceRenderStyles = s.forceRenderStyles, t.fontFace = s.fontFace, t.getStyles = s.getStyles, 
+        t.keyframes = s.keyframes, t.reinit = s.reinit, t.style = s.style, t.createTypeStyle = r;
     }, function(e, t, n) {
         "use strict";
         function r(e, t) {
@@ -233,7 +254,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var r = n(1), i = n(58), o = n(59);
+        var r = n(2), i = n(58), o = n(59);
         n.d(t, "action", function() {
             return a;
         }), n.d(t, "windowSize", function() {
@@ -251,25 +272,56 @@
         });
     }, function(e, t, n) {
         "use strict";
-        function r(e) {
-            var t = new i.TypeStyle({
-                autoGenerateTag: !1
-            });
-            return e && t.setStylesTarget(e), t;
-        }
-        Object.defineProperty(t, "__esModule", {
-            value: !0
+        var r = n(1), i = (n.n(r), n(34));
+        n.n(i);
+        n.d(t, "g", function() {
+            return o;
+        }), n.d(t, "d", function() {
+            return s;
+        }), n.d(t, "a", function() {
+            return u;
+        }), n.d(t, "c", function() {
+            return c;
+        }), n.d(t, "f", function() {
+            return l;
+        }), n.d(t, "e", function() {
+            return f;
+        }), n.d(t, "b", function() {
+            return d;
         });
-        var i = n(64), o = n(65);
-        t.types = o;
-        var a = n(25);
-        t.extend = a.extend, t.classes = a.classes, t.media = a.media;
-        var s = new i.TypeStyle({
-            autoGenerateTag: !0
+        var o = "white", a = n.i(i.rgba)(40, 40, 40, .75).toString(), s = 16, u = "cyan", c = {
+            borderRadius: 4,
+            backgroundColor: a,
+            boxShadow: "0 10px 15px rgba(0,0,0,0.3)",
+            borderTop: "1px solid rgba(255, 255, 255, 0.4)",
+            borderBottom: "1px solid rgba(0, 0, 0, 0.6)"
+        }, l = {
+            borderRadius: 4,
+            boxShadow: "0 4px 8px rgba(0,0,0,0.3) inset",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.4)",
+            borderTop: "1px solid rgba(0, 0, 0, 0.6)"
+        }, f = {
+            padding: 0,
+            listStyle: "none"
+        }, d = n.i(r.style)({
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: 0,
+            height: 0,
+            zIndex: 1e3,
+            fontSize: s,
+            fontFamily: "sans-serif",
+            lineHeight: 1.5,
+            color: o,
+            userSelect: "none",
+            $nest: {
+                "& *": {
+                    userSelect: "none",
+                    MozUserSelect: "none"
+                }
+            }
         });
-        t.setStylesTarget = s.setStylesTarget, t.cssRaw = s.cssRaw, t.cssRule = s.cssRule, 
-        t.forceRenderStyles = s.forceRenderStyles, t.fontFace = s.fontFace, t.getStyles = s.getStyles, 
-        t.keyframes = s.keyframes, t.reinit = s.reinit, t.style = s.style, t.createTypeStyle = r;
     }, function(e, t, n) {
         "use strict";
         (function(e) {
@@ -328,8 +380,8 @@
                         i.push([ o, m ]);
                     }
                     for (var w = 0, b = d; w < b.length; w++) {
-                        var _ = b[w], x = _[0], k = _[1];
-                        v += x + f(y, x, k, i, o);
+                        var _ = b[w], k = _[0], x = _[1];
+                        v += k + f(y, k, x, i, o);
                     }
                 } else {
                     var O = o ? l(t, o) : t;
@@ -338,8 +390,8 @@
                         i.push([ O, m ]);
                     }
                     for (var S = 0, A = d; S < A.length; S++) {
-                        var E = A[S], x = E[0], k = E[1];
-                        v += x + f(e, x, k, i, O);
+                        var E = A[S], k = E[0], x = E[1];
+                        v += k + f(e, k, x, i, O);
                     }
                 }
                 return v;
@@ -411,9 +463,9 @@
                 "stroke-dashoffset": !0,
                 "stroke-opacity": !0,
                 "stroke-width": !0
-            }, m = 0, w = [ "-webkit-", "-ms-", "-moz-", "-o-" ]; m < w.length; m++) for (var b = w[m], _ = 0, x = Object.keys(y); _ < x.length; _++) {
-                var k = x[_];
-                y[b + k] = !0;
+            }, m = 0, w = [ "-webkit-", "-ms-", "-moz-", "-o-" ]; m < w.length; m++) for (var b = w[m], _ = 0, k = Object.keys(y); _ < k.length; _++) {
+                var x = k[_];
+                y[b + x] = !0;
             }
             t.stringHash = o;
             var O = function() {
@@ -543,7 +595,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var r = n(1), i = n(13), o = n(2), a = n(12);
+        var r = n(2), i = n(15), o = n(3), a = n(14);
         n.d(t, "runtime", function() {
             return s;
         }), n.d(t, "graph", function() {
@@ -574,58 +626,6 @@
             return e.getState();
         }), l = n.i(r.stream)([ u.HOT ], function(e) {
             return n.i(i.createEntityTree)(e.entities);
-        });
-    }, function(e, t, n) {
-        "use strict";
-        var r = n(3), i = (n.n(r), n(34));
-        n.n(i);
-        n.d(t, "g", function() {
-            return o;
-        }), n.d(t, "d", function() {
-            return s;
-        }), n.d(t, "a", function() {
-            return u;
-        }), n.d(t, "c", function() {
-            return c;
-        }), n.d(t, "f", function() {
-            return l;
-        }), n.d(t, "e", function() {
-            return f;
-        }), n.d(t, "b", function() {
-            return d;
-        });
-        var o = "white", a = n.i(i.rgba)(40, 40, 40, .75).toString(), s = 16, u = "cyan", c = {
-            borderRadius: 4,
-            backgroundColor: a,
-            boxShadow: "0 10px 15px rgba(0,0,0,0.3)",
-            borderTop: "1px solid rgba(255, 255, 255, 0.4)",
-            borderBottom: "1px solid rgba(0, 0, 0, 0.6)"
-        }, l = {
-            borderRadius: 4,
-            boxShadow: "0 4px 8px rgba(0,0,0,0.3) inset",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.4)",
-            borderTop: "1px solid rgba(0, 0, 0, 0.6)"
-        }, f = {
-            padding: 0,
-            listStyle: "none"
-        }, d = n.i(r.style)({
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: 0,
-            height: 0,
-            zIndex: 1e3,
-            fontSize: s,
-            fontFamily: "sans-serif",
-            lineHeight: 1.5,
-            color: o,
-            userSelect: "none",
-            $nest: {
-                "& *": {
-                    userSelect: "none",
-                    MozUserSelect: "none"
-                }
-            }
         });
     }, function(e, t, n) {
         "use strict";
@@ -704,7 +704,7 @@
             });
         }
         function i(e, t) {
-            return e.height > t.height - 40 && (e.height = t.height - 40), e.width > t.width - 40 && (e.width = t.width - 40), 
+            return e.height > t.height - 20 && (e.height = t.height - 20), e.width > t.width - 20 && (e.width = t.width - 20), 
             e.top > t.height - 20 && (e.top = t.height - 20), e.left > t.width - 20 && (e.left = t.width - 20), 
             e.top < 0 && (e.top = 0), e.left < 0 && (e.left = 0), e;
         }
@@ -714,7 +714,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var a = n(1), s = n(12), u = n(2), c = n(5);
+        var a = n(2), s = n(14), u = n(3), c = n(6);
         n.d(t, "title", function() {
             return f;
         }), n.d(t, "visibility", function() {
@@ -727,38 +727,38 @@
             return v;
         }), n.d(t, "treeWindow", function() {
             return g;
-        }), n.d(t, "treeViewProps", function() {
-            return y;
         }), n.d(t, "treeFold", function() {
-            return m;
-        }), n.d(t, "treeData", function() {
-            return w;
-        }), n.d(t, "treeWindowProps", function() {
-            return b;
+            return y;
         }), n.d(t, "graphWindow", function() {
-            return _;
+            return m;
         }), n.d(t, "entitiesWindow", function() {
-            return x;
+            return w;
         }), n.d(t, "activeEntity", function() {
-            return k;
+            return b;
         }), n.d(t, "activeProcess", function() {
-            return O;
+            return _;
         }), n.d(t, "activeNode", function() {
-            return S;
+            return k;
         }), n.d(t, "watchingEntity", function() {
-            return T;
+            return x;
         }), n.d(t, "activeValue", function() {
-            return C;
+            return O;
         }), n.d(t, "editedValue", function() {
-            return A;
+            return S;
         }), n.d(t, "entityValueView", function() {
-            return E;
+            return T;
         }), n.d(t, "entitiesWindowProps", function() {
-            return P;
+            return C;
         }), n.d(t, "entityViewProps", function() {
-            return M;
+            return A;
         }), n.d(t, "controlProps", function() {
+            return E;
+        }), n.d(t, "treeWindowProps", function() {
+            return P;
+        }), n.d(t, "graphWindowProps", function() {
             return H;
+        }), n.d(t, "treeData", function() {
+            return M;
         });
         var l = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
@@ -777,16 +777,17 @@
         }).accept(s.a), p = n.i(a.stream)([ u.action.HOT ], function(e) {
             var t = e.type, n = e.payload;
             if ("state.gui.setActiveWindow" === t || "state.gui.updateVisibility" === t) return n;
-        }).accept(n.i(s.c)(s.a, s.d)), h = n.i(a.val)(0).react([ p.HOT ], function(e) {
+        }).accept(n.i(s.c)(s.a, s.d)).val(""), h = n.i(a.val)(0).react([ p.HOT ], function(e) {
             return e + 1;
         }), v = n.i(a.val)({
             left: 0,
             top: 0,
             zIndex: 0
-        }).react([ p.COLD, u.mouse.HOT ], function(e, t, n) {
-            var r = n.dragDelta, i = n.pressed[0] && n.pressed[0].target;
-            if ("controls" === t && i && i.closest(".tvs-flow-controls") && (r.x || r.y)) return e.left -= r.x, 
-            e.top -= r.y, e.top < 0 && (e.top = 0), e.left < 0 && (e.left = 0), e;
+        }).react([ p.COLD, u.mouse.HOT, u.windowSize.COLD ], function(e, t, n, r) {
+            var i = n.dragDelta, o = n.pressed[0] && n.pressed[0].target;
+            if ("controls" === t && o && o.closest(".tvs-flow-controls") && (i.x || i.y)) return e.left -= i.x, 
+            e.top -= i.y, e.top < 0 && (e.top = 0), e.left < 0 && (e.left = 0), e.top > r.height - 20 && (e.top = r.height - 20), 
+            e.left > r.width - 20 && (e.left = r.width - 20), e;
         }).accept(s.a), g = n.i(a.val)({
             top: 100,
             left: 0,
@@ -797,30 +798,11 @@
             var o = n.dragDelta, a = n.pressed[0] && n.pressed[0].target;
             if ("tree" === t && a && a.closest(".tvs-flow-tree") && (o.x || o.y)) return "resize" === a.className ? (e.width -= o.x, 
             e.height -= o.y) : (e.left -= o.x, e.top -= o.y), i(e, r);
-        }).accept(s.a), y = n.i(a.val)({
-            treeViewComponent: "tree"
-        }).react([ u.action.HOT ], function(e, t) {
-            if ("state.gui.setTreeView" === t.type) return l({}, e, {
-                treeViewComponent: t.payload
-            });
-        }).accept(s.a), m = n.i(a.val)({}).react([ u.action.HOT ], function(e, t) {
+        }).accept(s.a), y = n.i(a.val)({}).react([ u.action.HOT ], function(e, t) {
             var n = t.type, r = t.payload;
             if ("state.gui.toggleTreeLevel" === n) return l({}, e, (i = {}, i[r] = !e[r], i));
             var i;
-        }).accept(s.a), w = n.i(a.stream)([ m.HOT, c.entityTree.HOT ], function(e, t) {
-            return {
-                fold: e,
-                tree: t
-            };
-        }).val({
-            fold: null,
-            tree: null
-        }), b = n.i(a.stream)([ g.HOT, y.HOT ], function(e, t) {
-            return {
-                dimensions: e,
-                props: t
-            };
-        }), _ = n.i(a.val)({
+        }).accept(s.a), m = n.i(a.val)({
             top: 200,
             left: 100,
             width: 600,
@@ -832,7 +814,7 @@
                 if ("resize" === a.className) return e.width -= o.x, e.height -= o.y, i(e, r);
                 if (!a.closest("svg")) return e.left -= o.x, e.top -= o.y, i(e, r);
             }
-        }).accept(s.a), x = n.i(a.val)({
+        }).accept(s.a), w = n.i(a.val)({
             top: 50,
             left: 400,
             width: 400,
@@ -842,34 +824,48 @@
             var o = n.dragDelta, a = n.pressed[0] && n.pressed[0].target;
             if ("entities" === t && a && a.closest(".tvs-flow-entities") && !a.closest("pre") && (o.x || o.y)) return "resize" === a.className ? (e.width -= o.x, 
             e.height -= o.y) : (e.left -= o.x, e.top -= o.y), i(e, r);
-        }).accept(s.a), k = n.i(a.val)({}).react([ u.action.HOT, c.graph.COLD ], function(e, t, n) {
+        }).accept(s.a), b = n.i(a.val)({}).react([ u.action.HOT, c.graph.COLD ], function(e, t, n) {
             var r = t.type, i = t.payload;
             if ("state.gui.openEntity" === r) return n.entities[i];
-        }).accept(s.a), O = n.i(a.val)({}).react([ u.action.HOT, c.graph.COLD ], function(e, t, n) {
+        }).react([ u.mouse.HOT ], function(e, t) {
+            if (t.pressed[2] && t.pressed[2].target.closest("svg")) return {
+                id: ""
+            };
+        }).accept(s.a), _ = n.i(a.val)({}).react([ u.action.HOT, c.graph.COLD ], function(e, t, n) {
             var r = t.type, i = t.payload;
             if ("state.gui.openProcess" === r) return n.processes[i];
-        }).accept(s.a), S = n.i(a.val)({}).react([ k.HOT ], function(e, t) {
+        }).react([ u.mouse.HOT ], function(e, t) {
+            if (t.pressed[2] && t.pressed[2].target.closest("svg")) return {
+                id: ""
+            };
+        }).accept(s.a), k = n.i(a.val)({}).react([ b.HOT ], function(e, t) {
             return t;
-        }).react([ O.HOT ], function(e, t) {
+        }).react([ _.HOT ], function(e, t) {
             return t;
-        }), T = n.i(a.val)(!0).react([ u.action.HOT ], function(e, t) {
+        }), x = n.i(a.val)(!0).react([ u.action.HOT ], function(e, t) {
             var n = t.type, r = t.payload;
             return "setEntityEditMode" === n ? !r : "saveCurrentEntityValue" === n || void 0;
-        }).react([ k.HOT ], function() {
+        }).react([ b.HOT ], function() {
             return !0;
-        }).accept(s.a), C = n.i(a.asyncStream)([ c.runtime.COLD, k.HOT, d.HOT, T.HOT ], function(e, t, n, r, i) {
-            if (e(t.get(n.id)), r.entities && i) return t.on(n.id, e), function() {
-                return t.off(n.id, e);
-            };
-        }), A = n.i(a.val)("").react([ u.action.HOT, c.runtime.COLD ], function(e, t, n) {
+        }).accept(s.a), O = n.i(a.asyncStream)([ c.runtime.COLD, b.HOT, d.HOT, x.HOT ], function(e, t, n, r, i) {
+            if (n && n.id) {
+                if (e(t.get(n.id)), r.entities && i) return t.on(n.id, e), function() {
+                    return t.off(n.id, e);
+                };
+            } else e("");
+        }), S = n.i(a.val)("").react([ u.action.HOT, c.runtime.COLD ], function(e, t, n) {
             var r = t.type, i = t.payload;
             if ("updateEditedValue" === r) return i;
             e && "saveCurrentEntityValue" === r && requestAnimationFrame(function() {
-                n.set(i, JSON.parse(e));
+                try {
+                    n.set(i, JSON.parse(e));
+                } catch (t) {
+                    console.error("could not save value to entity", i, e), console.error(t);
+                }
             });
-        }).react([ C.HOT ], function() {
+        }).react([ O.HOT ], function() {
             return "";
-        }).accept(n.i(s.c)(s.a, s.d)), E = n.i(a.stream)([ C.HOT, T.HOT ], function(e, t) {
+        }).accept(n.i(s.c)(s.a, s.d)), T = n.i(a.stream)([ O.HOT, x.HOT ], function(e, t) {
             return {
                 value: e,
                 watching: t
@@ -877,27 +873,141 @@
         }).val({
             value: null,
             watching: !0
-        }), P = n.i(a.stream)([ x.HOT, S.HOT ], function(e, t) {
+        }), C = n.i(a.stream)([ w.HOT, k.HOT, p.HOT ], function(e, t, n) {
             return {
                 dimensions: e,
-                node: t
+                node: t,
+                window: n
             };
-        }), M = n.i(a.stream)([ k.HOT, T.HOT ], function(e, t) {
+        }).val({}), A = n.i(a.stream)([ b.HOT, x.HOT ], function(e, t) {
             return {
                 entity: e,
                 watching: t
             };
-        }), H = n.i(a.stream)([ d.HOT, v.HOT ], function(e, t) {
+        }), E = n.i(a.stream)([ d.HOT, v.HOT ], function(e, t) {
             return {
                 visibility: e,
                 position: t
             };
+        }), P = n.i(a.stream)([ g.HOT, p.HOT ], function(e, t) {
+            return {
+                dimensions: e,
+                window: t
+            };
+        }).val({}), H = n.i(a.stream)([ m.HOT, p.HOT ], function(e, t) {
+            return {
+                dimensions: e,
+                window: t
+            };
+        }).val({}), M = n.i(a.stream)([ y.HOT, c.entityTree.HOT, b.HOT ], function(e, t, n) {
+            return {
+                fold: e,
+                tree: t,
+                selected: n
+            };
+        }).val({
+            fold: null,
+            tree: null,
+            selected: {}
         });
-        r(v, "controls"), r(g, "tree"), r(_, "graph"), r(x, "entities"), o(v), o(g), o(_), 
-        o(x);
+        r(v, "controls"), r(g, "tree"), r(m, "graph"), r(w, "entities"), o(v), o(g), o(m), 
+        o(w);
     }, function(e, t, n) {
         "use strict";
-        var r = n(3), i = (n.n(r), n(6));
+        function r() {
+            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+            return n = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>graph</title>\n<path d="M18 16.078c1.594 0 2.906 1.313 2.906 2.906s-1.313 2.953-2.906 2.953-2.906-1.359-2.906-2.953c0-0.234 0-0.469 0.047-0.656l-7.078-4.125c-0.563 0.516-1.266 0.797-2.063 0.797-1.641 0-3-1.359-3-3s1.359-3 3-3c0.797 0 1.5 0.281 2.063 0.797l7.031-4.078c-0.047-0.234-0.094-0.469-0.094-0.703 0-1.641 1.359-3 3-3s3 1.359 3 3-1.359 3-3 3c-0.797 0-1.5-0.328-2.063-0.844l-7.031 4.125c0.047 0.234 0.094 0.469 0.094 0.703s-0.047 0.469-0.094 0.703l7.125 4.125c0.516-0.469 1.219-0.75 1.969-0.75z"></path>\n</svg>' ], 
+            n.raw = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>graph</title>\n<path d="M18 16.078c1.594 0 2.906 1.313 2.906 2.906s-1.313 2.953-2.906 2.953-2.906-1.359-2.906-2.953c0-0.234 0-0.469 0.047-0.656l-7.078-4.125c-0.563 0.516-1.266 0.797-2.063 0.797-1.641 0-3-1.359-3-3s1.359-3 3-3c0.797 0 1.5 0.281 2.063 0.797l7.031-4.078c-0.047-0.234-0.094-0.469-0.094-0.703 0-1.641 1.359-3 3-3s3 1.359 3 3-1.359 3-3 3c-0.797 0-1.5-0.328-2.063-0.844l-7.031 4.125c0.047 0.234 0.094 0.469 0.094 0.703s-0.047 0.469-0.094 0.703l7.125 4.125c0.516-0.469 1.219-0.75 1.969-0.75z"></path>\n</svg>' ], 
+            d(n, p.b.apply(void 0, [ g ].concat(e)));
+            var n;
+        }
+        function i() {
+            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+            return n = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>list</title>\n<path d="M9 5.016h12v3.984h-12v-3.984zM9 18.984v-3.984h12v3.984h-12zM9 14.016v-4.031h12v4.031h-12zM3.984 9v-3.984h4.031v3.984h-4.031zM3.984 18.984v-3.984h4.031v3.984h-4.031zM3.984 14.016v-4.031h4.031v4.031h-4.031z"></path>\n</svg>' ], 
+            n.raw = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>list</title>\n<path d="M9 5.016h12v3.984h-12v-3.984zM9 18.984v-3.984h12v3.984h-12zM9 14.016v-4.031h12v4.031h-12zM3.984 9v-3.984h4.031v3.984h-4.031zM3.984 18.984v-3.984h4.031v3.984h-4.031zM3.984 14.016v-4.031h4.031v4.031h-4.031z"></path>\n</svg>' ], 
+            d(n, p.b.apply(void 0, [ g ].concat(e)));
+            var n;
+        }
+        function o() {
+            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+            return n = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>entities</title>\n<path d="M16.641 1.688l5.672 5.672-5.672 5.625h4.359v8.016h-8.016v-8.016h3.656l-5.625-5.625v3.656h-8.016v-8.016h8.016v4.359zM3 21v-8.016h8.016v8.016h-8.016z"></path>\n</svg>' ], 
+            n.raw = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>entities</title>\n<path d="M16.641 1.688l5.672 5.672-5.672 5.625h4.359v8.016h-8.016v-8.016h3.656l-5.625-5.625v3.656h-8.016v-8.016h8.016v4.359zM3 21v-8.016h8.016v8.016h-8.016z"></path>\n</svg>' ], 
+            d(n, p.b.apply(void 0, [ g ].concat(e)));
+            var n;
+        }
+        function a() {
+            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+            return n = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>play</title>\n<path d="M6 4l20 12-20 12z"></path>\n</svg>' ], 
+            n.raw = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>play</title>\n<path d="M6 4l20 12-20 12z"></path>\n</svg>' ], 
+            d(n, p.b.apply(void 0, [ g ].concat(e)));
+            var n;
+        }
+        function s() {
+            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+            return n = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>stop</title>\n<path d="M4 4h24v24h-24z"></path>\n</svg>' ], 
+            n.raw = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>stop</title>\n<path d="M4 4h24v24h-24z"></path>\n</svg>' ], 
+            d(n, p.b.apply(void 0, [ g ].concat(e)));
+            var n;
+        }
+        function u() {
+            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+            return n.i(h.h)([ "svg", {
+                class: p.b.apply(void 0, [ g ].concat(e)),
+                viewBox: "0 0 32 32"
+            }, [ "title", "stopMarked" ], [ "path", {
+                d: "M4 4h24v24h-24z"
+            } ], [ "circle", {
+                cx: "16",
+                cy: "16",
+                r: "6",
+                fill: "#666"
+            } ] ]);
+        }
+        function c() {
+            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+            return n = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>reset</title>\n<path d="M32 12h-12l4.485-4.485c-2.267-2.266-5.28-3.515-8.485-3.515s-6.219 1.248-8.485 3.515c-2.266 2.267-3.515 5.28-3.515 8.485s1.248 6.219 3.515 8.485c2.267 2.266 5.28 3.515 8.485 3.515s6.219-1.248 8.485-3.515c0.189-0.189 0.371-0.384 0.546-0.583l3.010 2.634c-2.933 3.349-7.239 5.464-12.041 5.464-8.837 0-16-7.163-16-16s7.163-16 16-16c4.418 0 8.418 1.791 11.313 4.687l4.687-4.687v12z"></path>\n</svg>' ], 
+            n.raw = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>reset</title>\n<path d="M32 12h-12l4.485-4.485c-2.267-2.266-5.28-3.515-8.485-3.515s-6.219 1.248-8.485 3.515c-2.266 2.267-3.515 5.28-3.515 8.485s1.248 6.219 3.515 8.485c2.267 2.266 5.28 3.515 8.485 3.515s6.219-1.248 8.485-3.515c0.189-0.189 0.371-0.384 0.546-0.583l3.010 2.634c-2.933 3.349-7.239 5.464-12.041 5.464-8.837 0-16-7.163-16-16s7.163-16 16-16c4.418 0 8.418 1.791 11.313 4.687l4.687-4.687v12z"></path>\n</svg>' ], 
+            d(n, p.b.apply(void 0, [ g ].concat(e)));
+            var n;
+        }
+        function l() {
+            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+            return n = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>show</title>\n<path d="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"></path>\n</svg>' ], 
+            n.raw = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>show</title>\n<path d="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"></path>\n</svg>' ], 
+            d(n, p.b.apply(void 0, [ g ].concat(e)));
+            var n;
+        }
+        function f() {
+            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+            return n.i(h.h)([ "svg", {
+                class: p.b.apply(void 0, [ g ].concat(e)),
+                viewBox: "0 0 32 32"
+            }, [ "title", "more" ], [ "path", {
+                d: "M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13z"
+            } ], [ "path", {
+                d: "M11.086 22.086l2.829 2.829 8.914-8.914-8.914-8.914-2.828 2.828 6.086 6.086z"
+            } ] ]);
+        }
+        var d = n(27), p = (n.n(d), n(23)), h = n(0), v = n(4);
+        t.b = r, t.a = i, t.c = o, t.f = a, t.g = s, t.h = u, t.e = c, t.d = l, t.i = f;
+        var g = n.i(p.a)({
+            display: "inline-block",
+            width: "1.1em",
+            height: "1.1em",
+            margin: 4,
+            strokeWidth: 0,
+            stroke: "currentColor",
+            fill: "currentColor",
+            verticalAlign: "bottom",
+            $nest: {
+                "&.selected": {
+                    fill: v.a
+                }
+            }
+        });
+    }, function(e, t, n) {
+        "use strict";
+        var r = n(1), i = (n.n(r), n(4));
         n.d(t, "a", function() {
             return a;
         }), n.d(t, "b", function() {
@@ -967,33 +1077,50 @@
             flexGrow: 1,
             padding: 5
         }), c = n.i(r.style)(i.e, {
+            margin: 0,
             $nest: {
                 "& ul": i.e,
                 "& li": {
-                    paddingLeft: "1em"
+                    paddingLeft: "1.5em",
+                    cursor: "pointer"
+                },
+                "&>li": {
+                    paddingLeft: 0
+                },
+                "& .entity-controls": {
+                    display: "none"
+                },
+                "& .entity-item:hover>.entity-controls": {
+                    display: "inline"
+                },
+                "& .entity-item.selected": {
+                    color: i.a
                 }
             }
         }), l = n.i(r.style)({
             display: "flex",
             flexDirection: "column",
             flexGrow: 1,
+            overflow: "auto",
             $nest: {
                 "& pre": {
+                    margin: 0,
+                    MozUserSelect: "text",
                     userSelect: "text"
                 }
             }
         });
     }, function(e, t, n) {
         "use strict";
-        var r = n(3), i = (n.n(r), n(6));
+        var r = n(1), i = (n.n(r), n(4));
         n.d(t, "a", function() {
-            return o;
-        }), n.d(t, "b", function() {
-            return u;
+            return s;
         }), n.d(t, "c", function() {
+            return u;
+        }), n.d(t, "b", function() {
             return c;
         });
-        var o = n.i(r.style)({
+        var o = (n.i(r.style)({
             margin: "0 4px",
             verticalAlign: "top",
             display: "inline-block",
@@ -1003,21 +1130,42 @@
                     verticalAlign: "middle"
                 }
             }
-        }), a = {
+        }), {
             margin: "0 4px",
             padding: "4px 10px 3px",
             border: 0,
             color: i.g,
             fontSize: "1.0em",
             verticalAlign: "middle",
+            cursor: "pointer",
             $nest: {
                 "& > svg": {
                     verticalAlign: "middle"
                 }
             }
-        }, s = {
+        }), a = {
             padding: "0 4px"
-        }, u = n.i(r.style)(i.c, a), c = n.i(r.style)(i.c, a, s);
+        }, s = n.i(r.style)(i.c, o), u = n.i(r.style)(i.c, o, a), c = n.i(r.style)({
+            display: "inline-block",
+            margin: "0 2px",
+            padding: 0,
+            border: 0,
+            background: "transparent",
+            boxShadow: "none",
+            fontSize: "0.9em"
+        });
+    }, function(e, t, n) {
+        "use strict";
+        function r(e) {
+            var t = e.title, r = e.onclick, a = e.icon, s = e.key, u = e.class, c = [ "button", {
+                class: n.i(i.classes)(o.c, u),
+                onmouseup: r,
+                title: t
+            }, a ];
+            return s && (c[1]["data-key"] = s), c;
+        }
+        var i = n(1), o = (n.n(i), n(12));
+        t.a = r;
     }, function(e, t, n) {
         "use strict";
         n.d(t, "d", function() {
@@ -1046,12 +1194,12 @@
             void 0 === t && (t = ".");
             var n = {};
             return Object.keys(e).sort().forEach(function(r) {
-                for (var i = e[r], o = i.id, a = o.split(t), s = n, u = a.slice(), c = [], l = 0; l < a.length; l++) {
-                    var f = u.shift();
-                    u.length ? (c.push(f), s = s[f] = s[f] || {
-                        __path__: c.join(t)
-                    }) : s[f] = {
-                        __id__: o
+                for (var i = e[r], o = i.id.split(t), a = n, s = o.slice(), u = [], c = 0; c < o.length; c++) {
+                    var l = s.shift();
+                    s.length ? (u.push(l), a = a[l] = a[l] || {
+                        __path__: u.join(t)
+                    }) : a[l] = {
+                        __entity__: i
                     };
                 }
             }), n;
@@ -1078,7 +1226,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var o = n(1);
+        var o = n(2);
         t.modulePathToNamespace = r, t.getGraphFromModules = i;
     }, function(e, t, n) {
         function r(e, t, n) {
@@ -1099,7 +1247,7 @@
                 }
             }
             var d;
-            f.indexOf(e) !== -1 && (t.namespace = s);
+            -1 !== f.indexOf(e) && (t.namespace = s);
             var p = !1;
             if (t.namespace && (p = t.namespace, delete t.namespace), p) d = i.createElementNS(p, e); else {
                 if (e === l) return i.createComment(t.comment);
@@ -1121,7 +1269,7 @@
             }
             return o(n), d;
         }
-        var i = n(16), o = n(42), a = n(17), s = "http://www.w3.org/2000/svg", u = "http://www.w3.org/1999/xlink", c = {
+        var i = n(18), o = n(42), a = n(19), s = "http://www.w3.org/2000/svg", u = "http://www.w3.org/1999/xlink", c = {
             autofocus: 1,
             checked: 1,
             defaultchecked: 1,
@@ -1170,7 +1318,7 @@
                 e[r].childNodes.length > 0 && s(e[r].childNodes, t);
             }
         }
-        var u = n(16), c = n(40), l = Object.create(null), f = "onloadid" + (new Date() % 9e6).toString(36), d = "data-" + f, p = 0;
+        var u = n(18), c = n(40), l = Object.create(null), f = "onloadid" + (new Date() % 9e6).toString(36), d = "data-" + f, p = 0;
         if (c && c.MutationObserver) {
             new MutationObserver(function(e) {
                 if (!(Object.keys(l).length < 1)) for (var t = 0; t < e.length; t++) e[t].attributeName !== d ? (s(e[t].removedNodes, i), 
@@ -1199,7 +1347,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var i = n(1), o = n(2), a = n(12), s = n(5), u = n(7), c = n(9);
+        var i = n(2), o = n(3), a = n(14), s = n(6), u = n(7), c = n(9);
         n.d(t, "viewBox", function() {
             return f;
         }), n.d(t, "nodeState", function() {
@@ -1228,7 +1376,7 @@
             if ("updateGraphScale" === n && r !== e.scale) return e.scale = r, e;
         }).react([ o.action.HOT ], function(e, t) {
             var n = t.type, r = t.payload;
-            if ("updateGraphSize" === n && (r.width !== e.width || r.height !== e.height)) return e.width = r.width, 
+            if ("updateGraphSize" === n && (r.width && r.width !== e.width || r.height && r.height !== e.height)) return e.width = r.width, 
             e.height = r.height, e;
         }).react([ o.mouse.HOT ], function(e, t) {
             var n = t.dragDelta;
@@ -1243,40 +1391,42 @@
             var i = t.id, o = n.dragDelta, a = n.pressed[0] && n.pressed[0].target, s = a && (a.dataset.key || a.parentElement && a.parentElement.dataset.key);
             if (s && i === s && e[i] && (o.x || o.y)) return e[i].x -= o.x * r.scale, e[i].y -= o.y * r.scale, 
             e;
-        }).accept(a.a), p = n.i(i.stream)([ s.graph.HOT ], function(e) {
-            var t = {}, n = {}, i = 0;
-            for (var o in e.entities) {
-                var a = e.entities[o], s = r(o), u = s.label, c = s.group;
-                n[c] = n[c] || i++ % 7 + 1;
-                var f = l({
-                    id: a.id,
-                    class: "group-" + n[c],
-                    label: u
-                }, d[o]);
-                null != a.accept && (f.accept = !0), null != a.value && (f.initial = !0), t[o] = f;
+        }).accept(a.a), p = n.i(i.stream)([ s.graph.HOT, c.activeNode.HOT ], function(e, t) {
+            var n = {}, i = {}, o = 0;
+            for (var a in e.entities) {
+                var s = e.entities[a], u = r(a), c = u.label, f = u.group;
+                i[f] = i[f] || o++ % 7 + 1;
+                var p = l({
+                    id: s.id,
+                    class: "group-" + i[f],
+                    label: c,
+                    active: s.id === t.id
+                }, d[a]);
+                null != s.accept && (p.accept = !0), null != s.value && (p.initial = !0), n[a] = p;
             }
-            return t;
+            return n;
         }).react([ d.HOT ], function(e, t) {
             for (var n in e) e[n].x = t[n].x, e[n].y = t[n].y;
             return e;
-        }), h = n.i(i.stream)([ s.graph.HOT ], function(e) {
-            var t = {};
-            for (var n in e.processes) {
-                var i = e.processes[n], o = l({
-                    id: n
-                }, r(n), {
+        }), h = n.i(i.stream)([ s.graph.HOT, c.activeNode.HOT ], function(e, t) {
+            var n = {};
+            for (var i in e.processes) {
+                var o = e.processes[i], a = l({
+                    id: i
+                }, r(i), {
                     from: [],
-                    async: i.async,
-                    autostart: i.autostart,
-                    acc: i.ports && i.ports.includes(u.PORT_TYPES.ACCUMULATOR)
+                    async: o.async,
+                    autostart: o.autostart,
+                    active: o.id === t.id,
+                    acc: o.ports && o.ports.includes(u.PORT_TYPES.ACCUMULATOR)
                 });
-                for (var a in e.arcs) {
-                    var s = e.arcs[a];
-                    s.process === n && (null != s.port ? o.from.push([ s.entity, i.ports && i.ports[s.port] ]) : o.to = s.entity);
+                for (var s in e.arcs) {
+                    var c = e.arcs[s];
+                    c.process === i && (null != c.port ? a.from.push([ c.entity, o.ports && o.ports[c.port] ]) : a.to = c.entity);
                 }
-                t[n] = o;
+                n[i] = a;
             }
-            return t;
+            return n;
         }), v = n.i(i.stream)([ p.HOT, h.HOT ], function(e, t) {
             var n = [], r = [];
             for (var i in t) {
@@ -1290,19 +1440,21 @@
                     var p = Math.sqrt(o.x * o.x + o.y * o.y);
                     o.x = 50 * o.x / p + a.x, o.y = 50 * o.y / p + a.y;
                     for (var s = 0; s < o.from.length; s++) {
-                        var h = o.from[s], v = h[0], l = h[1];
-                        r.push({
-                            from: e[v],
+                        var h = o.from[s], v = h[0], l = h[1], c = e[v];
+                        o.fromIsActive = o.fromIsActive || c.active, r.push({
+                            from: c,
                             to: o,
                             class: "from" + (l === u.PORT_TYPES.COLD ? " cold" : ""),
-                            title: l
+                            title: l,
+                            active: a.active || o.active || c.active
                         });
                     }
                 } else o.x = a.x, o.y = a.y - 50;
                 n.push(o), r.push({
                     from: o,
                     to: a,
-                    class: "to" + (o.async ? " async" : "")
+                    class: "to" + (o.async ? " async" : ""),
+                    active: a.active || o.active || o.fromIsActive
                 }), o.acc && r.push({
                     from: o,
                     to: a,
@@ -1322,81 +1474,6 @@
                 height: t.height * t.scale
             }, e;
         });
-    }, function(e, t, n) {
-        "use strict";
-        function r() {
-            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
-            return n = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>graph</title>\n<path d="M18 16.078c1.594 0 2.906 1.313 2.906 2.906s-1.313 2.953-2.906 2.953-2.906-1.359-2.906-2.953c0-0.234 0-0.469 0.047-0.656l-7.078-4.125c-0.563 0.516-1.266 0.797-2.063 0.797-1.641 0-3-1.359-3-3s1.359-3 3-3c0.797 0 1.5 0.281 2.063 0.797l7.031-4.078c-0.047-0.234-0.094-0.469-0.094-0.703 0-1.641 1.359-3 3-3s3 1.359 3 3-1.359 3-3 3c-0.797 0-1.5-0.328-2.063-0.844l-7.031 4.125c0.047 0.234 0.094 0.469 0.094 0.703s-0.047 0.469-0.094 0.703l7.125 4.125c0.516-0.469 1.219-0.75 1.969-0.75z"></path>\n</svg>' ], 
-            n.raw = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>graph</title>\n<path d="M18 16.078c1.594 0 2.906 1.313 2.906 2.906s-1.313 2.953-2.906 2.953-2.906-1.359-2.906-2.953c0-0.234 0-0.469 0.047-0.656l-7.078-4.125c-0.563 0.516-1.266 0.797-2.063 0.797-1.641 0-3-1.359-3-3s1.359-3 3-3c0.797 0 1.5 0.281 2.063 0.797l7.031-4.078c-0.047-0.234-0.094-0.469-0.094-0.703 0-1.641 1.359-3 3-3s3 1.359 3 3-1.359 3-3 3c-0.797 0-1.5-0.328-2.063-0.844l-7.031 4.125c0.047 0.234 0.094 0.469 0.094 0.703s-0.047 0.469-0.094 0.703l7.125 4.125c0.516-0.469 1.219-0.75 1.969-0.75z"></path>\n</svg>' ], 
-            l(n, f.b.apply(void 0, [ d ].concat(e)));
-            var n;
-        }
-        function i() {
-            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
-            return n = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>list</title>\n<path d="M9 5.016h12v3.984h-12v-3.984zM9 18.984v-3.984h12v3.984h-12zM9 14.016v-4.031h12v4.031h-12zM3.984 9v-3.984h4.031v3.984h-4.031zM3.984 18.984v-3.984h4.031v3.984h-4.031zM3.984 14.016v-4.031h4.031v4.031h-4.031z"></path>\n</svg>' ], 
-            n.raw = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>list</title>\n<path d="M9 5.016h12v3.984h-12v-3.984zM9 18.984v-3.984h12v3.984h-12zM9 14.016v-4.031h12v4.031h-12zM3.984 9v-3.984h4.031v3.984h-4.031zM3.984 18.984v-3.984h4.031v3.984h-4.031zM3.984 14.016v-4.031h4.031v4.031h-4.031z"></path>\n</svg>' ], 
-            l(n, f.b.apply(void 0, [ d ].concat(e)));
-            var n;
-        }
-        function o() {
-            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
-            return n = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>entities</title>\n<path d="M16.641 1.688l5.672 5.672-5.672 5.625h4.359v8.016h-8.016v-8.016h3.656l-5.625-5.625v3.656h-8.016v-8.016h8.016v4.359zM3 21v-8.016h8.016v8.016h-8.016z"></path>\n</svg>' ], 
-            n.raw = [ '<svg class="', '" viewBox="0 0 24 24">\n<title>entities</title>\n<path d="M16.641 1.688l5.672 5.672-5.672 5.625h4.359v8.016h-8.016v-8.016h3.656l-5.625-5.625v3.656h-8.016v-8.016h8.016v4.359zM3 21v-8.016h8.016v8.016h-8.016z"></path>\n</svg>' ], 
-            l(n, f.b.apply(void 0, [ d ].concat(e)));
-            var n;
-        }
-        function a() {
-            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
-            return n = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>play</title>\n<path d="M6 4l20 12-20 12z"></path>\n</svg>' ], 
-            n.raw = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>play</title>\n<path d="M6 4l20 12-20 12z"></path>\n</svg>' ], 
-            l(n, f.b.apply(void 0, [ d ].concat(e)));
-            var n;
-        }
-        function s() {
-            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
-            return n = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>stop</title>\n<path d="M4 4h24v24h-24z"></path>\n</svg>' ], 
-            n.raw = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>stop</title>\n<path d="M4 4h24v24h-24z"></path>\n</svg>' ], 
-            l(n, f.b.apply(void 0, [ d ].concat(e)));
-            var n;
-        }
-        function u() {
-            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
-            return n = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>reset</title>\n<path d="M32 12h-12l4.485-4.485c-2.267-2.266-5.28-3.515-8.485-3.515s-6.219 1.248-8.485 3.515c-2.266 2.267-3.515 5.28-3.515 8.485s1.248 6.219 3.515 8.485c2.267 2.266 5.28 3.515 8.485 3.515s6.219-1.248 8.485-3.515c0.189-0.189 0.371-0.384 0.546-0.583l3.010 2.634c-2.933 3.349-7.239 5.464-12.041 5.464-8.837 0-16-7.163-16-16s7.163-16 16-16c4.418 0 8.418 1.791 11.313 4.687l4.687-4.687v12z"></path>\n</svg>' ], 
-            n.raw = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>reset</title>\n<path d="M32 12h-12l4.485-4.485c-2.267-2.266-5.28-3.515-8.485-3.515s-6.219 1.248-8.485 3.515c-2.266 2.267-3.515 5.28-3.515 8.485s1.248 6.219 3.515 8.485c2.267 2.266 5.28 3.515 8.485 3.515s6.219-1.248 8.485-3.515c0.189-0.189 0.371-0.384 0.546-0.583l3.010 2.634c-2.933 3.349-7.239 5.464-12.041 5.464-8.837 0-16-7.163-16-16s7.163-16 16-16c4.418 0 8.418 1.791 11.313 4.687l4.687-4.687v12z"></path>\n</svg>' ], 
-            l(n, f.b.apply(void 0, [ d ].concat(e)));
-            var n;
-        }
-        function c() {
-            for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
-            return n = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>show</title>\n<path d="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"></path>\n</svg>' ], 
-            n.raw = [ '<svg class="', '" viewBox="0 0 32 32">\n<title>show</title>\n<path d="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"></path>\n</svg>' ], 
-            l(n, f.b.apply(void 0, [ d ].concat(e)));
-            var n;
-        }
-        var l = n(27), f = (n.n(l), n(23));
-        t.b = r, t.a = i, t.c = o, t.f = a, t.g = s, t.e = u, t.d = c;
-        var d = n.i(f.a)({
-            display: "inline-block",
-            width: "1.1em",
-            height: "1.1em",
-            margin: 4,
-            strokeWidth: 0,
-            stroke: "currentColor",
-            fill: "currentColor",
-            verticalAlign: "bottom"
-        });
-    }, function(e, t, n) {
-        "use strict";
-        function r(e) {
-            var t = e.title, r = e.onclick, a = e.icon, s = e.key, u = e.class, c = [ "button", {
-                class: n.i(i.classes)(o.c, u),
-                onmouseup: r,
-                title: t
-            }, a ];
-            return s && (c[1]["data-key"] = s), c;
-        }
-        var i = n(3), o = (n.n(i), n(11));
-        t.a = r;
     }, function(e, t, n) {
         "use strict";
         function r() {
@@ -1466,9 +1543,9 @@
             for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
             for (var n = {}, r = 0, o = e; r < o.length; r++) {
                 var a = o[r];
-                if (null != a && a !== !1) for (var s in a) {
+                if (null != a && !1 !== a) for (var s in a) {
                     var u = a[s];
-                    (u || 0 === u) && ("$nest" === s && u ? n[s] = n.$nest ? i(n.$nest, u) : u : s.indexOf("&") !== -1 || 0 === s.indexOf("@media") ? n[s] = n[s] ? i(n[s], u) : u : n[s] = u);
+                    (u || 0 === u) && ("$nest" === s && u ? n[s] = n.$nest ? i(n.$nest, u) : u : -1 !== s.indexOf("&") || 0 === s.indexOf("@media") ? n[s] = n[s] ? i(n[s], u) : u : n[s] = u);
                 }
             }
             return n;
@@ -1489,9 +1566,9 @@
             for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
             for (var n = {}, r = 0, o = e; r < o.length; r++) {
                 var a = o[r];
-                if (null != a && a !== !1) for (var s in a) {
+                if (null != a && !1 !== a) for (var s in a) {
                     var u = a[s];
-                    (u || 0 === u) && ("$nest" === s && u ? n[s] = n.$nest ? i(n.$nest, u) : u : s.indexOf("&") !== -1 || 0 === s.indexOf("@media") ? n[s] = n[s] ? i(n[s], u) : u : n[s] = u);
+                    (u || 0 === u) && ("$nest" === s && u ? n[s] = n.$nest ? i(n.$nest, u) : u : -1 !== s.indexOf("&") || 0 === s.indexOf("@media") ? n[s] = n[s] ? i(n[s], u) : u : n[s] = u);
                 }
             }
             return n;
@@ -1523,7 +1600,7 @@
         }
         e.exports = n;
     }, function(e, t, n) {
-        var r = n(15), i = n(43), o = n(66);
+        var r = n(17), i = n(43), o = n(66);
         e.exports = r, e.exports.update = function(e, t, n) {
             function r(e, t) {
                 for (var r = n.events || o, i = 0; i < r.length; i++) {
@@ -1533,7 +1610,7 @@
                 var s = e.value, u = t.value;
                 "INPUT" === e.nodeName && "file" !== e.type || "SELECT" === e.nodeName ? u ? u !== s && (e.value = u) : t.value = e.value : "TEXTAREA" === e.nodeName && null === t.getAttribute("value") && (e.value = t.value);
             }
-            return n || (n = {}), n.events !== !1 && (n.onBeforeElUpdated || (n.onBeforeElUpdated = r)), 
+            return n || (n = {}), !1 !== n.events && (n.onBeforeElUpdated || (n.onBeforeElUpdated = r)), 
             i(e, t, n);
         };
     }, function(e, t, n) {
@@ -1577,7 +1654,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var o = n(55), a = n(14), s = n(52), u = n(0), c = n(9), l = n(2), f = n(5), d = n(18);
+        var o = n(55), a = n(16), s = n(52), u = n(0), c = n(9), l = n(3), f = n(6), d = n(20);
         t.start = i;
         var p = n(29);
     }, function(e, t, n) {
@@ -1590,9 +1667,9 @@
             return t;
         }
         var o = {
-            "./events.ts": 2,
-            "./state/flow.ts": 5,
-            "./state/graph.ts": 18,
+            "./events.ts": 3,
+            "./state/flow.ts": 6,
+            "./state/graph.ts": 20,
             "./state/gui.ts": 9
         };
         r.keys = function() {
@@ -1652,16 +1729,16 @@
             return y(e) || m(e) || w(e) || y("red");
         }
         function i(e, t, n) {
-            return new T(k, c(e), b.ensurePercent(t), b.ensurePercent(n), 1, !1);
+            return new T(x, c(e), b.ensurePercent(t), b.ensurePercent(n), 1, !1);
         }
         function o(e, t, n, r) {
-            return new T(k, c(e), b.ensurePercent(t), b.ensurePercent(n), b.ensurePercent(r), !0);
+            return new T(x, c(e), b.ensurePercent(t), b.ensurePercent(n), b.ensurePercent(r), !0);
         }
         function a(e, t, n) {
-            return new T(x, e, t, n, 1, !1);
+            return new T(k, e, t, n, 1, !1);
         }
         function s(e, t, n, r) {
-            return new T(x, e, t, n, b.ensurePercent(r), !0);
+            return new T(k, e, t, n, b.ensurePercent(r), !0);
         }
         function u(e) {
             var t = Math.round(e);
@@ -1678,13 +1755,13 @@
             o = l === c ? 0 : a === l ? (s - u) / d : s === l ? 2 + (u - a) / d : u === l ? 4 + (a - s) / d : 0, 
             (o = Math.min(60 * o, 360)) < 0 && (o += 360);
             var p;
-            return p = l === c ? 0 : f <= .5 ? d / (l + c) : d / (2 - l - c), new T(k, o, p, f, r, i);
+            return p = l === c ? 0 : f <= .5 ? d / (l + c) : d / (2 - l - c), new T(x, o, p, f, r, i);
         }
         function d(e, t, n, r, i) {
             var o = e / 360, a = t, s = n;
             if (0 === a) {
                 var u = 255 * s;
-                return new T(x, u, u, u, r, i);
+                return new T(k, u, u, u, r, i);
             }
             for (var c = s < .5 ? s * (1 + a) : s + a - s * a, l = 2 * s - c, f = 0, d = 0, p = 0, h = 0; h < 3; h++) {
                 var v = o + 1 / 3 * -(h - 1);
@@ -1693,7 +1770,7 @@
                 u = 6 * v < 1 ? l + 6 * (c - l) * v : 2 * v < 1 ? c : 3 * v < 2 ? l + (c - l) * (2 / 3 - v) * 6 : l, 
                 u *= 255, 0 === h ? f = u : 1 === h ? d = u : p = u;
             }
-            return new T(x, f, d, p, r, i);
+            return new T(k, f, d, p, r, i);
         }
         function p(e, t, n, r, i, o, a) {
             return e === t ? new T(e, n, r, i, o, a) : O[e - t](n, r, i, o, a);
@@ -1717,23 +1794,23 @@
             var t = e.match(/#(([a-f0-9]{6})|([a-f0-9]{3}))$/i);
             if (t) {
                 var n = t[1], r = parseInt(3 === n.length ? n[0] + n[0] + n[1] + n[1] + n[2] + n[2] : n, 16);
-                return new T(x, r >> 16 & 255, r >> 8 & 255, 255 & r, 1, !1);
+                return new T(k, r >> 16 & 255, r >> 8 & 255, 255 & r, 1, !1);
             }
         }
         function w(e) {
             var t = b.parseCSSFunction(e);
             if (t && (4 === t.length || 5 === t.length)) {
                 var n, r = t[0], i = "rgba" === r, o = "hsla" === r, a = "rgb" === r, s = "hsl" === r, u = o || i;
-                if (a || i) n = x; else {
+                if (a || i) n = k; else {
                     if (!s && !o) throw new Error("unsupported color string");
-                    n = k;
+                    n = x;
                 }
                 var c = parseFloat(t[1]), l = a || i ? parseFloat(t[2]) : b.ensurePercent(t[2]), f = a || i ? parseFloat(t[3]) : b.ensurePercent(t[3]), d = u ? parseFloat(t[4]) : 1;
                 return new T(n, c, l, f, d, u);
             }
         }
-        var b = n(8), _ = "undefined" != typeof Float32Array, x = 0, k = 1, O = (A = {}, 
-        A[x - k] = f, A[k - x] = d, A), S = (E = {}, E[x] = h(255, 255, 255, 1), E[k] = h(360, 1, 1, 1), 
+        var b = n(8), _ = "undefined" != typeof Float32Array, k = 0, x = 1, O = (A = {}, 
+        A[k - x] = f, A[x - k] = d, A), S = (E = {}, E[k] = h(255, 255, 255, 1), E[x] = h(360, 1, 1, 1), 
         E);
         t.color = r, t.hsl = i, t.hsla = o, t.rgb = a, t.rgba = s;
         var T = function() {
@@ -1745,78 +1822,78 @@
                 return n === e ? t : O[n - e](r[0], r[1], r[2], r[3], i);
             }, e.prototype.toString = function() {
                 var e, t, n = this._format, r = this._values, i = this._hasAlpha;
-                if (n === x) e = i ? "rgba" : "rgb", t = [ Math.round(r[0]), Math.round(r[1]), Math.round(r[2]) ]; else {
-                    if (n !== k) throw new Error("Invalid color format");
+                if (n === k) e = i ? "rgba" : "rgb", t = [ Math.round(r[0]), Math.round(r[1]), Math.round(r[2]) ]; else {
+                    if (n !== x) throw new Error("Invalid color format");
                     e = i ? "hsla" : "hsl", t = [ Math.round(r[0]), b.formatPercent(l(r[1], 2)), b.formatPercent(l(r[2], 2)) ];
                 }
                 return i && t.push(l(r[3], 5)), b.cssFunction(e, t);
             }, e.prototype.toHexString = function() {
-                var t = e.convertHelper(x, this)._values;
+                var t = e.convertHelper(k, this)._values;
                 return "#" + (u(t[0]) + u(t[1]) + u(t[2])).toUpperCase();
             }, e.prototype.toHSL = function() {
                 var e = this._values;
-                return p(this._format, k, e[0], e[1], e[2], 1, !1);
+                return p(this._format, x, e[0], e[1], e[2], 1, !1);
             }, e.prototype.toHSLA = function() {
                 var e = this._values;
-                return p(this._format, k, e[0], e[1], e[2], e[3], !0);
+                return p(this._format, x, e[0], e[1], e[2], e[3], !0);
             }, e.prototype.toRGB = function() {
                 var e = this._values;
-                return p(this._format, x, e[0], e[1], e[2], 1, !1);
+                return p(this._format, k, e[0], e[1], e[2], 1, !1);
             }, e.prototype.toRGBA = function() {
                 var e = this._values;
-                return p(this._format, x, e[0], e[1], e[2], e[3], !0);
+                return p(this._format, k, e[0], e[1], e[2], e[3], !0);
             }, e.prototype.red = function() {
-                return (this._format === x ? this : this.toRGB())._values[0];
+                return (this._format === k ? this : this.toRGB())._values[0];
             }, e.prototype.green = function() {
-                return (this._format === x ? this : this.toRGB())._values[1];
+                return (this._format === k ? this : this.toRGB())._values[1];
             }, e.prototype.blue = function() {
-                return (this._format === x ? this : this.toRGB())._values[2];
+                return (this._format === k ? this : this.toRGB())._values[2];
             }, e.prototype.hue = function() {
-                return (this._format === k ? this : this.toHSL())._values[0];
+                return (this._format === x ? this : this.toHSL())._values[0];
             }, e.prototype.saturation = function() {
-                return (this._format === k ? this : this.toHSL())._values[1];
+                return (this._format === x ? this : this.toHSL())._values[1];
             }, e.prototype.lightness = function() {
-                return (this._format === k ? this : this.toHSL())._values[2];
+                return (this._format === x ? this : this.toHSL())._values[2];
             }, e.prototype.alpha = function() {
                 return this._values[3];
             }, e.prototype.opacity = function() {
                 return this.alpha();
             }, e.prototype.invert = function() {
-                var t = e.convertHelper(x, this)._values;
-                return e.convertHelper(this._format, new e(x, 255 - t[0], 255 - t[1], 255 - t[2], this._values[3], this._hasAlpha));
+                var t = e.convertHelper(k, this)._values;
+                return e.convertHelper(this._format, new e(k, 255 - t[0], 255 - t[1], 255 - t[2], this._values[3], this._hasAlpha));
             }, e.prototype.lighten = function(t, n) {
-                var r = e.convertHelper(k, this)._values, i = S[k][2], o = r[2] + (n ? i - r[2] : i) * b.ensurePercent(t);
-                return e.convertHelper(this._format, new e(k, r[0], r[1], o, this._values[3], this._hasAlpha));
+                var r = e.convertHelper(x, this)._values, i = S[x][2], o = r[2] + (n ? i - r[2] : i) * b.ensurePercent(t);
+                return e.convertHelper(this._format, new e(x, r[0], r[1], o, this._values[3], this._hasAlpha));
             }, e.prototype.darken = function(t, n) {
-                var r = e.convertHelper(k, this)._values, i = r[2] - (n ? r[2] : S[k][2]) * b.ensurePercent(t);
-                return e.convertHelper(this._format, new e(k, r[0], r[1], i, this._values[3], this._hasAlpha));
+                var r = e.convertHelper(x, this)._values, i = r[2] - (n ? r[2] : S[x][2]) * b.ensurePercent(t);
+                return e.convertHelper(this._format, new e(x, r[0], r[1], i, this._values[3], this._hasAlpha));
             }, e.prototype.saturate = function(t, n) {
-                var r = e.convertHelper(k, this)._values, i = S[k][1], o = r[1] + (n ? i - r[1] : i) * b.ensurePercent(t);
-                return e.convertHelper(this._format, new e(k, r[0], o, r[2], this._values[3], this._hasAlpha));
+                var r = e.convertHelper(x, this)._values, i = S[x][1], o = r[1] + (n ? i - r[1] : i) * b.ensurePercent(t);
+                return e.convertHelper(this._format, new e(x, r[0], o, r[2], this._values[3], this._hasAlpha));
             }, e.prototype.desaturate = function(t, n) {
-                var r = e.convertHelper(k, this)._values, i = S[k][1], o = r[1] - (n ? r[1] : i) * b.ensurePercent(t);
-                return e.convertHelper(this._format, new e(k, r[0], o, r[2], this._values[3], this._hasAlpha));
+                var r = e.convertHelper(x, this)._values, i = S[x][1], o = r[1] - (n ? r[1] : i) * b.ensurePercent(t);
+                return e.convertHelper(this._format, new e(x, r[0], o, r[2], this._values[3], this._hasAlpha));
             }, e.prototype.grayscale = function() {
                 return this.desaturate(1);
             }, e.prototype.fade = function(t) {
-                var n = this._values, r = v(x, 3, b.ensurePercent(t));
+                var n = this._values, r = v(k, 3, b.ensurePercent(t));
                 return e.convertHelper(this._format, new e(this._format, n[0], n[1], n[2], r, !0));
             }, e.prototype.fadeOut = function(t, n) {
-                var r = this._values, i = v(x, 3, r[3] - (n ? r[3] : 1) * b.ensurePercent(t));
+                var r = this._values, i = v(k, 3, r[3] - (n ? r[3] : 1) * b.ensurePercent(t));
                 return e.convertHelper(this._format, new e(this._format, r[0], r[1], r[2], i, !0));
             }, e.prototype.fadeIn = function(t, n) {
-                var r = this._values, i = v(x, 3, r[3] + (n ? r[3] : 1) * b.ensurePercent(t));
+                var r = this._values, i = v(k, 3, r[3] + (n ? r[3] : 1) * b.ensurePercent(t));
                 return e.convertHelper(this._format, new e(this._format, r[0], r[1], r[2], i, !0));
             }, e.prototype.mix = function(t, n) {
-                var r = this, i = g(t), o = e.convertHelper(x, r)._values, a = e.convertHelper(x, i)._values, s = void 0 === n ? .5 : n, u = 2 * s - 1, c = Math.abs(o[3] - a[3]), l = ((u * c == -1 ? u : (u + c) / (1 + u * c)) + 1) / 2, f = 1 - l, d = new e(x, Math.round(o[0] * l + a[0] * f), Math.round(o[1] * l + a[1] * f), Math.round(o[2] * l + a[2] * f), o[3] * s + a[3] * (1 - s), r._hasAlpha || i._hasAlpha);
+                var r = this, i = g(t), o = e.convertHelper(k, r)._values, a = e.convertHelper(k, i)._values, s = void 0 === n ? .5 : n, u = 2 * s - 1, c = Math.abs(o[3] - a[3]), l = ((u * c == -1 ? u : (u + c) / (1 + u * c)) + 1) / 2, f = 1 - l, d = new e(k, Math.round(o[0] * l + a[0] * f), Math.round(o[1] * l + a[1] * f), Math.round(o[2] * l + a[2] * f), o[3] * s + a[3] * (1 - s), r._hasAlpha || i._hasAlpha);
                 return e.convertHelper(this._format, d);
             }, e.prototype.tint = function(e) {
                 return t.white.mix(this, e);
             }, e.prototype.shade = function(e) {
                 return t.black.mix(this, e);
             }, e.prototype.spin = function(t) {
-                var n = e.convertHelper(k, this)._values;
-                return e.convertHelper(this._format, new e(k, c(n[0] + t), n[1], n[2], this._values[3], this._hasAlpha));
+                var n = e.convertHelper(x, this)._values;
+                return e.convertHelper(this._format, new e(x, c(n[0] + t), n[1], n[2], this._values[3], this._hasAlpha));
             }, e;
         }();
         t.ColorHelper = T;
@@ -2076,10 +2153,10 @@
         function _(e, t, n) {
             return S.cssFunction("translate3d", [ e, t, n ]);
         }
-        function x(e) {
+        function k(e) {
             return S.cssFunction("translateX", [ e ]);
         }
-        function k(e) {
+        function x(e) {
             return S.cssFunction("translateY", [ e ]);
         }
         function O(e) {
@@ -2089,7 +2166,7 @@
         t.transform = r, t.matrix = i, t.matrix3d = o, t.perspective = a, t.rotate = s, 
         t.rotate3d = u, t.rotateX = c, t.rotateY = l, t.rotateZ = f, t.scale = d, t.scale3d = p, 
         t.scaleX = h, t.scaleY = v, t.scaleZ = g, t.skew = y, t.skewX = m, t.skewY = w, 
-        t.translate = b, t.translate3d = _, t.translateX = x, t.translateY = k, t.translateZ = O;
+        t.translate = b, t.translate3d = _, t.translateX = k, t.translateY = x, t.translateZ = O;
     }, function(e, t, n) {
         "use strict";
         function r(e) {
@@ -2177,60 +2254,60 @@
             var w = t.concat || function(e, t) {
                 return String(e) + String(t);
             };
-            return t.attrToProp !== !1 && (e = o(e)), function(o) {
+            return !1 !== t.attrToProp && (e = o(e)), function(o) {
                 function b(e) {
                     var n = [];
                     _ === d && (_ = c);
                     for (var i = 0; i < e.length; i++) {
                         var o = e.charAt(i);
-                        _ === a && "<" === o ? (x.length && n.push([ a, x ]), x = "", _ = s) : ">" !== o || r(_) || _ === m ? _ === m && /-$/.test(x) && "-" === o ? (t.comments && n.push([ p, x.substr(0, x.length - 1) ], [ u ]), 
-                        x = "", _ = a) : _ === s && /^!--$/.test(x) ? (t.comments && n.push([ s, x ], [ l, "comment" ], [ g ]), 
-                        x = o, _ = m) : _ === a || _ === m ? x += o : _ === s && /\s/.test(o) ? (n.push([ s, x ]), 
-                        x = "", _ = c) : _ === s ? x += o : _ === c && /[^\s"'=\/]/.test(o) ? (_ = l, x = o) : _ === c && /\s/.test(o) ? (x.length && n.push([ l, x ]), 
-                        n.push([ y ])) : _ === l && /\s/.test(o) ? (n.push([ l, x ]), x = "", _ = f) : _ === l && "=" === o ? (n.push([ l, x ], [ g ]), 
-                        x = "", _ = d) : _ === l ? x += o : _ !== f && _ !== c || "=" !== o ? _ !== f && _ !== c || /\s/.test(o) ? _ === d && '"' === o ? _ = v : _ === d && "'" === o ? _ = h : _ === v && '"' === o ? (n.push([ p, x ], [ y ]), 
-                        x = "", _ = c) : _ === h && "'" === o ? (n.push([ p, x ], [ y ]), x = "", _ = c) : _ !== d || /\s/.test(o) ? _ === p && /\s/.test(o) ? (n.push([ p, x ], [ y ]), 
-                        x = "", _ = c) : _ !== p && _ !== h && _ !== v || (x += o) : (_ = p, i--) : (n.push([ y ]), 
-                        /[\w-]/.test(o) ? (x += o, _ = l) : _ = c) : (n.push([ g ]), _ = d) : (_ === s ? n.push([ s, x ]) : _ === l ? n.push([ l, x ]) : _ === p && x.length && n.push([ p, x ]), 
-                        n.push([ u ]), x = "", _ = a);
+                        _ === a && "<" === o ? (k.length && n.push([ a, k ]), k = "", _ = s) : ">" !== o || r(_) || _ === m ? _ === m && /-$/.test(k) && "-" === o ? (t.comments && n.push([ p, k.substr(0, k.length - 1) ], [ u ]), 
+                        k = "", _ = a) : _ === s && /^!--$/.test(k) ? (t.comments && n.push([ s, k ], [ l, "comment" ], [ g ]), 
+                        k = o, _ = m) : _ === a || _ === m ? k += o : _ === s && /\s/.test(o) ? (n.push([ s, k ]), 
+                        k = "", _ = c) : _ === s ? k += o : _ === c && /[^\s"'=\/]/.test(o) ? (_ = l, k = o) : _ === c && /\s/.test(o) ? (k.length && n.push([ l, k ]), 
+                        n.push([ y ])) : _ === l && /\s/.test(o) ? (n.push([ l, k ]), k = "", _ = f) : _ === l && "=" === o ? (n.push([ l, k ], [ g ]), 
+                        k = "", _ = d) : _ === l ? k += o : _ !== f && _ !== c || "=" !== o ? _ !== f && _ !== c || /\s/.test(o) ? _ === d && '"' === o ? _ = v : _ === d && "'" === o ? _ = h : _ === v && '"' === o ? (n.push([ p, k ], [ y ]), 
+                        k = "", _ = c) : _ === h && "'" === o ? (n.push([ p, k ], [ y ]), k = "", _ = c) : _ !== d || /\s/.test(o) ? _ === p && /\s/.test(o) ? (n.push([ p, k ], [ y ]), 
+                        k = "", _ = c) : _ !== p && _ !== h && _ !== v || (k += o) : (_ = p, i--) : (n.push([ y ]), 
+                        /[\w-]/.test(o) ? (k += o, _ = l) : _ = c) : (n.push([ g ]), _ = d) : (_ === s ? n.push([ s, k ]) : _ === l ? n.push([ l, k ]) : _ === p && k.length && n.push([ p, k ]), 
+                        n.push([ u ]), k = "", _ = a);
                     }
-                    return _ === a && x.length ? (n.push([ a, x ]), x = "") : _ === p && x.length ? (n.push([ p, x ]), 
-                    x = "") : _ === v && x.length ? (n.push([ p, x ]), x = "") : _ === h && x.length ? (n.push([ p, x ]), 
-                    x = "") : _ === l && (n.push([ l, x ]), x = ""), n;
+                    return _ === a && k.length ? (n.push([ a, k ]), k = "") : _ === p && k.length ? (n.push([ p, k ]), 
+                    k = "") : _ === v && k.length ? (n.push([ p, k ]), k = "") : _ === h && k.length ? (n.push([ p, k ]), 
+                    k = "") : _ === l && (n.push([ l, k ]), k = ""), n;
                 }
-                for (var _ = a, x = "", k = arguments.length, O = [], S = 0; S < o.length; S++) if (S < k - 1) {
+                for (var _ = a, k = "", x = arguments.length, O = [], S = 0; S < o.length; S++) if (S < x - 1) {
                     var T = arguments[S + 1], C = b(o[S]), A = _;
                     A === v && (A = p), A === h && (A = p), A === d && (A = p), A === c && (A = l), 
                     C.push([ 0, A, T ]), O.push.apply(O, C);
                 } else O.push.apply(O, b(o[S]));
                 for (var E = [ null, {}, [] ], P = [ [ E, -1 ] ], S = 0; S < O.length; S++) {
-                    var M = P[P.length - 1][0], C = O[S], H = C[0];
-                    if (H === s && /^\//.test(C[1])) {
-                        var j = P[P.length - 1][1];
-                        P.length > 1 && (P.pop(), P[P.length - 1][0][2][j] = e(M[0], M[1], M[2].length ? M[2] : void 0));
-                    } else if (H === s) {
+                    var H = P[P.length - 1][0], C = O[S], M = C[0];
+                    if (M === s && /^\//.test(C[1])) {
+                        var z = P[P.length - 1][1];
+                        P.length > 1 && (P.pop(), P[P.length - 1][0][2][z] = e(H[0], H[1], H[2].length ? H[2] : void 0));
+                    } else if (M === s) {
                         var R = [ C[1], {}, [] ];
-                        M[2].push(R), P.push([ R, M[2].length - 1 ]);
-                    } else if (H === l || 0 === H && C[1] === l) {
-                        for (var F, N = ""; S < O.length; S++) if (O[S][0] === l) N = w(N, O[S][1]); else {
+                        H[2].push(R), P.push([ R, H[2].length - 1 ]);
+                    } else if (M === l || 0 === M && C[1] === l) {
+                        for (var I, N = ""; S < O.length; S++) if (O[S][0] === l) N = w(N, O[S][1]); else {
                             if (0 !== O[S][0] || O[S][1] !== l) break;
-                            if ("object" != typeof O[S][2] || N) N = w(N, O[S][2]); else for (F in O[S][2]) O[S][2].hasOwnProperty(F) && !M[1][F] && (M[1][F] = O[S][2][F]);
+                            if ("object" != typeof O[S][2] || N) N = w(N, O[S][2]); else for (I in O[S][2]) O[S][2].hasOwnProperty(I) && !H[1][I] && (H[1][I] = O[S][2][I]);
                         }
                         O[S][0] === g && S++;
-                        for (var z = S; S < O.length; S++) if (O[S][0] === p || O[S][0] === l) M[1][N] ? M[1][N] = w(M[1][N], O[S][1]) : M[1][N] = n(O[S][1]); else {
+                        for (var j = S; S < O.length; S++) if (O[S][0] === p || O[S][0] === l) H[1][N] ? H[1][N] = w(H[1][N], O[S][1]) : H[1][N] = n(O[S][1]); else {
                             if (0 !== O[S][0] || O[S][1] !== p && O[S][1] !== l) {
-                                !N.length || M[1][N] || S !== z || O[S][0] !== u && O[S][0] !== y || (M[1][N] = N.toLowerCase());
+                                !N.length || H[1][N] || S !== j || O[S][0] !== u && O[S][0] !== y || (H[1][N] = N.toLowerCase());
                                 break;
                             }
-                            M[1][N] ? M[1][N] = w(M[1][N], O[S][2]) : M[1][N] = n(O[S][2]);
+                            H[1][N] ? H[1][N] = w(H[1][N], O[S][2]) : H[1][N] = n(O[S][2]);
                         }
-                    } else if (H === l) M[1][C[1]] = !0; else if (0 === H && C[1] === l) M[1][C[2]] = !0; else if (H === u) {
-                        if (i(M[0]) && P.length) {
-                            var j = P[P.length - 1][1];
-                            P.pop(), P[P.length - 1][0][2][j] = e(M[0], M[1], M[2].length ? M[2] : void 0);
+                    } else if (M === l) H[1][C[1]] = !0; else if (0 === M && C[1] === l) H[1][C[2]] = !0; else if (M === u) {
+                        if (i(H[0]) && P.length) {
+                            var z = P[P.length - 1][1];
+                            P.pop(), P[P.length - 1][0][2][z] = e(H[0], H[1], H[2].length ? H[2] : void 0);
                         }
-                    } else if (0 === H && C[1] === a) void 0 === C[2] || null === C[2] ? C[2] = "" : C[2] || (C[2] = w("", C[2])), 
-                    Array.isArray(C[2][0]) ? M[2].push.apply(M[2], C[2]) : M[2].push(C[2]); else if (H === a) M[2].push(C[1]); else if (H !== g && H !== y) throw new Error("unhandled: " + H);
+                    } else if (0 === M && C[1] === a) void 0 === C[2] || null === C[2] ? C[2] = "" : C[2] || (C[2] = w("", C[2])), 
+                    Array.isArray(C[2][0]) ? H[2].push.apply(H[2], C[2]) : H[2].push(C[2]); else if (M === a) H[2].push(C[1]); else if (M !== g && M !== y) throw new Error("unhandled: " + M);
                 }
                 if (E[2].length > 1 && /^\s*$/.test(E[2][0]) && E[2].shift(), E[2].length > 2 || 2 === E[2].length && /\S/.test(E[2][1])) throw new Error("multiple root elements must be wrapped in an enclosing tag");
                 return Array.isArray(E[2][0]) && "string" == typeof E[2][0][0] && Array.isArray(E[2][0][2]) && (E[2][0] = e(E[2][0][0], E[2][0][1], E[2][0][2])), 
@@ -2264,7 +2341,7 @@
             var n, r, i, o, a, s = t.attributes;
             for (n = s.length - 1; n >= 0; --n) r = s[n], i = r.name, o = r.namespaceURI, a = r.value, 
             o ? (i = r.localName || i, e.getAttributeNS(o, i) !== a && e.setAttributeNS(o, i, a)) : e.getAttribute(i) !== a && e.setAttribute(i, a);
-            for (s = e.attributes, n = s.length - 1; n >= 0; --n) r = s[n], r.specified !== !1 && (i = r.name, 
+            for (s = e.attributes, n = s.length - 1; n >= 0; --n) r = s[n], !1 !== r.specified && (i = r.name, 
             o = r.namespaceURI, o ? (i = r.localName || i, g(t, o, i) || e.removeAttributeNS(o, i)) : g(t, null, i) || e.removeAttribute(i));
         }
         function u(e, t, n) {
@@ -2319,89 +2396,89 @@
         }, m = 1, w = 3, b = 8, _ = function(e) {
             return function(t, n, s) {
                 function u(e) {
-                    x ? x.push(e) : x = [ e ];
+                    k ? k.push(e) : k = [ e ];
                 }
                 function f(e, t) {
                     if (e.nodeType === m) for (var n = e.firstChild; n; ) {
                         var r = void 0;
-                        t && (r = k(n)) ? u(r) : (E(n), n.firstChild && f(n, t)), n = n.nextSibling;
+                        t && (r = x(n)) ? u(r) : (E(n), n.firstChild && f(n, t)), n = n.nextSibling;
                     }
                 }
                 function d(e, t, n) {
-                    A(e) !== !1 && (t && t.removeChild(e), E(e), f(e, n));
+                    !1 !== A(e) && (t && t.removeChild(e), E(e), f(e, n));
                 }
                 function p(e) {
                     if (e.nodeType === m) for (var t = e.firstChild; t; ) {
-                        var n = k(t);
-                        n && (H[n] = t), p(t), t = t.nextSibling;
+                        var n = x(t);
+                        n && (M[n] = t), p(t), t = t.nextSibling;
                     }
                 }
                 function v(e) {
                     S(e);
                     for (var t = e.firstChild; t; ) {
-                        var n = t.nextSibling, r = k(t);
+                        var n = t.nextSibling, r = x(t);
                         if (r) {
-                            var o = H[r];
+                            var o = M[r];
                             o && i(t, o) && (t.parentNode.replaceChild(o, t), g(o, t));
                         }
                         v(t), t = n;
                     }
                 }
                 function g(r, o, a) {
-                    var s, c = k(o);
-                    if (c && delete H[c], !n.isSameNode || !n.isSameNode(t)) {
+                    var s, c = x(o);
+                    if (c && delete M[c], !n.isSameNode || !n.isSameNode(t)) {
                         if (!a) {
-                            if (T(r, o) === !1) return;
-                            if (e(r, o), C(r), P(r, o) === !1) return;
+                            if (!1 === T(r, o)) return;
+                            if (e(r, o), C(r), !1 === P(r, o)) return;
                         }
                         if ("TEXTAREA" !== r.nodeName) {
-                            var l, f, p, _, x = o.firstChild, S = r.firstChild;
-                            e: for (;x; ) {
-                                for (p = x.nextSibling, l = k(x); S; ) {
-                                    if (f = S.nextSibling, x.isSameNode && x.isSameNode(S)) {
-                                        x = p, S = f;
+                            var l, f, p, _, k = o.firstChild, S = r.firstChild;
+                            e: for (;k; ) {
+                                for (p = k.nextSibling, l = x(k); S; ) {
+                                    if (f = S.nextSibling, k.isSameNode && k.isSameNode(S)) {
+                                        k = p, S = f;
                                         continue e;
                                     }
-                                    s = k(S);
+                                    s = x(S);
                                     var A = S.nodeType, E = void 0;
-                                    if (A === x.nodeType && (A === m ? (l ? l !== s && ((_ = H[l]) ? S.nextSibling === _ ? E = !1 : (r.insertBefore(_, S), 
-                                    f = S.nextSibling, s ? u(s) : d(S, r, !0), S = _) : E = !1) : s && (E = !1), (E = E !== !1 && i(S, x)) && g(S, x)) : A !== w && A != b || (E = !0, 
-                                    S.nodeValue = x.nodeValue)), E) {
-                                        x = p, S = f;
+                                    if (A === k.nodeType && (A === m ? (l ? l !== s && ((_ = M[l]) ? S.nextSibling === _ ? E = !1 : (r.insertBefore(_, S), 
+                                    f = S.nextSibling, s ? u(s) : d(S, r, !0), S = _) : E = !1) : s && (E = !1), (E = !1 !== E && i(S, k)) && g(S, k)) : A !== w && A != b || (E = !0, 
+                                    S.nodeValue = k.nodeValue)), E) {
+                                        k = p, S = f;
                                         continue e;
                                     }
                                     s ? u(s) : d(S, r, !0), S = f;
                                 }
-                                if (l && (_ = H[l]) && i(_, x)) r.appendChild(_), g(_, x); else {
-                                    var M = O(x);
-                                    M !== !1 && (M && (x = M), x.actualize && (x = x.actualize(r.ownerDocument || h)), 
-                                    r.appendChild(x), v(x));
+                                if (l && (_ = M[l]) && i(_, k)) r.appendChild(_), g(_, k); else {
+                                    var H = O(k);
+                                    !1 !== H && (H && (k = H), k.actualize && (k = k.actualize(r.ownerDocument || h)), 
+                                    r.appendChild(k), v(k));
                                 }
-                                x = p, S = f;
+                                k = p, S = f;
                             }
-                            for (;S; ) f = S.nextSibling, (s = k(S)) ? u(s) : d(S, r, !0), S = f;
+                            for (;S; ) f = S.nextSibling, (s = x(S)) ? u(s) : d(S, r, !0), S = f;
                         }
-                        var j = y[r.nodeName];
-                        j && j(r, o);
+                        var z = y[r.nodeName];
+                        z && z(r, o);
                     }
                 }
                 if (s || (s = {}), "string" == typeof n) if ("#document" === t.nodeName || "HTML" === t.nodeName) {
                     var _ = n;
                     n = h.createElement("html"), n.innerHTML = _;
                 } else n = r(n);
-                var x, k = s.getNodeKey || l, O = s.onBeforeNodeAdded || c, S = s.onNodeAdded || c, T = s.onBeforeElUpdated || c, C = s.onElUpdated || c, A = s.onBeforeNodeDiscarded || c, E = s.onNodeDiscarded || c, P = s.onBeforeElChildrenUpdated || c, M = s.childrenOnly === !0, H = {};
+                var k, x = s.getNodeKey || l, O = s.onBeforeNodeAdded || c, S = s.onNodeAdded || c, T = s.onBeforeElUpdated || c, C = s.onElUpdated || c, A = s.onBeforeNodeDiscarded || c, E = s.onNodeDiscarded || c, P = s.onBeforeElChildrenUpdated || c, H = !0 === s.childrenOnly, M = {};
                 p(t);
-                var j = t, R = j.nodeType, F = n.nodeType;
-                if (!M) if (R === m) F === m ? i(t, n) || (E(t), j = a(t, o(n.nodeName, n.namespaceURI))) : j = n; else if (R === w || R === b) {
-                    if (F === R) return j.nodeValue = n.nodeValue, j;
-                    j = n;
+                var z = t, R = z.nodeType, I = n.nodeType;
+                if (!H) if (R === m) I === m ? i(t, n) || (E(t), z = a(t, o(n.nodeName, n.namespaceURI))) : z = n; else if (R === w || R === b) {
+                    if (I === R) return z.nodeValue = n.nodeValue, z;
+                    z = n;
                 }
-                if (j === n) E(t); else if (g(j, n, M), x) for (var N = 0, z = x.length; N < z; N++) {
-                    var I = H[x[N]];
-                    I && d(I, I.parentNode, !1);
+                if (z === n) E(t); else if (g(z, n, H), k) for (var N = 0, j = k.length; N < j; N++) {
+                    var F = M[k[N]];
+                    F && d(F, F.parentNode, !1);
                 }
-                return !M && j !== t && t.parentNode && (j.actualize && (j = j.actualize(t.ownerDocument || h)), 
-                t.parentNode.replaceChild(j, t)), j;
+                return !H && z !== t && t.parentNode && (z.actualize && (z = z.actualize(t.ownerDocument || h)), 
+                t.parentNode.replaceChild(z, t)), z;
             };
         }(s);
         e.exports = _;
@@ -2536,7 +2613,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var r = n(28), i = n(13), o = n(14), a = n(0);
+        var r = n(28), i = n(15), o = n(16), a = n(0);
         n.d(t, "ui", function() {
             return s;
         }), n.d(t, "utils", function() {
@@ -2568,7 +2645,7 @@
                 style: "margin-top: 4px"
             } ];
             return f ? (d.push([ "button", {
-                class: c.b,
+                class: c.a,
                 onclick: function() {
                     return t("setEntityEditMode", !0);
                 }
@@ -2587,13 +2664,13 @@
                 icon: s.e(),
                 title: "Reset entity value"
             }))) : d.push([ "button", {
-                class: c.b,
+                class: c.a,
                 "data-key": "cancel-btn",
                 onclick: function() {
                     return t("setEntityEditMode", !1);
                 }
             }, "Cancel" ], [ "button", {
-                class: c.b,
+                class: c.a,
                 "data-key": "save-btn" + o.id,
                 onclick: function() {
                     return t("saveCurrentEntityValue", o.id);
@@ -2629,7 +2706,7 @@
                 class: l.c
             }, [ "code", [ "pre", e.procedure.toString() ] ] ], r ]);
         }
-        var a = n(0), s = n(19), u = n(20), c = n(11), l = n(10);
+        var a = n(0), s = n(10), u = n(13), c = n(12), l = n(11);
         t.b = i, t.a = o;
     }, function(e, t, n) {
         "use strict";
@@ -2653,25 +2730,25 @@
             if (!e) return n.i(a.h)([ "section", {
                 class: o.a
             } ]);
-            var r = e.entities, i = e.processes, s = e.edges, u = e.viewBox, c = void 0 === u ? {} : u;
+            var r = e.entities, i = e.processes, u = e.edges, c = e.viewBox, l = void 0 === c ? {} : c;
             return n.i(a.h)([ "section", {
                 class: o.a
             }, [ "svg", {
                 width: "100%",
                 height: "100%",
-                viewBox: c.x + ", " + c.y + ", " + c.width + ", " + c.height
-            } ].concat(s.map(function(e) {
+                viewBox: l.x + ", " + l.y + ", " + l.width + ", " + l.height
+            } ].concat(u.map(function(e) {
                 return [ "line", {
                     x1: e.from.x,
                     y1: e.from.y,
                     x2: e.to.x,
                     y2: e.to.y,
-                    class: e.class
+                    class: n.i(s.classes)(e.class, e.active && "active")
                 } ];
             }), i.map(function(e) {
                 return [ "circle", {
                     "data-key": e.id,
-                    class: e.class,
+                    class: n.i(s.classes)(e.class, e.active && "active"),
                     transform: "translate(" + e.x + ", " + e.y + ")",
                     onmousedown: function() {
                         return t("state.gui.openProcess", e.id);
@@ -2689,7 +2766,7 @@
                         return t("state.gui.openEntity", e.id);
                     },
                     title: e.id,
-                    class: e.class
+                    class: n.i(s.classes)(e.class, e.active && "active")
                 }, [ "rect", {
                     x: -15,
                     y: -15,
@@ -2708,7 +2785,8 @@
                 } ] ];
             })) ]);
         }
-        var o = n(53), a = n(0);
+        var o = n(53), a = n(0), s = n(1);
+        n.n(s);
         t.b = r, t.a = i;
     }, function(e, t, n) {
         "use strict";
@@ -2726,7 +2804,7 @@
                     return t("state.gui.updateVisibility", e);
                 };
             }, l = n.i(p.h)([ "header", {
-                class: n.i(f.b)("tvs-flow-controls", m.a),
+                class: n.i(f.b)("tvs-flow-controls", y.a),
                 onmousedown: i("controls", t)
             }, o(r, "state.gui.title"), [ "nav", {
                 class: "tvs-controls-btns"
@@ -2749,67 +2827,47 @@
             return d(a || l, u), l;
         }
         function a(e, t, r, o) {
-            function a(e) {
-                return function() {
-                    t("state.gui.setTreeView", e);
-                };
-            }
-            var s = e.props, u = e.dimensions, c = "tree" === s.treeViewComponent ? r(_.a, "state.gui.treeData") : r(_.b, "state.flow.state"), l = n.i(p.h)([ "article", {
+            var a = e.dimensions, s = e.window, u = n.i(p.h)([ "article", {
                 "data-key": "tree",
-                class: n.i(f.b)("tvs-flow-tree", m.b),
+                class: n.i(f.b)("tvs-flow-tree", y.b),
                 onmousedown: i("tree", t)
-            }, [ "header", h.a(), [ "label", {
-                class: y.a
-            }, [ "input", {
-                type: "radio",
-                name: "viewTreeComponent",
-                value: "tree",
-                onchange: a("tree"),
-                checked: "tree" === s.treeViewComponent
-            } ], "Tree" ], [ "label", {
-                class: y.a
-            }, [ "input", {
-                type: "radio",
-                name: "viewTreeComponent",
-                value: "list",
-                onchange: a("list"),
-                checked: "tree" !== s.treeViewComponent
-            } ], "List" ] ], [ "section", {
-                class: m.c
-            }, c ], [ "footer", {
+            }, [ "header", h.a("tree" === s ? "selected" : ""), " Tree" ], [ "section", {
+                class: y.c
+            }, r(b.a, "state.gui.treeData") ], [ "footer", {
                 class: "resize",
                 "data-key": "resize"
             } ] ]);
-            return d(o || l, u), l;
+            return d(o || u, a), u;
         }
         function s(e, t, r, o) {
-            var a = r(w.a, "state.graph.viewData"), s = o || n.i(p.h)([ "article", {
+            var a = e.dimensions, s = e.window, u = r(m.a, "state.graph.viewData"), c = n.i(p.h)([ "article", {
                 "data-key": "graph",
-                class: n.i(f.b)("tvs-flow-graph", m.b),
+                class: n.i(f.b)("tvs-flow-graph", y.b),
                 onmousedown: i("graph", t)
-            }, [ "header", h.b(), " Graph ", r(w.b, "state.graph.viewBox") ], a, [ "footer", {
+            }, [ "header", h.b("graph" === s ? "selected" : ""), " Graph ", r(m.b, "state.graph.viewBox") ], u, [ "footer", {
+                "data-key": "resize",
                 class: "resize"
             } ] ]);
-            return d(s, x({}, e)), requestAnimationFrame(function() {
+            return d(o || c, _({}, a)), requestAnimationFrame(function() {
                 t("updateGraphSize", {
-                    width: a.clientWidth,
-                    height: a.clientHeight
+                    width: u.clientWidth,
+                    height: u.clientHeight
                 });
-            }), s;
+            }), c;
         }
         function u(e, t, r, o) {
-            var a = e.dimensions, s = e.node, u = s.procedure ? n.i(b.a)(s, t) : r(b.b, "state.gui.entityViewProps"), c = n.i(p.h)([ "article", {
+            var a = e.dimensions, s = e.node, u = e.window, c = s && s.procedure ? n.i(w.a)(s, t) : r(w.b, "state.gui.entityViewProps"), l = n.i(p.h)([ "article", {
                 "data-key": "entities",
-                class: n.i(f.b)("tvs-flow-entities", m.b),
+                class: n.i(f.b)("tvs-flow-entities", y.b),
                 onmousedown: i("entities", t)
-            }, [ "header", h.c(), " ", s.id ], u, [ "footer", {
+            }, [ "header", h.c("entities" === u ? "selected" : ""), " ", s && s.id ], c, [ "footer", {
                 class: "resize",
                 "data-key": "resize"
             } ] ]);
-            return d(o || c, x({}, a)), c;
+            return d(o || l, _({}, a)), l;
         }
         function c(e, t, r) {
-            var i = e.tree ? r(a, "state.gui.treeWindowProps") : "", c = e.graph ? r(s, "state.gui.graphWindow") : "", l = e.entities ? r(u, "state.gui.entitiesWindowProps") : "";
+            var i = e.tree ? r(a, "state.gui.treeWindowProps") : "", c = e.graph ? r(s, "state.gui.graphWindowProps") : "", l = e.entities ? r(u, "state.gui.entitiesWindowProps") : "";
             return n.i(p.h)([ "article", {
                 class: n.i(f.b)("tvs-flow-tools", v.b)
             }, r(o, "state.gui.controlProps"), c, l, i ]);
@@ -2817,9 +2875,9 @@
         function l(e) {
             return e(c, "state.gui.visibility");
         }
-        var f = n(23), d = n(39), p = (n.n(d), n(0)), h = n(19), v = n(6), g = n(20), y = n(11), m = n(10), w = n(51), b = n(50), _ = n(54);
+        var f = n(23), d = n(39), p = (n.n(d), n(0)), h = n(10), v = n(4), g = n(13), y = n(11), m = n(51), w = n(50), b = n(54);
         t.a = l;
-        var x = this && this.__assign || Object.assign || function(e) {
+        var _ = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
                 t = arguments[n];
                 for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
@@ -2830,7 +2888,7 @@
         });
     }, function(e, t, n) {
         "use strict";
-        var r = n(3), i = (n.n(r), n(6));
+        var r = n(1), i = (n.n(r), n(4));
         n.d(t, "a", function() {
             return o;
         });
@@ -2850,6 +2908,9 @@
                 "& line": {
                     stroke: "darkgray",
                     $nest: {
+                        "&.active": {
+                            stroke: "#ff7"
+                        },
                         "&.to": {
                             strokeWidth: 6
                         },
@@ -2879,8 +2940,16 @@
                 "& .group-1 rect": {
                     fill: "orangered"
                 },
+                "& .group-1.active rect": {
+                    fill: "lightsalmon",
+                    stroke: "orangered",
+                    strokeWidth: 5
+                },
                 "& circle.group-1": {
                     fill: "orangered"
+                },
+                "& circle.group-1.active": {
+                    fill: "lightsalmon"
                 },
                 "& .group-1 .initial": {
                     fill: "darkred"
@@ -2891,8 +2960,16 @@
                 "& .group-2 rect": {
                     fill: "limegreen"
                 },
+                "& .group-2.active rect": {
+                    fill: "palegreen",
+                    stroke: "limegreen",
+                    strokeWidth: 5
+                },
                 "& circle.group-2": {
                     fill: "limegreen"
+                },
+                "& circle.group-2.active": {
+                    fill: "palegreen"
                 },
                 "& .group-2 .initial": {
                     fill: "darkgreen"
@@ -2903,8 +2980,16 @@
                 "& .group-3 rect": {
                     fill: "cornflowerblue"
                 },
+                "& .group-3.active rect": {
+                    fill: "lightblue",
+                    stroke: "cornflowerblue",
+                    strokeWidth: 5
+                },
                 "& circle.group-3": {
                     fill: "cornflowerblue"
+                },
+                "& circle.group-3.active": {
+                    fill: "lightblue"
                 },
                 "& .group-3 .initial": {
                     fill: "darkslateblue"
@@ -2915,8 +3000,16 @@
                 "& .group-4 rect": {
                     fill: "orchid"
                 },
+                "& .group-4.active rect": {
+                    fill: "thistle",
+                    stroke: "orchid",
+                    strokeWidth: 5
+                },
                 "& circle.group-4": {
                     fill: "orchid"
+                },
+                "& circle.group-4.active": {
+                    fill: "thistle"
                 },
                 "& .group-4 .initial": {
                     fill: "purple"
@@ -2927,8 +3020,16 @@
                 "& .group-5 rect": {
                     fill: "gold"
                 },
+                "& .group-5.active rect": {
+                    fill: "palegoldenrod",
+                    stroke: "gold",
+                    strokeWidth: 5
+                },
                 "& circle.group-5": {
                     fill: "gold"
+                },
+                "& circle.group-5.active": {
+                    fill: "beige"
                 },
                 "& .group-5 .initial": {
                     fill: "darkgoldenrod"
@@ -2939,8 +3040,16 @@
                 "& .group-6 rect": {
                     fill: "lightseagreen"
                 },
+                "& .group-6.active rect": {
+                    fill: "paleturquoise",
+                    stroke: "lightseagreen",
+                    strokeWidth: 5
+                },
                 "& circle.group-6": {
                     fill: "lightseagreen"
+                },
+                "& circle.group-6.active": {
+                    fill: "paleturquoise"
                 },
                 "& .group-6 .initial": {
                     fill: "darkslategray"
@@ -2951,8 +3060,16 @@
                 "& .group-7 rect": {
                     fill: "orange"
                 },
+                "& .group-7.active rect": {
+                    fill: "moccasin",
+                    stroke: "orange",
+                    strokeWidth: 5
+                },
                 "& circle.group-7": {
                     fill: "orange"
+                },
+                "& circle.group-7.active": {
+                    fill: "moccasin"
                 },
                 "& .group-7 .initial": {
                     fill: "saddlebrown"
@@ -2964,60 +3081,69 @@
         });
     }, function(e, t, n) {
         "use strict";
-        function r(e, t, n, i) {
-            if (t.__id__) return [ "li", [ "div", {
-                onclick: function() {
-                    return n("state.gui.openEntity", t.__id__);
-                }
-            }, e ] ];
-            var o = [ "li", [ "div", {
-                onclick: function() {
-                    return n("state.gui.toggleTreeLevel", t.__path__);
-                }
-            }, e ] ];
-            if (!i[t.__path__]) {
-                var a = [ "ul" ];
-                for (var s in t) "__path__" !== s && a.push(r(s, t[s], n, i));
-                o.push(a);
+        function r(e, t, i, o, a) {
+            if (t.__entity__) {
+                var s = t.__entity__, d = [ "span", {
+                    class: "entity-controls"
+                }, n.i(c.a)({
+                    icon: u.d(),
+                    class: l.b,
+                    onclick: function() {
+                        return o("flowEntityInspect", s.id);
+                    },
+                    title: "Inspect entity value"
+                }) ];
+                null != s.value && d.push(n.i(c.a)({
+                    class: l.b,
+                    onclick: function() {
+                        return o("flowEntityReset", s.id);
+                    },
+                    icon: u.e(),
+                    title: "Reset entity value"
+                }));
+                var p = "entity-item";
+                return i === s.id && (p += " selected"), [ "li", [ "div", {
+                    "data-key": "li-" + s.id,
+                    class: p,
+                    onclick: function() {
+                        return o("state.gui.openEntity", s.id);
+                    }
+                }, null != s.value ? u.h() : u.g(), " " + e + " ", d ] ];
             }
-            return o;
+            var h = [ "li", [ "div", {
+                onclick: function() {
+                    return o("state.gui.toggleTreeLevel", t.__path__);
+                }
+            }, u.i(a[t.__path__] ? "" : f), " " + e ] ];
+            if (!a[t.__path__]) {
+                var v = [ "ul" ];
+                for (var g in t) "__path__" !== g && v.push(r(g, t[g], i, o, a));
+                h.push(v);
+            }
+            return h;
         }
         function i(e, t) {
-            var i = e.fold, o = e.tree, u = [ "ul", {
+            var i = e.fold, s = e.tree, u = e.selected, c = [ "ul", {
                 "data-key": "treeView",
-                class: s.e
+                class: a.e
             } ];
-            if (o) {
-                var c = Object.keys(o).map(function(e) {
-                    return r(e, o[e], t, i);
+            if (s) {
+                var l = Object.keys(s).map(function(e) {
+                    return r(e, s[e], u.id, t, i);
                 });
-                u.push.apply(u, c);
+                c.push.apply(c, l);
             }
-            return n.i(a.h)(u);
+            return n.i(o.h)(c);
         }
-        function o(e, t) {
-            var r = [ "ul", {
-                "data-key": "listView"
-            } ];
-            if (e) {
-                var i = Object.keys(e).sort().map(function(e) {
-                    return [ "li", {
-                        "data-key": e,
-                        onclick: function() {
-                            return t("state.gui.openEntity", e);
-                        }
-                    }, e ];
-                });
-                r.push.apply(r, i);
-            }
-            return n.i(a.h)(r);
-        }
-        var a = n(0), s = n(10);
-        t.a = i, t.b = o;
+        var o = n(0), a = n(11), s = n(1), u = (n.n(s), n(10)), c = n(13), l = n(12);
+        t.a = i;
+        var f = n.i(s.style)({
+            transform: "rotate(90deg)"
+        });
     }, function(e, t, n) {
         "use strict";
         var r = n(56);
-        n(1), n(21), n(7);
+        n(2), n(21), n(7);
         t.a = r;
         r.create;
     }, function(e, t, n) {
@@ -3027,8 +3153,8 @@
                 return {
                     entities: E,
                     processes: P,
-                    arcs: M,
-                    meta: H
+                    arcs: H,
+                    meta: M
                 };
             }
             function t() {
@@ -3037,26 +3163,26 @@
                 return e;
             }
             function n() {
-                return j;
+                return z;
             }
             function r(e) {
-                j = e;
+                z = e;
             }
             function a() {
-                return H;
+                return M;
             }
             function s(e) {
-                null == e || "object" != typeof e || e instanceof Array || (H = Object.assign({}, H, e));
+                null == e || "object" != typeof e || e instanceof Array || (M = Object.assign({}, M, e));
             }
             function u(e) {
-                F = e;
+                I = e;
             }
             function c(e) {
                 return R.es[e] && R.es[e].val;
             }
             function l(e, t) {
                 var n = C(e);
-                n.accept && !n.accept(t, n.val) || (n.val = t, z[e] = !0, L = !0, x());
+                n.accept && !n.accept(t, n.val) || (n.val = t, j[e] = !0, L = !0, k());
             }
             function f(e, t) {
                 l(e, t(c(e)));
@@ -3074,7 +3200,7 @@
                 var t = i.createEntity(e);
                 E[t.id] = t;
                 var n = C(t.id);
-                return null != t.value && null == n.val && (n.val = t.value, z[t.id] = !1, L = !0), 
+                return null != t.value && null == n.val && (n.val = t.value, j[t.id] = !1, L = !0), 
                 n.accept = t.accept, t;
             }
             function v(e) {
@@ -3083,15 +3209,15 @@
                 delete R.es[e], delete E[e];
             }
             function g(e) {
-                var t = i.createProcess(e, j);
+                var t = i.createProcess(e, z);
                 P[t.id] = t;
                 var n = A(t.id);
                 delete n.acc, n.values = [], n.sources = [], n.async = t.async, Object.keys(n.arcs).forEach(function(e) {
-                    var n = M[e].port;
+                    var n = H[e].port;
                     null == n || t.ports[n] && t.ports[n] !== i.PORT_TYPES.ACCUMULATOR || w(e);
                 });
                 for (var r in t.ports) t.ports[r] === i.PORT_TYPES.ACCUMULATOR && (n.acc = r);
-                for (var o in n.arcs) b(M[o]);
+                for (var o in n.arcs) b(H[o]);
                 return t;
             }
             function y(e) {
@@ -3102,20 +3228,20 @@
             }
             function m(e) {
                 var t = i.createArc(e);
-                M[t.id] = t, b(t);
+                H[t.id] = t, b(t);
                 var n = A(t.process), r = P[t.process];
-                return r && r.autostart === !0 && Object.keys(n.arcs).length === Object.keys(r.ports).length + 1 && O(n), 
+                return r && !0 === r.autostart && Object.keys(n.arcs).length === Object.keys(r.ports).length + 1 && O(n), 
                 t;
             }
             function w(e) {
-                var t = M[e];
+                var t = H[e];
                 if (t) {
                     var n = A(t.process), r = C(t.entity);
                     delete n.arcs[e], delete r.arcs[e], null != t.port ? (delete r.effects[t.process], 
                     delete n.sources[t.port], delete n.values[t.port]) : (n.stop && (n.stop(), delete n.stop), 
                     n.sink = function() {}, delete n.out, delete r.reactions[t.process]);
                 }
-                delete M[e];
+                delete H[e];
             }
             function b(e) {
                 var t = e.process, n = e.entity, r = A(t), o = C(n), a = P[t];
@@ -3123,8 +3249,8 @@
                 a.ports && null != a.ports[e.port] && (r.sources[e.port] = o, a.ports[e.port] == i.PORT_TYPES.HOT && (o.effects[t] = r))) : (r.out = o, 
                 null != r.acc ? (r.sources[r.acc] = o, o.reactions[t] = r) : delete o.reactions[t], 
                 r.sink = function(e) {
-                    o.accept && !o.accept(e, o.val) || (o.val = e, null != e && (z[o.id] = !0, L = !0), 
-                    I || x());
+                    o.accept && !o.accept(e, o.val) || (o.val = e, null != e && (j[o.id] = !0, L = !0), 
+                    F || k());
                 }));
             }
             function _(e) {
@@ -3133,33 +3259,33 @@
                 if (e.arcs) for (var t in e.arcs) m(e.arcs[t]);
                 e.meta && s(e.meta);
             }
-            function x() {
-                F && console.log("flushing graph recursively with", z);
-                var e = Object.keys(z);
+            function k() {
+                I && console.log("flushing graph recursively with", j);
+                var e = Object.keys(j);
                 if (L) {
                     for (var t = 0; t < e.length; t++) {
                         var n = e[t];
-                        if (z[n]) {
+                        if (j[n]) {
                             var r = R.es[n];
-                            for (var i in r.reactions) k(r.reactions[i]);
+                            for (var i in r.reactions) x(r.reactions[i]);
                         }
                     }
                     var o = {};
-                    z = {}, L = !1, I = !0;
+                    j = {}, L = !1, F = !0;
                     for (var t = 0; t < e.length; t++) {
                         var n = e[t], r = R.es[n];
                         r.cb.length > 0 && (N[n] = r);
-                        for (var i in r.effects) o[i] || (k(r.effects[i]), o[i] = !0);
+                        for (var i in r.effects) o[i] || (x(r.effects[i]), o[i] = !0);
                     }
-                    if (I = !1, L) x(); else {
+                    if (F = !1, L) k(); else {
                         var a = Object.keys(N);
                         N = {};
                         for (var t in a) for (var r = R.es[a[t]], s = 0; s < r.cb.length; s++) r.cb[s](r.val);
-                        F && console.log("flush finished");
+                        I && console.log("flush finished");
                     }
                 }
             }
-            function k(e) {
+            function x(e) {
                 for (var t = !0, n = 0; n < e.sources.length; n++) {
                     var r = e.sources[n];
                     if (null == r.val) {
@@ -3168,24 +3294,24 @@
                     }
                     e.values[n] = r.val;
                 }
-                if (t) if (F && console.log("running process", e.id), e.async) e.stop && e.stop(), 
-                e.stop = P[e.id].procedure.apply(j, [ e.sink ].concat(e.values)); else {
-                    var i = P[e.id].procedure.apply(j, e.values);
+                if (t) if (I && console.log("running process", e.id), e.async) e.stop && e.stop(), 
+                e.stop = P[e.id].procedure.apply(z, [ e.sink ].concat(e.values)); else {
+                    var i = P[e.id].procedure.apply(z, e.values);
                     if (e.out) {
                         var o = e.out;
-                        o.accept && !o.accept(i, o.val) || (o.val = i, null != i && (z[e.out.id] = null == e.acc, 
+                        o.accept && !o.accept(i, o.val) || (o.val = i, null != i && (j[e.out.id] = null == e.acc, 
                         L = !0));
                     }
                 }
             }
             function O(e) {
                 e.async ? setTimeout(function() {
-                    k(e);
-                }, 10) : (k(e), e.out && (z[e.out.id] = !1, L = !0));
+                    x(e);
+                }, 10) : (x(e), e.out && (j[e.out.id] = !1, L = !0));
             }
             function S(e) {
                 var t = A(e);
-                k(t), t.async || x();
+                x(t), t.async || k();
             }
             function T(e) {
                 var t = A(e);
@@ -3210,10 +3336,10 @@
                     sink: function() {}
                 });
             }
-            var E = {}, P = {}, M = {}, H = {}, j = null, R = {
+            var E = {}, P = {}, H = {}, M = {}, z = null, R = {
                 es: {},
                 ps: {}
-            }, F = !1, N = {}, z = {}, I = !1, L = !1;
+            }, I = !1, N = {}, j = {}, F = !1, L = !1;
             return {
                 addEntity: h,
                 removeEntity: v,
@@ -3236,7 +3362,7 @@
                 off: p,
                 start: S,
                 stop: T,
-                flush: x,
+                flush: k,
                 PORT_TYPES: o({}, i.PORT_TYPES)
             };
         }
@@ -3342,12 +3468,12 @@
             }
             return t;
         }
-        var o = n(4);
+        var o = n(5);
         n.n(o);
         t.a = r, t.b = i;
     }, function(e, t, n) {
         "use strict";
-        var r = n(60), i = n(24), o = n(4);
+        var r = n(60), i = n(24), o = n(5);
         n.n(o);
         n.d(t, "a", function() {
             return s;
@@ -3451,14 +3577,14 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var o = n(4);
+        var o = n(5);
         t.ensureStringObj = r, t.explodeKeyframes = i;
     }, function(e, t, n) {
         "use strict";
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var r = n(63), i = n(25), o = n(4), a = function() {
+        var r = n(63), i = n(25), o = n(5), a = function() {
             return o.create(void 0, !0);
         }, s = function() {
             function e(e) {

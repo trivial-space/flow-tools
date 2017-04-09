@@ -31,7 +31,8 @@ export var activeWindow = stream([action.HOT], function (_a) {
         return payload;
     }
 })
-    .accept(and(defined, unequal));
+    .accept(and(defined, unequal))
+    .val('');
 export var zIndex = val(0)
     .react([activeWindow.HOT], function (self) { return self + 1; });
 export var controlsPosition = val({
@@ -39,7 +40,7 @@ export var controlsPosition = val({
     top: 0,
     zIndex: 0
 })
-    .react([activeWindow.COLD, mouse.HOT], function (self, window, mouse) {
+    .react([activeWindow.COLD, mouse.HOT, windowSize.COLD], function (self, window, mouse, size) {
     var delta = mouse.dragDelta;
     var target = mouse.pressed[0] && mouse.pressed[0].target;
     if (window === 'controls'
@@ -51,6 +52,10 @@ export var controlsPosition = val({
             self.top = 0;
         if (self.left < 0)
             self.left = 0;
+        if (self.top > size.height - 20)
+            self.top = size.height - 20;
+        if (self.left > size.width - 20)
+            self.left = size.width - 20;
         return self;
     }
 })
@@ -80,15 +85,6 @@ export var treeWindow = val({
     }
 })
     .accept(defined);
-export var treeViewProps = val({
-    treeViewComponent: 'tree'
-})
-    .react([action.HOT], function (self, action) {
-    if (action.type === "state.gui.setTreeView") {
-        return __assign({}, self, { treeViewComponent: action.payload });
-    }
-})
-    .accept(defined);
 export var treeFold = val({})
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;
@@ -98,8 +94,6 @@ export var treeFold = val({})
     var _b;
 })
     .accept(defined);
-export var treeData = stream([treeFold.HOT, entityTree.HOT], function (fold, tree) { return ({ fold: fold, tree: tree }); }).val({ fold: null, tree: null });
-export var treeWindowProps = stream([treeWindow.HOT, treeViewProps.HOT], function (dimensions, props) { return ({ dimensions: dimensions, props: props }); });
 export var graphWindow = val({
     top: 200,
     left: 100,
@@ -159,12 +153,22 @@ export var activeEntity = val({})
         return graph.entities[payload];
     }
 })
+    .react([mouse.HOT], function (_, mouse) {
+    if (mouse.pressed[2] && mouse.pressed[2].target.closest('svg')) {
+        return { id: '' };
+    }
+})
     .accept(defined);
 export var activeProcess = val({})
     .react([action.HOT, graph.COLD], function (_, _a, graph) {
     var type = _a.type, payload = _a.payload;
     if (type === 'state.gui.openProcess') {
         return graph.processes[payload];
+    }
+})
+    .react([mouse.HOT], function (_, mouse) {
+    if (mouse.pressed[2] && mouse.pressed[2].target.closest('svg')) {
+        return { id: '' };
     }
 })
     .accept(defined);
@@ -184,10 +188,15 @@ export var watchingEntity = val(true)
     .react([activeEntity.HOT], function () { return true; })
     .accept(defined);
 export var activeValue = asyncStream([runtime.COLD, activeEntity.HOT, visibility.HOT, watchingEntity.HOT], function (send, flow, entity, visibility, watching) {
-    send(flow.get(entity.id));
-    if (visibility.entities && watching) {
-        flow.on(entity.id, send);
-        return function () { return flow.off(entity.id, send); };
+    if (entity && entity.id) {
+        send(flow.get(entity.id));
+        if (visibility.entities && watching) {
+            flow.on(entity.id, send);
+            return function () { return flow.off(entity.id, send); };
+        }
+    }
+    else {
+        send('');
     }
 });
 export var editedValue = val('')
@@ -198,16 +207,25 @@ export var editedValue = val('')
     }
     else if (self && type === 'saveCurrentEntityValue') {
         requestAnimationFrame(function () {
-            flow.set(payload, JSON.parse(self));
+            try {
+                flow.set(payload, JSON.parse(self));
+            }
+            catch (e) {
+                console.error('could not save value to entity', payload, self);
+                console.error(e);
+            }
         });
     }
 })
     .react([activeValue.HOT], function () { return ''; })
     .accept(and(defined, unequal));
 export var entityValueView = stream([activeValue.HOT, watchingEntity.HOT], function (value, watching) { return ({ value: value, watching: watching }); }).val({ value: null, watching: true });
-export var entitiesWindowProps = stream([entitiesWindow.HOT, activeNode.HOT], function (dimensions, node) { return ({ dimensions: dimensions, node: node }); });
+export var entitiesWindowProps = stream([entitiesWindow.HOT, activeNode.HOT, activeWindow.HOT], function (dimensions, node, window) { return ({ dimensions: dimensions, node: node, window: window }); }).val({});
 export var entityViewProps = stream([activeEntity.HOT, watchingEntity.HOT], function (entity, watching) { return ({ entity: entity, watching: watching }); });
 export var controlProps = stream([visibility.HOT, controlsPosition.HOT], function (visibility, position) { return ({ visibility: visibility, position: position }); });
+export var treeWindowProps = stream([treeWindow.HOT, activeWindow.HOT], function (dimensions, window) { return ({ dimensions: dimensions, window: window }); }).val({});
+export var graphWindowProps = stream([graphWindow.HOT, activeWindow.HOT], function (dimensions, window) { return ({ dimensions: dimensions, window: window }); }).val({});
+export var treeData = stream([treeFold.HOT, entityTree.HOT, activeEntity.HOT], function (fold, tree, selected) { return ({ fold: fold, tree: tree, selected: selected }); }).val({ fold: null, tree: null, selected: {} });
 function updateWindowZIndex(entity, name) {
     entity.react([activeWindow.COLD, zIndex.HOT], function (self, window, zIndex) {
         if (window === name) {
@@ -221,11 +239,11 @@ updateWindowZIndex(treeWindow, 'tree');
 updateWindowZIndex(graphWindow, 'graph');
 updateWindowZIndex(entitiesWindow, 'entities');
 function setSizeConstrains(dimensions, size) {
-    if (dimensions.height > size.height - 40) {
-        dimensions.height = size.height - 40;
+    if (dimensions.height > size.height - 20) {
+        dimensions.height = size.height - 20;
     }
-    if (dimensions.width > size.width - 40) {
-        dimensions.width = size.width - 40;
+    if (dimensions.width > size.width - 20) {
+        dimensions.width = size.width - 20;
     }
     if (dimensions.top > size.height - 20) {
         dimensions.top = size.height - 20;

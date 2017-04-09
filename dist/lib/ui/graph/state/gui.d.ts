@@ -28,18 +28,7 @@ export declare const treeWindow: EntityRef<{
     height: number;
     zIndex: number;
 }>;
-export declare const treeViewProps: EntityRef<{
-    treeViewComponent: string;
-}>;
 export declare const treeFold: EntityRef<{}>;
-export declare const treeData: EntityRef<{
-    fold: any;
-    tree: any;
-}>;
-export declare const treeWindowProps: EntityRef<{
-    dimensions: any;
-    props: any;
-}>;
 export declare const graphWindow: EntityRef<{
     top: number;
     left: number;
@@ -67,6 +56,7 @@ export declare const entityValueView: EntityRef<{
 export declare const entitiesWindowProps: EntityRef<{
     dimensions: any;
     node: any;
+    window: any;
 }>;
 export declare const entityViewProps: EntityRef<{
     entity: any;
@@ -75,4 +65,17 @@ export declare const entityViewProps: EntityRef<{
 export declare const controlProps: EntityRef<{
     visibility: any;
     position: any;
+}>;
+export declare const treeWindowProps: EntityRef<{
+    dimensions: any;
+    window: any;
+}>;
+export declare const graphWindowProps: EntityRef<{
+    dimensions: any;
+    window: any;
+}>;
+export declare const treeData: EntityRef<{
+    fold: any;
+    tree: any;
+    selected: any;
 }>;

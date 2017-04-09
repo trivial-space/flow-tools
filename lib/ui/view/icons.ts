@@ -1,6 +1,7 @@
 import * as yo from 'yo-yo'
 import { style, classes } from 'typestyle'
 import { h } from "../../utils/yoyo";
+import { highlightColor } from "./styles/main";
 
 
 export const iconClass = style({
@@ -14,7 +15,7 @@ export const iconClass = style({
   verticalAlign: 'bottom',
   $nest: {
     '&.selected': {
-      fill: 'cyan'
+      fill: highlightColor
     }
   }
 })

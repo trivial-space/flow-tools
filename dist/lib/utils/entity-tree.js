@@ -3,15 +3,14 @@ export function createEntityTree(entities, separator) {
     var tree = {};
     Object.keys(entities).sort().forEach(function (entityKey) {
         var entity = entities[entityKey];
-        var id = entity.id;
-        var parts = id.split(separator);
+        var parts = entity.id.split(separator);
         var subtree = tree;
         var steps = parts.slice();
         var path = [];
         for (var i = 0; i < parts.length; i++) {
             var p = steps.shift();
             if (!steps.length) {
-                subtree[p] = { __id__: id };
+                subtree[p] = { __entity__: entity };
             }
             else {
                 path.push(p);

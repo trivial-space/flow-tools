@@ -3,7 +3,7 @@ import { mouse, action } from "../events";
 import { defined } from "tvs-libs/dist/lib/utils/predicates";
 import { graph } from "./flow";
 import { PORT_TYPES, Graph } from "tvs-flow/dist/lib/runtime-types";
-import { graphWindow, activeEntity } from "./gui";
+import { graphWindow, activeEntity, activeNode } from "./gui";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
 
 
@@ -28,7 +28,8 @@ export const viewBox = val({
   [action.HOT],
   (self, {type, payload}) => {
     if (type === 'updateGraphSize'
-        && (payload.width !== self.width || payload.height !== self.height)) {
+        && ((payload.width && payload.width !== self.width)
+            || (payload.height && payload.height !== self.height))) {
       self.width = payload.width
       self.height = payload.height
       return self
@@ -92,8 +93,8 @@ function getLabelGroup (id) {
 
 
 export const graphEntities = stream(
-  [graph.HOT],
-  (graph) => {
+  [graph.HOT, activeNode.HOT],
+  (graph, active) => {
 
     const entities: any = {}
     const groups: any = {}
@@ -111,6 +112,7 @@ export const graphEntities = stream(
         id: e.id,
         class: 'group-' + groups[group],
         label,
+        active: e.id === active.id,
         ...nodeState[key],
       }
 
@@ -140,7 +142,8 @@ export const graphEntities = stream(
 
 
 export const graphProcesses = stream(
-  [graph.HOT], (graph: Graph) => {
+  [graph.HOT, activeNode.HOT],
+  (graph: Graph, active) => {
 
     const processes: any = {}
 
@@ -154,6 +157,7 @@ export const graphProcesses = stream(
         from: [],
         async: p.async,
         autostart: p.autostart,
+        active: p.id === active.id,
         acc: p.ports && p.ports.includes(PORT_TYPES.ACCUMULATOR)
       }
 
@@ -214,11 +218,14 @@ export const viewData = stream(
 
         for (let i = 0; i < p.from.length; i++) {
           const [eid, type] = p.from[i]
+          const from = entities[eid]
+          p.fromIsActive = p.fromIsActive || from.active
           edges.push({
-            from: entities[eid],
+            from,
             to: p,
             class: 'from' + (type === PORT_TYPES.COLD ? ' cold': ''),
-            title: type
+            title: type,
+            active: to.active || p.active || from.active
           })
         }
 
@@ -232,14 +239,15 @@ export const viewData = stream(
       edges.push({
         from: p,
         to,
-        class: 'to' + (p.async ? ' async' : '')
+        class: 'to' + (p.async ? ' async' : ''),
+        active: to.active || p.active || p.fromIsActive
       })
 
       if (p.acc) {
         edges.push({
           from: p,
           to,
-          class: 'to acc'
+          class: 'to acc',
         })
       }
     }

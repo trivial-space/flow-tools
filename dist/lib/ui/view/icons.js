@@ -1,5 +1,7 @@
 import * as yo from 'yo-yo';
 import { style, classes } from 'typestyle';
+import { h } from "../../utils/yoyo";
+import { highlightColor } from "./styles/main";
 export var iconClass = style({
     display: 'inline-block',
     width: '1.1em',
@@ -8,7 +10,12 @@ export var iconClass = style({
     strokeWidth: 0,
     stroke: 'currentColor',
     fill: 'currentColor',
-    verticalAlign: 'bottom'
+    verticalAlign: 'bottom',
+    $nest: {
+        '&.selected': {
+            fill: highlightColor
+        }
+    }
 });
 export function check() {
     var moreClasses = [];
@@ -66,6 +73,19 @@ export function stop() {
     return (_a = ["<svg class=\"", "\" viewBox=\"0 0 32 32\">\n<title>stop</title>\n<path d=\"M4 4h24v24h-24z\"></path>\n</svg>"], _a.raw = ["<svg class=\"", "\" viewBox=\"0 0 32 32\">\n<title>stop</title>\n<path d=\"M4 4h24v24h-24z\"></path>\n</svg>"], yo(_a, classes.apply(void 0, [iconClass].concat(moreClasses))));
     var _a;
 }
+export function stopMarked() {
+    var moreClasses = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        moreClasses[_i] = arguments[_i];
+    }
+    return h(['svg', {
+            class: classes.apply(void 0, [iconClass].concat(moreClasses)),
+            viewBox: "0 0 32 32"
+        },
+        ['title', 'stopMarked'],
+        ['path', { d: "M4 4h24v24h-24z" }],
+        ['circle', { cx: "16", cy: "16", r: "6", fill: "#666" }]]);
+}
 export function reset() {
     var moreClasses = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -87,15 +107,25 @@ export function copy() {
     for (var _i = 0; _i < arguments.length; _i++) {
         moreClasses[_i] = arguments[_i];
     }
-    return (_a = ["<svg class=\"", "\" viewBox=\"0 0 32 32\">\n<title>copy</title>\n<path d=\"M28.681 11.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-11.5c-1.379 0-2.5 1.122-2.5 2.5v23c0 1.378 1.121 2.5 2.5 2.5h19c1.378 0 2.5-1.122 2.5-2.5v-15.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 9.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268v0zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-19c-0.271 0-0.5-0.229-0.5-0.5v-23c0-0.271 0.229-0.5 0.5-0.5 0 0 11.499-0 11.5 0v7c0 0.552 0.448 1 1 1h7v15.5z\"></path>\n<path d=\"M18.841 1.319c-1.612-1.182-2.393-1.319-2.841-1.319h-11.5c-1.378 0-2.5 1.121-2.5 2.5v23c0 1.207 0.86 2.217 2 2.45v-25.45c0-0.271 0.229-0.5 0.5-0.5h15.215c-0.301-0.248-0.595-0.477-0.873-0.681z\"></path>\n</svg>"], _a.raw = ["<svg class=\"", "\" viewBox=\"0 0 32 32\">\n<title>copy</title>\n<path d=\"M28.681 11.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-11.5c-1.379 0-2.5 1.122-2.5 2.5v23c0 1.378 1.121 2.5 2.5 2.5h19c1.378 0 2.5-1.122 2.5-2.5v-15.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 9.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268v0zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-19c-0.271 0-0.5-0.229-0.5-0.5v-23c0-0.271 0.229-0.5 0.5-0.5 0 0 11.499-0 11.5 0v7c0 0.552 0.448 1 1 1h7v15.5z\"></path>\n<path d=\"M18.841 1.319c-1.612-1.182-2.393-1.319-2.841-1.319h-11.5c-1.378 0-2.5 1.121-2.5 2.5v23c0 1.207 0.86 2.217 2 2.45v-25.45c0-0.271 0.229-0.5 0.5-0.5h15.215c-0.301-0.248-0.595-0.477-0.873-0.681z\"></path>\n</svg>"], yo(_a, classes.apply(void 0, [iconClass].concat(moreClasses))));
-    var _a;
+    return h(['svg', {
+            class: classes.apply(void 0, [iconClass].concat(moreClasses)),
+            viewBox: "0 0 32 32"
+        },
+        ['title', 'copy'],
+        ['path', { d: "M28.681 11.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-11.5c-1.379 0-2.5 1.122-2.5 2.5v23c0 1.378 1.121 2.5 2.5 2.5h19c1.378 0 2.5-1.122 2.5-2.5v-15.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 9.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268v0zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-19c-0.271 0-0.5-0.229-0.5-0.5v-23c0-0.271 0.229-0.5 0.5-0.5 0 0 11.499-0 11.5 0v7c0 0.552 0.448 1 1 1h7v15.5z" }],
+        ['path', { d: "M18.841 1.319c-1.612-1.182-2.393-1.319-2.841-1.319h-11.5c-1.378 0-2.5 1.121-2.5 2.5v23c0 1.207 0.86 2.217 2 2.45v-25.45c0-0.271 0.229-0.5 0.5-0.5h15.215c-0.301-0.248-0.595-0.477-0.873-0.681z" }]]);
 }
 export function more() {
     var moreClasses = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         moreClasses[_i] = arguments[_i];
     }
-    return (_a = ["<svg class=\"", "\" viewBox=\"0 0 32 32\">\n<title>more</title>\n<path d=\"M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13z\"></path>\n<path d=\"M11.086 22.086l2.829 2.829 8.914-8.914-8.914-8.914-2.828 2.828 6.086 6.086z\"></path>\n</svg>"], _a.raw = ["<svg class=\"", "\" viewBox=\"0 0 32 32\">\n<title>more</title>\n<path d=\"M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13z\"></path>\n<path d=\"M11.086 22.086l2.829 2.829 8.914-8.914-8.914-8.914-2.828 2.828 6.086 6.086z\"></path>\n</svg>"], yo(_a, classes.apply(void 0, [iconClass].concat(moreClasses))));
-    var _a;
+    return h(['svg', {
+            class: classes.apply(void 0, [iconClass].concat(moreClasses)),
+            viewBox: "0 0 32 32"
+        },
+        ['title', 'more'],
+        ['path', { d: "M16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM16 29c-7.18 0-13-5.82-13-13s5.82-13 13-13 13 5.82 13 13-5.82 13-13 13z" }],
+        ['path', { d: "M11.086 22.086l2.829 2.829 8.914-8.914-8.914-8.914-2.828 2.828 6.086 6.086z" }]]);
 }
 //# sourceMappingURL=icons.js.map

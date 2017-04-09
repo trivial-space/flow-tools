@@ -1,5 +1,5 @@
 import { style } from "typestyle/lib";
-import { element, fontSize, resetUl, content } from "./main";
+import { element, fontSize, resetUl, content, highlightColor } from "./main";
 
 
 export const controlsStyle = style(element, {
@@ -82,7 +82,7 @@ export const treeViewStyle = style( resetUl, {
       display: 'inline'
     },
     '& .entity-item.selected': {
-      color: 'cyan'
+      color: highlightColor
     }
   }
 })
@@ -92,6 +92,7 @@ export const entityViewStyle = style({
   display: 'flex',
   flexDirection: 'column',
   flexGrow: 1,
+  overflow: 'auto',
 
   $nest: {
     '& pre': {

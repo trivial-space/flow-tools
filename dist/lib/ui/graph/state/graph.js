@@ -11,7 +11,7 @@ import { mouse, action } from "../events";
 import { defined } from "tvs-libs/dist/lib/utils/predicates";
 import { graph } from "./flow";
 import { PORT_TYPES } from "tvs-flow/dist/lib/runtime-types";
-import { graphWindow, activeEntity } from "./gui";
+import { graphWindow, activeEntity, activeNode } from "./gui";
 export var viewBox = val({
     width: 0,
     height: 0,
@@ -30,7 +30,8 @@ export var viewBox = val({
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;
     if (type === 'updateGraphSize'
-        && (payload.width !== self.width || payload.height !== self.height)) {
+        && ((payload.width && payload.width !== self.width)
+            || (payload.height && payload.height !== self.height))) {
         self.width = payload.width;
         self.height = payload.height;
         return self;
@@ -78,7 +79,7 @@ function getLabelGroup(id) {
     var group = path.join('.');
     return { label: label, group: group };
 }
-export var graphEntities = stream([graph.HOT], function (graph) {
+export var graphEntities = stream([graph.HOT, activeNode.HOT], function (graph, active) {
     var entities = {};
     var groups = {};
     var groupNr = 0;
@@ -86,7 +87,7 @@ export var graphEntities = stream([graph.HOT], function (graph) {
         var e = graph.entities[key];
         var _a = getLabelGroup(key), label = _a.label, group = _a.group;
         groups[group] = groups[group] || (groupNr++ % 7) + 1;
-        var node = __assign({ id: e.id, class: 'group-' + groups[group], label: label }, nodeState[key]);
+        var node = __assign({ id: e.id, class: 'group-' + groups[group], label: label, active: e.id === active.id }, nodeState[key]);
         if (e.accept != null) {
             node.accept = true;
         }
@@ -104,11 +105,11 @@ export var graphEntities = stream([graph.HOT], function (graph) {
     }
     return self;
 });
-export var graphProcesses = stream([graph.HOT], function (graph) {
+export var graphProcesses = stream([graph.HOT, activeNode.HOT], function (graph, active) {
     var processes = {};
     for (var key in graph.processes) {
         var p = graph.processes[key];
-        var node = __assign({ id: key }, getLabelGroup(key), { from: [], async: p.async, autostart: p.autostart, acc: p.ports && p.ports.includes(PORT_TYPES.ACCUMULATOR) });
+        var node = __assign({ id: key }, getLabelGroup(key), { from: [], async: p.async, autostart: p.autostart, active: p.id === active.id, acc: p.ports && p.ports.includes(PORT_TYPES.ACCUMULATOR) });
         for (var akey in graph.arcs) {
             var a = graph.arcs[akey];
             if (a.process === key) {
@@ -152,11 +153,14 @@ export var viewData = stream([graphEntities.HOT, graphProcesses.HOT], function (
             p.y = pDistance * p.y / l + to.y;
             for (var i = 0; i < p.from.length; i++) {
                 var _a = p.from[i], eid = _a[0], type = _a[1];
+                var from = entities[eid];
+                p.fromIsActive = p.fromIsActive || from.active;
                 edges.push({
-                    from: entities[eid],
+                    from: from,
                     to: p,
                     class: 'from' + (type === PORT_TYPES.COLD ? ' cold' : ''),
-                    title: type
+                    title: type,
+                    active: to.active || p.active || from.active
                 });
             }
         }
@@ -168,13 +172,14 @@ export var viewData = stream([graphEntities.HOT, graphProcesses.HOT], function (
         edges.push({
             from: p,
             to: to,
-            class: 'to' + (p.async ? ' async' : '')
+            class: 'to' + (p.async ? ' async' : ''),
+            active: to.active || p.active || p.fromIsActive
         });
         if (p.acc) {
             edges.push({
                 from: p,
                 to: to,
-                class: 'to acc'
+                class: 'to acc',
             });
         }
     }
