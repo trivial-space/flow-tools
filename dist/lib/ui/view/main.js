@@ -16,6 +16,7 @@ import { windowContentStyle, controlsStyle, windowStyle } from "./styles/compone
 import { graphView, scaleSlider } from "./graph";
 import { processView, entityView } from "./entities";
 import { treeView } from "./tree";
+import { iconButtonLightStyle } from "./styles/ui";
 function title(title) {
     return h(['h1', title]);
 }
@@ -70,7 +71,14 @@ function treeWindow(_a, dispatch, component, root) {
         },
         ['header',
             icon.list(window === "tree" ? 'selected' : ''),
-            ' Tree'],
+            ' Tree ',
+            ['span', { class: 'gap' }],
+            ' ',
+            iconBtn({
+                icon: icon.close(),
+                class: iconButtonLightStyle,
+                title: 'close window'
+            })],
         ['section', { class: windowContentStyle }, component(treeView, 'state.gui.treeData')],
         ['footer', {
                 class: 'resize',
@@ -90,7 +98,19 @@ function graphWindow(_a, dispatch, component, root) {
         ['header',
             icon.graph(window === "graph" ? 'selected' : ''),
             ' Graph ',
-            component(scaleSlider, 'state.graph.viewBox')],
+            ['span', { class: 'gap' }],
+            component(scaleSlider, 'state.graph.viewBox'),
+            ' ',
+            iconBtn({
+                icon: icon.copy(),
+                class: classes(iconButtonLightStyle, 'tvs-save-graph'),
+                title: 'copy the current graph state to clipboard'
+            }),
+            iconBtn({
+                icon: icon.close(),
+                class: iconButtonLightStyle,
+                title: 'close window'
+            })],
         graph,
         ['footer', {
                 'data-key': 'resize',
@@ -118,7 +138,15 @@ function entitiesWindow(_a, dispatch, component, root) {
         ['header',
             icon.entities(window === "entities" ? 'selected' : ''),
             ' ',
-            node && node.id],
+            node && node.id,
+            ' ',
+            ['span', { class: 'gap' }, ' '],
+            ' ',
+            iconBtn({
+                icon: icon.close(),
+                class: iconButtonLightStyle,
+                title: 'close window'
+            })],
         view,
         ['footer', {
                 class: 'resize',

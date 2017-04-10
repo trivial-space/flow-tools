@@ -48,6 +48,17 @@ export var windowStyle = style(element, {
             borderRadius: 4,
             cursor: 'nwse-resize',
             background: "linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%)",
+        },
+        '&>header': {
+            display: 'flex',
+            alignItems: 'center',
+            minHeight: 26
+        },
+        '&>header input': {
+            verticalAlign: 'middle'
+        },
+        '&>header .gap': {
+            flexGrow: 1
         }
     }
 });
