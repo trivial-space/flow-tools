@@ -34,6 +34,8 @@ export const visibility = val({
   (self, { type, payload }) => {
     if (type === "state.gui.updateVisibility") {
       return { ...self, [payload]: !self[payload] }
+    } else if (type === "closeWindow") {
+      return { ...self, [payload]: false }
     }
   }
 )

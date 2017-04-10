@@ -21,7 +21,10 @@ export var visibility = val({
     if (type === "state.gui.updateVisibility") {
         return __assign({}, self, (_b = {}, _b[payload] = !self[payload], _b));
     }
-    var _b;
+    else if (type === "closeWindow") {
+        return __assign({}, self, (_c = {}, _c[payload] = false, _c));
+    }
+    var _b, _c;
 })
     .accept(defined);
 export var activeWindow = stream([action.HOT], function (_a) {

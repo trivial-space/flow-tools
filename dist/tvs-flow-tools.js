@@ -817,7 +817,8 @@
         }).react([ c.action.HOT ], function(e, t) {
             var n = t.type, r = t.payload;
             if ("state.gui.updateVisibility" === n) return l({}, e, (i = {}, i[r] = !e[r], i));
-            var i;
+            if ("closeWindow" === n) return l({}, e, (o = {}, o[r] = !1, o));
+            var i, o;
         }).accept(s.a), p = n.i(a.stream)([ c.action.HOT ], function(e) {
             var t = e.type, n = e.payload;
             if ("state.gui.setActiveWindow" === t || "state.gui.updateVisibility" === t) return n;
@@ -3240,7 +3241,10 @@
             } ], " ", n.i(g.a)({
                 icon: h.d(),
                 class: _.a,
-                title: "close window"
+                title: "close window",
+                onclick: function() {
+                    return t("closeWindow", "tree");
+                }
             }) ], [ "section", {
                 class: y.c
             }, r(w.a, "state.gui.treeData") ], [ "footer", {
@@ -3263,7 +3267,10 @@
             }), n.i(g.a)({
                 icon: h.d(),
                 class: _.a,
-                title: "close window"
+                title: "close window",
+                onclick: function() {
+                    return t("closeWindow", "graph");
+                }
             }) ], c, [ "footer", {
                 "data-key": "resize",
                 class: "resize"
@@ -3285,7 +3292,10 @@
             }, " " ], " ", n.i(g.a)({
                 icon: h.d(),
                 class: _.a,
-                title: "close window"
+                title: "close window",
+                onclick: function() {
+                    return t("closeWindow", "entities");
+                }
             }) ], u, [ "footer", {
                 class: "resize",
                 "data-key": "resize"

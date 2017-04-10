@@ -83,7 +83,8 @@ function treeWindow ({dimensions, window}, dispatch, component, root) {
         iconBtn({
           icon: icon.close(),
           class: iconButtonLightStyle,
-          title: 'close window'
+          title: 'close window',
+          onclick: () => dispatch('closeWindow', 'tree')
         })],
       ['section', {class: windowContentStyle}, component(treeView, 'state.gui.treeData')],
       ['footer', {
@@ -121,7 +122,8 @@ function graphWindow ({dimensions, window}, dispatch, component, root) {
         iconBtn({
           icon: icon.close(),
           class: iconButtonLightStyle,
-          title: 'close window'
+          title: 'close window',
+          onclick: () => dispatch('closeWindow', 'graph')
         })],
       graph,
       ['footer', {
@@ -163,7 +165,8 @@ function entitiesWindow ({dimensions, node, window}, dispatch, component, root) 
         iconBtn({
           icon: icon.close(),
           class: iconButtonLightStyle,
-          title: 'close window'
+          title: 'close window',
+          onclick: () => dispatch('closeWindow', 'entities')
         })],
       view,
       ['footer', {
