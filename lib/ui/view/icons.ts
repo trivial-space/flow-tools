@@ -1,7 +1,8 @@
 import * as yo from 'yo-yo'
 import { style, classes } from 'typestyle'
-import { h } from "../../utils/yoyo";
+import { h } from "../../utils/inferno";
 import { highlightColor } from "./styles/main";
+import { VNode } from "inferno";
 
 
 export const iconClass = style({
@@ -37,11 +38,14 @@ export function close (...moreClasses: string[]): SVGElement {
 }
 
 
-export function graph (...moreClasses: string[]): SVGElement {
-  return yo`<svg class="${classes(iconClass, ...moreClasses)}" viewBox="0 0 24 24">
-<title>graph</title>
-<path d="M18 16.078c1.594 0 2.906 1.313 2.906 2.906s-1.313 2.953-2.906 2.953-2.906-1.359-2.906-2.953c0-0.234 0-0.469 0.047-0.656l-7.078-4.125c-0.563 0.516-1.266 0.797-2.063 0.797-1.641 0-3-1.359-3-3s1.359-3 3-3c0.797 0 1.5 0.281 2.063 0.797l7.031-4.078c-0.047-0.234-0.094-0.469-0.094-0.703 0-1.641 1.359-3 3-3s3 1.359 3 3-1.359 3-3 3c-0.797 0-1.5-0.328-2.063-0.844l-7.031 4.125c0.047 0.234 0.094 0.469 0.094 0.703s-0.047 0.469-0.094 0.703l7.125 4.125c0.516-0.469 1.219-0.75 1.969-0.75z"></path>
-</svg>`
+export function graph (...moreClasses: string[]): VNode {
+  return h(['svg', {
+      class: classes(iconClass, ...moreClasses),
+      viewBox: "0 0 24 24"
+    },
+    ['title', 'graph'],
+    ['path', { d: "M18 16.078c1.594 0 2.906 1.313 2.906 2.906s-1.313 2.953-2.906 2.953-2.906-1.359-2.906-2.953c0-0.234 0-0.469 0.047-0.656l-7.078-4.125c-0.563 0.516-1.266 0.797-2.063 0.797-1.641 0-3-1.359-3-3s1.359-3 3-3c0.797 0 1.5 0.281 2.063 0.797l7.031-4.078c-0.047-0.234-0.094-0.469-0.094-0.703 0-1.641 1.359-3 3-3s3 1.359 3 3-1.359 3-3 3c-0.797 0-1.5-0.328-2.063-0.844l-7.031 4.125c0.047 0.234 0.094 0.469 0.094 0.703s-0.047 0.469-0.094 0.703l7.125 4.125c0.516-0.469 1.219-0.75 1.969-0.75z" }]
+  ])
 }
 
 
@@ -77,7 +81,7 @@ export function stop (...moreClasses: string[]): SVGElement {
 }
 
 
-export function stopMarked (...moreClasses: string[]): SVGElement {
+export function stopMarked (...moreClasses: string[]): VNode {
   return h(
     ['svg', {
         class: classes(iconClass, ...moreClasses),
@@ -98,15 +102,18 @@ export function reset (...moreClasses: string[]): SVGElement {
 }
 
 
-export function show (...moreClasses: string[]): SVGElement {
-  return yo`<svg class="${classes(iconClass, ...moreClasses)}" viewBox="0 0 32 32">
-<title>show</title>
-<path d="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"></path>
-</svg>`
+export function show (...moreClasses: string[]): VNode {
+  return h(['svg', {
+      class: classes(iconClass, ...moreClasses),
+      viewBox: "0 0 32 32"
+    },
+    ['title', 'show'],
+    ['path', { d: "M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" }]
+  ])
 }
 
 
-export function copy (...moreClasses: string[]): SVGElement {
+export function copy (...moreClasses: string[]): VNode {
   return h(
     ['svg', {
         class: classes(iconClass, ...moreClasses),
@@ -118,7 +125,7 @@ export function copy (...moreClasses: string[]): SVGElement {
   )
 }
 
-export function more (...moreClasses: string[]): SVGElement {
+export function more (...moreClasses: string[]): VNode {
   return h(
     ['svg', {
         class: classes(iconClass, ...moreClasses),

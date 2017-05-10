@@ -4,7 +4,6 @@ const config = require('./webpack.config')
 
 
 const hotCodeEntry = [
-  'es6-shim', 'es7-shim/browser',
   'webpack-dev-server/client?http://localhost:8081',
   'webpack/hot/only-dev-server'
 ]

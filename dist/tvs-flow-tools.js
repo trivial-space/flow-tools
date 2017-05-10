@@ -1610,14 +1610,17 @@
         t.classes = r, t.extend = i, t.media = function(e) {
             for (var t = [], n = 1; n < arguments.length; n++) t[n - 1] = arguments[n];
             var r = [];
-            e.type && r.push(e.type), e.orientation && r.push(e.orientation), e.minWidth && r.push("(min-width: " + e.minWidth + "px)"), 
-            e.maxWidth && r.push("(max-width: " + e.maxWidth + "px)"), e.minHeight && r.push("(min-height: " + e.minHeight + "px)"), 
-            e.maxHeight && r.push("(max-height: " + e.maxHeight + "px)");
-            var o = "@media " + r.join(" and ");
+            e.type && r.push(e.type), e.orientation && r.push(e.orientation), e.minWidth && r.push("(min-width: " + o(e.minWidth) + ")"), 
+            e.maxWidth && r.push("(max-width: " + o(e.maxWidth) + ")"), e.minHeight && r.push("(min-height: " + o(e.minHeight) + ")"), 
+            e.maxHeight && r.push("(max-height: " + o(e.maxHeight) + ")");
+            var a = "@media " + r.join(" and ");
             return {
-                $nest: (a = {}, a[o] = i.apply(void 0, t), a)
+                $nest: (s = {}, s[a] = i.apply(void 0, t), s)
             };
-            var a;
+            var s;
+        };
+        var o = function(e) {
+            return "string" == typeof e ? e : e + "px";
         };
     }, function(e, t) {
         var n;

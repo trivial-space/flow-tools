@@ -1,5 +1,6 @@
 import { classes } from "typestyle/lib";
 import { iconButtonStyle } from "./styles/ui";
+import { VNode } from "inferno";
 
 
 
@@ -12,7 +13,7 @@ export function iconBtn({
 }: {
   title?: string
   onclick?: Function
-  icon?: SVGElement,
+  icon?: VNode | any[],
   class?: string,
   key?: string
 }) {
@@ -22,7 +23,7 @@ export function iconBtn({
     title
   }, icon]
 
-  if (key) btn[1]['data-key'] = key
+  if (key) btn[1]['key'] = key
 
   return btn
 }

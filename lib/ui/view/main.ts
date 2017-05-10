@@ -1,6 +1,6 @@
 import { style, classes } from "typestyle";
 import * as css from 'dom-css'
-import { Component, h } from '../../utils/yoyo';
+import { Component, h, ComponentClass } from '../../utils/inferno';
 import * as icon from "./icons";
 import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
@@ -9,6 +9,7 @@ import { graphView, scaleSlider } from "./graph";
 import { processView, entityView } from "./entities";
 import { treeView } from "./tree";
 import { iconButtonLightStyle } from "./styles/ui";
+import { VNode } from "inferno";
 
 
 function title (title) {
@@ -26,7 +27,7 @@ function setActiveWindow(label, dispatch) {
 }
 
 
-function controls({visibility, position}, dispatch, component, root) {
+function controls({visibility, position}, dispatch, component) {
 
   const click =
     label =>
@@ -35,7 +36,8 @@ function controls({visibility, position}, dispatch, component, root) {
   const el = h(
     ['header', {
         class: classes('tvs-flow-controls', controlsStyle),
-        onmousedown: setActiveWindow('controls', dispatch)
+        onmousedown: setActiveWindow('controls', dispatch),
+        style: position
       },
       component(title, 'state.gui.title'),
       ['nav', {class: 'tvs-controls-btns'},
@@ -62,13 +64,11 @@ function controls({visibility, position}, dispatch, component, root) {
               title: "toggle entity details"
             })]]]])
 
-  css(root || el, position)
-
   return el
 }
 
 
-function treeWindow ({dimensions, window}, dispatch, component, root) {
+export function treeWindow ({dimensions, window}, dispatch, component, root) {
   const el = h(
     ['article', {
         'data-key': 'tree',
@@ -98,7 +98,7 @@ function treeWindow ({dimensions, window}, dispatch, component, root) {
 }
 
 
-function graphWindow ({dimensions, window}, dispatch, component, root) {
+export function graphWindow ({dimensions, window}, dispatch, component, root) {
 
   const graph = component(graphView, 'state.graph.viewData')
 
@@ -144,7 +144,7 @@ function graphWindow ({dimensions, window}, dispatch, component, root) {
 }
 
 
-function entitiesWindow ({dimensions, node, window}, dispatch, component, root) {
+export function entitiesWindow ({dimensions, node, window}, dispatch, component, root) {
   const view = node && node.procedure
     ? processView(node, dispatch)
     : component(entityView, 'state.gui.entityViewProps')
@@ -180,23 +180,27 @@ function entitiesWindow ({dimensions, node, window}, dispatch, component, root) 
 }
 
 
-function root (visibility, _, component) {
+export function root (_visibility, _, component) {
 
-  const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : ''
-  const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindowProps') : ''
-  const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : ''
+  // const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : ''
+  // const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindowProps') : ''
+  // const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : ''
 
   const el = h(['article', {class: classes('tvs-flow-tools', mainStyle)},
     component(controls, 'state.gui.controlProps'),
-    graph,
-    entities,
-    tree
+    // graph,
+    // entities,
+    // tree
   ])
 
   return el
 }
 
+export function root_ () {
+  return h(['article', {class: 'foo'}, ['h1', 'lalala']])
+}
 
-export function mainView (component: Component) {
+
+export function mainView (component: Component): ComponentClass {
   return component(root, 'state.gui.visibility')
 }

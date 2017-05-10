@@ -2,12 +2,15 @@ import tvsFlow from 'tvs-flow/dist/lib'
 import { getGraphFromModules } from "../utils/webpack";
 import { Runtime } from "tvs-flow/dist/lib/runtime-types";
 import { mainView } from "./view/main";
-import { flowComponentFactory } from "../utils/yoyo";
+import { flowComponentFactory } from "../utils/inferno";
 import { title as titleNode, visibility, graphWindow, entitiesWindow, treeWindow, controlsPosition } from "./graph/state/gui";
 import { action, element as elementNode } from "./graph/events";
 import { runtime as flowNode } from "./graph/state/flow";
 import { nodeState, viewBox } from "./graph/state/graph";
 import Clipboard from "clipboard"
+import Inferno from 'inferno';
+import createElement from "inferno-create-element";
+
 
 const graphModules = require.context('./graph', true, /\.ts$/)
 
@@ -65,9 +68,13 @@ export function start(title, opts?): FlowTool {
   saveAndRecover(title, controlsPosition, state)
 
   const component = flowComponentFactory(state, action.getId(), options.debug)
-  const element = mainView(component)
+  const RootComponent = mainView(component)
+  const element = document.createElement('div')
+  element.className = 'tvs-flow-tools-container'
 
   document.body.appendChild(element)
+
+  Inferno.render(createElement(RootComponent), element)
 
   state.set(elementNode.getId(), element)
 

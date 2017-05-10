@@ -21,7 +21,6 @@ module.exports = {
       options: {
         compilerOptions: {
           "outDir": "",
-          "declaration": false
         }
       }
     }]
