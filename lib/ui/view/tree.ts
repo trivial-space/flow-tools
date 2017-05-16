@@ -1,4 +1,3 @@
-import { h } from '../../utils/yoyo';
 import { treeViewStyle } from "./styles/components";
 import { style } from "typestyle/lib";
 import * as icon from "./icons";
@@ -83,5 +82,5 @@ export function treeView ({fold, tree, selected}, dispatch) {
     list.push(...items)
   }
 
-  return h(list)
+  return list
 }

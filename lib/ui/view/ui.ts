@@ -1,6 +1,5 @@
 import { classes } from "typestyle/lib";
 import { iconButtonStyle } from "./styles/ui";
-import { VNode } from "inferno";
 
 
 
@@ -13,11 +12,11 @@ export function iconBtn({
 }: {
   title?: string
   onclick?: Function
-  icon?: VNode | any[],
+  icon?: any[],
   class?: string,
   key?: string
 }) {
-  const btn: any = ['button', {
+  const btn: any[] = ['button', {
     class: classes(iconButtonStyle, className),
     onmouseup: onclick,
     title

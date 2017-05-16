@@ -63,7 +63,7 @@ export const zIndex = val(0)
 
 
 export const controlsPosition = val({
-  left: 0,
+  left: 100,
   top: 0,
   zIndex: 0
 })

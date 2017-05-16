@@ -23,7 +23,7 @@ export interface Template {
     state: any,
     dispatch?: Dispatcher,
     component?: Component,
-  ): VNode
+  ): VNode | any[]
 }
 
 export abstract class ComponentClass extends InfernoComponent<null, any> {}
@@ -67,6 +67,8 @@ export function flowComponentFactory(
     }
   }
 
+  const cache = {}
+
   return function component (
     template: Template,
     viewStateId: string
@@ -74,25 +76,27 @@ export function flowComponentFactory(
 
     const arghash = viewStateId + template.name
 
-    return class extends ComponentClass {
+    if (cache[arghash]) {
+      return cache[arghash]
+    }
+
+    const compClass = class extends ComponentClass {
 
       state = {
         current: stateFlow.get(viewStateId)
       }
 
       render () {
-        return template(this.state.current, dispatch, component)
+        return h(template(this.state.current, dispatch, component))
       }
 
-      updateComponent () {
-        this.setState(state => {
-          state.current = stateFlow.get(viewStateId)
-          return state
+      updateAsync = () => {
+        updateOnAnimationFrame(arghash, () => {
+          this.setState(state => {
+            state.current = stateFlow.get(viewStateId)
+            return state
+          })
         })
-      }
-
-      updateAsync () {
-        updateOnAnimationFrame(arghash, this.updateComponent)
       }
 
       componentDidMount() {
@@ -105,29 +109,36 @@ export function flowComponentFactory(
         stateFlow.off(viewStateId, this.updateAsync)
       }
     }
+
+    cache[arghash] = compClass
+
+    return compClass
   }
 }
 
 
-export function h (elData): VNode {
-  const tag = elData.shift(elData)
+export function h (el): VNode {
+  if (typeof el === 'function') {
+    return createElement(el)
+  }
 
-  let props = elData[0]
+  if (!Array.isArray(el)) {
+    return el
+  }
+
+  const tag = el.shift()
+
+  let props = el[0]
 
   if (typeof props === "object" && !Array.isArray(props)) {
-    elData.shift()
+    el.shift()
   } else {
     props = {}
   }
 
-  if (elData.length) {
-    return createElement(tag, props, elData.map(el => Array.isArray(el)
-      ? h(el)
-      : typeof el === 'function'
-        ? createElement(el)
-        : el))
+  if (el.length) {
+    return createElement(tag, props, el.map(h))
   } else {
     return createElement(tag, props)
   }
-
 }

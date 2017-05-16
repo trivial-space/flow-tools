@@ -1,4 +1,3 @@
-import { h } from '../../utils/yoyo';
 import * as icon from "./icons";
 import { iconBtn } from "./ui";
 import { buttonStyle } from "./styles/ui";
@@ -15,14 +14,12 @@ function jsonCode ({value, watching}, dispatch) {
     }
   }
 
-  return h(
-    ['code',
-      ['pre', {
-          contenteditable: !watching,
-          oninput: e => dispatch('updateEditedValue', e.target.textContent)
-        },
-        code]]
-  )
+  return ['code',
+    ['pre', {
+        contenteditable: !watching,
+        oninput: e => dispatch('updateEditedValue', e.target.textContent)
+      },
+      code]]
 }
 
 
@@ -70,7 +67,7 @@ export function entityView ({entity, watching}, dispatch, component) {
     )
   }
 
-  const el = h(
+  const el =
     ['section', {
         'data-key': 'entity-view',
         class: entityViewStyle
@@ -78,7 +75,6 @@ export function entityView ({entity, watching}, dispatch, component) {
       ['div', { class: windowContentStyle },
         component(jsonCode, 'state.gui.entityValueView')],
       buttons]
-  )
 
   return el
 }
@@ -106,15 +102,13 @@ export function processView (process, dispatch) {
       }))
   }
 
-  return h(
-    ['section', {
-        'data-key': 'process-view',
-        class: entityViewStyle
-      },
-      ['div', { class: windowContentStyle },
-        ['code',
-          ['pre', process.procedure.toString()]]],
-      buttons]
-  )
+  return ['section', {
+      'data-key': 'process-view',
+      class: entityViewStyle
+    },
+    ['div', { class: windowContentStyle },
+      ['code',
+        ['pre', process.procedure.toString()]]],
+    buttons]
 }
 
