@@ -4,6 +4,7 @@ import { action, mouse, windowSize } from "../events";
 import { entityTree, runtime, graph } from "./flow";
 import { Runtime } from "tvs-flow/dist/lib/runtime-types";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
+import { GUI } from "ui/actions";
 
 
 export interface Size {
@@ -32,9 +33,10 @@ export const visibility = val({
 .react(
   [action.HOT],
   (self, { type, payload }) => {
-    if (type === "state.gui.updateVisibility") {
+    if (type === GUI.MAIN.UPDATE_VISIBILITY) {
       return { ...self, [payload]: !self[payload] }
-    } else if (type === "closeWindow") {
+
+    } else if (type === GUI.MAIN.CLOSE_WINDOW) {
       return { ...self, [payload]: false }
     }
   }
@@ -45,8 +47,8 @@ export const visibility = val({
 export const activeWindow = stream(
   [action.HOT],
   ({ type, payload }) => {
-    if (type === "state.gui.setActiveWindow"
-      || type === "state.gui.updateVisibility") {
+    if (type === GUI.MAIN.SET_ACTIVE_WINDOW
+      || type === GUI.MAIN.UPDATE_VISIBILITY) {
       return payload
     }
   }
@@ -128,7 +130,7 @@ export const treeFold = val({})
 .react(
   [action.HOT],
   (self, { type, payload }) => {
-    if (type === 'state.gui.toggleTreeLevel') {
+    if (type === GUI.TREE.TOGGLE_LEVEL) {
       return { ...self, [payload]: !self[payload] }
     }
   }
@@ -206,7 +208,7 @@ export const activeEntity = val({})
 .react(
   [action.HOT, graph.COLD],
   (_, { type, payload }, graph) => {
-    if (type === 'state.gui.openEntity') {
+    if (type === GUI.ENTITIES.OPEN_ENTITY) {
       return graph.entities[payload]
     }
   }
@@ -226,7 +228,7 @@ export const activeProcess = val({})
 .react(
   [action.HOT, graph.COLD],
   (_, { type, payload }, graph) => {
-    if (type === 'state.gui.openProcess') {
+    if (type === GUI.ENTITIES.OPEN_PROCESS) {
       return graph.processes[payload]
     }
   }
@@ -251,9 +253,9 @@ export const watchingEntity = val(true)
 .react(
   [action.HOT],
   (_, { type, payload }) => {
-    if (type === 'setEntityEditMode') {
+    if (type === GUI.ENTITIES.SET_EDIT_MODE) {
       return !payload
-    } else if (type === 'saveCurrentEntityValue') {
+    } else if (type === GUI.ENTITIES.SAVE_VALUE) {
       return true
     }
   }
@@ -284,7 +286,7 @@ export const editedValue = val('')
   (self, { type, payload }, flow) => {
     if (type === 'updateEditedValue') {
       return payload
-    } else if (self && type === 'saveCurrentEntityValue') {
+    } else if (self && type === GUI.ENTITIES.SAVE_VALUE) {
       requestAnimationFrame(function() {
         try {
           flow.set(payload, JSON.parse(self))

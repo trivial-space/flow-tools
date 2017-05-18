@@ -8,6 +8,7 @@ import { graphView, scaleSlider } from "./graph";
 import { processView, entityView } from "./entities";
 import { treeView } from "./tree";
 import { iconButtonLightStyle } from "./styles/ui";
+import { GUI } from "ui/actions";
 
 
 function title (title) {
@@ -21,7 +22,7 @@ const activeButton = style({
 
 
 function setActiveWindow(label, dispatch) {
-  return () => dispatch('state.gui.setActiveWindow', label)
+  return () => dispatch(GUI.MAIN.SET_ACTIVE_WINDOW, label)
 }
 
 
@@ -29,7 +30,7 @@ function controls({visibility, position}, dispatch, component) {
 
   const click =
     label =>
-      () => dispatch('state.gui.updateVisibility', label)
+      () => dispatch(GUI.MAIN.UPDATE_VISIBILITY, label)
 
   const el =
     ['header', {
@@ -83,7 +84,7 @@ function treeWindow ({dimensions, window}, dispatch, component) {
           icon: icon.close(),
           class: iconButtonLightStyle,
           title: 'close window',
-          onclick: () => dispatch('closeWindow', 'tree')
+          onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'tree')
         })],
       ['section', {class: windowContentStyle}, component(treeView, 'state.gui.treeData')],
       ['footer', {
@@ -102,7 +103,7 @@ function graphWindow ({dimensions, window}, dispatch, component) {
   function updateGraphSize (parent) {
     if (parent && parent.querySelector) {
       const graphNode = parent.querySelector('section')
-      dispatch('updateGraphSize', {
+      dispatch(GUI.GRAPH.UPDATE_SIZE, {
         width: graphNode.clientWidth,
         height: graphNode.clientHeight
       })
@@ -132,7 +133,7 @@ function graphWindow ({dimensions, window}, dispatch, component) {
           icon: icon.close(),
           class: iconButtonLightStyle,
           title: 'close window',
-          onclick: () => dispatch('closeWindow', 'graph')
+          onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'graph')
         })],
       graph,
       ['footer', {
@@ -167,7 +168,7 @@ function entitiesWindow ({dimensions, node, window}, dispatch, component) {
           icon: icon.close(),
           class: iconButtonLightStyle,
           title: 'close window',
-          onclick: () => dispatch('closeWindow', 'entities')
+          onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'entities')
         })],
       view,
       ['footer', {

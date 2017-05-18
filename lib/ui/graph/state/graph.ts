@@ -5,6 +5,7 @@ import { graph } from "./flow";
 import { PORT_TYPES, Graph } from "tvs-flow/dist/lib/runtime-types";
 import { graphWindow, activeEntity, activeNode } from "./gui";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
+import { GUI } from "ui/actions";
 
 
 export const viewBox = val({
@@ -17,12 +18,12 @@ export const viewBox = val({
 .react(
   [action.HOT],
   (self, {type, payload}) => {
-    if (type === 'updateGraphScale'
+    if (type === GUI.GRAPH.UPDATE_SCALE
         && (payload !== self.scale)) {
       self.scale = payload
       return self
-    }
-    if (type === 'updateGraphSize'
+
+    } else if (type === GUI.GRAPH.UPDATE_SIZE
         && ((payload.width && payload.width !== self.width)
             || (payload.height && payload.height !== self.height))) {
       self.width = payload.width

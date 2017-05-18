@@ -1,5 +1,6 @@
 import { graphViewStyle } from "./styles/graph";
 import { classes } from "typestyle/lib";
+import { GUI } from "ui/actions";
 
 
 export function scaleSlider ({ scale }, dispatch) {
@@ -10,7 +11,7 @@ export function scaleSlider ({ scale }, dispatch) {
       min: 0.5,
       max: 3,
       step: 0.2,
-      onchange: e => dispatch('updateGraphScale', e.target.value),
+      onchange: e => dispatch(GUI.GRAPH.UPDATE_SCALE, e.target.value),
       onmousemove: e => e.stopPropagation()
     }]]
 }
@@ -40,7 +41,7 @@ export function graphView (data, dispatch) {
             'data-key': p.id,
             class: classes(p.class, p.active && 'active'),
             transform: `translate(${p.x}, ${p.y})`,
-            onmousedown: () => dispatch('state.gui.openProcess', p.id),
+            onmousedown: () => dispatch(GUI.ENTITIES.OPEN_PROCESS, p.id),
             cx: 0,
             cy: 0,
             r: p.autostart ? 13 : 8,
@@ -50,7 +51,7 @@ export function graphView (data, dispatch) {
         ['g', {
             'data-key': e.id,
             transform: `translate(${e.x}, ${e.y})`,
-            onmousedown: () => dispatch('state.gui.openEntity', e.id),
+            onmousedown: () => dispatch(GUI.ENTITIES.OPEN_ENTITY, e.id),
             title: e.id,
             class: classes(e.class, e.active && 'active')
           },
