@@ -39,7 +39,7 @@ export var activeWindow = stream([action.HOT], function (_a) {
 export var zIndex = val(0)
     .react([activeWindow.HOT], function (self) { return self + 1; });
 export var controlsPosition = val({
-    left: 0,
+    left: 100,
     top: 0,
     zIndex: 0
 })

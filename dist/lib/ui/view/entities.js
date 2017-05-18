@@ -1,4 +1,3 @@
-import { h } from '../../utils/yoyo';
 import * as icon from "./icons";
 import { iconBtn } from "./ui";
 import { buttonStyle } from "./styles/ui";
@@ -14,12 +13,12 @@ function jsonCode(_a, dispatch) {
             code = 'Error: ' + e.message;
         }
     }
-    return h(['code',
+    return ['code',
         ['pre', {
                 contenteditable: !watching,
                 oninput: function (e) { return dispatch('updateEditedValue', e.target.textContent); }
             },
-            code]]);
+            code]];
 }
 export function entityView(_a, dispatch, component) {
     var entity = _a.entity, watching = _a.watching;
@@ -56,13 +55,13 @@ export function entityView(_a, dispatch, component) {
                 onclick: function () { return dispatch('saveCurrentEntityValue', entity.id); }
             }, 'Save']);
     }
-    var el = h(['section', {
+    var el = ['section', {
             'data-key': 'entity-view',
             class: entityViewStyle
         },
         ['div', { class: windowContentStyle },
             component(jsonCode, 'state.gui.entityValueView')],
-        buttons]);
+        buttons];
     return el;
 }
 export function processView(process, dispatch) {
@@ -82,13 +81,13 @@ export function processView(process, dispatch) {
             title: "Stop async process"
         }));
     }
-    return h(['section', {
+    return ['section', {
             'data-key': 'process-view',
             class: entityViewStyle
         },
         ['div', { class: windowContentStyle },
             ['code',
                 ['pre', process.procedure.toString()]]],
-        buttons]);
+        buttons];
 }
 //# sourceMappingURL=entities.js.map

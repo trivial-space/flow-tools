@@ -73,9 +73,11 @@ export const controlsPosition = val({
     const delta = mouse.dragDelta
     const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
-    if (window === 'controls'
+    if (
+      window === 'controls'
       && target && target.closest('.tvs-flow-controls')
-      && (delta.x || delta.y)) {
+      && (delta.x || delta.y)
+    ) {
       self.left -= delta.x
       self.top -= delta.y
       if (self.top < 0) self.top = 0
@@ -103,9 +105,11 @@ export const treeWindow = val({
     const delta = mouse.dragDelta
     const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
-    if (window === 'tree'
+    if (
+      window === 'tree'
       && target && target.closest('.tvs-flow-tree')
-      && (delta.x || delta.y)) {
+      && (delta.x || delta.y)
+    ) {
       if (target.className === 'resize') {
         self.width -= delta.x
         self.height -= delta.y
@@ -145,9 +149,11 @@ export const graphWindow = val({
     const delta = mouse.dragDelta
     const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
-    if (window === 'graph'
+    if (
+      window === 'graph'
       && target && target.closest('.tvs-flow-graph')
-      && (delta.x || delta.y)) {
+      && (delta.x || delta.y)
+    ) {
       if (target.className === 'resize') {
         self.width -= delta.x
         self.height -= delta.y
@@ -176,10 +182,12 @@ export const entitiesWindow = val({
     const delta = mouse.dragDelta
     const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
-    if (window === 'entities'
+    if (
+      window === 'entities'
       && target && target.closest('.tvs-flow-entities')
       && !target.closest('pre')
-      && (delta.x || delta.y)) {
+      && (delta.x || delta.y)
+    ) {
       if (target.className === 'resize') {
         self.width -= delta.x
         self.height -= delta.y

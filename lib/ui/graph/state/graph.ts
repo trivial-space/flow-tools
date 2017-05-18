@@ -22,11 +22,6 @@ export const viewBox = val({
       self.scale = payload
       return self
     }
-  }
-)
-.react(
-  [action.HOT],
-  (self, {type, payload}) => {
     if (type === 'updateGraphSize'
         && ((payload.width && payload.width !== self.width)
             || (payload.height && payload.height !== self.height))) {
@@ -113,7 +108,6 @@ export const graphEntities = stream(
         class: 'group-' + groups[group],
         label,
         active: e.id === active.id,
-        ...nodeState[key],
       }
 
       if (e.accept != null) {

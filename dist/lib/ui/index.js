@@ -9,13 +9,15 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 import tvsFlow from 'tvs-flow/dist/lib';
 import { getGraphFromModules } from "../utils/webpack";
 import { mainView } from "./view/main";
-import { flowComponentFactory } from "../utils/yoyo";
+import { flowComponentFactory } from "../utils/inferno";
 import { title as titleNode, visibility, graphWindow, entitiesWindow, treeWindow, controlsPosition } from "./graph/state/gui";
 import { action, element as elementNode } from "./graph/events";
 import { runtime as flowNode } from "./graph/state/flow";
 import { nodeState, viewBox } from "./graph/state/graph";
 import Clipboard from "clipboard";
-var graphModules = require.context('./graph', true, /\.ts$/);
+import Inferno from 'inferno';
+import createElement from "inferno-create-element";
+var graphModules = require.context('./graph', true, /(?!\.d\.)\.ts$/);
 function saveAndRecover(title, entity, state) {
     var id = entity.getId();
     var storageId = 'tvsFlowTools' + (title ? '::' + title : '') + '::' + id;
@@ -47,8 +49,11 @@ export function start(title, opts) {
     saveAndRecover(title, treeWindow, state);
     saveAndRecover(title, controlsPosition, state);
     var component = flowComponentFactory(state, action.getId(), options.debug);
-    var element = mainView(component);
+    var RootComponent = mainView(component);
+    var element = document.createElement('div');
+    element.className = 'tvs-flow-tools-container';
     document.body.appendChild(element);
+    Inferno.render(createElement(RootComponent), element);
     state.set(elementNode.getId(), element);
     var clipboard = new Clipboard('.tvs-save-graph', {
         text: function () { return JSON.stringify(state.get(nodeState.getId()), null, '  '); }

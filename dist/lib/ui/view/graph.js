@@ -1,9 +1,8 @@
 import { graphViewStyle } from "./styles/graph";
-import { h } from "../../utils/yoyo";
 import { classes } from "typestyle/lib";
 export function scaleSlider(_a, dispatch) {
     var scale = _a.scale;
-    return h(['span',
+    return ['span',
         ['input', {
                 type: 'range',
                 value: scale,
@@ -12,13 +11,13 @@ export function scaleSlider(_a, dispatch) {
                 step: 0.2,
                 onchange: function (e) { return dispatch('updateGraphScale', e.target.value); },
                 onmousemove: function (e) { return e.stopPropagation(); }
-            }]]);
+            }]];
 }
 export function graphView(data, dispatch) {
     if (!data)
-        return h(['section', { class: graphViewStyle }]);
+        return ['section', { class: graphViewStyle }];
     var entities = data.entities, processes = data.processes, edges = data.edges, _a = data.viewBox, viewBox = _a === void 0 ? {} : _a;
-    var el = h(['section', { class: graphViewStyle }, ['svg', {
+    return ['section', { class: graphViewStyle }, ['svg', {
                 width: '100%',
                 height: '100%',
                 viewBox: viewBox.x + ", " + viewBox.y + ", " + viewBox.width + ", " + viewBox.height
@@ -68,7 +67,6 @@ export function graphView(data, dispatch) {
                         r: 6,
                         class: 'initial'
                     }]];
-        }))]);
-    return el;
+        }))];
 }
 //# sourceMappingURL=graph.js.map

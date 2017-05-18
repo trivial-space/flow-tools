@@ -35,7 +35,7 @@ function controls({visibility, position}, dispatch, component) {
     ['header', {
         class: classes('tvs-flow-controls', controlsStyle),
         onmousedown: setActiveWindow('controls', dispatch),
-        style: position
+        style: {...position}
       },
       component(title, 'state.gui.title'),
       ['nav', {class: 'tvs-controls-btns'},
@@ -66,12 +66,12 @@ function controls({visibility, position}, dispatch, component) {
 }
 
 
-export function treeWindow ({dimensions, window}, dispatch, component) {
+function treeWindow ({dimensions, window}, dispatch, component) {
   const el =
     ['article', {
         'data-key': 'tree',
         class: classes('tvs-flow-tree', windowStyle),
-        style: dimensions,
+        style: {...dimensions},
         onmousedown: setActiveWindow('tree', dispatch)
       },
       ['header',
@@ -95,20 +95,16 @@ export function treeWindow ({dimensions, window}, dispatch, component) {
 }
 
 
-export function graphWindow ({dimensions, window}, dispatch, component) {
-
-  //let graphNode
+function graphWindow ({dimensions, window}, dispatch, component) {
 
   const graph = component(graphView, 'state.graph.viewData')
 
   function updateGraphSize (parent) {
     if (parent && parent.querySelector) {
       const graphNode = parent.querySelector('section')
-      requestAnimationFrame(function() {
-        dispatch('updateGraphSize', {
-          width: graphNode.clientWidth,
-          height: graphNode.clientHeight
-        })
+      dispatch('updateGraphSize', {
+        width: graphNode.clientWidth,
+        height: graphNode.clientHeight
       })
     }
   }
@@ -118,7 +114,7 @@ export function graphWindow ({dimensions, window}, dispatch, component) {
         'data-key': 'graph',
         ref: updateGraphSize,
         class: classes('tvs-flow-graph', windowStyle),
-        style: dimensions,
+        style: {...dimensions},
         onmousedown: setActiveWindow('graph', dispatch)
       },
       ['header',
@@ -148,7 +144,7 @@ export function graphWindow ({dimensions, window}, dispatch, component) {
 }
 
 
-export function entitiesWindow ({dimensions, node, window}, dispatch, component) {
+function entitiesWindow ({dimensions, node, window}, dispatch, component) {
   const view = node && node.procedure
     ? processView(node, dispatch)
     : component(entityView, 'state.gui.entityViewProps')
@@ -157,7 +153,7 @@ export function entitiesWindow ({dimensions, node, window}, dispatch, component)
     ['article', {
         'data-key': 'entities',
         class: classes('tvs-flow-entities', windowStyle),
-        style: dimensions,
+        style: {...dimensions},
         onmousedown: setActiveWindow('entities', dispatch)
       },
       ['header',
@@ -183,7 +179,7 @@ export function entitiesWindow ({dimensions, node, window}, dispatch, component)
 }
 
 
-export function root (visibility, _, component) {
+function root (visibility, _, component) {
 
   const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : ''
   const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindowProps') : ''

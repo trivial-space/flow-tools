@@ -8,7 +8,7 @@ export function iconBtn(_a) {
             title: title
         }, icon];
     if (key)
-        btn[1]['data-key'] = key;
+        btn[1]['key'] = key;
     return btn;
 }
 //# sourceMappingURL=ui.js.map

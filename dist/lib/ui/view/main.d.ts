@@ -1,2 +1,2 @@
-import { Component } from '../../utils/yoyo';
-export declare function mainView(component: Component): HTMLElement;
+import { Component, ComponentClass } from '../../utils/inferno';
+export declare function mainView(component: Component): ComponentClass;

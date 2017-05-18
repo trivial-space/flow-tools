@@ -7,8 +7,6 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import { style, classes } from "typestyle";
-import * as css from 'dom-css';
-import { h } from '../../utils/yoyo';
 import * as icon from "./icons";
 import { highlightColor, mainStyle } from "./styles/main";
 import { iconBtn } from "./ui";
@@ -18,7 +16,7 @@ import { processView, entityView } from "./entities";
 import { treeView } from "./tree";
 import { iconButtonLightStyle } from "./styles/ui";
 function title(title) {
-    return h(['h1', title]);
+    return ['h1', title];
 }
 var activeButton = style({
     color: highlightColor
@@ -26,14 +24,15 @@ var activeButton = style({
 function setActiveWindow(label, dispatch) {
     return function () { return dispatch('state.gui.setActiveWindow', label); };
 }
-function controls(_a, dispatch, component, root) {
+function controls(_a, dispatch, component) {
     var visibility = _a.visibility, position = _a.position;
     var click = function (label) {
         return function () { return dispatch('state.gui.updateVisibility', label); };
     };
-    var el = h(['header', {
+    var el = ['header', {
             class: classes('tvs-flow-controls', controlsStyle),
-            onmousedown: setActiveWindow('controls', dispatch)
+            onmousedown: setActiveWindow('controls', dispatch),
+            style: __assign({}, position)
         },
         component(title, 'state.gui.title'),
         ['nav', { class: 'tvs-controls-btns' },
@@ -58,15 +57,15 @@ function controls(_a, dispatch, component, root) {
                         onclick: click('entities'),
                         icon: icon.entities(),
                         title: "toggle entity details"
-                    })]]]]);
-    css(root || el, position);
+                    })]]]];
     return el;
 }
-function treeWindow(_a, dispatch, component, root) {
+function treeWindow(_a, dispatch, component) {
     var dimensions = _a.dimensions, window = _a.window;
-    var el = h(['article', {
+    var el = ['article', {
             'data-key': 'tree',
             class: classes('tvs-flow-tree', windowStyle),
+            style: __assign({}, dimensions),
             onmousedown: setActiveWindow('tree', dispatch)
         },
         ['header',
@@ -84,16 +83,26 @@ function treeWindow(_a, dispatch, component, root) {
         ['footer', {
                 class: 'resize',
                 'data-key': 'resize'
-            }]]);
-    css(root || el, dimensions);
+            }]];
     return el;
 }
-function graphWindow(_a, dispatch, component, root) {
+function graphWindow(_a, dispatch, component) {
     var dimensions = _a.dimensions, window = _a.window;
     var graph = component(graphView, 'state.graph.viewData');
-    var el = h(['article', {
+    function updateGraphSize(parent) {
+        if (parent && parent.querySelector) {
+            var graphNode = parent.querySelector('section');
+            dispatch('updateGraphSize', {
+                width: graphNode.clientWidth,
+                height: graphNode.clientHeight
+            });
+        }
+    }
+    var el = ['article', {
             'data-key': 'graph',
+            ref: updateGraphSize,
             class: classes('tvs-flow-graph', windowStyle),
+            style: __assign({}, dimensions),
             onmousedown: setActiveWindow('graph', dispatch)
         },
         ['header',
@@ -117,24 +126,18 @@ function graphWindow(_a, dispatch, component, root) {
         ['footer', {
                 'data-key': 'resize',
                 class: 'resize'
-            }]]);
-    css(root || el, __assign({}, dimensions));
-    requestAnimationFrame(function () {
-        dispatch('updateGraphSize', {
-            width: graph.clientWidth,
-            height: graph.clientHeight
-        });
-    });
+            }]];
     return el;
 }
-function entitiesWindow(_a, dispatch, component, root) {
+function entitiesWindow(_a, dispatch, component) {
     var dimensions = _a.dimensions, node = _a.node, window = _a.window;
     var view = node && node.procedure
         ? processView(node, dispatch)
         : component(entityView, 'state.gui.entityViewProps');
-    var el = h(['article', {
+    var el = ['article', {
             'data-key': 'entities',
             class: classes('tvs-flow-entities', windowStyle),
+            style: __assign({}, dimensions),
             onmousedown: setActiveWindow('entities', dispatch)
         },
         ['header',
@@ -154,20 +157,19 @@ function entitiesWindow(_a, dispatch, component, root) {
         ['footer', {
                 class: 'resize',
                 'data-key': 'resize'
-            }]]);
-    css(root || el, __assign({}, dimensions));
+            }]];
     return el;
 }
 function root(visibility, _, component) {
     var tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : '';
     var graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindowProps') : '';
     var entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : '';
-    var el = h(['article', { class: classes('tvs-flow-tools', mainStyle) },
+    var el = ['article', { class: classes('tvs-flow-tools', mainStyle) },
         component(controls, 'state.gui.controlProps'),
         graph,
         entities,
         tree
-    ]);
+    ];
     return el;
 }
 export function mainView(component) {

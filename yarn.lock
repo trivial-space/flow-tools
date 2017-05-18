@@ -172,14 +172,6 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bel@^4.0.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/bel/-/bel-4.6.0.tgz#3ade16e236ab2204d8d1c66eac4bd573793ac999"
-  dependencies:
-    global "^4.3.0"
-    hyperx "^2.3.0"
-    on-load "^3.2.0"
-
 big.js@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-3.1.3.tgz#4cada2193652eb3ca9ec8e55c9015669c9806978"
@@ -570,10 +562,6 @@ dom-css@^2.1.0:
     prefix-style "2.0.1"
     to-camel-case "1.0.0"
 
-dom-walk@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/dom-walk/-/dom-walk-0.1.1.tgz#672226dc74c8f799ad35307df936aba11acd6018"
-
 domain-browser@^1.1.1:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.1.7.tgz#867aa4b093faa05f1de08c06f4d7b21fdf8698bc"
@@ -870,13 +858,6 @@ glob@^7.0.5:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-global@^4.3.0:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/global/-/global-4.3.1.tgz#5f757908c7cbabce54f386ae440e11e26b7916df"
-  dependencies:
-    min-document "^2.19.0"
-    process "~0.5.1"
-
 good-listener@^1.2.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
@@ -1002,16 +983,6 @@ http-signature@~1.1.0:
 https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
-
-hyperscript-attribute-to-property@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/hyperscript-attribute-to-property/-/hyperscript-attribute-to-property-1.0.0.tgz#825308d49bb8e2957923f731981bcc811cad7aff"
-
-hyperx@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/hyperx/-/hyperx-2.3.0.tgz#70f473d66d4ad550ddd1c83e4be2651276bbf1e2"
-  dependencies:
-    hyperscript-attribute-to-property "^1.0.0"
 
 ieee754@^1.1.4:
   version "1.1.8"
@@ -1342,12 +1313,6 @@ mime@1.3.4, mime@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.3.4.tgz#115f9e3b6b3daf2959983cb38f149a2d40eb5d53"
 
-min-document@^2.19.0:
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/min-document/-/min-document-2.19.0.tgz#7bd282e3f5842ed295bb748cdd9f1ffa2c824685"
-  dependencies:
-    dom-walk "^0.1.0"
-
 minimalistic-assert@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.0.tgz#702be2dda6b37f4836bcb3f5db56641b64a1d3d3"
@@ -1375,10 +1340,6 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.0:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
-
-morphdom@^2.1.0:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/morphdom/-/morphdom-2.3.2.tgz#6a71001f55e518f06b42e0e1f1084feaf8da2024"
 
 ms@0.7.1:
   version "0.7.1"
@@ -1501,12 +1462,6 @@ on-finished@~2.3.0:
 on-headers@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/on-headers/-/on-headers-1.0.1.tgz#928f5d0f470d49342651ea6794b0857c100693f7"
-
-on-load@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/on-load/-/on-load-3.2.0.tgz#dd3145d3a5c2faa5666920d1df674b69f0c2f66f"
-  dependencies:
-    global "^4.3.0"
 
 once@^1.3.0, once@^1.3.3:
   version "1.4.0"
@@ -1658,10 +1613,6 @@ process-nextick-args@~1.0.6:
 process@^0.11.0:
   version "0.11.9"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.9.tgz#7bd5ad21aa6253e7da8682264f1e11d11c0318c1"
-
-process@~0.5.1:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/process/-/process-0.5.2.tgz#1638d8a8e34c2f440a91db95ab9aeb677fc185cf"
 
 proxy-addr@~1.1.3:
   version "1.1.4"
@@ -2433,10 +2384,3 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
-
-yo-yo@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/yo-yo/-/yo-yo-1.4.0.tgz#c3291e512bb4743f9eb514b9b6dbb264757e3257"
-  dependencies:
-    bel "^4.0.0"
-    morphdom "^2.1.0"
