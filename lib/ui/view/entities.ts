@@ -3,6 +3,7 @@ import { iconBtn } from "./ui";
 import { buttonStyle } from "./styles/ui";
 import { windowContentStyle, entityViewStyle } from "./styles/components";
 import { GUI, FLOW } from "ui/actions";
+import { entityValueView } from "ui/graph/state/entity";
 
 
 function jsonCode ({value, watching}, dispatch) {
@@ -74,7 +75,7 @@ export function entityView ({entity, watching}, dispatch, component) {
         class: entityViewStyle
       },
       ['div', { class: windowContentStyle },
-        component(jsonCode, 'state.gui.entityValueView')],
+        component(jsonCode, entityValueView)],
       buttons]
 
   return el

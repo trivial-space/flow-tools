@@ -3,9 +3,10 @@ import { mouse, action } from "../events";
 import { defined } from "tvs-libs/dist/lib/utils/predicates";
 import { graph } from "./flow";
 import { PORT_TYPES, Graph } from "tvs-flow/dist/lib/runtime-types";
-import { graphWindow, activeEntity, activeNode } from "./gui";
+import { graphWindow } from "./gui";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
 import { GUI } from "ui/actions";
+import { activeEntity, activeNode } from "./entity";
 
 
 export const viewBox = val({

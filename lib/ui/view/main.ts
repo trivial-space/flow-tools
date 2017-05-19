@@ -9,9 +9,13 @@ import { processView, entityView } from "./entities";
 import { treeView } from "./tree";
 import { iconButtonLightStyle } from "./styles/ui";
 import { GUI } from "ui/actions";
+import { visibility, title } from "ui/graph/state/gui";
+import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps, treeData } from "ui/graph/state/views";
+import { viewBox, viewData } from "ui/graph/state/graph";
+import { entityViewProps } from "ui/graph/state/entity";
 
 
-function title (title) {
+function titleView (title) {
   return ['h1', title]
 }
 
@@ -38,7 +42,7 @@ function controls({visibility, position}, dispatch, component) {
         onmousedown: setActiveWindow('controls', dispatch),
         style: {...position}
       },
-      component(title, 'state.gui.title'),
+      component(titleView, title),
       ['nav', {class: 'tvs-controls-btns'},
         ['ul',
           ['li',
@@ -86,7 +90,7 @@ function treeWindow ({dimensions, window}, dispatch, component) {
           title: 'close window',
           onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'tree')
         })],
-      ['section', {class: windowContentStyle}, component(treeView, 'state.gui.treeData')],
+      ['section', {class: windowContentStyle}, component(treeView, treeData)],
       ['footer', {
           class: 'resize',
           'data-key': 'resize'
@@ -98,7 +102,7 @@ function treeWindow ({dimensions, window}, dispatch, component) {
 
 function graphWindow ({dimensions, window}, dispatch, component) {
 
-  const graph = component(graphView, 'state.graph.viewData')
+  const graph = component(graphView, viewData)
 
   function updateGraphSize (parent) {
     if (parent && parent.querySelector) {
@@ -122,7 +126,7 @@ function graphWindow ({dimensions, window}, dispatch, component) {
         icon.graph(window === "graph" ? 'selected': ''),
         ' Graph ',
         ['span', {class: 'gap'}],
-        component(scaleSlider, 'state.graph.viewBox'),
+        component(scaleSlider, viewBox),
         ' ',
         iconBtn({
           icon: icon.copy(),
@@ -148,7 +152,7 @@ function graphWindow ({dimensions, window}, dispatch, component) {
 function entitiesWindow ({dimensions, node, window}, dispatch, component) {
   const view = node && node.procedure
     ? processView(node, dispatch)
-    : component(entityView, 'state.gui.entityViewProps')
+    : component(entityView, entityViewProps)
 
   const el =
     ['article', {
@@ -182,12 +186,12 @@ function entitiesWindow ({dimensions, node, window}, dispatch, component) {
 
 function root (visibility, _, component) {
 
-  const tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : ''
-  const graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindowProps') : ''
-  const entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : ''
+  const tree = visibility.tree ? component(treeWindow, treeWindowProps) : ''
+  const graph = visibility.graph ? component(graphWindow, graphWindowProps) : ''
+  const entities = visibility.entities ? component(entitiesWindow, entitiesWindowProps) : ''
 
   const el = ['article', {class: classes('tvs-flow-tools', mainStyle)},
-    component(controls, 'state.gui.controlProps'),
+    component(controls, controlProps),
     graph,
     entities,
     tree
@@ -198,5 +202,5 @@ function root (visibility, _, component) {
 
 
 export function mainView (component: Component): ComponentClass {
-  return component(root, 'state.gui.visibility')
+  return component(root, visibility)
 }

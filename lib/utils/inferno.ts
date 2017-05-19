@@ -2,6 +2,7 @@ import InfernoComponent from 'inferno-component'
 import createElement from 'inferno-create-element'
 import { Runtime } from "tvs-flow/dist/lib/runtime-types";
 import { VNode } from "inferno";
+import { EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
 
 
 export interface Action {
@@ -29,7 +30,7 @@ export interface Template {
 export abstract class ComponentClass extends InfernoComponent<null, any> {}
 
 export interface Component {
-  (template: Template, viewStateId: string): ComponentClass
+  (template: Template, entity: EntityRef<any>): ComponentClass
 }
 
 
@@ -71,8 +72,10 @@ export function flowComponentFactory(
 
   return function component (
     template: Template,
-    viewStateId: string
+    entity: EntityRef<any>
   ) {
+
+    const viewStateId = entity.getId()
 
     const arghash = viewStateId + template.name
 
