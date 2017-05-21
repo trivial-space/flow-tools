@@ -38,7 +38,6 @@ export function graphView (data, dispatch) {
           }]),
       ...processes.map(p =>
         ['circle', {
-            'data-key': p.id,
             class: classes(p.class, p.active && 'active'),
             transform: `translate(${p.x}, ${p.y})`,
             onmousedown: () => dispatch(GUI.ENTITIES.OPEN_PROCESS, p.id),
@@ -49,7 +48,6 @@ export function graphView (data, dispatch) {
           }]),
       ...entities.map(e =>
         ['g', {
-            'data-key': e.id,
             transform: `translate(${e.x}, ${e.y})`,
             onmousedown: () => dispatch(GUI.ENTITIES.OPEN_ENTITY, e.id),
             title: e.id,

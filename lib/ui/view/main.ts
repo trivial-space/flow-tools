@@ -74,7 +74,6 @@ function controls({visibility, position}, dispatch, component) {
 function treeWindow ({dimensions, window}, dispatch, component) {
   const el =
     ['article', {
-        'data-key': 'tree',
         class: classes('tvs-flow-tree', windowStyle),
         style: {...dimensions},
         onmousedown: setActiveWindow('tree', dispatch)
@@ -91,10 +90,7 @@ function treeWindow ({dimensions, window}, dispatch, component) {
           onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'tree')
         })],
       ['section', {class: windowContentStyle}, component(treeView, treeData)],
-      ['footer', {
-          class: 'resize',
-          'data-key': 'resize'
-        }]]
+      ['footer', { class: 'resize' }]]
 
   return el
 }
@@ -116,7 +112,6 @@ function graphWindow ({dimensions, window}, dispatch, component) {
 
   const el =
     ['article', {
-        'data-key': 'graph',
         ref: updateGraphSize,
         class: classes('tvs-flow-graph', windowStyle),
         style: {...dimensions},
@@ -140,10 +135,7 @@ function graphWindow ({dimensions, window}, dispatch, component) {
           onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'graph')
         })],
       graph,
-      ['footer', {
-          'data-key': 'resize',
-          class: 'resize'
-        }]]
+      ['footer', { class: 'resize' }]]
 
   return el
 }
@@ -156,7 +148,6 @@ function entitiesWindow ({dimensions, node, window}, dispatch, component) {
 
   const el =
     ['article', {
-        'data-key': 'entities',
         class: classes('tvs-flow-entities', windowStyle),
         style: {...dimensions},
         onmousedown: setActiveWindow('entities', dispatch)
@@ -175,10 +166,7 @@ function entitiesWindow ({dimensions, node, window}, dispatch, component) {
           onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'entities')
         })],
       view,
-      ['footer', {
-          class: 'resize',
-          'data-key': 'resize'
-        }]]
+      ['footer', { class: 'resize' }]]
 
   return el
 }

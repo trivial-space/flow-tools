@@ -40,7 +40,6 @@ function treeBranch (name, tree, selected, dispatch, fold) {
 
     return ['li',
       ['div', {
-          'data-key': 'li-' + e.id,
           class: className,
           onclick: () => dispatch(GUI.ENTITIES.OPEN_ENTITY, e.id)
         },
@@ -72,10 +71,7 @@ function treeBranch (name, tree, selected, dispatch, fold) {
 
 
 export function treeView ({fold, tree, selected}, dispatch) {
-  const list: any[] = ['ul', {
-    'data-key': 'treeView',
-    class: treeViewStyle
-  }]
+  const list: any[] = ['ul', { class: treeViewStyle }]
 
   if (tree) {
     const items = Object.keys(tree).map(name =>

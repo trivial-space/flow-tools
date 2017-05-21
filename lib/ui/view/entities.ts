@@ -58,12 +58,10 @@ export function entityView ({entity, watching}, dispatch, component) {
     buttons.push(
       ['button', {
           class: buttonStyle,
-          'data-key': 'cancel-btn',
           onclick: () => dispatch(GUI.ENTITIES.SET_EDIT_MODE, false)
         }, 'Cancel'],
       ['button', {
           class: buttonStyle,
-          'data-key': 'save-btn' + entity.id,
           onclick: () => dispatch(GUI.ENTITIES.SAVE_VALUE, entity.id)
         }, 'Save']
     )
@@ -71,7 +69,6 @@ export function entityView ({entity, watching}, dispatch, component) {
 
   const el =
     ['section', {
-        'data-key': 'entity-view',
         class: entityViewStyle
       },
       ['div', { class: windowContentStyle },
@@ -84,7 +81,6 @@ export function entityView ({entity, watching}, dispatch, component) {
 
 export function processView (process, dispatch) {
   const buttons: any = ['div', {
-    'data-key': 'process-buttons',
     'style': 'margin-top: 4px'
   }]
 
@@ -105,7 +101,6 @@ export function processView (process, dispatch) {
   }
 
   return ['section', {
-      'data-key': 'process-view',
       class: entityViewStyle
     },
     ['div', { class: windowContentStyle },
