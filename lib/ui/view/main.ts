@@ -104,9 +104,11 @@ function graphWindow ({dimensions, window}, dispatch, component) {
   function updateGraphSize (parent) {
     if (parent && parent.querySelector) {
       const graphNode = parent.querySelector('section')
-      dispatch(GUI.GRAPH.UPDATE_SIZE, {
-        width: graphNode.clientWidth,
-        height: graphNode.clientHeight
+      requestAnimationFrame(() => {
+        dispatch(GUI.GRAPH.UPDATE_SIZE, {
+          width: graphNode.clientWidth,
+          height: graphNode.clientHeight
+        })
       })
     }
   }

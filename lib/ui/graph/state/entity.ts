@@ -71,7 +71,8 @@ export const activeValue = asyncStream(
   [runtime.COLD, activeEntity.HOT, visibility.HOT, watchingEntity.HOT],
   (send, flow: Runtime, entity, visibility, watching) => {
     if (entity && entity.id) {
-      send(flow.get(entity.id))
+      const value = flow.get(entity.id)
+      send(value != null ? value : '')
       if (visibility.entities && watching) {
         flow.on(entity.id, send)
         return () => flow.off(entity.id, send)
@@ -87,7 +88,7 @@ export const editedValue = val('')
 .react(
   [action.HOT, runtime.COLD],
   (self, { type, payload }, flow) => {
-    if (type === 'updateEditedValue') {
+    if (type === GUI.ENTITIES.UPDATE_EDITED_VALUE) {
       return payload
     } else if (self && type === GUI.ENTITIES.SAVE_VALUE) {
       requestAnimationFrame(function() {

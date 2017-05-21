@@ -18,8 +18,8 @@ function jsonCode ({value, watching}, dispatch) {
 
   return ['code',
     ['pre', {
-        contenteditable: !watching,
-        oninput: e => dispatch(GUI.ENTITIES.UPDATE_EDITED_VALUE, e.target.textContent)
+        contentEditable: !watching,
+        onInput: e => dispatch(GUI.ENTITIES.UPDATE_EDITED_VALUE, e.target.textContent)
       },
       code]]
 }
@@ -35,10 +35,11 @@ export function entityView ({entity, watching}, dispatch, component) {
     buttons.push(
       ['button', {
           class: buttonStyle,
+          key: "edit-btn",
           onclick: () => dispatch(GUI.ENTITIES.SET_EDIT_MODE, true)
         }, 'Edit'],
       iconBtn({
-        key: 'inspect-btn' + entity.id,
+        key: 'inspect-btn-' + entity.id,
         onclick: () => dispatch(FLOW.ENTITY_INSPECT, entity.id),
         icon: icon.show(),
         title: "Inspect entity value"
@@ -47,7 +48,7 @@ export function entityView ({entity, watching}, dispatch, component) {
     if (entity.value) {
       buttons.push(
         iconBtn({
-          key: 'reset-btn' + entity.id,
+          key: 'reset-btn-' + entity.id,
           onclick: () => dispatch(FLOW.ENTITY_RESET, entity.id),
           icon: icon.reset(),
           title: "Reset entity value"
@@ -62,6 +63,7 @@ export function entityView ({entity, watching}, dispatch, component) {
         }, 'Cancel'],
       ['button', {
           class: buttonStyle,
+          key: 'save-btn-' + entity.id,
           onclick: () => dispatch(GUI.ENTITIES.SAVE_VALUE, entity.id)
         }, 'Save']
     )

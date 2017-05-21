@@ -2,7 +2,7 @@ import { val, stream, EntityRef } from "tvs-flow/dist/lib/utils/entity-reference
 import { entityTree } from "./flow";
 import { action } from "../events";
 import { GUI } from "ui/actions";
-import { defined } from "tvs-libs/lib/utils/predicates";
+import { defined } from "tvs-libs/dist/lib/utils/predicates";
 import { activeEntity } from "./entity";
 
 
