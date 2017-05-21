@@ -48,6 +48,7 @@ export function graphView (data, dispatch) {
           }]),
       ...entities.map(e =>
         ['g', {
+            'data-eid': e.id,
             transform: `translate(${e.x}, ${e.y})`,
             onmousedown: () => dispatch(GUI.ENTITIES.OPEN_ENTITY, e.id),
             title: e.id,

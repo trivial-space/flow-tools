@@ -124,18 +124,6 @@ export const treeWindow = val({
 .accept(defined)
 
 
-export const treeFold = val({})
-.react(
-  [action.HOT],
-  (self, { type, payload }) => {
-    if (type === GUI.TREE.TOGGLE_LEVEL) {
-      return { ...self, [payload]: !self[payload] }
-    }
-  }
-)
-.accept(defined)
-
-
 export const graphWindow = val({
   top: 200,
   left: 100,

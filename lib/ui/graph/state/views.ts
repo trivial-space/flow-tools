@@ -1,7 +1,6 @@
 import { stream, EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
-import { entityTree } from "./flow";
-import { activeNode, activeEntity } from "./entity";
-import { activeWindow, entitiesWindow, visibility, controlsPosition, treeWindow, graphWindow, treeFold } from "./gui";
+import { activeNode } from "./entity";
+import { activeWindow, entitiesWindow, visibility, controlsPosition, treeWindow, graphWindow } from "./gui";
 
 
 
@@ -27,10 +26,4 @@ export const graphWindowProps = stream(
   [graphWindow.HOT, activeWindow.HOT],
   (dimensions, window) => ({ dimensions, window })
 ).val({} as any)
-
-
-export const treeData = stream(
-  [treeFold.HOT, entityTree.HOT, activeEntity.HOT],
-  (fold, tree, selected) => ({ fold, tree, selected })
-).val({ fold: null, tree: null, selected: {} })
 

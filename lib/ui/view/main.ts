@@ -10,9 +10,10 @@ import { treeView } from "./tree";
 import { iconButtonLightStyle } from "./styles/ui";
 import { GUI } from "ui/actions";
 import { visibility, title } from "ui/graph/state/gui";
-import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps, treeData } from "ui/graph/state/views";
+import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps } from "ui/graph/state/views";
 import { viewBox, viewData } from "ui/graph/state/graph";
 import { entityViewProps } from "ui/graph/state/entity";
+import { treeData } from "ui/graph/state/tree";
 
 
 function titleView (title) {

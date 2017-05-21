@@ -67,7 +67,7 @@ export const nodeState: EntityRef<any> = val({})
   (self, {id}, mouse: MouseState, viewBox) => {
     const delta: any = mouse.dragDelta
     const t = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
-    const targetId = t && (t.dataset.key || (t.parentElement && t.parentElement.dataset.key))
+    const targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid))
     if (targetId
         && id === targetId
         && self[id]
