@@ -37,7 +37,7 @@ export const viewBox = val({
   [mouse.HOT],
   (self, mouse) => {
     const delta = mouse.dragDelta
-    if (mouse.pressed[0] && mouse.pressed[0].target.tagName.toLowerCase() === 'svg'
+    if (mouse.pressed[0] && mouse.pressed[0].target.id === 'graph-ui'
         && (delta.x || delta.y)) {
       self.offsetX += delta.x
       self.offsetY += delta.y

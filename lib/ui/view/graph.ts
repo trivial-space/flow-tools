@@ -26,6 +26,7 @@ export function graphView (data, dispatch) {
     ['svg', {
         width: '100%',
         height: '100%',
+        id: 'graph-ui',
         viewBox: `${viewBox.x}, ${viewBox.y}, ${viewBox.width}, ${viewBox.height}`
       },
       ...edges.map(e =>
