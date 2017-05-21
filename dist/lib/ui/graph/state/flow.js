@@ -2,20 +2,21 @@ import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
 import { createEntityTree } from "../../../utils/entity-tree";
 import { action } from "../events";
 import { defined } from "tvs-libs/dist/lib/utils/predicates";
+import { FLOW } from "ui/actions";
 export var runtime = val()
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;
     switch (type) {
-        case 'flowProcessRun':
+        case FLOW.PROCESS_RUN:
             self.start(payload);
             return;
-        case 'flowProcessStop':
+        case FLOW.PROCESS_STOP:
             self.stop(payload);
             return;
-        case 'flowEntityReset':
+        case FLOW.ENTITY_RESET:
             self.set(payload, self.getGraph().entities[payload].value);
             return;
-        case 'flowEntityInspect':
+        case FLOW.ENTITY_INSPECT:
             console.log(payload, self.get(payload));
             return;
     }

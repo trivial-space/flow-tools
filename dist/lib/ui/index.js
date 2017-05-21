@@ -17,7 +17,7 @@ import { nodeState, viewBox } from "./graph/state/graph";
 import Clipboard from "clipboard";
 import Inferno from 'inferno';
 import createElement from "inferno-create-element";
-var graphModules = require.context('./graph', true, /(?!\.d\.)\.ts$/);
+var graphModules = require.context('./graph', true, /\.ts$/);
 function saveAndRecover(title, entity, state) {
     var id = entity.getId();
     var storageId = 'tvsFlowTools' + (title ? '::' + title : '') + '::' + id;

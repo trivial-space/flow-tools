@@ -6,10 +6,10 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-import { val, stream, asyncStream } from "tvs-flow/dist/lib/utils/entity-reference";
+import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
 import { unequal, defined, and, notEmpty } from "tvs-libs/dist/lib/utils/predicates";
 import { action, mouse, windowSize } from "../events";
-import { entityTree, runtime, graph } from "./flow";
+import { GUI } from "ui/actions";
 export var title = val('').accept(notEmpty);
 export var visibility = val({
     tree: false,
@@ -18,10 +18,10 @@ export var visibility = val({
 })
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;
-    if (type === "state.gui.updateVisibility") {
+    if (type === GUI.MAIN.UPDATE_VISIBILITY) {
         return __assign({}, self, (_b = {}, _b[payload] = !self[payload], _b));
     }
-    else if (type === "closeWindow") {
+    else if (type === GUI.MAIN.CLOSE_WINDOW) {
         return __assign({}, self, (_c = {}, _c[payload] = false, _c));
     }
     var _b, _c;
@@ -29,8 +29,8 @@ export var visibility = val({
     .accept(defined);
 export var activeWindow = stream([action.HOT], function (_a) {
     var type = _a.type, payload = _a.payload;
-    if (type === "state.gui.setActiveWindow"
-        || type === "state.gui.updateVisibility") {
+    if (type === GUI.MAIN.SET_ACTIVE_WINDOW
+        || type === GUI.MAIN.UPDATE_VISIBILITY) {
         return payload;
     }
 })
@@ -39,7 +39,7 @@ export var activeWindow = stream([action.HOT], function (_a) {
 export var zIndex = val(0)
     .react([activeWindow.HOT], function (self) { return self + 1; });
 export var controlsPosition = val({
-    left: 100,
+    left: 0,
     top: 0,
     zIndex: 0
 })
@@ -86,15 +86,6 @@ export var treeWindow = val({
         }
         return setSizeConstrains(self, size);
     }
-})
-    .accept(defined);
-export var treeFold = val({})
-    .react([action.HOT], function (self, _a) {
-    var type = _a.type, payload = _a.payload;
-    if (type === 'state.gui.toggleTreeLevel') {
-        return __assign({}, self, (_b = {}, _b[payload] = !self[payload], _b));
-    }
-    var _b;
 })
     .accept(defined);
 export var graphWindow = val({
@@ -149,86 +140,6 @@ export var entitiesWindow = val({
     }
 })
     .accept(defined);
-export var activeEntity = val({})
-    .react([action.HOT, graph.COLD], function (_, _a, graph) {
-    var type = _a.type, payload = _a.payload;
-    if (type === 'state.gui.openEntity') {
-        return graph.entities[payload];
-    }
-})
-    .react([mouse.HOT], function (_, mouse) {
-    if (mouse.pressed[2] && mouse.pressed[2].target.closest('svg')) {
-        return { id: '' };
-    }
-})
-    .accept(defined);
-export var activeProcess = val({})
-    .react([action.HOT, graph.COLD], function (_, _a, graph) {
-    var type = _a.type, payload = _a.payload;
-    if (type === 'state.gui.openProcess') {
-        return graph.processes[payload];
-    }
-})
-    .react([mouse.HOT], function (_, mouse) {
-    if (mouse.pressed[2] && mouse.pressed[2].target.closest('svg')) {
-        return { id: '' };
-    }
-})
-    .accept(defined);
-export var activeNode = val({})
-    .react([activeEntity.HOT], function (_, e) { return e; })
-    .react([activeProcess.HOT], function (_, p) { return p; });
-export var watchingEntity = val(true)
-    .react([action.HOT], function (_, _a) {
-    var type = _a.type, payload = _a.payload;
-    if (type === 'setEntityEditMode') {
-        return !payload;
-    }
-    else if (type === 'saveCurrentEntityValue') {
-        return true;
-    }
-})
-    .react([activeEntity.HOT], function () { return true; })
-    .accept(defined);
-export var activeValue = asyncStream([runtime.COLD, activeEntity.HOT, visibility.HOT, watchingEntity.HOT], function (send, flow, entity, visibility, watching) {
-    if (entity && entity.id) {
-        send(flow.get(entity.id));
-        if (visibility.entities && watching) {
-            flow.on(entity.id, send);
-            return function () { return flow.off(entity.id, send); };
-        }
-    }
-    else {
-        send('');
-    }
-});
-export var editedValue = val('')
-    .react([action.HOT, runtime.COLD], function (self, _a, flow) {
-    var type = _a.type, payload = _a.payload;
-    if (type === 'updateEditedValue') {
-        return payload;
-    }
-    else if (self && type === 'saveCurrentEntityValue') {
-        requestAnimationFrame(function () {
-            try {
-                flow.set(payload, JSON.parse(self));
-            }
-            catch (e) {
-                console.error('could not save value to entity', payload, self);
-                console.error(e);
-            }
-        });
-    }
-})
-    .react([activeValue.HOT], function () { return ''; })
-    .accept(and(defined, unequal));
-export var entityValueView = stream([activeValue.HOT, watchingEntity.HOT], function (value, watching) { return ({ value: value, watching: watching }); }).val({ value: null, watching: true });
-export var entitiesWindowProps = stream([entitiesWindow.HOT, activeNode.HOT, activeWindow.HOT], function (dimensions, node, window) { return ({ dimensions: dimensions, node: node, window: window }); }).val({});
-export var entityViewProps = stream([activeEntity.HOT, watchingEntity.HOT], function (entity, watching) { return ({ entity: entity, watching: watching }); });
-export var controlProps = stream([visibility.HOT, controlsPosition.HOT], function (visibility, position) { return ({ visibility: visibility, position: position }); });
-export var treeWindowProps = stream([treeWindow.HOT, activeWindow.HOT], function (dimensions, window) { return ({ dimensions: dimensions, window: window }); }).val({});
-export var graphWindowProps = stream([graphWindow.HOT, activeWindow.HOT], function (dimensions, window) { return ({ dimensions: dimensions, window: window }); }).val({});
-export var treeData = stream([treeFold.HOT, entityTree.HOT, activeEntity.HOT], function (fold, tree, selected) { return ({ fold: fold, tree: tree, selected: selected }); }).val({ fold: null, tree: null, selected: {} });
 function updateWindowZIndex(entity, name) {
     entity.react([activeWindow.COLD, zIndex.HOT], function (self, window, zIndex) {
         if (window === name) {

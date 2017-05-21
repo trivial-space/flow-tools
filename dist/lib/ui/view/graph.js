@@ -1,5 +1,6 @@
 import { graphViewStyle } from "./styles/graph";
 import { classes } from "typestyle/lib";
+import { GUI } from "ui/actions";
 export function scaleSlider(_a, dispatch) {
     var scale = _a.scale;
     return ['span',
@@ -9,7 +10,7 @@ export function scaleSlider(_a, dispatch) {
                 min: 0.5,
                 max: 3,
                 step: 0.2,
-                onchange: function (e) { return dispatch('updateGraphScale', e.target.value); },
+                onchange: function (e) { return dispatch(GUI.GRAPH.UPDATE_SCALE, e.target.value); },
                 onmousemove: function (e) { return e.stopPropagation(); }
             }]];
 }
@@ -20,6 +21,7 @@ export function graphView(data, dispatch) {
     return ['section', { class: graphViewStyle }, ['svg', {
                 width: '100%',
                 height: '100%',
+                id: 'graph-ui',
                 viewBox: viewBox.x + ", " + viewBox.y + ", " + viewBox.width + ", " + viewBox.height
             }].concat(edges.map(function (e) {
             return ['line', {
@@ -31,10 +33,9 @@ export function graphView(data, dispatch) {
                 }];
         }), processes.map(function (p) {
             return ['circle', {
-                    'data-key': p.id,
                     class: classes(p.class, p.active && 'active'),
                     transform: "translate(" + p.x + ", " + p.y + ")",
-                    onmousedown: function () { return dispatch('state.gui.openProcess', p.id); },
+                    onmousedown: function () { return dispatch(GUI.ENTITIES.OPEN_PROCESS, p.id); },
                     cx: 0,
                     cy: 0,
                     r: p.autostart ? 13 : 8,
@@ -42,9 +43,9 @@ export function graphView(data, dispatch) {
                 }];
         }), entities.map(function (e) {
             return ['g', {
-                    'data-key': e.id,
+                    'data-eid': e.id,
                     transform: "translate(" + e.x + ", " + e.y + ")",
-                    onmousedown: function () { return dispatch('state.gui.openEntity', e.id); },
+                    onmousedown: function () { return dispatch(GUI.ENTITIES.OPEN_ENTITY, e.id); },
                     title: e.id,
                     class: classes(e.class, e.active && 'active')
                 },

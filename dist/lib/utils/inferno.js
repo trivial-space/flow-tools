@@ -45,7 +45,8 @@ export function flowComponentFactory(stateFlow, dispatchId, debug) {
         }
     }
     var cache = {};
-    return function component(template, viewStateId) {
+    return function component(template, entity) {
+        var viewStateId = entity.getId();
         var arghash = viewStateId + template.name;
         if (cache[arghash]) {
             return cache[arghash];

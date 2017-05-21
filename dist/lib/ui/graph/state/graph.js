@@ -11,7 +11,9 @@ import { mouse, action } from "../events";
 import { defined } from "tvs-libs/dist/lib/utils/predicates";
 import { graph } from "./flow";
 import { PORT_TYPES } from "tvs-flow/dist/lib/runtime-types";
-import { graphWindow, activeEntity, activeNode } from "./gui";
+import { graphWindow } from "./gui";
+import { GUI } from "ui/actions";
+import { activeEntity, activeNode } from "./entity";
 export var viewBox = val({
     width: 0,
     height: 0,
@@ -21,15 +23,12 @@ export var viewBox = val({
 })
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;
-    if (type === 'updateGraphScale'
+    if (type === GUI.GRAPH.UPDATE_SCALE
         && (payload !== self.scale)) {
         self.scale = payload;
         return self;
     }
-})
-    .react([action.HOT], function (self, _a) {
-    var type = _a.type, payload = _a.payload;
-    if (type === 'updateGraphSize'
+    else if (type === GUI.GRAPH.UPDATE_SIZE
         && ((payload.width && payload.width !== self.width)
             || (payload.height && payload.height !== self.height))) {
         self.width = payload.width;
@@ -39,7 +38,7 @@ export var viewBox = val({
 })
     .react([mouse.HOT], function (self, mouse) {
     var delta = mouse.dragDelta;
-    if (mouse.pressed[0] && mouse.pressed[0].target.tagName.toLowerCase() === 'svg'
+    if (mouse.pressed[0] && mouse.pressed[0].target.id === 'graph-ui'
         && (delta.x || delta.y)) {
         self.offsetX += delta.x;
         self.offsetY += delta.y;
@@ -62,7 +61,7 @@ export var nodeState = val({})
     var id = _a.id;
     var delta = mouse.dragDelta;
     var t = mouse.pressed[0] && mouse.pressed[0].target;
-    var targetId = t && (t.dataset.key || (t.parentElement && t.parentElement.dataset.key));
+    var targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid));
     if (targetId
         && id === targetId
         && self[id]
@@ -87,7 +86,12 @@ export var graphEntities = stream([graph.HOT, activeNode.HOT], function (graph, 
         var e = graph.entities[key];
         var _a = getLabelGroup(key), label = _a.label, group = _a.group;
         groups[group] = groups[group] || (groupNr++ % 7) + 1;
-        var node = __assign({ id: e.id, class: 'group-' + groups[group], label: label, active: e.id === active.id }, nodeState[key]);
+        var node = {
+            id: e.id,
+            class: 'group-' + groups[group],
+            label: label,
+            active: e.id === active.id,
+        };
         if (e.accept != null) {
             node.accept = true;
         }

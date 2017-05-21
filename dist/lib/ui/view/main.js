@@ -15,26 +15,32 @@ import { graphView, scaleSlider } from "./graph";
 import { processView, entityView } from "./entities";
 import { treeView } from "./tree";
 import { iconButtonLightStyle } from "./styles/ui";
-function title(title) {
+import { GUI } from "ui/actions";
+import { visibility, title } from "ui/graph/state/gui";
+import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps } from "ui/graph/state/views";
+import { viewBox, viewData } from "ui/graph/state/graph";
+import { entityViewProps } from "ui/graph/state/entity";
+import { treeData } from "ui/graph/state/tree";
+function titleView(title) {
     return ['h1', title];
 }
 var activeButton = style({
     color: highlightColor
 });
 function setActiveWindow(label, dispatch) {
-    return function () { return dispatch('state.gui.setActiveWindow', label); };
+    return function () { return dispatch(GUI.MAIN.SET_ACTIVE_WINDOW, label); };
 }
 function controls(_a, dispatch, component) {
     var visibility = _a.visibility, position = _a.position;
     var click = function (label) {
-        return function () { return dispatch('state.gui.updateVisibility', label); };
+        return function () { return dispatch(GUI.MAIN.UPDATE_VISIBILITY, label); };
     };
     var el = ['header', {
             class: classes('tvs-flow-controls', controlsStyle),
             onmousedown: setActiveWindow('controls', dispatch),
             style: __assign({}, position)
         },
-        component(title, 'state.gui.title'),
+        component(titleView, title),
         ['nav', { class: 'tvs-controls-btns' },
             ['ul',
                 ['li',
@@ -63,7 +69,6 @@ function controls(_a, dispatch, component) {
 function treeWindow(_a, dispatch, component) {
     var dimensions = _a.dimensions, window = _a.window;
     var el = ['article', {
-            'data-key': 'tree',
             class: classes('tvs-flow-tree', windowStyle),
             style: __assign({}, dimensions),
             onmousedown: setActiveWindow('tree', dispatch)
@@ -77,29 +82,27 @@ function treeWindow(_a, dispatch, component) {
                 icon: icon.close(),
                 class: iconButtonLightStyle,
                 title: 'close window',
-                onclick: function () { return dispatch('closeWindow', 'tree'); }
+                onclick: function () { return dispatch(GUI.MAIN.CLOSE_WINDOW, 'tree'); }
             })],
-        ['section', { class: windowContentStyle }, component(treeView, 'state.gui.treeData')],
-        ['footer', {
-                class: 'resize',
-                'data-key': 'resize'
-            }]];
+        ['section', { class: windowContentStyle }, component(treeView, treeData)],
+        ['footer', { class: 'resize' }]];
     return el;
 }
 function graphWindow(_a, dispatch, component) {
     var dimensions = _a.dimensions, window = _a.window;
-    var graph = component(graphView, 'state.graph.viewData');
+    var graph = component(graphView, viewData);
     function updateGraphSize(parent) {
         if (parent && parent.querySelector) {
-            var graphNode = parent.querySelector('section');
-            dispatch('updateGraphSize', {
-                width: graphNode.clientWidth,
-                height: graphNode.clientHeight
+            var graphNode_1 = parent.querySelector('section');
+            requestAnimationFrame(function () {
+                dispatch(GUI.GRAPH.UPDATE_SIZE, {
+                    width: graphNode_1.clientWidth,
+                    height: graphNode_1.clientHeight
+                });
             });
         }
     }
     var el = ['article', {
-            'data-key': 'graph',
             ref: updateGraphSize,
             class: classes('tvs-flow-graph', windowStyle),
             style: __assign({}, dimensions),
@@ -109,7 +112,7 @@ function graphWindow(_a, dispatch, component) {
             icon.graph(window === "graph" ? 'selected' : ''),
             ' Graph ',
             ['span', { class: 'gap' }],
-            component(scaleSlider, 'state.graph.viewBox'),
+            component(scaleSlider, viewBox),
             ' ',
             iconBtn({
                 icon: icon.copy(),
@@ -120,22 +123,18 @@ function graphWindow(_a, dispatch, component) {
                 icon: icon.close(),
                 class: iconButtonLightStyle,
                 title: 'close window',
-                onclick: function () { return dispatch('closeWindow', 'graph'); }
+                onclick: function () { return dispatch(GUI.MAIN.CLOSE_WINDOW, 'graph'); }
             })],
         graph,
-        ['footer', {
-                'data-key': 'resize',
-                class: 'resize'
-            }]];
+        ['footer', { class: 'resize' }]];
     return el;
 }
 function entitiesWindow(_a, dispatch, component) {
     var dimensions = _a.dimensions, node = _a.node, window = _a.window;
     var view = node && node.procedure
         ? processView(node, dispatch)
-        : component(entityView, 'state.gui.entityViewProps');
+        : component(entityView, entityViewProps);
     var el = ['article', {
-            'data-key': 'entities',
             class: classes('tvs-flow-entities', windowStyle),
             style: __assign({}, dimensions),
             onmousedown: setActiveWindow('entities', dispatch)
@@ -151,21 +150,18 @@ function entitiesWindow(_a, dispatch, component) {
                 icon: icon.close(),
                 class: iconButtonLightStyle,
                 title: 'close window',
-                onclick: function () { return dispatch('closeWindow', 'entities'); }
+                onclick: function () { return dispatch(GUI.MAIN.CLOSE_WINDOW, 'entities'); }
             })],
         view,
-        ['footer', {
-                class: 'resize',
-                'data-key': 'resize'
-            }]];
+        ['footer', { class: 'resize' }]];
     return el;
 }
 function root(visibility, _, component) {
-    var tree = visibility.tree ? component(treeWindow, 'state.gui.treeWindowProps') : '';
-    var graph = visibility.graph ? component(graphWindow, 'state.gui.graphWindowProps') : '';
-    var entities = visibility.entities ? component(entitiesWindow, 'state.gui.entitiesWindowProps') : '';
+    var tree = visibility.tree ? component(treeWindow, treeWindowProps) : '';
+    var graph = visibility.graph ? component(graphWindow, graphWindowProps) : '';
+    var entities = visibility.entities ? component(entitiesWindow, entitiesWindowProps) : '';
     var el = ['article', { class: classes('tvs-flow-tools', mainStyle) },
-        component(controls, 'state.gui.controlProps'),
+        component(controls, controlProps),
         graph,
         entities,
         tree
@@ -173,6 +169,6 @@ function root(visibility, _, component) {
     return el;
 }
 export function mainView(component) {
-    return component(root, 'state.gui.visibility');
+    return component(root, visibility);
 }
 //# sourceMappingURL=main.js.map
