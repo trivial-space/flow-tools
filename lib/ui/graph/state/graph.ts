@@ -5,7 +5,7 @@ import { graph } from "./flow";
 import { PORT_TYPES, Graph } from "tvs-flow/dist/lib/runtime-types";
 import { graphWindow } from "./gui";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
-import { GUI } from "ui/actions";
+import { GUI } from "../../actions";
 import { activeEntity, activeNode } from "./entity";
 
 

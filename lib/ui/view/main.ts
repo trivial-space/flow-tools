@@ -8,12 +8,12 @@ import { graphView, scaleSlider } from "./graph";
 import { processView, entityView } from "./entities";
 import { treeView } from "./tree";
 import { iconButtonLightStyle } from "./styles/ui";
-import { GUI } from "ui/actions";
-import { visibility, title } from "ui/graph/state/gui";
-import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps } from "ui/graph/state/views";
-import { viewBox, viewData } from "ui/graph/state/graph";
-import { entityViewProps } from "ui/graph/state/entity";
-import { treeData } from "ui/graph/state/tree";
+import { GUI } from "../actions";
+import { visibility, title } from "../graph/state/gui";
+import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps } from "../graph/state/views";
+import { viewBox, viewData } from "../graph/state/graph";
+import { entityViewProps } from "../graph/state/entity";
+import { treeData } from "../graph/state/tree";
 
 
 function titleView (title) {

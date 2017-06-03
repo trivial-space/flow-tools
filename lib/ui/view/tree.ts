@@ -3,7 +3,7 @@ import { style } from "typestyle/lib";
 import * as icon from "./icons";
 import { iconBtn } from "./ui";
 import { iconButtonLightStyle } from "./styles/ui";
-import { FLOW, GUI } from "ui/actions";
+import { FLOW, GUI } from "../actions";
 
 
 const openIcon = style({

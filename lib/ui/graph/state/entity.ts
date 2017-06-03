@@ -3,7 +3,7 @@ import { unequal, defined, and } from "tvs-libs/dist/lib/utils/predicates";
 import { action, mouse } from "../events";
 import { runtime, graph } from "./flow";
 import { Runtime, Entity } from "tvs-flow/dist/lib/runtime-types";
-import { GUI } from "ui/actions";
+import { GUI } from "../../actions";
 import { visibility } from "./gui";
 
 

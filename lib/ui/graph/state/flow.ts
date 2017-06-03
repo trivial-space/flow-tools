@@ -3,7 +3,7 @@ import { Runtime, Graph } from "tvs-flow/dist/lib/runtime-types";
 import { createEntityTree } from "../../../utils/entity-tree";
 import { action } from "../events";
 import { defined } from "tvs-libs/dist/lib/utils/predicates";
-import { FLOW } from "ui/actions";
+import { FLOW } from "../../actions";
 
 
 export const runtime: EntityRef<Runtime> = val()

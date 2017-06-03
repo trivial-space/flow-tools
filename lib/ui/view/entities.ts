@@ -2,8 +2,8 @@ import * as icon from "./icons";
 import { iconBtn } from "./ui";
 import { buttonStyle } from "./styles/ui";
 import { windowContentStyle, entityViewStyle } from "./styles/components";
-import { GUI, FLOW } from "ui/actions";
-import { entityValueView } from "ui/graph/state/entity";
+import { GUI, FLOW } from "../actions";
+import { entityValueView } from "../graph/state/entity";
 
 
 function jsonCode ({value, watching}, dispatch) {

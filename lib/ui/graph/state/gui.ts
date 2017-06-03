@@ -2,7 +2,7 @@ import { val, stream, EntityRef } from "tvs-flow/dist/lib/utils/entity-reference
 import { unequal, defined, and, notEmpty } from "tvs-libs/dist/lib/utils/predicates";
 import { action, mouse, windowSize } from "../events";
 import { MouseState } from "tvs-libs/dist/lib/events/mouse";
-import { GUI } from "ui/actions";
+import { GUI } from "../../actions";
 
 
 export interface Size {
