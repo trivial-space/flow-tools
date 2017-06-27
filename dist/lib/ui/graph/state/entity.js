@@ -1,3 +1,4 @@
+"use strict";
 import { val, stream, asyncStream } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { unequal, defined, and } from 'tvs-libs/dist/lib/utils/predicates';
 import { action, mouse } from '../events';

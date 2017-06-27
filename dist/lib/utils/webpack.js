@@ -1,3 +1,4 @@
+"use strict";
 import { resolveEntityIds, isEntity, getGraphFromAll } from 'tvs-flow/dist/lib/utils/entity-reference';
 export function modulePathToNamespace(path, separator) {
     if (separator === void 0) { separator = '.'; }

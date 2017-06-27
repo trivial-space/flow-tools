@@ -1,3 +1,4 @@
+"use strict";
 import { style } from 'typestyle/lib';
 import { rgba } from 'csx';
 export var color = 'white';

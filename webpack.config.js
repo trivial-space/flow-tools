@@ -4,39 +4,39 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
 
-  entry: resolve(__dirname, "lib", "index.ts"),
+	entry: resolve(__dirname, "lib", "index.ts"),
 
-  output: {
-    path: resolve(__dirname, "dist"),
-    filename: "tvs-flow-tools.js",
-    library: 'tvsFlowTools',
-    libraryTarget: "umd"
-  },
+	output: {
+		path: resolve(__dirname, "dist"),
+		filename: "tvs-flow-tools.js",
+		library: 'tvsFlowTools',
+		libraryTarget: "umd"
+	},
 
-  module: {
-    rules: [{
-      test: /\.ts$/,
-      exclude: /node_modules/,
-      loader: 'ts-loader',
-      options: {
-        compilerOptions: {
-          "outDir": "",
-        }
-      }
-    }]
-  },
+	module: {
+		rules: [{
+			test: /\.ts$/,
+			exclude: /node_modules/,
+			loader: 'ts-loader',
+			options: {
+				compilerOptions: {
+					"outDir": "",
+				}
+			}
+		}]
+	},
 
-  resolve: {
-    extensions: ['.ts', '.js', '.json'],
-    modules: [
-      'node_modules',
-      resolve(__dirname, "lib")
-    ]
-  },
+	resolve: {
+		extensions: ['.ts', '.js', '.json'],
+		modules: [
+			'node_modules',
+			resolve(__dirname, "lib")
+		]
+	},
 
-  plugins: [
-    new UglifyJsPlugin({
-      beautify: true
-    })
-  ]
+	plugins: [
+		new UglifyJsPlugin({
+			beautify: true
+		})
+	]
 }

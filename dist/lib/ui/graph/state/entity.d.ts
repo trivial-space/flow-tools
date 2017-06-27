@@ -1,6 +1,6 @@
 import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
-import { Entity } from 'tvs-flow/dist/lib/runtime-types';
-export declare const activeEntity: EntityRef<Entity>;
+import { EntityData } from 'tvs-flow/dist/lib/runtime-types';
+export declare const activeEntity: EntityRef<EntityData>;
 export declare const activeProcess: EntityRef<{}>;
 export declare const activeNode: EntityRef<{}>;
 export declare const watchingEntity: EntityRef<boolean>;

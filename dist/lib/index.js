@@ -1,3 +1,4 @@
+"use strict";
 import * as gui from './ui/index';
 import * as uetree from './utils/entity-tree';
 import * as uwebpack from './utils/webpack';

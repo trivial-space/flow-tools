@@ -1,3 +1,4 @@
+"use strict";
 import { graphViewStyle } from './styles/graph';
 import { classes } from 'typestyle/lib';
 import { GUI } from '../actions';

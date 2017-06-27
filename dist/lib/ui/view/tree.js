@@ -1,3 +1,4 @@
+"use strict";
 import { treeViewStyle } from './styles/components';
 import { style } from 'typestyle/lib';
 import * as icon from './icons';

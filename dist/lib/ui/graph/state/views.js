@@ -1,3 +1,4 @@
+"use strict";
 import { stream } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { activeNode } from './entity';
 import { activeWindow, entitiesWindow, visibility, controlsPosition, treeWindow, graphWindow } from './gui';

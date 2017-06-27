@@ -1,3 +1,4 @@
+"use strict";
 import * as icon from './icons';
 import { iconBtn } from './ui';
 import { buttonStyle } from './styles/ui';

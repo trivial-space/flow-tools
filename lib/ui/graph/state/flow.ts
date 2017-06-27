@@ -6,7 +6,7 @@ import { defined } from 'tvs-libs/dist/lib/utils/predicates'
 import { FLOW } from '../../actions'
 
 
-export const runtime: EntityRef<Runtime> = val()
+export const runtime: EntityRef<Runtime> = val(null as any as Runtime)
 .react(
 	[action.HOT],
 	(self: Runtime, {type, payload}) => {

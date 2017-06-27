@@ -1,3 +1,4 @@
+"use strict";
 import { style } from 'typestyle/lib';
 import { element, color } from './main';
 export var radioBtnStyle = style({

@@ -1,3 +1,4 @@
+"use strict";
 import { classes } from 'typestyle/lib';
 import { iconButtonStyle } from './styles/ui';
 export function iconBtn(_a) {

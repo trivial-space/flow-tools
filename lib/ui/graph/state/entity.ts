@@ -2,12 +2,12 @@ import { val, stream, asyncStream, EntityRef } from 'tvs-flow/dist/lib/utils/ent
 import { unequal, defined, and } from 'tvs-libs/dist/lib/utils/predicates'
 import { action, mouse } from '../events'
 import { runtime, graph } from './flow'
-import { Runtime, Entity } from 'tvs-flow/dist/lib/runtime-types'
+import { Runtime, EntityData } from 'tvs-flow/dist/lib/runtime-types'
 import { GUI } from '../../actions'
 import { visibility } from './gui'
 
 
-export const activeEntity: EntityRef<Entity> = val({})
+export const activeEntity: EntityRef<EntityData> = val({} as EntityData)
 .react(
 	[action.HOT, graph.COLD],
 	(_, { type, payload }, graph) => {

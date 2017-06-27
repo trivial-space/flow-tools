@@ -1,3 +1,4 @@
+"use strict";
 export function createEntityTree(entities, separator) {
     if (separator === void 0) { separator = '.'; }
     var tree = {};

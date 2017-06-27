@@ -1,3 +1,4 @@
+"use strict";
 import { style } from 'typestyle/lib';
 import { content } from './main';
 export var graphViewStyle = style(content, {
