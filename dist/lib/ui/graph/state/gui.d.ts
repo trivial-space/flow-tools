@@ -1,4 +1,4 @@
-import { EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
+import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
 export interface Size {
     width: number;
     height: number;

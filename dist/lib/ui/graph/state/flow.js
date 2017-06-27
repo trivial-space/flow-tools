@@ -1,8 +1,8 @@
-import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
-import { createEntityTree } from "../../../utils/entity-tree";
-import { action } from "../events";
-import { defined } from "tvs-libs/dist/lib/utils/predicates";
-import { FLOW } from "ui/actions";
+import { val, stream } from 'tvs-flow/dist/lib/utils/entity-reference';
+import { createEntityTree } from '../../../utils/entity-tree';
+import { action } from '../events';
+import { defined } from 'tvs-libs/dist/lib/utils/predicates';
+import { FLOW } from '../../actions';
 export var runtime = val()
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;

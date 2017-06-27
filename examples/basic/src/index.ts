@@ -1,6 +1,6 @@
 import * as graph from './graph'
 import * as tvsFlow from 'tvs-flow'
-import { flow, tools } from "./flow";
+import { flow, tools } from './flow'
 
 flow.addGraph(
   tvsFlow.utils.entityRef.getGraphFromAll(

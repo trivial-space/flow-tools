@@ -1,9 +1,9 @@
-import { val, stream, asyncStream } from "tvs-flow/dist/lib/utils/entity-reference";
-import { unequal, defined, and } from "tvs-libs/dist/lib/utils/predicates";
-import { action, mouse } from "../events";
-import { runtime, graph } from "./flow";
-import { GUI } from "ui/actions";
-import { visibility } from "./gui";
+import { val, stream, asyncStream } from 'tvs-flow/dist/lib/utils/entity-reference';
+import { unequal, defined, and } from 'tvs-libs/dist/lib/utils/predicates';
+import { action, mouse } from '../events';
+import { runtime, graph } from './flow';
+import { GUI } from '../../actions';
+import { visibility } from './gui';
 export var activeEntity = val({})
     .react([action.HOT, graph.COLD], function (_, _a, graph) {
     var type = _a.type, payload = _a.payload;

@@ -1,7 +1,7 @@
 import InfernoComponent from 'inferno-component';
-import { Runtime } from "tvs-flow/dist/lib/runtime-types";
-import { VNode } from "inferno";
-import { EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
+import { Runtime } from 'tvs-flow/dist/lib/runtime-types';
+import { VNode } from 'inferno';
+import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
 export interface Action {
     type: string;
     payload: any;

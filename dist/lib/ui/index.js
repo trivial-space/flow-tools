@@ -7,16 +7,16 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import tvsFlow from 'tvs-flow/dist/lib';
-import { getGraphFromModules } from "../utils/webpack";
-import { mainView } from "./view/main";
-import { flowComponentFactory } from "../utils/inferno";
-import { title as titleNode, visibility, graphWindow, entitiesWindow, treeWindow, controlsPosition } from "./graph/state/gui";
-import { action, element as elementNode } from "./graph/events";
-import { runtime as flowNode } from "./graph/state/flow";
-import { nodeState, viewBox } from "./graph/state/graph";
-import Clipboard from "clipboard";
+import { getGraphFromModules } from '../utils/webpack';
+import { mainView } from './view/main';
+import { flowComponentFactory } from '../utils/inferno';
+import { title as titleNode, visibility, graphWindow, entitiesWindow, treeWindow, controlsPosition } from './graph/state/gui';
+import { action, element as elementNode } from './graph/events';
+import { runtime as flowNode } from './graph/state/flow';
+import { nodeState, viewBox } from './graph/state/graph';
+import Clipboard from 'clipboard';
 import Inferno from 'inferno';
-import createElement from "inferno-create-element";
+import createElement from 'inferno-create-element';
 var graphModules = require.context('./graph', true, /\.ts$/);
 function saveAndRecover(title, entity, state) {
     var id = entity.getId();

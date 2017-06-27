@@ -9,7 +9,7 @@ export default gui
 export const ui = gui
 
 export const utils = {
-  entityTree: uetree,
-  webpack: uwebpack,
-  yoyo: uinferno
+	entityTree: uetree,
+	webpack: uwebpack,
+	yoyo: uinferno
 }

@@ -1,4 +1,4 @@
-import { style } from "typestyle/lib";
+import { style } from 'typestyle/lib';
 import { rgba } from 'csx';
 export var color = 'white';
 export var backgroundColor = rgba(40, 40, 40, 0.75).toString();

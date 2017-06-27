@@ -1,4 +1,4 @@
-import { val, asyncStreamStart, asyncStream } from "tvs-flow/dist/lib/utils/entity-reference";
+import { val, asyncStreamStart, asyncStream } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { windowSize as getWindowSize } from 'tvs-libs/dist/lib/events/dom';
 import { mouse as getMouse } from 'tvs-libs/dist/lib/events/mouse';
 export var action = val();

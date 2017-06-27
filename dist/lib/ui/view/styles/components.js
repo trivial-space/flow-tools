@@ -6,8 +6,8 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-import { style } from "typestyle/lib";
-import { element, fontSize, resetUl, content, highlightColor } from "./main";
+import { style } from 'typestyle/lib';
+import { element, fontSize, resetUl, content, highlightColor } from './main';
 export var controlsStyle = style(element, {
     display: 'inline-block',
     position: 'relative',
@@ -23,10 +23,10 @@ export var controlsStyle = style(element, {
         },
         '& ul': __assign({}, resetUl, { display: 'inline-block', margin: 0, fontSize: fontSize, fontWeight: 'normal' }),
         '& li': {
-            display: 'inline-block',
+            display: 'inline-block'
         },
         '& nav': {
-            display: 'inline-block',
+            display: 'inline-block'
         }
     }
 });
@@ -47,7 +47,7 @@ export var windowStyle = style(element, {
             right: 0,
             borderRadius: 4,
             cursor: 'nwse-resize',
-            background: "linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%)",
+            background: "linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%)"
         },
         '&>header': {
             display: 'flex',
@@ -66,7 +66,7 @@ export var windowContentStyle = style(content, {
     overflow: 'auto',
     position: 'relative',
     flexGrow: 1,
-    padding: 5,
+    padding: 5
 });
 export var treeViewStyle = style(resetUl, {
     margin: 0,

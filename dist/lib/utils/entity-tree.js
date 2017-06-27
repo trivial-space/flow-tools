@@ -7,7 +7,7 @@ export function createEntityTree(entities, separator) {
         var subtree = tree;
         var steps = parts.slice();
         var path = [];
-        for (var i = 0; i < parts.length; i++) {
+        parts.forEach(function () {
             var p = steps.shift();
             if (!steps.length) {
                 subtree[p] = { __entity__: entity };
@@ -15,10 +15,10 @@ export function createEntityTree(entities, separator) {
             else {
                 path.push(p);
                 subtree = subtree[p] = subtree[p] || {
-                    __path__: path.join(separator),
+                    __path__: path.join(separator)
                 };
             }
-        }
+        });
     });
     return tree;
 }

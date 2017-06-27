@@ -6,12 +6,12 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
-import { entityTree } from "./flow";
-import { action } from "../events";
-import { GUI } from "ui/actions";
-import { defined } from "tvs-libs/dist/lib/utils/predicates";
-import { activeEntity } from "./entity";
+import { val, stream } from 'tvs-flow/dist/lib/utils/entity-reference';
+import { entityTree } from './flow';
+import { action } from '../events';
+import { GUI } from '../../actions';
+import { defined } from 'tvs-libs/dist/lib/utils/predicates';
+import { activeEntity } from './entity';
 export var treeFold = val({})
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;

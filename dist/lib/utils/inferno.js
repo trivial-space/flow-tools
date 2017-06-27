@@ -37,7 +37,7 @@ function updateOnAnimationFrame(key, fn) {
 export function flowComponentFactory(stateFlow, dispatchId, debug) {
     if (debug === void 0) { debug = false; }
     function dispatch(action, payload) {
-        if (typeof action === "string") {
+        if (typeof action === 'string') {
             stateFlow.set(dispatchId, { type: action, payload: payload });
         }
         else {
@@ -94,7 +94,7 @@ export function h(el) {
     }
     var tag = el.shift();
     var props = el[0];
-    if (typeof props === "object" && !Array.isArray(props)) {
+    if (typeof props === 'object' && !Array.isArray(props)) {
         el.shift();
     }
     else {

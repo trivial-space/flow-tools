@@ -1740,20 +1740,20 @@
                 var o = t[i], a = e[o.to];
                 if (o.class = a.class, o.from.length) {
                     o.x = 0, o.y = 0;
-                    for (var s = 0; s < o.from.length; s++) {
-                        var u = e[o.from[s][0]], c = o.from[s][1], d = u.x - a.x, f = u.y - a.y;
-                        c === l.PORT_TYPES.COLD && (d /= 2, f /= 2), o.x += d, o.y += f;
+                    for (var s = 0, u = o.from; s < u.length; s++) {
+                        var c = u[s], d = c[0], f = c[1], p = e[d], h = p.x - a.x, v = p.y - a.y;
+                        f === l.PORT_TYPES.COLD && (h /= 2, v /= 2), o.x += h, o.y += v;
                     }
-                    var p = Math.sqrt(o.x * o.x + o.y * o.y);
-                    o.x = 50 * o.x / p + a.x, o.y = 50 * o.y / p + a.y;
-                    for (var s = 0; s < o.from.length; s++) {
-                        var h = o.from[s], v = h[0], c = h[1], u = e[v];
-                        o.fromIsActive = o.fromIsActive || u.active, r.push({
-                            from: u,
+                    var g = Math.sqrt(o.x * o.x + o.y * o.y);
+                    o.x = 50 * o.x / g + a.x, o.y = 50 * o.y / g + a.y;
+                    for (var m = 0, y = o.from; m < y.length; m++) {
+                        var b = y[m], d = b[0], f = b[1], p = e[d];
+                        o.fromIsActive = o.fromIsActive || p.active, r.push({
+                            from: p,
                             to: o,
-                            class: "from" + (c === l.PORT_TYPES.COLD ? " cold" : ""),
-                            title: c,
-                            active: a.active || o.active || u.active
+                            class: "from" + (f === l.PORT_TYPES.COLD ? " cold" : ""),
+                            title: f,
+                            active: a.active || o.active || p.active
                         });
                     }
                 } else o.x = a.x, o.y = a.y - 50;
@@ -2043,14 +2043,15 @@
             void 0 === t && (t = ".");
             var n = {};
             return Object.keys(e).sort().forEach(function(r) {
-                for (var i = e[r], o = i.id.split(t), a = n, s = o.slice(), l = [], u = 0; u < o.length; u++) {
-                    var c = s.shift();
-                    s.length ? (l.push(c), a = a[c] = a[c] || {
+                var i = e[r], o = i.id.split(t), a = n, s = o.slice(), l = [];
+                o.forEach(function() {
+                    var e = s.shift();
+                    s.length ? (l.push(e), a = a[e] = a[e] || {
                         __path__: l.join(t)
-                    }) : a[c] = {
+                    }) : a[e] = {
                         __entity__: i
                     };
-                }
+                });
             }), n;
         }
         Object.defineProperty(t, "__esModule", {

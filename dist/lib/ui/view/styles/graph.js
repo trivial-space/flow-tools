@@ -1,12 +1,12 @@
-import { style } from "typestyle/lib";
-import { content } from "./main";
+import { style } from 'typestyle/lib';
+import { content } from './main';
 export var graphViewStyle = style(content, {
     position: 'relative',
     flexGrow: 1,
     $nest: {
         '& svg': {
             position: 'absolute',
-            filter: 'drop-shadow(0 4px 4px rgba(0,0,0,0.6))',
+            filter: 'drop-shadow(0 4px 4px rgba(0,0,0,0.6))'
         },
         '& text': {
             fill: 'white',
@@ -17,7 +17,7 @@ export var graphViewStyle = style(content, {
             stroke: 'darkgray',
             $nest: {
                 '&.active': {
-                    stroke: '#ff7',
+                    stroke: '#ff7'
                 },
                 '&.to': {
                     strokeWidth: 6
@@ -34,7 +34,7 @@ export var graphViewStyle = style(content, {
                 },
                 '&.from.cold': {
                     strokeDasharray: '7, 10'
-                },
+                }
             }
         },
         '& rect': {
@@ -42,7 +42,7 @@ export var graphViewStyle = style(content, {
                 '&.accept': {
                     strokeWidth: 3,
                     strokeDasharray: '3, 3'
-                },
+                }
             }
         },
         '& .group-1 rect': {
@@ -60,7 +60,7 @@ export var graphViewStyle = style(content, {
             fill: 'lightsalmon'
         },
         '& .group-1 .initial': {
-            fill: 'darkred',
+            fill: 'darkred'
         },
         '& .group-1 .accept': {
             stroke: 'darkred'
@@ -80,7 +80,7 @@ export var graphViewStyle = style(content, {
             fill: 'palegreen'
         },
         '& .group-2 .initial': {
-            fill: 'darkgreen',
+            fill: 'darkgreen'
         },
         '& .group-2 .accept': {
             stroke: 'darkgreen'
@@ -100,7 +100,7 @@ export var graphViewStyle = style(content, {
             fill: 'lightblue'
         },
         '& .group-3 .initial': {
-            fill: 'darkslateblue',
+            fill: 'darkslateblue'
         },
         '& .group-3 .accept': {
             stroke: 'darkslateblue'
@@ -120,7 +120,7 @@ export var graphViewStyle = style(content, {
             fill: 'thistle'
         },
         '& .group-4 .initial': {
-            fill: 'purple',
+            fill: 'purple'
         },
         '& .group-4 .accept': {
             stroke: 'purple'
@@ -140,7 +140,7 @@ export var graphViewStyle = style(content, {
             fill: 'beige'
         },
         '& .group-5 .initial': {
-            fill: 'darkgoldenrod',
+            fill: 'darkgoldenrod'
         },
         '& .group-5 .accept': {
             stroke: 'darkgoldenrod'
@@ -160,7 +160,7 @@ export var graphViewStyle = style(content, {
             fill: 'paleturquoise'
         },
         '& .group-6 .initial': {
-            fill: 'darkslategray',
+            fill: 'darkslategray'
         },
         '& .group-6 .accept': {
             stroke: 'darkslategray'
@@ -180,7 +180,7 @@ export var graphViewStyle = style(content, {
             fill: 'moccasin'
         },
         '& .group-7 .initial': {
-            fill: 'saddlebrown',
+            fill: 'saddlebrown'
         },
         '& .group-7 .accept': {
             stroke: 'saddlebrown'

@@ -1,4 +1,4 @@
-import { EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
+import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
 export declare const viewBox: EntityRef<{
     width: number;
     height: number;

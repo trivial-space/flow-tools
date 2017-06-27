@@ -1,9 +1,9 @@
-import * as icon from "./icons";
-import { iconBtn } from "./ui";
-import { buttonStyle } from "./styles/ui";
-import { windowContentStyle, entityViewStyle } from "./styles/components";
-import { GUI, FLOW } from "ui/actions";
-import { entityValueView } from "ui/graph/state/entity";
+import * as icon from './icons';
+import { iconBtn } from './ui';
+import { buttonStyle } from './styles/ui';
+import { windowContentStyle, entityViewStyle } from './styles/components';
+import { GUI, FLOW } from '../actions';
+import { entityValueView } from '../graph/state/entity';
 function jsonCode(_a, dispatch) {
     var value = _a.value, watching = _a.watching;
     var code = '';
@@ -30,20 +30,20 @@ export function entityView(_a, dispatch, component) {
     if (watching) {
         buttons.push(['button', {
                 class: buttonStyle,
-                key: "edit-btn",
+                key: 'edit-btn',
                 onclick: function () { return dispatch(GUI.ENTITIES.SET_EDIT_MODE, true); }
             }, 'Edit'], iconBtn({
             key: 'inspect-btn-' + entity.id,
             onclick: function () { return dispatch(FLOW.ENTITY_INSPECT, entity.id); },
             icon: icon.show(),
-            title: "Inspect entity value"
+            title: 'Inspect entity value'
         }));
         if (entity.value) {
             buttons.push(iconBtn({
                 key: 'reset-btn-' + entity.id,
                 onclick: function () { return dispatch(FLOW.ENTITY_RESET, entity.id); },
                 icon: icon.reset(),
-                title: "Reset entity value"
+                title: 'Reset entity value'
             }));
         }
     }
@@ -72,13 +72,13 @@ export function processView(process, dispatch) {
     buttons.push(iconBtn({
         onclick: function () { return dispatch(FLOW.PROCESS_RUN, process.id); },
         icon: icon.play(),
-        title: "Run process"
+        title: 'Run process'
     }));
     if (process.async) {
         buttons.push(iconBtn({
             onclick: function () { return dispatch(FLOW.PROCESS_STOP, process.id); },
             icon: icon.stop(),
-            title: "Stop async process"
+            title: 'Stop async process'
         }));
     }
     return ['section', {

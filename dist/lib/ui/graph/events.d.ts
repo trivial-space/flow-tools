@@ -1,5 +1,5 @@
-import { EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
-import { Action } from "../../utils/inferno";
+import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
+import { Action } from '../../utils/inferno';
 import { WindowSizeState } from 'tvs-libs/dist/lib/events/dom';
 import { MouseState } from 'tvs-libs/dist/lib/events/mouse';
 export declare const action: EntityRef<Action>;

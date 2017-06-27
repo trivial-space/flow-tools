@@ -1,5 +1,5 @@
-import { style } from "typestyle/lib";
-import { element, color } from "./main";
+import { style } from 'typestyle/lib';
+import { element, color } from './main';
 export var radioBtnStyle = style({
     margin: '0 4px',
     verticalAlign: 'top',
@@ -26,7 +26,7 @@ var button = {
     }
 };
 var iconButton = {
-    padding: '0 4px',
+    padding: '0 4px'
 };
 export var buttonStyle = style(element, button);
 export var iconButtonStyle = style(element, button, iconButton);

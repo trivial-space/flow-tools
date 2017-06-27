@@ -6,21 +6,21 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-import { style, classes } from "typestyle";
-import * as icon from "./icons";
-import { highlightColor, mainStyle } from "./styles/main";
-import { iconBtn } from "./ui";
-import { windowContentStyle, controlsStyle, windowStyle } from "./styles/components";
-import { graphView, scaleSlider } from "./graph";
-import { processView, entityView } from "./entities";
-import { treeView } from "./tree";
-import { iconButtonLightStyle } from "./styles/ui";
-import { GUI } from "ui/actions";
-import { visibility, title } from "ui/graph/state/gui";
-import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps } from "ui/graph/state/views";
-import { viewBox, viewData } from "ui/graph/state/graph";
-import { entityViewProps } from "ui/graph/state/entity";
-import { treeData } from "ui/graph/state/tree";
+import { style, classes } from 'typestyle';
+import * as icon from './icons';
+import { highlightColor, mainStyle } from './styles/main';
+import { iconBtn } from './ui';
+import { windowContentStyle, controlsStyle, windowStyle } from './styles/components';
+import { graphView, scaleSlider } from './graph';
+import { processView, entityView } from './entities';
+import { treeView } from './tree';
+import { iconButtonLightStyle } from './styles/ui';
+import { GUI } from '../actions';
+import { visibility, title } from '../graph/state/gui';
+import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps } from '../graph/state/views';
+import { viewBox, viewData } from '../graph/state/graph';
+import { entityViewProps } from '../graph/state/entity';
+import { treeData } from '../graph/state/tree';
 function titleView(title) {
     return ['h1', title];
 }
@@ -48,21 +48,21 @@ function controls(_a, dispatch, component) {
                         class: visibility.tree && activeButton,
                         onclick: click('tree'),
                         icon: icon.list(),
-                        title: "toggle entity tree"
+                        title: 'toggle entity tree'
                     })],
                 ['li',
                     iconBtn({
                         class: visibility.graph && activeButton,
                         onclick: click('graph'),
                         icon: icon.graph(),
-                        title: "toggle flow graph"
+                        title: 'toggle flow graph'
                     })],
                 ['li',
                     iconBtn({
                         class: visibility.entities && activeButton,
                         onclick: click('entities'),
                         icon: icon.entities(),
-                        title: "toggle entity details"
+                        title: 'toggle entity details'
                     })]]]];
     return el;
 }
@@ -74,7 +74,7 @@ function treeWindow(_a, dispatch, component) {
             onmousedown: setActiveWindow('tree', dispatch)
         },
         ['header',
-            icon.list(window === "tree" ? 'selected' : ''),
+            icon.list(window === 'tree' ? 'selected' : ''),
             ' Tree ',
             ['span', { class: 'gap' }],
             ' ',
@@ -109,7 +109,7 @@ function graphWindow(_a, dispatch, component) {
             onmousedown: setActiveWindow('graph', dispatch)
         },
         ['header',
-            icon.graph(window === "graph" ? 'selected' : ''),
+            icon.graph(window === 'graph' ? 'selected' : ''),
             ' Graph ',
             ['span', { class: 'gap' }],
             component(scaleSlider, viewBox),
@@ -140,7 +140,7 @@ function entitiesWindow(_a, dispatch, component) {
             onmousedown: setActiveWindow('entities', dispatch)
         },
         ['header',
-            icon.entities(window === "entities" ? 'selected' : ''),
+            icon.entities(window === 'entities' ? 'selected' : ''),
             ' ',
             node && node.id,
             ' ',

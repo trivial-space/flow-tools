@@ -1,4 +1,4 @@
-import { val, stream, EntityRef } from "tvs-flow/dist/lib/utils/entity-reference";
+import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 
 
 export const first: EntityRef<number> = val(10)

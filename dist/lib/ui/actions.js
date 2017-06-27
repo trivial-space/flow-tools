@@ -10,7 +10,7 @@ export var GUI = {
         SET_EDIT_MODE: 'gui:entities:set_edit_mode',
         SAVE_VALUE: 'gui:entities:save',
         OPEN_PROCESS: 'gui:entities:open_process',
-        OPEN_ENTITY: 'gui:entities:open_entity',
+        OPEN_ENTITY: 'gui:entities:open_entity'
     },
     GRAPH: {
         UPDATE_SCALE: 'gui:graph:update_scale',

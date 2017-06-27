@@ -6,15 +6,15 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-import { val, stream } from "tvs-flow/dist/lib/utils/entity-reference";
-import { unequal, defined, and, notEmpty } from "tvs-libs/dist/lib/utils/predicates";
-import { action, mouse, windowSize } from "../events";
-import { GUI } from "ui/actions";
+import { val, stream } from 'tvs-flow/dist/lib/utils/entity-reference';
+import { unequal, defined, and, notEmpty } from 'tvs-libs/dist/lib/utils/predicates';
+import { action, mouse, windowSize } from '../events';
+import { GUI } from '../../actions';
 export var title = val('').accept(notEmpty);
 export var visibility = val({
     tree: false,
     graph: false,
-    entities: false,
+    entities: false
 })
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;

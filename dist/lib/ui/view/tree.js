@@ -1,9 +1,9 @@
-import { treeViewStyle } from "./styles/components";
-import { style } from "typestyle/lib";
-import * as icon from "./icons";
-import { iconBtn } from "./ui";
-import { iconButtonLightStyle } from "./styles/ui";
-import { FLOW, GUI } from "ui/actions";
+import { treeViewStyle } from './styles/components';
+import { style } from 'typestyle/lib';
+import * as icon from './icons';
+import { iconBtn } from './ui';
+import { iconButtonLightStyle } from './styles/ui';
+import { FLOW, GUI } from '../actions';
 var openIcon = style({
     transform: 'rotate(90deg)'
 });
@@ -17,14 +17,14 @@ function treeBranch(name, tree, selected, dispatch, fold) {
                 icon: icon.show(),
                 class: iconButtonLightStyle,
                 onclick: function () { return dispatch(FLOW.ENTITY_INSPECT, e_1.id); },
-                title: "Inspect entity value"
+                title: 'Inspect entity value'
             })];
         if (e_1.value != null) {
             btns.push(iconBtn({
                 class: iconButtonLightStyle,
                 onclick: function () { return dispatch(FLOW.ENTITY_RESET, e_1.id); },
                 icon: icon.reset(),
-                title: "Reset entity value"
+                title: 'Reset entity value'
             }));
         }
         var className = 'entity-item';
@@ -48,7 +48,7 @@ function treeBranch(name, tree, selected, dispatch, fold) {
     if (!fold[tree.__path__]) {
         var branches = ['ul'];
         for (var k in tree) {
-            if (k === "__path__")
+            if (k === '__path__')
                 continue;
             branches.push(treeBranch(k, tree[k], selected, dispatch, fold));
         }

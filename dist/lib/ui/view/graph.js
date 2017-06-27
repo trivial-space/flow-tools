@@ -1,6 +1,6 @@
-import { graphViewStyle } from "./styles/graph";
-import { classes } from "typestyle/lib";
-import { GUI } from "ui/actions";
+import { graphViewStyle } from './styles/graph';
+import { classes } from 'typestyle/lib';
+import { GUI } from '../actions';
 export function scaleSlider(_a, dispatch) {
     var scale = _a.scale;
     return ['span',
