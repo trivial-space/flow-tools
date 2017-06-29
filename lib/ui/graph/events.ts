@@ -6,11 +6,11 @@ import { mouse as getMouse, MouseState } from 'tvs-libs/dist/lib/events/mouse'
 
 export const action: EntityRef<Action> = val()
 
-export const windowSize: EntityRef<WindowSizeState> = asyncStreamStart(getWindowSize)
+export const windowSize: EntityRef<WindowSizeState> = asyncStreamStart(null, getWindowSize)
 
 export const element = val<HTMLElement>()
 
-export const mouse = asyncStream<MouseState>(
+export const mouse: EntityRef<MouseState> = asyncStream(
 	[element.HOT],
 	(send, el) => getMouse(send, {el, enableRightButton: true})
 )

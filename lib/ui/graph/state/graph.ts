@@ -37,7 +37,8 @@ export const viewBox = val({
 	[mouse.HOT],
 	(self, mouse) => {
 		const delta = mouse.dragDelta
-		if (mouse.pressed[0] && mouse.pressed[0].target.id === 'graph-ui'
+		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
+		if (target && target.id === 'graph-ui'
 				&& (delta.x || delta.y)) {
 			self.offsetX += delta.x
 			self.offsetY += delta.y
@@ -48,7 +49,7 @@ export const viewBox = val({
 .accept(defined)
 
 
-export const nodeState: EntityRef<any> = val({})
+export const nodeState: EntityRef<any> = val({} as any)
 .react(
 	[graph.HOT, graphWindow.COLD],
 	(self, graph, size) => {

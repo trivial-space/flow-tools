@@ -1,13 +1,13 @@
-import { Entity } from 'tvs-flow/dist/lib/runtime-types'
+import { Entity, EntityData } from 'tvs-flow/dist/lib/runtime-types'
 
 
-export function createEntityTree(entities: { [id: string]: Entity }, separator = '.') {
+export function createEntityTree(entities: { [id: string]: EntityData }, separator = '.') {
 
 	const tree = {}
 
 	Object.keys(entities).sort().forEach(entityKey => {
 
-		const entity = entities[entityKey]
+		const entity = entities[entityKey] as Entity
 		const parts = entity.id.split(separator)
 
 		let subtree = tree

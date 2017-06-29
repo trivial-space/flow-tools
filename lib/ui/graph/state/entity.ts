@@ -2,32 +2,32 @@ import { val, stream, asyncStream, EntityRef } from 'tvs-flow/dist/lib/utils/ent
 import { unequal, defined, and } from 'tvs-libs/dist/lib/utils/predicates'
 import { action, mouse } from '../events'
 import { runtime, graph } from './flow'
-import { Runtime, EntityData } from 'tvs-flow/dist/lib/runtime-types'
+import { Runtime, Entity, ProcessData } from 'tvs-flow/dist/lib/runtime-types'
 import { GUI } from '../../actions'
 import { visibility } from './gui'
 
 
-export const activeEntity: EntityRef<EntityData> = val({} as EntityData)
+export const activeEntity: EntityRef<Entity> = val({} as Entity)
 .react(
 	[action.HOT, graph.COLD],
 	(_, { type, payload }, graph) => {
 		if (type === GUI.ENTITIES.OPEN_ENTITY) {
-			return graph.entities[payload]
+			return graph.entities[payload] as Entity
 		}
 	}
 )
 .react(
 	[mouse.HOT],
 	(_, mouse) => {
-		if (mouse.pressed[2] && mouse.pressed[2].target.closest('svg')) {
-			return { id: '' }
+		if (mouse.pressed[2] && (mouse.pressed[2].target as HTMLElement).closest('svg')) {
+			return { id: '' } as Entity
 		}
 	}
 )
 .accept(defined)
 
 
-export const activeProcess = val({})
+export const activeProcess = val({} as ProcessData)
 .react(
 	[action.HOT, graph.COLD],
 	(_, { type, payload }, graph) => {
@@ -39,7 +39,7 @@ export const activeProcess = val({})
 .react(
 	[mouse.HOT],
 	(_, mouse) => {
-		if (mouse.pressed[2] && mouse.pressed[2].target.closest('svg')) {
+		if (mouse.pressed[2] && (mouse.pressed[2].target as HTMLElement).closest('svg')) {
 			return { id: '' }
 		}
 	}

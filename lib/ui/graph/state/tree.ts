@@ -6,7 +6,7 @@ import { defined } from 'tvs-libs/dist/lib/utils/predicates'
 import { activeEntity } from './entity'
 
 
-export const treeFold: EntityRef<any> = val({})
+export const treeFold: EntityRef<any> = val({} as any)
 .react(
 	[action.HOT],
 	(self, { type, payload }) => {
