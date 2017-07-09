@@ -2,7 +2,7 @@ import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference
 import { mouse, action } from '../events'
 import { defined } from 'tvs-libs/dist/lib/utils/predicates'
 import { graph } from './flow'
-import { PORT_TYPES, Graph } from 'tvs-flow/dist/lib/runtime-types'
+import { PORT_TYPES, Graph, PortType } from 'tvs-flow/dist/lib/runtime-types'
 import { graphWindow } from './gui'
 import { MouseState } from 'tvs-libs/dist/lib/events/mouse'
 import { GUI } from '../../actions'
@@ -155,7 +155,7 @@ export const graphProcesses = stream(
 				async: p.async,
 				autostart: p.autostart,
 				active: p.id === active.id,
-				acc: p.ports && p.ports.includes(PORT_TYPES.ACCUMULATOR)
+				acc: p.ports && (p.ports as PortType[]).includes(PORT_TYPES.ACCUMULATOR)
 			}
 
 			for (const akey in graph.arcs) {
