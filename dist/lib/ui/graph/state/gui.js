@@ -9,7 +9,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 import { val, stream } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { unequal, defined, and, notEmpty } from 'tvs-libs/dist/lib/utils/predicates';
-import { action, mouse, windowSize } from '../events';
+import { action, mouse, windowSize, dragDeltas } from '../events';
 import { GUI } from '../../actions';
 export var title = val('').accept(notEmpty);
 export var visibility = val({
@@ -44,8 +44,7 @@ export var controlsPosition = val({
     top: 0,
     zIndex: 0
 })
-    .react([activeWindow.COLD, mouse.HOT, windowSize.COLD], function (self, window, mouse, size) {
-    var delta = mouse.dragDelta;
+    .react([activeWindow.COLD, dragDeltas.HOT, mouse.COLD, windowSize.COLD], function (self, window, delta, mouse, size) {
     var target = mouse.pressed[0] && mouse.pressed[0].target;
     if (window === 'controls'
         && target && target.closest('.tvs-flow-controls')
@@ -71,8 +70,7 @@ export var treeWindow = val({
     height: 400,
     zIndex: 0
 })
-    .react([activeWindow.COLD, mouse.HOT, windowSize.COLD], function (self, window, mouse, size) {
-    var delta = mouse.dragDelta;
+    .react([activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD], function (self, window, mouse, delta, size) {
     var target = mouse.pressed[0] && mouse.pressed[0].target;
     if (window === 'tree'
         && target && target.closest('.tvs-flow-tree')
@@ -96,8 +94,7 @@ export var graphWindow = val({
     height: 600,
     zIndex: 0
 })
-    .react([activeWindow.COLD, mouse.HOT, windowSize.COLD], function (self, window, mouse, size) {
-    var delta = mouse.dragDelta;
+    .react([activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD], function (self, window, mouse, delta, size) {
     var target = mouse.pressed[0] && mouse.pressed[0].target;
     if (window === 'graph'
         && target && target.closest('.tvs-flow-graph')
@@ -122,8 +119,7 @@ export var entitiesWindow = val({
     height: 500,
     zIndex: 0
 })
-    .react([activeWindow.COLD, mouse.HOT, windowSize.COLD], function (self, window, mouse, size) {
-    var delta = mouse.dragDelta;
+    .react([activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD], function (self, window, mouse, delta, size) {
     var target = mouse.pressed[0] && mouse.pressed[0].target;
     if (window === 'entities'
         && target && target.closest('.tvs-flow-entities')

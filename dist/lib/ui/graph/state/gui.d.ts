@@ -14,7 +14,7 @@ export declare const visibility: EntityRef<{
     graph: boolean;
     entities: boolean;
 }>;
-export declare const activeWindow: EntityRef<any>;
+export declare const activeWindow: EntityRef<string>;
 export declare const zIndex: EntityRef<number>;
 export declare const controlsPosition: EntityRef<{
     left: number;

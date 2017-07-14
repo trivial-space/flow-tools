@@ -1,7 +1,6 @@
 import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { unequal, defined, and, notEmpty } from 'tvs-libs/dist/lib/utils/predicates'
-import { action, mouse, windowSize } from '../events'
-import { MouseState } from 'tvs-libs/dist/lib/events/mouse'
+import { action, mouse, windowSize, dragDeltas } from '../events'
 import { GUI } from '../../actions'
 
 
@@ -42,7 +41,7 @@ export const visibility = val({
 .accept(defined)
 
 
-export const activeWindow = stream(
+export const activeWindow: EntityRef<string> = stream(
 	[action.HOT],
 	({ type, payload }) => {
 		if (type === GUI.MAIN.SET_ACTIVE_WINDOW
@@ -68,9 +67,8 @@ export const controlsPosition = val({
 	zIndex: 0
 })
 .react(
-	[activeWindow.COLD, mouse.HOT, windowSize.COLD],
-	(self, window, mouse: MouseState, size) => {
-		const delta = mouse.dragDelta
+	[activeWindow.COLD, dragDeltas.HOT, mouse.COLD, windowSize.COLD],
+	(self, window, delta, mouse, size) => {
 		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
 		if (
@@ -100,9 +98,8 @@ export const treeWindow = val({
 	zIndex: 0
 })
 .react(
-	[activeWindow.COLD, mouse.HOT, windowSize.COLD],
-	(self, window, mouse: MouseState, size) => {
-		const delta = mouse.dragDelta
+	[activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD],
+	(self, window, mouse, delta, size) => {
 		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
 		if (
@@ -132,9 +129,8 @@ export const graphWindow = val({
 	zIndex: 0
 })
 .react(
-	[activeWindow.COLD, mouse.HOT, windowSize.COLD],
-	(self, window, mouse: MouseState, size) => {
-		const delta = mouse.dragDelta
+	[activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD],
+	(self, window, mouse, delta, size) => {
 		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
 		if (
@@ -165,9 +161,8 @@ export const entitiesWindow = val({
 	zIndex: 0
 })
 .react(
-	[activeWindow.COLD, mouse.HOT, windowSize.COLD],
-	(self, window, mouse: MouseState, size) => {
-		const delta = mouse.dragDelta
+	[activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD],
+	(self, window, mouse, delta, size) => {
 		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
 		if (

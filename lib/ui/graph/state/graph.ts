@@ -1,10 +1,9 @@
 import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
-import { mouse, action } from '../events'
+import { mouse, action, dragDeltas } from '../events'
 import { defined } from 'tvs-libs/dist/lib/utils/predicates'
 import { graph } from './flow'
 import { PORT_TYPES, Graph, PortType } from 'tvs-flow/dist/lib/runtime-types'
 import { graphWindow } from './gui'
-import { MouseState } from 'tvs-libs/dist/lib/events/mouse'
 import { GUI } from '../../actions'
 import { activeEntity, activeNode } from './entity'
 
@@ -34,9 +33,8 @@ export const viewBox = val({
 	}
 )
 .react(
-	[mouse.HOT],
-	(self, mouse) => {
-		const delta = mouse.dragDelta
+	[mouse.COLD, dragDeltas.HOT],
+	(self, mouse, delta) => {
 		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 		if (target && target.id === 'graph-ui'
 				&& (delta.x || delta.y)) {
@@ -64,9 +62,8 @@ export const nodeState: EntityRef<any> = val({} as any)
 	}
 )
 .react(
-	[activeEntity.COLD, mouse.HOT, viewBox.COLD],
-	(self, {id}, mouse: MouseState, viewBox) => {
-		const delta: any = mouse.dragDelta
+	[activeEntity.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD],
+	(self, {id}, mouse, delta, viewBox) => {
 		const t = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 		const targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid))
 		if (targetId

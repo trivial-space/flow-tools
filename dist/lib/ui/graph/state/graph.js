@@ -8,7 +8,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import { val, stream } from 'tvs-flow/dist/lib/utils/entity-reference';
-import { mouse, action } from '../events';
+import { mouse, action, dragDeltas } from '../events';
 import { defined } from 'tvs-libs/dist/lib/utils/predicates';
 import { graph } from './flow';
 import { PORT_TYPES } from 'tvs-flow/dist/lib/runtime-types';
@@ -37,9 +37,9 @@ export var viewBox = val({
         return self;
     }
 })
-    .react([mouse.HOT], function (self, mouse) {
-    var delta = mouse.dragDelta;
-    if (mouse.pressed[0] && mouse.pressed[0].target.id === 'graph-ui'
+    .react([mouse.COLD, dragDeltas.HOT], function (self, mouse, delta) {
+    var target = mouse.pressed[0] && mouse.pressed[0].target;
+    if (target && target.id === 'graph-ui'
         && (delta.x || delta.y)) {
         self.offsetX += delta.x;
         self.offsetY += delta.y;
@@ -58,9 +58,8 @@ export var nodeState = val({})
         }
     }
 })
-    .react([activeEntity.COLD, mouse.HOT, viewBox.COLD], function (self, _a, mouse, viewBox) {
+    .react([activeEntity.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD], function (self, _a, mouse, delta, viewBox) {
     var id = _a.id;
-    var delta = mouse.dragDelta;
     var t = mouse.pressed[0] && mouse.pressed[0].target;
     var targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid));
     if (targetId

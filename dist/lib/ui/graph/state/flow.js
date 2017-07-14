@@ -4,7 +4,7 @@ import { createEntityTree } from '../../../utils/entity-tree';
 import { action } from '../events';
 import { defined } from 'tvs-libs/dist/lib/utils/predicates';
 import { FLOW } from '../../actions';
-export var runtime = val(null)
+export var runtime = val()
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;
     switch (type) {

@@ -6,3 +6,11 @@ export declare const action: EntityRef<Action>;
 export declare const windowSize: EntityRef<WindowSizeState>;
 export declare const element: EntityRef<HTMLElement>;
 export declare const mouse: EntityRef<MouseState>;
+export declare const mouseDrag: EntityRef<{
+    x: number;
+    y: number;
+}>;
+export declare const dragDeltas: EntityRef<{
+    x: number;
+    y: number;
+}>;
