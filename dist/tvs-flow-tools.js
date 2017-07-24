@@ -1750,7 +1750,7 @@
                 var t = Object(i.createEntity)(e);
                 I[t.id] = t;
                 var n = C(t.id);
-                return null == t.value || !t.reset && null != n.val || (n.val = t.value, L[t.id] = !1, 
+                return null == t.value || !t.reset && null != n.val || (n.val = t.value, D[t.id] = !1, 
                 F = !0), n.accept = t.accept, t;
             }
             function v(e) {
@@ -1809,26 +1809,26 @@
                 e.meta && s(e.meta);
             }
             function O() {
-                H && console.log("flushing graph recursively with", L);
-                var e = Object.keys(L);
+                H && console.log("flushing graph recursively with", D);
+                var e = Object.keys(D);
                 if (F) {
                     for (var t = 0, n = e; t < n.length; t++) {
                         var r = n[t];
-                        if (L[r]) {
+                        if (D[r]) {
                             var i = A.es[r];
                             for (var o in i.reactions) k(i.reactions[o]);
                         }
                     }
                     var a = {};
-                    L = {}, F = !1, U = !0;
+                    D = {}, F = !1, U = !0;
                     for (var s = 0, u = e; s < u.length; s++) {
                         var r = u[s], i = A.es[r];
-                        i.cb.length > 0 && (D[r] = i);
+                        i.cb.length > 0 && (L[r] = i);
                         for (var o in i.effects) a[o] || (k(i.effects[o]), a[o] = !0);
                     }
                     if (U = !1, F) O(); else {
-                        var c = Object.keys(D);
-                        D = {};
+                        var c = Object.keys(L);
+                        L = {};
                         for (var l in c) for (var i = A.es[c[l]], d = 0, f = i.cb; d < f.length; d++) {
                             var p = f[d];
                             p(i.val);
@@ -1859,13 +1859,13 @@
                 }
             }
             function S(e, t, n) {
-                return !(e.accept && !e.accept(t, e.val)) && (e.oldVal = e.val, e.val = t, null != t && (L[e.id] = n, 
+                return !(e.accept && !e.accept(t, e.val)) && (e.oldVal = e.val, e.val = t, null != t && (D[e.id] = n, 
                 F = !0), !0);
             }
             function T(e) {
                 e.async ? requestAnimationFrame(function() {
                     k(e);
-                }) : (k(e), e.out && (L[e.out.id] = !1));
+                }) : (k(e), e.out && (D[e.out.id] = !1));
             }
             function x(e) {
                 var t = j(e);
@@ -1897,7 +1897,7 @@
             var I = {}, P = {}, N = {}, A = {
                 es: {},
                 ps: {}
-            }, M = {}, R = null, H = !1, D = {}, L = {}, U = !1, F = !1;
+            }, M = {}, R = null, H = !1, L = {}, D = {}, U = !1, F = !1;
             return {
                 addEntity: h,
                 removeEntity: v,
@@ -2251,7 +2251,10 @@
             this.fun.apply(null, this.array);
         }, f.title = "browser", f.browser = !0, f.env = {}, f.argv = [], f.version = "", 
         f.versions = {}, f.on = c, f.addListener = c, f.once = c, f.off = c, f.removeListener = c, 
-        f.removeAllListeners = c, f.emit = c, f.binding = function(e) {
+        f.removeAllListeners = c, f.emit = c, f.prependListener = c, f.prependOnceListener = c, 
+        f.listeners = function(e) {
+            return [];
+        }, f.binding = function(e) {
             throw new Error("process.binding is not supported");
         }, f.cwd = function() {
             return "/";
@@ -3612,13 +3615,13 @@
                 i.event ? i.event(i.data, e) : i(e);
             } else n.oninput && n.oninput(e);
             var o = this.vNode;
-            r !== (o.props || Mt).value && L(o, t.dom, !1);
+            r !== (o.props || Mt).value && D(o, t.dom, !1);
         }
-        function D(e, t, n, r, i) {
-            L(n, t, r), i && (t.vNode = e, r && (t.oninput = H, t.oninput.wrapped = !0, n.onChange && (t.onchange = R, 
+        function L(e, t, n, r, i) {
+            D(n, t, r), i && (t.vNode = e, r && (t.oninput = H, t.oninput.wrapped = !0, n.onChange && (t.onchange = R, 
             t.onchange.wrapped = !0)));
         }
-        function L(e, t, n) {
+        function D(e, t, n) {
             var r = e.value, i = t.value;
             if (o(r)) {
                 if (n) {
@@ -3629,7 +3632,7 @@
             } else i !== r && (t.defaultValue = r, t.value = r);
         }
         function U(e, t, n, r, i, o) {
-            512 & e && C(t, n, r, i, o), 2048 & e && A(t, n, r, i, o), 1024 & e && D(t, n, r, i, o);
+            512 & e && C(t, n, r, i, o), 2048 & e && A(t, n, r, i, o), 1024 & e && L(t, n, r, i, o);
         }
         function F(e) {
             return e.type && S(e.type) ? !o(e.checked) : !o(e.value);
@@ -3650,8 +3653,8 @@
                 l._vNode = e, B(d, t, n, l._childContext, c), e.dom = d.dom, Ne(e, s, l, n), l._updating = !1, 
                 yt.findDOMNodeEnabled && Pt.set(l, t);
             } else {
-                var f = Le(e, a, u, r);
-                B(f, t, n, r, i), e.children = f, e.dom = f.dom, Ae(s, t, n);
+                var f = De(e, a, u, r);
+                B(f, t, n, r, i), e.children = f, e.dom = f.dom, Ae(u, s, t, n);
             }
             return t;
         }
@@ -3767,12 +3770,12 @@
             l(t) || qe(t, e.dom);
         }
         function te(e, t, n, r, i) {
-            var a = e.children, s = e.flags, u = 4 & s, c = e.ref, d = e.dom;
+            var a = e.children, s = e.flags, u = 4 & s, c = e.props || Mt, d = e.ref, p = e.dom;
             if (i || (u ? a._unmounted || (l(yt.beforeUnmount) || yt.beforeUnmount(e), f(a.componentWillUnmount) || a.componentWillUnmount(), 
-            c && !i && c(null), a._unmounted = !0, yt.findDOMNodeEnabled && Pt.delete(a), Q(a._lastInput, null, a._lifecycle, !1, i)) : (o(c) || o(c.onComponentWillUnmount) || c.onComponentWillUnmount(d), 
+            d && !i && d(null), a._unmounted = !0, yt.findDOMNodeEnabled && Pt.delete(a), Q(a._lastInput, null, a._lifecycle, !1, i)) : (o(d) || o(d.onComponentWillUnmount) || d.onComponentWillUnmount(p, c), 
             Q(a, null, n, !1, i))), t) {
-                var p = a._lastInput;
-                o(p) && (p = a), qe(t, d);
+                var h = a._lastInput;
+                o(h) && (h = a), qe(t, p);
             }
             yt.recyclingEnabled && !u && (t || r) && Z(e);
         }
@@ -3847,8 +3850,8 @@
                 var s = e.flags, u = t.flags;
                 if (28 & u) {
                     var c = (4 & u) > 0;
-                    28 & s ? ve(e, t, n, r, i, o, c, a) : De(n, Pe(t, null, r, i, o, c), e, r, a);
-                } else 3970 & u ? 3970 & s ? pe(e, t, n, r, i, o, a) : De(n, je(t, null, r, i, o), e, r, a) : 1 & u ? 1 & s ? ge(e, t) : De(n, Ee(t, null), e, r, a) : 4096 & u ? 4096 & s ? ye(e, t) : De(n, Ce(t, null), e, r, a) : He(e, t, n, r, i, o, a);
+                    28 & s ? ve(e, t, n, r, i, o, c, a) : Le(n, Pe(t, null, r, i, o, c), e, r, a);
+                } else 3970 & u ? 3970 & s ? pe(e, t, n, r, i, o, a) : Le(n, je(t, null, r, i, o), e, r, a) : 1 & u ? 1 & s ? ge(e, t) : Le(n, Ee(t, null), e, r, a) : 4096 & u ? 4096 & s ? ye(e, t) : Le(n, Ce(t, null), e, r, a) : He(e, t, n, r, i, o, a);
             }
         }
         function fe(e, t, n, r) {
@@ -3981,7 +3984,7 @@
                     if (E) {
                         var P = _e(x);
                         for (u = P.length - 1, s = y - 1; s >= 0; s--) -1 === x[s] ? (C = s + w, v = t[C], 
-                        v.dom && (t[C] = v = Ze(v)), h = C + 1, p = h < t.length ? t[h].dom : null, ze(n, xe(v, n, r, i, o), p)) : u < 0 || s !== P[u] ? (C = s + w, 
+                        v.dom && (t[C] = v = Ze(v)), h = C + 1, p = h < t.length ? t[h].dom : null, ze(n, xe(v, null, r, i, o), p)) : u < 0 || s !== P[u] ? (C = s + w, 
                         v = t[C], h = C + 1, p = h < t.length ? t[h].dom : null, ze(n, v.dom, p)) : u--;
                     } else if (j !== y) for (s = y - 1; s >= 0; s--) -1 === x[s] && (C = s + w, v = t[C], 
                     v.dom && (t[C] = v = Ze(v)), h = C + 1, p = h < t.length ? t[h].dom : null, ze(n, xe(v, null, r, i, o), p));
@@ -4051,25 +4054,24 @@
             return e.dom = n, l(t) || We(t, n), n;
         }
         function je(e, t, n, r, o) {
-            if (yt.recyclingEnabled) {
-                var s = X(e, n, r, o);
-                if (!l(s)) return l(t) || We(t, s), s;
-            }
+            var s;
+            if (yt.recyclingEnabled && (s = X(e, n, r, o), !l(s))) return l(t) || We(t, s), 
+            s;
             var u = e.flags;
-            o = o || (128 & u) > 0;
-            var c = Ve(e.type, o), d = e.children, f = e.props, p = e.className, h = e.ref;
-            if (e.dom = c, !a(d)) if (i(d)) Ue(c, d); else {
-                var v = !0 === o && "foreignObject" !== e.type;
-                gt(d) ? Ie(d, c, n, r, v) : nt(d) && xe(d, c, n, r, v);
+            o = o || (128 & u) > 0, s = Ve(e.type, o);
+            var c = e.children, d = e.props, f = e.className, p = e.ref;
+            if (e.dom = s, !a(c)) if (i(c)) Ue(s, c); else {
+                var h = !0 === o && "foreignObject" !== e.type;
+                gt(c) ? Ie(c, s, n, r, h) : nt(c) && xe(c, s, n, r, h);
             }
-            if (!l(f)) {
-                var g = !1, y = (3584 & u) > 0;
-                y && (g = F(f));
-                for (var m in f) Oe(m, null, f[m], c, o, g);
-                y && U(u, e, c, f, !0, g);
+            if (!l(d)) {
+                var v = !1, g = (3584 & u) > 0;
+                g && (v = F(d));
+                for (var y in d) Oe(y, null, d[y], s, o, v);
+                g && U(u, e, s, d, !0, v);
             }
-            return null !== p && (o ? c.setAttribute("class", p) : c.className = p), l(h) || Me(c, h, n), 
-            l(t) || We(t, c), c;
+            return null !== f && (o ? s.setAttribute("class", f) : s.className = f), l(p) || Me(s, p, n), 
+            l(t) || We(t, s), s;
         }
         function Ie(e, t, n, r, i) {
             for (var o = 0, s = e.length; o < s; o++) {
@@ -4078,20 +4080,19 @@
             }
         }
         function Pe(e, t, n, r, i, o) {
-            if (yt.recyclingEnabled) {
-                var a = J(e, n, r, i);
-                if (!l(a)) return l(t) || We(t, a), a;
-            }
-            var s, u = e.type, c = e.props || Mt, d = e.ref;
+            var a;
+            if (yt.recyclingEnabled && (a = J(e, n, r, i), !l(a))) return l(t) || We(t, a), 
+            a;
+            var s = e.type, u = e.props || Mt, c = e.ref;
             if (o) {
-                var f = Re(e, u, c, r, i, n), p = f._lastInput;
-                f._vNode = e, e.dom = s = xe(p, null, n, f._childContext, i), l(t) || We(t, s), 
-                Ne(e, d, f, n), f._updating = !1, yt.findDOMNodeEnabled && Pt.set(f, s);
+                var d = Re(e, s, u, r, i, n), f = d._lastInput;
+                d._vNode = e, e.dom = a = xe(f, null, n, d._childContext, i), l(t) || We(t, a), 
+                Ne(e, c, d, n), d._updating = !1, yt.findDOMNodeEnabled && Pt.set(d, a);
             } else {
-                var h = Le(e, u, c, r);
-                e.dom = s = xe(h, null, n, r, i), e.children = h, Ae(d, s, n), l(t) || We(t, s);
+                var p = De(e, s, u, r);
+                e.dom = a = xe(p, null, n, r, i), e.children = p, Ae(u, c, a, n), l(t) || We(t, a);
             }
-            return s;
+            return a;
         }
         function Ne(e, t, n, r) {
             t && (s(t) ? t(n) : h());
@@ -4100,9 +4101,9 @@
                 n._updating = !0, o && o(e), i && n.componentDidMount(), n._updating = !1;
             });
         }
-        function Ae(e, t, n) {
-            e && (o(e.onComponentWillMount) || e.onComponentWillMount(), o(e.onComponentDidMount) || n.addListener(function() {
-                return e.onComponentDidMount(t);
+        function Ae(e, t, n, r) {
+            t && (o(t.onComponentWillMount) || t.onComponentWillMount(e), o(t.onComponentDidMount) || r.addListener(function() {
+                return t.onComponentDidMount(n, e);
             }));
         }
         function Me(e, t, n) {
@@ -4128,12 +4129,12 @@
             c;
         }
         function He(e, t, n, r, i, o, a) {
-            De(n, xe(t, null, r, i, o), e, r, a);
+            Le(n, xe(t, null, r, i, o), e, r, a);
         }
-        function De(e, t, n, r, i) {
+        function Le(e, t, n, r, i) {
             Q(n, null, r, !1, i), Ye(e, t, n.dom);
         }
-        function Le(e, t, n, r) {
+        function De(e, t, n, r) {
             var o = t(n, r);
             return gt(o) ? h() : a(o) ? o = et() : i(o) ? o = tt(o, null) : (o.dom && (o = Ze(o)), 
             28 & o.flags && (o.parentVNode = e)), o;
@@ -4377,12 +4378,12 @@
             linkEvent: ft,
             options: yt,
             render: ce,
-            version: "3.6.4"
+            version: "3.7.0"
         };
         t.default = Rt, t.EMPTY_OBJ = Mt, t.NO_OP = pt, t.cloneVNode = Qe, t.createRenderer = le, 
         t.createVNode = Je, t.findDOMNode = oe, t.getFlagsForElementVnode = lt, t.internal_DOMNodeMap = Pt, 
         t.internal_isUnitlessNumber = St, t.internal_normalize = dt, t.internal_patch = de, 
-        t.linkEvent = ft, t.options = yt, t.render = ce, t.version = "3.6.4";
+        t.linkEvent = ft, t.options = yt, t.render = ce, t.version = "3.7.0";
     }, function(e, t, n) {
         "use strict";
         function r(e) {
@@ -4778,7 +4779,7 @@
     }, function(e, t) {
         function n(e, t) {
             for (;e && e.nodeType !== r; ) {
-                if (e.matches(t)) return e;
+                if ("function" == typeof e.matches && e.matches(t)) return e;
                 e = e.parentNode;
             }
         }
