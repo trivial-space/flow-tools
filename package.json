@@ -1,7 +1,7 @@
 {
 	"name": "tvs-flow-tools",
 	"version": "0.1.0",
-	"description": "tools to develop and work with trivial space flow graphs",
+	"description": "tools for real time manipulation and inspection of trivial space flow graphs",
 	"main": "dist/tvs-flow-tools.js",
 	"types": "dist/lib/index.d.ts",
 	"typings": "dist/lib/index.d.ts",
@@ -17,7 +17,8 @@
 		"data flow",
 		"dev tools",
 		"reactive",
-		"visualization"
+		"visualization",
+		"live coding"
 	],
 	"author": "Thomas Gorny",
 	"license": "MIT",
@@ -35,7 +36,6 @@
 		"@types/node": "^8.0.13",
 		"@types/webpack-env": "^1.13.0",
 		"csx": "^8.2.1",
-		"dom-css": "^2.1.0",
 		"ts-loader": "^2.2.2",
 		"tslint": "^5.5.0",
 		"tvs-flow": "github:trivial-space/flow",
