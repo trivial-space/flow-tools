@@ -26,16 +26,16 @@
 	},
 	"homepage": "https://github.com/trivial-space/flow-tools#readme",
 	"dependencies": {
-		"clipboard": "^1.7.1"
+		"clipboard": "^1.7.1",
+		"inferno": "^3.6.4",
+		"inferno-component": "^3.6.4",
+		"inferno-create-element": "^3.6.4"
 	},
 	"devDependencies": {
 		"@types/node": "^8.0.13",
 		"@types/webpack-env": "^1.13.0",
 		"csx": "^8.2.1",
 		"dom-css": "^2.1.0",
-		"inferno": "^3.6.4",
-		"inferno-component": "^3.6.4",
-		"inferno-create-element": "^3.6.4",
 		"ts-loader": "^2.2.2",
 		"tslint": "^5.5.0",
 		"tvs-flow": "github:trivial-space/flow",
