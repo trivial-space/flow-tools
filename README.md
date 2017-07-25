@@ -14,8 +14,8 @@ Developed and build for usage with TypeScript.
 Flow tools are used primarily in the [trivial space playground](https://github.com/trivial-space/playground) to experiment with graphics live coding inside browsers. See it in action there.
 
 
-## Licence
+## License
 
-MIT, see the LICENCE file in the repository.
+MIT, see the LICENSE file in the repository.
 
 Copyright (c) 2016 - 2017 Thomas Gorny
