@@ -27,6 +27,7 @@ export interface Template {
 	): VNode | any[]
 }
 
+
 export abstract class ComponentClass extends InfernoComponent<null, any> {}
 
 export interface Component {
@@ -46,11 +47,11 @@ function executeRafActions () {
 }
 
 function updateOnAnimationFrame(key: string, fn: Function) {
+	rafActions[key] = fn
 	if (callRaf) {
 		requestAnimationFrame(executeRafActions)
 		callRaf = false
 	}
-	rafActions[key] = fn
 }
 
 
@@ -77,7 +78,7 @@ export function flowComponentFactory(
 
 		const viewStateId = entity.getId()
 
-		const arghash = viewStateId + template.name
+		const arghash = viewStateId + template.toString()
 
 		if (cache[arghash]) {
 			return cache[arghash]
@@ -93,13 +94,15 @@ export function flowComponentFactory(
 				return h(template(this.state.current, dispatch, component))
 			}
 
-			updateAsync = () => {
-				updateOnAnimationFrame(arghash, () => {
-					this.setState(state => {
-						state.current = stateFlow.get(viewStateId)
-						return state
-					})
+			update = () => {
+				this.setState(state => {
+					state.current = stateFlow.get(viewStateId)
+					return state
 				})
+			}
+
+			updateAsync = () => {
+				updateOnAnimationFrame(arghash, this.update)
 			}
 
 			componentDidMount() {
