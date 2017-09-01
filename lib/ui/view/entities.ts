@@ -36,7 +36,7 @@ export function entityView ({entity, watching}, dispatch, component) {
 			['button', {
 					class: buttonStyle,
 					key: 'edit-btn',
-					onclick: () => dispatch(GUI.ENTITIES.SET_EDIT_MODE, true)
+					onclick: () => dispatch(GUI.ENTITIES.WATCH_ACTIVE_ENTITY, true)
 				}, 'Edit'],
 			iconBtn({
 				key: 'inspect-btn-' + entity.id,
@@ -59,7 +59,7 @@ export function entityView ({entity, watching}, dispatch, component) {
 		buttons.push(
 			['button', {
 					class: buttonStyle,
-					onclick: () => dispatch(GUI.ENTITIES.SET_EDIT_MODE, false)
+					onclick: () => dispatch(GUI.ENTITIES.WATCH_ACTIVE_ENTITY, false)
 				}, 'Cancel'],
 			['button', {
 					class: buttonStyle,

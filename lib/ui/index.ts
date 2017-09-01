@@ -3,20 +3,18 @@ import { getGraphFromModules } from '../utils/webpack'
 import { Runtime } from 'tvs-flow/dist/lib/runtime-types'
 import { mainView } from './view/main'
 import { flowComponentFactory } from '../utils/inferno'
-import { title as titleNode, visibility, graphWindow, entitiesWindow, treeWindow, controlsPosition } from './graph/state/gui'
 import { action, element as elementNode } from './graph/events'
-import { runtime as flowNode } from './graph/state/flow'
-import { nodeState, viewBox } from './graph/state/graph'
 import Clipboard from 'clipboard'
 import Inferno from 'inferno'
 import createElement from 'inferno-create-element'
+import { FLOW } from './actions'
 
 
 const graphModules = require.context('./graph', true, /\.ts$/)
 
 
 export interface FlowTool {
-		updateFlow: (Runtime) => void,
+		setFlow: (Runtime, string?) => void,
 		dispose: () => void,
 		getState: () => Runtime,
 		getElement: () => HTMLElement
@@ -38,7 +36,7 @@ function saveAndRecover(title, entity, state) {
 }
 
 
-export function start(title, opts?): FlowTool {
+export function start(opts?): FlowTool {
 
 	const options = {
 		debug: false,
@@ -50,22 +48,6 @@ export function start(title, opts?): FlowTool {
 
 	state.addGraph(getGraphFromModules(graphModules))
 	state.flush()
-
-	if (title) {
-		state.set(titleNode.getId(), title)
-	}
-
-	if (options.graph) {
-		state.set(nodeState.getId(), options.graph)
-	}
-
-	saveAndRecover(title, viewBox, state)
-	saveAndRecover(title, nodeState, state)
-	saveAndRecover(title, visibility, state)
-	saveAndRecover(title, entitiesWindow, state)
-	saveAndRecover(title, graphWindow, state)
-	saveAndRecover(title, treeWindow, state)
-	saveAndRecover(title, controlsPosition, state)
 
 	const component = flowComponentFactory(state, action.getId(), options.debug)
 	const RootComponent = mainView(component)
@@ -85,9 +67,17 @@ export function start(title, opts?): FlowTool {
 	clipboard.on('success', e => console.log('saved graph to clipboard', e))
 	clipboard.on('error', e => console.log('error while saving graph to clipboard', e))
 
-	function updateFlow(flow: Runtime) {
+	let runtimeIndex = 0
+	function setFlow(runtime: Runtime, label?: string) {
 		requestAnimationFrame(function() {
-			state.set(flowNode.getId(), flow)
+			runtimeIndex++
+			state.set(action.getId(), {
+				type: FLOW.SET_RUNTIME,
+				payload: {
+					label: label || 'Runtime ' + runtimeIndex,
+					runtime
+				}
+			})
 		})
 	}
 
@@ -97,7 +87,7 @@ export function start(title, opts?): FlowTool {
 	}
 
 	return {
-		updateFlow,
+		setFlow,
 		dispose,
 		getState: () => state,
 		getElement: () => element

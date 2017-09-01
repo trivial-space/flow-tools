@@ -1,50 +1,34 @@
 import { val, stream, asyncStream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
+import { Entity, Process } from 'tvs-flow/dist/lib/runtime-types'
 import { unequal, defined, and } from 'tvs-libs/dist/lib/utils/predicates'
-import { action, mouse } from '../events'
-import { runtime, graph } from './flow'
-import { Runtime, Entity, ProcessData } from 'tvs-flow/dist/lib/runtime-types'
-import { GUI } from '../../actions'
+import { runtime, graph, meta } from './flow'
 import { visibility } from './gui'
 
 
-export const activeEntity: EntityRef<Entity> = val({} as Entity)
-.react(
-	[action.HOT, graph.COLD],
-	(_, { type, payload }, graph) => {
-		if (type === GUI.ENTITIES.OPEN_ENTITY) {
-			return graph.entities[payload] as Entity
-		}
-	}
+export const activeEntityId = stream(
+	[meta.HOT],
+	meta => meta.ui.activeEntityId as string
 )
-.react(
-	[mouse.HOT],
-	(_, mouse) => {
-		if (mouse.pressed[2] && (mouse.pressed[2].target as HTMLElement).closest('svg')) {
-			return { id: '' } as Entity
-		}
-	}
-)
-.accept(defined)
+.accept(and(defined, unequal))
 
 
-export const activeProcess = val({} as ProcessData)
-.react(
-	[action.HOT, graph.COLD],
-	(_, { type, payload }, graph) => {
-		if (type === GUI.ENTITIES.OPEN_PROCESS) {
-			return graph.processes[payload]
-		}
-	}
+export const activeProcessId = stream(
+	[meta.HOT],
+	meta => meta.ui.activeProcessId as string
 )
-.react(
-	[mouse.HOT],
-	(_, mouse) => {
-		if (mouse.pressed[2] && (mouse.pressed[2].target as HTMLElement).closest('svg')) {
-			return { id: '' }
-		}
-	}
+.accept(and(defined, unequal))
+
+
+export const activeEntity = stream(
+	[activeEntityId.HOT, graph.COLD],
+	(id, graph) => graph.entities[id] || ({id} as Entity)
 )
-.accept(defined)
+
+
+export const activeProcess = stream(
+	[activeProcessId.HOT, graph.COLD],
+	(id, graph) => graph.processes[id] || ({id} as Process)
+)
 
 
 export const activeNode = val({})
@@ -52,27 +36,19 @@ export const activeNode = val({})
 .react([activeProcess.HOT], (_, p) => p)
 
 
-export const watchingEntity = val(true)
-.react(
-	[action.HOT],
-	(_, { type, payload }) => {
-		if (type === GUI.ENTITIES.SET_EDIT_MODE) {
-			return !payload
-		} else if (type === GUI.ENTITIES.SAVE_VALUE) {
-			return true
-		}
-	}
+export const watchingEntity = stream(
+	[meta.HOT],
+	meta => meta.ui.watchingEntity as boolean
 )
-.react([activeEntity.HOT], () => true)
-.accept(defined)
+.accept(and(defined, unequal))
 
 
-export const activeValue = asyncStream(
+export const activeValue: EntityRef<any> = asyncStream(
 	[runtime.COLD, activeEntity.HOT, visibility.HOT, watchingEntity.HOT],
-	(send, flow: Runtime, entity, visibility, watching) => {
+	(send, flow, entity, visibility, watching) => {
 		if (entity && entity.id) {
 			const value = flow.get(entity.id)
-			send(value != null ? value : '')
+			send(value)
 			if (visibility.entities && watching) {
 				flow.on(entity.id, send)
 				return () => flow.off(entity.id, send)
@@ -84,32 +60,11 @@ export const activeValue = asyncStream(
 )
 
 
-export const editedValue = val('')
-	.react(
-	[action.HOT, runtime.COLD],
-	(self, { type, payload }, flow) => {
-		if (type === GUI.ENTITIES.UPDATE_EDITED_VALUE) {
-			return payload
-		} else if (self && type === GUI.ENTITIES.SAVE_VALUE) {
-			requestAnimationFrame(function() {
-				try {
-					flow.set(payload, JSON.parse(self))
-				} catch (e) {
-					console.error('could not save value to entity', payload, self)
-					console.error(e)
-				}
-			})
-		}
-	}
-	)
-	.react([activeValue.HOT], () => '')
-	.accept(and(defined, unequal))
-
-
 export const entityValueView = stream(
 	[activeValue.HOT, watchingEntity.HOT],
 	(value, watching) => ({ value, watching })
-).val({ value: null, watching: true })
+)
+.val({ value: null, watching: true })
 
 
 export const entityViewProps = stream(

@@ -7,7 +7,7 @@ flow.addGraph(
     tvsFlow.utils.entityRef.resolveEntityIds(graph)))
 
 
-tools.updateFlow(flow)
+tools.setFlow(flow)
 
 
 if (module.hot) {

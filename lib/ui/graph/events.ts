@@ -2,9 +2,8 @@ import { val, asyncStreamStart, asyncStream, EntityRef, delta, stream } from 'tv
 import { Action } from '../../utils/inferno'
 import { windowSize as getWindowSize, WindowSizeState } from 'tvs-libs/dist/lib/events/dom'
 import { mouse as getMouse, MouseState } from 'tvs-libs/dist/lib/events/mouse'
+import { GUI, newAction } from '../actions'
 
-
-export const action: EntityRef<Action> = val()
 
 export const windowSize: EntityRef<WindowSizeState> = asyncStreamStart(null, getWindowSize)
 
@@ -28,3 +27,14 @@ export const dragDeltas = delta(mouseDrag, (n, o) => ({
 	y: n.y === 0 ? n.y : n.y - o.y
 }))
 .accept(drag => !!(drag && (drag.x || drag.y)))
+
+
+export const action = val<Action>()
+.react(
+	[mouse.HOT],
+	(_, mouse) => {
+		if (mouse.pressed[2] && (mouse.pressed[2].target as HTMLElement).closest('svg')) {
+			return newAction(GUI.ENTITIES.RESET_ACTIVE_NODE)
+		}
+	}
+)

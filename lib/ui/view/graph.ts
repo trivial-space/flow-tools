@@ -41,7 +41,7 @@ export function graphView (data, dispatch) {
 				['circle', {
 						class: classes(p.class, p.active && 'active'),
 						transform: `translate(${p.x}, ${p.y})`,
-						onmousedown: () => dispatch(GUI.ENTITIES.OPEN_PROCESS, p.id),
+						onmousedown: () => dispatch(GUI.ENTITIES.SET_ACTIVE_PROCESS, p.id),
 						cx: 0,
 						cy: 0,
 						r: p.autostart ? 13 : 8,
@@ -51,7 +51,7 @@ export function graphView (data, dispatch) {
 				['g', {
 						'data-eid': e.id,
 						transform: `translate(${e.x}, ${e.y})`,
-						onmousedown: () => dispatch(GUI.ENTITIES.OPEN_ENTITY, e.id),
+						onmousedown: () => dispatch(GUI.ENTITIES.SET_ACTIVE_ENTITY, e.id),
 						title: e.id,
 						class: classes(e.class, e.active && 'active')
 					},
