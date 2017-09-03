@@ -3,14 +3,13 @@ import { iconBtn } from './ui'
 import { buttonStyle } from './styles/ui'
 import { windowContentStyle, entityViewStyle } from './styles/components'
 import { GUI, FLOW } from '../actions'
-import { entityValueView } from '../graph/state/entity'
 
 
-function jsonCode ({value, watching}, dispatch) {
+function jsonCode (entityValue, watching, editingValue) {
 	let code = ''
-	if (value) {
+	if (entityValue) {
 		try {
-			code = JSON.stringify(value, null, '  ')
+			code = JSON.stringify(entityValue, null, '  ')
 		} catch (e) {
 			code = 'Error: ' + e.message
 		}
@@ -19,13 +18,14 @@ function jsonCode ({value, watching}, dispatch) {
 	return ['code',
 		['pre', {
 				contentEditable: !watching,
-				onInput: e => dispatch(GUI.ENTITIES.UPDATE_EDITED_VALUE, e.target.textContent)
+				onInput: e => editingValue.value = e.target.textContent
 			},
 			code]]
 }
 
 
-export function entityView ({entity, watching}, dispatch, component) {
+export function entityView ({entity, watching}, dispatch) {
+	const editingValue = {value: entity.value}
 	const buttons: any = ['div', {
 		'style': 'margin-top: 4px'
 	}]
@@ -36,7 +36,7 @@ export function entityView ({entity, watching}, dispatch, component) {
 			['button', {
 					class: buttonStyle,
 					key: 'edit-btn',
-					onclick: () => dispatch(GUI.ENTITIES.WATCH_ACTIVE_ENTITY, true)
+					onclick: () => dispatch(GUI.ENTITY.WATCH_ACTIVE_ENTITY, true)
 				}, 'Edit'],
 			iconBtn({
 				key: 'inspect-btn-' + entity.id,
@@ -59,12 +59,12 @@ export function entityView ({entity, watching}, dispatch, component) {
 		buttons.push(
 			['button', {
 					class: buttonStyle,
-					onclick: () => dispatch(GUI.ENTITIES.WATCH_ACTIVE_ENTITY, false)
+					onclick: () => dispatch(GUI.ENTITY.WATCH_ACTIVE_ENTITY, false)
 				}, 'Cancel'],
 			['button', {
 					class: buttonStyle,
 					key: 'save-btn-' + entity.id,
-					onclick: () => dispatch(GUI.ENTITIES.SAVE_VALUE, entity.id)
+					onclick: () => dispatch(GUI.ENTITY.SAVE_VALUE, editingValue.value)
 				}, 'Save']
 		)
 	}
@@ -74,7 +74,7 @@ export function entityView ({entity, watching}, dispatch, component) {
 				class: entityViewStyle
 			},
 			['div', { class: windowContentStyle },
-				component(jsonCode, entityValueView)],
+				jsonCode(entity.value, watching, editingValue)],
 			buttons]
 
 	return el

@@ -1,7 +1,9 @@
 import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
-import { unequal, defined, and, notEmpty } from 'tvs-libs/dist/lib/utils/predicates'
+import { unequal, defined, and } from 'tvs-libs/dist/lib/utils/predicates'
 import { action, mouse, windowSize, dragDeltas } from '../events'
 import { GUI } from '../../actions'
+import { metaTree, metaGraph, metaEntity } from './flow'
+import { PartialUIWindow } from '../../types'
 
 
 export interface Size {
@@ -19,26 +21,49 @@ export interface Position {
 export type WindowDimension = Position & Size
 
 
-export const title: EntityRef<string> = val('').accept(notEmpty)
+export const metaTreeWindow: EntityRef<PartialUIWindow> = stream(
+	[metaTree.HOT],
+	t => t.window
+)
+.accept(and(defined, unequal))
+
+
+export const metaGraphWindow = stream(
+	[metaGraph.HOT],
+	g => g.window
+)
+.accept(and(defined, unequal))
+
+
+export const metaEntityWindow = stream(
+	[metaEntity.HOT],
+	t => t.window
+)
+.accept(and(defined, unequal))
 
 
 export const visibility = val({
 	tree: false,
 	graph: false,
-	entities: false
+	entity: false
 })
 .react(
-	[action.HOT],
-	(self, { type, payload }) => {
-		if (type === GUI.MAIN.UPDATE_VISIBILITY) {
-			return { ...self, [payload]: !self[payload] }
-
-		} else if (type === GUI.MAIN.CLOSE_WINDOW) {
-			return { ...self, [payload]: false }
-		}
-	}
+	[metaGraphWindow.HOT],
+	(self, win) => ({ ...self, tree: !!win.visible })
 )
-.accept(defined)
+.react(
+	[metaEntityWindow.HOT],
+	(self, win) => ({ ...self, entity: !!win.visible })
+)
+.react(
+	[metaTreeWindow.HOT],
+	(self, win) => ({ ...self, graph: !!win.visible })
+)
+.accept((n, o) => (o && n && (
+	o.tree !== n.tree
+	|| o.entity !== n.entity
+	|| o.graph !== n.graph
+)) as boolean)
 
 
 export const activeWindow: EntityRef<string> = stream(

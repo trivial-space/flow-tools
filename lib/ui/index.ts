@@ -8,31 +8,22 @@ import Clipboard from 'clipboard'
 import Inferno from 'inferno'
 import createElement from 'inferno-create-element'
 import { FLOW } from './actions'
+import { meta, selectedRuntimeId } from './graph/state/flow'
 
 
 const graphModules = require.context('./graph', true, /\.ts$/)
 
 
 export interface FlowTool {
-		setFlow: (Runtime, string?) => void,
-		dispose: () => void,
-		getState: () => Runtime,
-		getElement: () => HTMLElement
+	setFlow: (runtime: Runtime, label: string) => void,
+	dispose: () => void,
+	getState: () => Runtime,
+	getElement: () => HTMLElement
 }
 
 
-function saveAndRecover(title, entity, state) {
-	const id = entity.getId()
-	const storageId = 'tvsFlowTools' + (title ? '::' + title : '') + '::' + id
-
-	const storedState = localStorage.getItem(storageId)
-	if (storedState) {
-		const value = JSON.parse(storedState)
-		if (value.zIndex) value.zIndex = 0
-		state.set(id, {...state.get(id), ...value})
-	}
-
-	state.on(entity.getId(), value => localStorage.setItem(storageId, JSON.stringify(value)))
+function getLocalStorageId(label: string) {
+	return 'tvsFlowTools' + '::' + label
 }
 
 
@@ -61,22 +52,31 @@ export function start(opts?): FlowTool {
 	state.set(elementNode.getId(), element)
 
 	const clipboard = new Clipboard('.tvs-save-graph', {
-		text: () => JSON.stringify(state.get(nodeState.getId()), null, '  ')
+		text: () => JSON.stringify(state.get(meta.getId()), null, '  ')
 	})
 
 	clipboard.on('success', e => console.log('saved graph to clipboard', e))
 	clipboard.on('error', e => console.log('error while saving graph to clipboard', e))
 
-	let runtimeIndex = 0
-	function setFlow(runtime: Runtime, label?: string) {
+	state.on(meta.getId(), value => {
+		const label = state.get(selectedRuntimeId.getId())
+		if (label) {
+			localStorage.setItem(getLocalStorageId(label), JSON.stringify(value))
+		}
+	})
+
+	function setFlow(runtime: Runtime, label: string) {
+		const oldMeta = runtime.getMeta()
+		const localValue = localStorage.getItem(getLocalStorageId(label))
+		if (localValue) {
+			const value = JSON.parse(localValue)
+			runtime.setMeta(value)
+			runtime.setMeta(oldMeta)
+		}
 		requestAnimationFrame(function() {
-			runtimeIndex++
 			state.set(action.getId(), {
 				type: FLOW.SET_RUNTIME,
-				payload: {
-					label: label || 'Runtime ' + runtimeIndex,
-					runtime
-				}
+				payload: { label, runtime }
 			})
 		})
 	}

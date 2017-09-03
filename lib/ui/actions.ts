@@ -10,7 +10,7 @@ export const FLOW = {
 }
 
 export const GUI = {
-	ENTITIES: {
+	ENTITY: {
 		WATCH_ACTIVE_ENTITY: 'gui:entities:watch_active_entity',
 		SAVE_VALUE: 'gui:entities:save',
 		SET_ACTIVE_PROCESS: 'gui:entities:open_process',
@@ -19,7 +19,9 @@ export const GUI = {
 	},
 	GRAPH: {
 		UPDATE_SCALE: 'gui:graph:update_scale',
-		UPDATE_SIZE: 'gui:graph:update_size'
+		UPDATE_SIZE: 'gui:graph:update_size',
+		MOVE_VIEWPORT: 'gui:graph:move_viewport',
+		SET_ENTITY_POSITION: 'gui:graph:set_entity_position'
 	},
 	TREE: {
 		TOGGLE_LEVEL: 'gui:tree:toggle_level'

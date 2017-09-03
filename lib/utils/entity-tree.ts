@@ -3,7 +3,7 @@ import { Entity, EntityData } from 'tvs-flow/dist/lib/runtime-types'
 
 export function createEntityTree(entities: { [id: string]: EntityData }, separator = '.') {
 
-	const tree = {}
+	const tree = {} as any
 
 	Object.keys(entities).sort().forEach(entityKey => {
 

@@ -48,8 +48,6 @@ export function create (flow: Runtime) {
 				e.reset = function() {
 					if (entity.value != null) {
 						flow.set(eid, entity.value)
-					} else if (entity.json != null) {
-						flow.set(eid, JSON.parse(entity.json))
 					}
 				}
 				e.watch = function() {

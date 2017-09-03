@@ -34,7 +34,17 @@ export const action = val<Action>()
 	[mouse.HOT],
 	(_, mouse) => {
 		if (mouse.pressed[2] && (mouse.pressed[2].target as HTMLElement).closest('svg')) {
-			return newAction(GUI.ENTITIES.RESET_ACTIVE_NODE)
+			return newAction(GUI.ENTITY.RESET_ACTIVE_NODE)
+		}
+	}
+)
+.react(
+	[mouse.COLD, dragDeltas.HOT],
+	(_, mouse, delta) => {
+		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
+		if (target && target.id === 'graph-ui'
+				&& (delta.x || delta.y)) {
+			return newAction(GUI.GRAPH.MOVE_VIEWPORT, delta)
 		}
 	}
 )

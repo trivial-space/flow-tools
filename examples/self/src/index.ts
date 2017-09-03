@@ -5,9 +5,11 @@ export const tools = flowTools.ui.start({
   debug: true
 })
 
-window['toolsFlow'] = tools.getState()
+const runtime = tools.getState()
+window['toolsFlow'] = runtime
 
-tools.setFlow(tools.getState(), 'self debug')
+tools.setFlow(runtime, 'self debug')
+window['entities'] = flowTools.console.tree.create(runtime)
 
 if (module.hot) {
   module.hot.accept()

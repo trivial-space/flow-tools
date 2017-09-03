@@ -1,78 +1,54 @@
-import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
-import { mouse, action, dragDeltas } from '../events'
-import { defined } from 'tvs-libs/dist/lib/utils/predicates'
-import { graph } from './flow'
+import { stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
+import { mouse, dragDeltas, action } from '../events'
+import { defined, unequal } from 'tvs-libs/dist/lib/utils/predicates'
+import { graph, metaGraph, metaEntities } from './flow'
 import { PORT_TYPES, Graph, PortType } from 'tvs-flow/dist/lib/runtime-types'
 import { graphWindow } from './gui'
-import { GUI } from '../../actions'
-import { activeEntity, activeNode } from './entity'
+import { activeNode, activeEntityId } from './entity'
+import { GraphViewBox, graphDefaultViewBox } from '../../types'
+import { newAction, GUI } from '../../actions'
 
 
-export const viewBox = val({
-	width: 0,
-	height: 0,
-	offsetX: 0,
-	offsetY: 0,
-	scale: 1
-})
-.react(
-	[action.HOT],
-	(self, {type, payload}) => {
-		if (type === GUI.GRAPH.UPDATE_SCALE
-				&& (payload !== self.scale)) {
-			self.scale = payload
-			return self
-
-		} else if (type === GUI.GRAPH.UPDATE_SIZE
-				&& ((payload.width && payload.width !== self.width)
-						|| (payload.height && payload.height !== self.height))) {
-			self.width = payload.width
-			self.height = payload.height
-			return self
-		}
-	}
+export const viewBox: EntityRef<GraphViewBox> = stream(
+	[metaGraph.HOT],
+	graph => (graph.viewBox || graphDefaultViewBox) as GraphViewBox
 )
-.react(
-	[mouse.COLD, dragDeltas.HOT],
-	(self, mouse, delta) => {
-		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
-		if (target && target.id === 'graph-ui'
-				&& (delta.x || delta.y)) {
-			self.offsetX += delta.x
-			self.offsetY += delta.y
-			return self
-		}
-	}
-)
-.accept(defined)
+.accept(unequal)
 
 
-export const nodeState: EntityRef<any> = val({} as any)
-.react(
-	[graph.HOT, graphWindow.COLD],
-	(self, graph, size) => {
+export const entityPositions = stream(
+	[graph.HOT, metaEntities.HOT, graphWindow.COLD],
+	(graph, entities, size) => {
+		const positions = {} as { [id: string]: { x: number, y: number } }
 		for (const eid in graph.entities) {
-			if (!self[eid]) {
-				self[eid] = {
-					x: Math.random() * size.width,
-					y: Math.random() * size.height
-				}
+			const e = entities[eid]
+			positions[eid] = (e && e.ui && e.ui.graph && e.ui.graph.position) || {
+				x: Math.random() * size.width,
+				y: Math.random() * size.height
 			}
 		}
+		return positions
 	}
 )
-.react(
-	[activeEntity.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD],
-	(self, {id}, mouse, delta, viewBox) => {
+
+
+action.react(
+	[activeEntityId.COLD, entityPositions.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD],
+	(_, id, positions, mouse, delta, viewBox) => {
 		const t = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 		const targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid))
 		if (targetId
-				&& id === targetId
-				&& self[id]
-				&& (delta.x || delta.y)) {
-			self[id].x -= delta.x * viewBox.scale
-			self[id].y -= delta.y * viewBox.scale
-			return self
+			&& id === targetId
+			&& self[id]
+			&& (delta.x || delta.y)
+		) {
+			return newAction(GUI.GRAPH.SET_ENTITY_POSITION, {
+				eid: id,
+				pos: {
+					x: positions[id].x - delta.x * viewBox.scale,
+					y: positions[id].y - delta.y * viewBox.scale
+				}
+			})
 		}
 	}
 )
@@ -124,11 +100,11 @@ export const graphEntities = stream(
 	}
 )
 .react(
-	[nodeState.HOT],
-	(self, state) => {
+	[entityPositions.HOT],
+	(self, positions) => {
 		for (const eid in self) {
-			self[eid].x = state[eid].x
-			self[eid].y = state[eid].y
+			self[eid].x = positions[eid].x
+			self[eid].y = positions[eid].y
 		}
 		return self
 	}

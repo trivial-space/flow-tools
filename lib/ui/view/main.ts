@@ -9,11 +9,12 @@ import { processView, entityView } from './entities'
 import { treeView } from './tree'
 import { iconButtonLightStyle } from './styles/ui'
 import { GUI } from '../actions'
-import { visibility, title } from '../graph/state/gui'
+import { visibility } from '../graph/state/gui'
 import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps } from '../graph/state/views'
 import { viewBox, viewData } from '../graph/state/graph'
 import { entityViewProps } from '../graph/state/entity'
 import { treeData } from '../graph/state/tree'
+import { selectedRuntimeId } from "ui/graph/state/flow"
 
 
 function titleView (title) {
@@ -43,7 +44,7 @@ function controls({visibility, position}, dispatch, component) {
 				onmousedown: setActiveWindow('controls', dispatch),
 				style: {...position}
 			},
-			component(titleView, title),
+			component(titleView, selectedRuntimeId),
 			['nav', {class: 'tvs-controls-btns'},
 				['ul',
 					['li',
