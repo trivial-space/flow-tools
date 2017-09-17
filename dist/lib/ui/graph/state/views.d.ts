@@ -1,10 +1,10 @@
 import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
-export declare const entitiesWindowProps: EntityRef<any>;
+export declare const entityWindowProps: EntityRef<any>;
 export declare const controlProps: EntityRef<{
     visibility: {
         tree: boolean;
         graph: boolean;
-        entities: boolean;
+        entity: boolean;
     };
     position: {
         left: number;

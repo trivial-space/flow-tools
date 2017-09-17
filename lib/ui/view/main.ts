@@ -14,7 +14,7 @@ import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps } fr
 import { viewBox, viewData } from '../graph/state/graph'
 import { entityViewProps } from '../graph/state/entity'
 import { treeData } from '../graph/state/tree'
-import { selectedRuntimeId } from 'ui/graph/state/flow'
+import { selectedRuntimeId } from '../graph/state/flow'
 
 
 function titleView (title) {

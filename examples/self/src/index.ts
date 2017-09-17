@@ -1,3 +1,4 @@
+import 'inferno-devtools'
 import * as flowTools from '../../../lib/index'
 
 export const tools = flowTools.ui.start({

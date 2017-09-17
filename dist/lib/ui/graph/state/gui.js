@@ -8,26 +8,27 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import { val, stream } from 'tvs-flow/dist/lib/utils/entity-reference';
-import { unequal, defined, and, notEmpty } from 'tvs-libs/dist/lib/utils/predicates';
+import { unequal, defined, and } from 'tvs-libs/dist/lib/utils/predicates';
 import { action, mouse, windowSize, dragDeltas } from '../events';
 import { GUI } from '../../actions';
-export var title = val('').accept(notEmpty);
+import { metaTree, metaGraph, metaEntity } from './flow';
+export var metaTreeWindow = stream([metaTree.HOT], function (t) { return t.window; })
+    .accept(and(defined, unequal));
+export var metaGraphWindow = stream([metaGraph.HOT], function (g) { return g.window; })
+    .accept(and(defined, unequal));
+export var metaEntityWindow = stream([metaEntity.HOT], function (t) { return t.window; })
+    .accept(and(defined, unequal));
 export var visibility = val({
     tree: false,
     graph: false,
-    entities: false
+    entity: false
 })
-    .react([action.HOT], function (self, _a) {
-    var type = _a.type, payload = _a.payload;
-    if (type === GUI.MAIN.UPDATE_VISIBILITY) {
-        return __assign({}, self, (_b = {}, _b[payload] = !self[payload], _b));
-    }
-    else if (type === GUI.MAIN.CLOSE_WINDOW) {
-        return __assign({}, self, (_c = {}, _c[payload] = false, _c));
-    }
-    var _b, _c;
-})
-    .accept(defined);
+    .react([metaGraphWindow.HOT], function (self, win) { return (__assign({}, self, { graph: !!win.visible })); })
+    .react([metaEntityWindow.HOT], function (self, win) { return (__assign({}, self, { entity: !!win.visible })); })
+    .react([metaTreeWindow.HOT], function (self, win) { return (__assign({}, self, { tree: !!win.visible })); })
+    .accept(function (n, o) { return (o && n && (o.tree !== n.tree
+    || o.entity !== n.entity
+    || o.graph !== n.graph)); });
 export var activeWindow = stream([action.HOT], function (_a) {
     var type = _a.type, payload = _a.payload;
     if (type === GUI.MAIN.SET_ACTIVE_WINDOW
@@ -112,7 +113,7 @@ export var graphWindow = val({
     }
 })
     .accept(defined);
-export var entitiesWindow = val({
+export var entityWindow = val({
     top: 50,
     left: 400,
     width: 400,
@@ -121,8 +122,8 @@ export var entitiesWindow = val({
 })
     .react([activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD], function (self, window, mouse, delta, size) {
     var target = mouse.pressed[0] && mouse.pressed[0].target;
-    if (window === 'entities'
-        && target && target.closest('.tvs-flow-entities')
+    if (window === 'entity'
+        && target && target.closest('.tvs-flow-entity')
         && !target.closest('pre')
         && (delta.x || delta.y)) {
         if (target.className === 'resize') {
@@ -148,7 +149,7 @@ function updateWindowZIndex(entity, name) {
 updateWindowZIndex(controlsPosition, 'controls');
 updateWindowZIndex(treeWindow, 'tree');
 updateWindowZIndex(graphWindow, 'graph');
-updateWindowZIndex(entitiesWindow, 'entities');
+updateWindowZIndex(entityWindow, 'entity');
 function setSizeConstrains(dimensions, size) {
     if (dimensions.height > size.height - 20) {
         dimensions.height = size.height - 20;
@@ -174,5 +175,5 @@ function updateWindowPosition(entity) {
 updateWindowPosition(controlsPosition);
 updateWindowPosition(treeWindow);
 updateWindowPosition(graphWindow);
-updateWindowPosition(entitiesWindow);
+updateWindowPosition(entityWindow);
 //# sourceMappingURL=gui.js.map

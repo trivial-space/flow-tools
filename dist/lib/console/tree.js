@@ -41,9 +41,6 @@ export function create(flow) {
                 if (entity.value != null) {
                     flow.set(eid, entity.value);
                 }
-                else if (entity.json != null) {
-                    flow.set(eid, JSON.parse(entity.json));
-                }
             };
             e.watch = function () {
                 flow.on(eid, function (v) { return console.log(eid, v); });

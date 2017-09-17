@@ -74,6 +74,7 @@ export const meta = stream(
 
 		const graph = meta.ui && meta.ui.graph
 		const tree = meta.ui && meta.ui.tree
+		const entity = meta.ui && meta.ui.entity
 		const viewBox = graph && graph.viewBox
 
 		switch (type) {
@@ -123,6 +124,15 @@ export const meta = stream(
 					activeEntityId: '',
 					activeProcessId: '',
 					watchingEntity: false
+				} } })
+
+			case GUI.ENTITY.SAVE_VALUE:
+				const currentEntityId = entity && entity.activeEntityId
+				if (currentEntityId) {
+					(flow as Runtime).set(currentEntityId, payload)
+				}
+				return flow.setMeta({ ui: { entity: {
+					watchingEntity: true
 				} } })
 
 			case GUI.ENTITY.WATCH_ACTIVE_ENTITY:

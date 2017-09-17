@@ -36,7 +36,7 @@ export function graphView(data, dispatch) {
             return ['circle', {
                     class: classes(p.class, p.active && 'active'),
                     transform: "translate(" + p.x + ", " + p.y + ")",
-                    onmousedown: function () { return dispatch(GUI.ENTITIES.OPEN_PROCESS, p.id); },
+                    onmousedown: function () { return dispatch(GUI.ENTITY.SET_ACTIVE_PROCESS, p.id); },
                     cx: 0,
                     cy: 0,
                     r: p.autostart ? 13 : 8,
@@ -46,7 +46,7 @@ export function graphView(data, dispatch) {
             return ['g', {
                     'data-eid': e.id,
                     transform: "translate(" + e.x + ", " + e.y + ")",
-                    onmousedown: function () { return dispatch(GUI.ENTITIES.OPEN_ENTITY, e.id); },
+                    onmousedown: function () { return dispatch(GUI.ENTITY.SET_ACTIVE_ENTITY, e.id); },
                     title: e.id,
                     class: classes(e.class, e.active && 'active')
                 },

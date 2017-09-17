@@ -1,8 +1,8 @@
 import { Runtime } from 'tvs-flow/dist/lib/runtime-types';
 export interface FlowTool {
-    updateFlow: (Runtime) => void;
+    setFlow: (runtime: Runtime, label: string) => void;
     dispose: () => void;
     getState: () => Runtime;
     getElement: () => HTMLElement;
 }
-export declare function start(title: any, opts?: any): FlowTool;
+export declare function start(opts?: any): FlowTool;

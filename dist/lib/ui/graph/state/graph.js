@@ -7,68 +7,42 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-import { val, stream } from 'tvs-flow/dist/lib/utils/entity-reference';
-import { mouse, action, dragDeltas } from '../events';
-import { defined } from 'tvs-libs/dist/lib/utils/predicates';
-import { graph } from './flow';
+import { stream } from 'tvs-flow/dist/lib/utils/entity-reference';
+import { mouse, dragDeltas, action } from '../events';
+import { defined, unequal } from 'tvs-libs/dist/lib/utils/predicates';
+import { graph, metaGraph, metaEntities } from './flow';
 import { PORT_TYPES } from 'tvs-flow/dist/lib/runtime-types';
 import { graphWindow } from './gui';
-import { GUI } from '../../actions';
-import { activeEntity, activeNode } from './entity';
-export var viewBox = val({
-    width: 0,
-    height: 0,
-    offsetX: 0,
-    offsetY: 0,
-    scale: 1
-})
-    .react([action.HOT], function (self, _a) {
-    var type = _a.type, payload = _a.payload;
-    if (type === GUI.GRAPH.UPDATE_SCALE
-        && (payload !== self.scale)) {
-        self.scale = payload;
-        return self;
-    }
-    else if (type === GUI.GRAPH.UPDATE_SIZE
-        && ((payload.width && payload.width !== self.width)
-            || (payload.height && payload.height !== self.height))) {
-        self.width = payload.width;
-        self.height = payload.height;
-        return self;
-    }
-})
-    .react([mouse.COLD, dragDeltas.HOT], function (self, mouse, delta) {
-    var target = mouse.pressed[0] && mouse.pressed[0].target;
-    if (target && target.id === 'graph-ui'
-        && (delta.x || delta.y)) {
-        self.offsetX += delta.x;
-        self.offsetY += delta.y;
-        return self;
-    }
-})
-    .accept(defined);
-export var nodeState = val({})
-    .react([graph.HOT, graphWindow.COLD], function (self, graph, size) {
+import { activeNode, activeEntityId } from './entity';
+import { graphDefaultViewBox } from '../../types';
+import { newAction, GUI } from '../../actions';
+export var viewBox = stream([metaGraph.HOT], function (graph) { return (graph.viewBox || graphDefaultViewBox); })
+    .accept(unequal);
+export var entityPositions = stream([graph.HOT, metaEntities.HOT, graphWindow.COLD], function (graph, entities, size) {
+    var positions = {};
     for (var eid in graph.entities) {
-        if (!self[eid]) {
-            self[eid] = {
-                x: Math.random() * size.width,
-                y: Math.random() * size.height
-            };
-        }
+        var e = entities[eid];
+        positions[eid] = (e && e.ui && e.ui.graph && e.ui.graph.position) || {
+            x: Math.random() * size.width,
+            y: Math.random() * size.height
+        };
     }
-})
-    .react([activeEntity.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD], function (self, _a, mouse, delta, viewBox) {
-    var id = _a.id;
+    return positions;
+});
+action.react([activeEntityId.COLD, entityPositions.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD], function (_, id, positions, mouse, delta, viewBox) {
     var t = mouse.pressed[0] && mouse.pressed[0].target;
     var targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid));
     if (targetId
         && id === targetId
         && self[id]
         && (delta.x || delta.y)) {
-        self[id].x -= delta.x * viewBox.scale;
-        self[id].y -= delta.y * viewBox.scale;
-        return self;
+        return newAction(GUI.GRAPH.SET_ENTITY_POSITION, {
+            eid: id,
+            pos: {
+                x: positions[id].x - delta.x * viewBox.scale,
+                y: positions[id].y - delta.y * viewBox.scale
+            }
+        });
     }
 })
     .accept(defined);
@@ -102,10 +76,10 @@ export var graphEntities = stream([graph.HOT, activeNode.HOT], function (graph, 
     }
     return entities;
 })
-    .react([nodeState.HOT], function (self, state) {
+    .react([entityPositions.HOT], function (self, positions) {
     for (var eid in self) {
-        self[eid].x = state[eid].x;
-        self[eid].y = state[eid].y;
+        self[eid].x = positions[eid].x;
+        self[eid].y = positions[eid].y;
     }
     return self;
 });

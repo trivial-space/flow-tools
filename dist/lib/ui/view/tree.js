@@ -34,7 +34,7 @@ function treeBranch(name, tree, selected, dispatch, fold) {
         return ['li',
             ['div', {
                     class: className,
-                    onclick: function () { return dispatch(GUI.ENTITIES.OPEN_ENTITY, e_1.id); }
+                    onclick: function () { return dispatch(GUI.ENTITY.SET_ACTIVE_ENTITY, e_1.id); }
                 },
                 (e_1.value != null) ? icon.stopMarked() : icon.stop(),
                 ' ' + name + ' ',

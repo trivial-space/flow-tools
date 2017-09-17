@@ -66,7 +66,7 @@ export function list() {
         ['path', { d: 'M9 5.016h12v3.984h-12v-3.984zM9 18.984v-3.984h12v3.984h-12zM9 14.016v-4.031h12v4.031h-12zM3.984 9v-3.984h4.031v3.984h-4.031zM3.984 18.984v-3.984h4.031v3.984h-4.031zM3.984 14.016v-4.031h4.031v4.031h-4.031z' }]
     ];
 }
-export function entities() {
+export function entity() {
     var moreClasses = [];
     for (var _i = 0; _i < arguments.length; _i++) {
         moreClasses[_i] = arguments[_i];
@@ -75,7 +75,7 @@ export function entities() {
             class: classes.apply(void 0, [iconClass].concat(moreClasses)),
             viewBox: '0 0 24 24'
         },
-        ['title', 'entities'],
+        ['title', 'entity'],
         ['path', { d: 'M16.641 1.688l5.672 5.672-5.672 5.625h4.359v8.016h-8.016v-8.016h3.656l-5.625-5.625v3.656h-8.016v-8.016h8.016v4.359zM3 21v-8.016h8.016v8.016h-8.016z' }]
     ];
 }

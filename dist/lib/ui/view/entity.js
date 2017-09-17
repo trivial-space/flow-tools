@@ -4,27 +4,24 @@ import { iconBtn } from './ui';
 import { buttonStyle } from './styles/ui';
 import { windowContentStyle, entityViewStyle } from './styles/components';
 import { GUI, FLOW } from '../actions';
-import { entityValueView } from '../graph/state/entity';
-function jsonCode(_a, dispatch) {
-    var value = _a.value, watching = _a.watching;
+function jsonCode(entityValue, watching, editingValue) {
     var code = '';
-    if (value) {
-        try {
-            code = JSON.stringify(value, null, '  ');
-        }
-        catch (e) {
-            code = 'Error: ' + e.message;
-        }
+    try {
+        code = JSON.stringify(entityValue, null, '  ');
+    }
+    catch (e) {
+        code = 'Error: ' + e.message;
     }
     return ['code',
         ['pre', {
                 contentEditable: !watching,
-                onInput: function (e) { return dispatch(GUI.ENTITIES.UPDATE_EDITED_VALUE, e.target.textContent); }
+                onInput: function (e) { return editingValue.value = e.target.textContent; }
             },
             code]];
 }
-export function entityView(_a, dispatch, component) {
-    var entity = _a.entity, watching = _a.watching;
+export function entityView(_a, dispatch) {
+    var entity = _a.entity, value = _a.value, watching = _a.watching;
+    var editingValue = { value: value };
     var buttons = ['div', {
             'style': 'margin-top: 4px'
         }];
@@ -32,7 +29,7 @@ export function entityView(_a, dispatch, component) {
         buttons.push(['button', {
                 class: buttonStyle,
                 key: 'edit-btn',
-                onclick: function () { return dispatch(GUI.ENTITIES.SET_EDIT_MODE, true); }
+                onclick: function () { return dispatch(GUI.ENTITY.WATCH_ACTIVE_ENTITY, false); }
             }, 'Edit'], iconBtn({
             key: 'inspect-btn-' + entity.id,
             onclick: function () { return dispatch(FLOW.ENTITY_INSPECT, entity.id); },
@@ -51,18 +48,21 @@ export function entityView(_a, dispatch, component) {
     else {
         buttons.push(['button', {
                 class: buttonStyle,
-                onclick: function () { return dispatch(GUI.ENTITIES.SET_EDIT_MODE, false); }
+                onclick: function () { return dispatch(GUI.ENTITY.WATCH_ACTIVE_ENTITY, true); }
             }, 'Cancel'], ['button', {
                 class: buttonStyle,
                 key: 'save-btn-' + entity.id,
-                onclick: function () { return dispatch(GUI.ENTITIES.SAVE_VALUE, entity.id); }
+                onclick: function () {
+                    var val = JSON.parse(editingValue.value);
+                    dispatch(GUI.ENTITY.SAVE_VALUE, val);
+                }
             }, 'Save']);
     }
     var el = ['section', {
             class: entityViewStyle
         },
-        ['div', { class: windowContentStyle },
-            component(jsonCode, entityValueView)],
+        ['div', { class: windowContentStyle, key: entity.id + watching },
+            jsonCode(value, watching, editingValue)],
         buttons];
     return el;
 }
@@ -90,4 +90,4 @@ export function processView(process, dispatch) {
                 ['pre', process.procedure.toString()]]],
         buttons];
 }
-//# sourceMappingURL=entities.js.map
+//# sourceMappingURL=entity.js.map

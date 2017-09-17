@@ -1,3 +1,4 @@
+import 'inferno-devtools'
 import * as tvsFlow from 'tvs-flow'
 import * as flowTools from '../../../lib/index'
 import { Runtime } from 'tvs-flow/dist/lib/runtime-types'

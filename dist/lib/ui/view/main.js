@@ -13,15 +13,16 @@ import { highlightColor, mainStyle } from './styles/main';
 import { iconBtn } from './ui';
 import { windowContentStyle, controlsStyle, windowStyle } from './styles/components';
 import { graphView, scaleSlider } from './graph';
-import { processView, entityView } from './entities';
+import { processView, entityView } from './entity';
 import { treeView } from './tree';
 import { iconButtonLightStyle } from './styles/ui';
 import { GUI } from '../actions';
-import { visibility, title } from '../graph/state/gui';
-import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps } from '../graph/state/views';
+import { visibility } from '../graph/state/gui';
+import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps } from '../graph/state/views';
 import { viewBox, viewData } from '../graph/state/graph';
 import { entityViewProps } from '../graph/state/entity';
 import { treeData } from '../graph/state/tree';
+import { selectedRuntimeId } from '../graph/state/flow';
 function titleView(title) {
     return ['h1', title];
 }
@@ -41,7 +42,7 @@ function controls(_a, dispatch, component) {
             onmousedown: setActiveWindow('controls', dispatch),
             style: __assign({}, position)
         },
-        component(titleView, title),
+        component(titleView, selectedRuntimeId),
         ['nav', { class: 'tvs-controls-btns' },
             ['ul',
                 ['li',
@@ -60,9 +61,9 @@ function controls(_a, dispatch, component) {
                     })],
                 ['li',
                     iconBtn({
-                        class: visibility.entities && activeButton,
-                        onclick: click('entities'),
-                        icon: icon.entities(),
+                        class: visibility.entity && activeButton,
+                        onclick: click('entity'),
+                        icon: icon.entity(),
                         title: 'toggle entity details'
                     })]]]];
     return el;
@@ -130,18 +131,18 @@ function graphWindow(_a, dispatch, component) {
         ['footer', { class: 'resize' }]];
     return el;
 }
-function entitiesWindow(_a, dispatch, component) {
+function entityWindow(_a, dispatch, component) {
     var dimensions = _a.dimensions, node = _a.node, window = _a.window;
     var view = node && node.procedure
         ? processView(node, dispatch)
         : component(entityView, entityViewProps);
     var el = ['article', {
-            class: classes('tvs-flow-entities', windowStyle),
+            class: classes('tvs-flow-entity', windowStyle),
             style: __assign({}, dimensions),
-            onmousedown: setActiveWindow('entities', dispatch)
+            onmousedown: setActiveWindow('entity', dispatch)
         },
         ['header',
-            icon.entities(window === 'entities' ? 'selected' : ''),
+            icon.entity(window === 'entity' ? 'selected' : ''),
             ' ',
             node && node.id,
             ' ',
@@ -151,7 +152,7 @@ function entitiesWindow(_a, dispatch, component) {
                 icon: icon.close(),
                 class: iconButtonLightStyle,
                 title: 'close window',
-                onclick: function () { return dispatch(GUI.MAIN.CLOSE_WINDOW, 'entities'); }
+                onclick: function () { return dispatch(GUI.MAIN.CLOSE_WINDOW, 'entity'); }
             })],
         view,
         ['footer', { class: 'resize' }]];
@@ -160,11 +161,11 @@ function entitiesWindow(_a, dispatch, component) {
 function root(visibility, _, component) {
     var tree = visibility.tree ? component(treeWindow, treeWindowProps) : '';
     var graph = visibility.graph ? component(graphWindow, graphWindowProps) : '';
-    var entities = visibility.entities ? component(entitiesWindow, entitiesWindowProps) : '';
+    var entity = visibility.entity ? component(entityWindow, entityWindowProps) : '';
     var el = ['article', { class: classes('tvs-flow-tools', mainStyle) },
         component(controls, controlProps),
         graph,
-        entities,
+        entity,
         tree
     ];
     return el;

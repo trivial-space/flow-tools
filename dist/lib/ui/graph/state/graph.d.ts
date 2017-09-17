@@ -1,12 +1,12 @@
 import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
-export declare const viewBox: EntityRef<{
-    width: number;
-    height: number;
-    offsetX: number;
-    offsetY: number;
-    scale: number;
+import { GraphViewBox } from '../../types';
+export declare const viewBox: EntityRef<GraphViewBox>;
+export declare const entityPositions: EntityRef<{
+    [id: string]: {
+        x: number;
+        y: number;
+    };
 }>;
-export declare const nodeState: EntityRef<any>;
 export declare const graphEntities: EntityRef<any>;
 export declare const graphProcesses: EntityRef<any>;
 export declare const viewData: EntityRef<{

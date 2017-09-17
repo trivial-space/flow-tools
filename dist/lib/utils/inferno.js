@@ -29,11 +29,11 @@ function executeRafActions() {
     callRaf = true;
 }
 function updateOnAnimationFrame(key, fn) {
+    rafActions[key] = fn;
     if (callRaf) {
         requestAnimationFrame(executeRafActions);
         callRaf = false;
     }
-    rafActions[key] = fn;
 }
 export function flowComponentFactory(stateFlow, dispatchId, debug) {
     if (debug === void 0) { debug = false; }
@@ -48,7 +48,7 @@ export function flowComponentFactory(stateFlow, dispatchId, debug) {
     var cache = {};
     return function component(template, entity) {
         var viewStateId = entity.getId();
-        var arghash = viewStateId + template.name;
+        var arghash = viewStateId + template.toString();
         if (cache[arghash]) {
             return cache[arghash];
         }
@@ -59,13 +59,14 @@ export function flowComponentFactory(stateFlow, dispatchId, debug) {
                 _this.state = {
                     current: stateFlow.get(viewStateId)
                 };
-                _this.updateAsync = function () {
-                    updateOnAnimationFrame(arghash, function () {
-                        _this.setState(function (state) {
-                            state.current = stateFlow.get(viewStateId);
-                            return state;
-                        });
+                _this.update = function () {
+                    _this.setState(function (state) {
+                        state.current = stateFlow.get(viewStateId);
+                        return state;
                     });
+                };
+                _this.updateAsync = function () {
+                    updateOnAnimationFrame(arghash, _this.update);
                 };
                 return _this;
             }

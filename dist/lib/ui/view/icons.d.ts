@@ -23,7 +23,7 @@ export declare function list(...moreClasses: string[]): (string | {
 } | (string | {
     d: string;
 })[])[];
-export declare function entities(...moreClasses: string[]): (string | {
+export declare function entity(...moreClasses: string[]): (string | {
     class: string;
     viewBox: string;
 } | (string | {

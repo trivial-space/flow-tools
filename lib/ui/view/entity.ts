@@ -7,12 +7,10 @@ import { GUI, FLOW } from '../actions'
 
 function jsonCode (entityValue, watching, editingValue) {
 	let code = ''
-	if (entityValue) {
-		try {
-			code = JSON.stringify(entityValue, null, '  ')
-		} catch (e) {
-			code = 'Error: ' + e.message
-		}
+	try {
+		code = JSON.stringify(entityValue, null, '  ')
+	} catch (e) {
+		code = 'Error: ' + e.message
 	}
 
 	return ['code',
@@ -24,8 +22,8 @@ function jsonCode (entityValue, watching, editingValue) {
 }
 
 
-export function entityView ({entity, watching}, dispatch) {
-	const editingValue = {value: entity.value}
+export function entityView ({entity, value, watching}, dispatch) {
+	const editingValue = {value: value}
 	const buttons: any = ['div', {
 		'style': 'margin-top: 4px'
 	}]
@@ -36,7 +34,7 @@ export function entityView ({entity, watching}, dispatch) {
 			['button', {
 					class: buttonStyle,
 					key: 'edit-btn',
-					onclick: () => dispatch(GUI.ENTITY.WATCH_ACTIVE_ENTITY, true)
+					onclick: () => dispatch(GUI.ENTITY.WATCH_ACTIVE_ENTITY, false)
 				}, 'Edit'],
 			iconBtn({
 				key: 'inspect-btn-' + entity.id,
@@ -59,12 +57,15 @@ export function entityView ({entity, watching}, dispatch) {
 		buttons.push(
 			['button', {
 					class: buttonStyle,
-					onclick: () => dispatch(GUI.ENTITY.WATCH_ACTIVE_ENTITY, false)
+					onclick: () => dispatch(GUI.ENTITY.WATCH_ACTIVE_ENTITY, true)
 				}, 'Cancel'],
 			['button', {
 					class: buttonStyle,
 					key: 'save-btn-' + entity.id,
-					onclick: () => dispatch(GUI.ENTITY.SAVE_VALUE, editingValue.value)
+					onclick: () => {
+						const val = JSON.parse(editingValue.value)
+						dispatch(GUI.ENTITY.SAVE_VALUE, val)
+					}
 				}, 'Save']
 		)
 	}
@@ -73,8 +74,8 @@ export function entityView ({entity, watching}, dispatch) {
 		['section', {
 				class: entityViewStyle
 			},
-			['div', { class: windowContentStyle },
-				jsonCode(entity.value, watching, editingValue)],
+			['div', { class: windowContentStyle, key: entity.id + watching },
+				jsonCode(value, watching, editingValue)],
 			buttons]
 
 	return el
