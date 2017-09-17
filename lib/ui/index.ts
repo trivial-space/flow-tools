@@ -9,6 +9,8 @@ import Inferno from 'inferno'
 import createElement from 'inferno-create-element'
 import { FLOW } from './actions'
 import { meta, selectedRuntimeId } from './graph/state/flow'
+import { defaultUIMeta } from './types'
+import * as debounce from 'lodash.debounce'
 
 
 const graphModules = require.context('./graph', true, /\.ts$/)
@@ -58,21 +60,25 @@ export function start(opts?): FlowTool {
 	clipboard.on('success', e => console.log('saved graph to clipboard', e))
 	clipboard.on('error', e => console.log('error while saving graph to clipboard', e))
 
-	state.on(meta.getId(), value => {
+	state.on(meta.getId(), debounce(value => {
 		const label = state.get(selectedRuntimeId.getId())
 		if (label) {
 			localStorage.setItem(getLocalStorageId(label), JSON.stringify(value))
 		}
-	})
+	}, 300))
 
 	function setFlow(runtime: Runtime, label: string) {
 		const oldMeta = runtime.getMeta()
 		const localValue = localStorage.getItem(getLocalStorageId(label))
+		runtime.setMeta({
+			...defaultUIMeta,
+			name: label
+		})
 		if (localValue) {
 			const value = JSON.parse(localValue)
 			runtime.setMeta(value)
-			runtime.setMeta(oldMeta)
 		}
+		runtime.setMeta(oldMeta)
 		requestAnimationFrame(function() {
 			state.set(action.getId(), {
 				type: FLOW.SET_RUNTIME,

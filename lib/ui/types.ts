@@ -104,3 +104,27 @@ export interface MetaFlow {
 	setMeta: (meta: UIMeta) => UIMeta
 	getMeta: () => UIMeta
 }
+
+
+export const defaultUIMeta: UIMeta = {
+	ui: {
+		entity: {
+			activeEntityId: '',
+			activeProcessId: '',
+			watchingEntity: false,
+			window: {
+				visible: false
+			}
+		},
+		graph: {
+			window: {
+				visible: false
+			}
+		},
+		tree: {
+			window: {
+				visible: false
+			}
+		}
+	}
+}

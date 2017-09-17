@@ -61,12 +61,12 @@ export function list (...moreClasses: string[]) {
 }
 
 
-export function entities (...moreClasses: string[]) {
+export function entity (...moreClasses: string[]) {
 	return ['svg', {
 		class: classes(iconClass, ...moreClasses),
 		viewBox: '0 0 24 24'
 	},
-		['title', 'entities'],
+		['title', 'entity'],
 		['path', { d: 'M16.641 1.688l5.672 5.672-5.672 5.625h4.359v8.016h-8.016v-8.016h3.656l-5.625-5.625v3.656h-8.016v-8.016h8.016v4.359zM3 21v-8.016h8.016v8.016h-8.016z' }]
 	]
 }

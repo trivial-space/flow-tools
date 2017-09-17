@@ -1,6 +1,5 @@
 import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { Runtime, Graph } from 'tvs-flow/dist/lib/runtime-types'
-import { createEntityTree } from '../../../utils/entity-tree'
 import { action } from '../events'
 import { defined, unequal, and } from 'tvs-libs/dist/lib/utils/predicates'
 import { FLOW, GUI } from '../../actions'
@@ -74,6 +73,7 @@ export const meta = stream(
 		const flow = runtime as any as MetaFlow
 
 		const graph = meta.ui && meta.ui.graph
+		const tree = meta.ui && meta.ui.tree
 		const viewBox = graph && graph.viewBox
 
 		switch (type) {
@@ -96,6 +96,14 @@ export const meta = stream(
 							visible: false
 						}
 					}
+				}})
+
+			case GUI.TREE.TOGGLE_LEVEL:
+				const treeFold = tree && tree.fold || {}
+				return flow.setMeta({ ui: {
+					tree: {fold: {
+						[payload]: !treeFold[payload]
+					}}
 				}})
 
 			case GUI.ENTITY.SET_ACTIVE_ENTITY:
@@ -201,8 +209,3 @@ export const state = stream(
 	flow => flow.getState()
 )
 
-
-export const entityTree = stream(
-	[graph.HOT],
-	graph => createEntityTree(graph.entities)
-)

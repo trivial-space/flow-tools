@@ -1,11 +1,11 @@
 import { stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { activeNode } from './entity'
-import { activeWindow, entitiesWindow, visibility, controlsPosition, treeWindow, graphWindow } from './gui'
+import { activeWindow, entityWindow, visibility, controlsPosition, treeWindow, graphWindow } from './gui'
 
 
 
-export const entitiesWindowProps: EntityRef<any> = stream(
-	[entitiesWindow.HOT, activeNode.HOT, activeWindow.HOT],
+export const entityWindowProps: EntityRef<any> = stream(
+	[entityWindow.HOT, activeNode.HOT, activeWindow.HOT],
 	(dimensions, node, window) => ({ dimensions, node, window })
 ).val({} as any)
 

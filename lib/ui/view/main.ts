@@ -5,16 +5,16 @@ import { highlightColor, mainStyle } from './styles/main'
 import { iconBtn } from './ui'
 import { windowContentStyle, controlsStyle, windowStyle } from './styles/components'
 import { graphView, scaleSlider } from './graph'
-import { processView, entityView } from './entities'
+import { processView, entityView } from './entity'
 import { treeView } from './tree'
 import { iconButtonLightStyle } from './styles/ui'
 import { GUI } from '../actions'
 import { visibility } from '../graph/state/gui'
-import { controlProps, entitiesWindowProps, graphWindowProps, treeWindowProps } from '../graph/state/views'
+import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps } from '../graph/state/views'
 import { viewBox, viewData } from '../graph/state/graph'
 import { entityViewProps } from '../graph/state/entity'
 import { treeData } from '../graph/state/tree'
-import { selectedRuntimeId } from "ui/graph/state/flow"
+import { selectedRuntimeId } from 'ui/graph/state/flow'
 
 
 function titleView (title) {
@@ -63,9 +63,9 @@ function controls({visibility, position}, dispatch, component) {
 						})],
 					['li',
 						iconBtn({
-							class: visibility.entities && activeButton,
-							onclick: click('entities'),
-							icon: icon.entities(),
+							class: visibility.entity && activeButton,
+							onclick: click('entity'),
+							icon: icon.entity(),
 							title: 'toggle entity details'
 						})]]]]
 
@@ -145,19 +145,19 @@ function graphWindow ({dimensions, window}, dispatch, component) {
 }
 
 
-function entitiesWindow ({dimensions, node, window}, dispatch, component) {
+function entityWindow ({dimensions, node, window}, dispatch, component) {
 	const view = node && node.procedure
 		? processView(node, dispatch)
 		: component(entityView, entityViewProps)
 
 	const el =
 		['article', {
-				class: classes('tvs-flow-entities', windowStyle),
+				class: classes('tvs-flow-entity', windowStyle),
 				style: {...dimensions},
-				onmousedown: setActiveWindow('entities', dispatch)
+				onmousedown: setActiveWindow('entity', dispatch)
 			},
 			['header',
-				icon.entities(window === 'entities' ? 'selected' : ''),
+				icon.entity(window === 'entity' ? 'selected' : ''),
 				' ',
 				node && node.id,
 				' ',
@@ -167,7 +167,7 @@ function entitiesWindow ({dimensions, node, window}, dispatch, component) {
 					icon: icon.close(),
 					class: iconButtonLightStyle,
 					title: 'close window',
-					onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'entities')
+					onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'entity')
 				})],
 			view,
 			['footer', { class: 'resize' }]]
@@ -180,12 +180,12 @@ function root (visibility, _, component) {
 
 	const tree = visibility.tree ? component(treeWindow, treeWindowProps) : ''
 	const graph = visibility.graph ? component(graphWindow, graphWindowProps) : ''
-	const entities = visibility.entities ? component(entitiesWindow, entitiesWindowProps) : ''
+	const entity = visibility.entity ? component(entityWindow, entityWindowProps) : ''
 
 	const el = ['article', {class: classes('tvs-flow-tools', mainStyle)},
 		component(controls, controlProps),
 		graph,
-		entities,
+		entity,
 		tree
 	]
 

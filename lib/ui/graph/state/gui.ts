@@ -49,7 +49,7 @@ export const visibility = val({
 })
 .react(
 	[metaGraphWindow.HOT],
-	(self, win) => ({ ...self, tree: !!win.visible })
+	(self, win) => ({ ...self, graph: !!win.visible })
 )
 .react(
 	[metaEntityWindow.HOT],
@@ -57,7 +57,7 @@ export const visibility = val({
 )
 .react(
 	[metaTreeWindow.HOT],
-	(self, win) => ({ ...self, graph: !!win.visible })
+	(self, win) => ({ ...self, tree: !!win.visible })
 )
 .accept((n, o) => (o && n && (
 	o.tree !== n.tree
@@ -178,7 +178,7 @@ export const graphWindow = val({
 .accept(defined)
 
 
-export const entitiesWindow = val({
+export const entityWindow = val({
 	top: 50,
 	left: 400,
 	width: 400,
@@ -191,8 +191,8 @@ export const entitiesWindow = val({
 		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
 
 		if (
-			window === 'entities'
-			&& target && target.closest('.tvs-flow-entities')
+			window === 'entity'
+			&& target && target.closest('.tvs-flow-entity')
 			&& !target.closest('pre')
 			&& (delta.x || delta.y)
 		) {
@@ -225,7 +225,7 @@ function updateWindowZIndex (entity, name) {
 updateWindowZIndex(controlsPosition, 'controls')
 updateWindowZIndex(treeWindow, 'tree')
 updateWindowZIndex(graphWindow, 'graph')
-updateWindowZIndex(entitiesWindow, 'entities')
+updateWindowZIndex(entityWindow, 'entity')
 
 
 function setSizeConstrains (dimensions, size) {
@@ -254,4 +254,4 @@ function updateWindowPosition (entity) {
 updateWindowPosition(controlsPosition)
 updateWindowPosition(treeWindow)
 updateWindowPosition(graphWindow)
-updateWindowPosition(entitiesWindow)
+updateWindowPosition(entityWindow)

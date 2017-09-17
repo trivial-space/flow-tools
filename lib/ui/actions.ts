@@ -11,11 +11,11 @@ export const FLOW = {
 
 export const GUI = {
 	ENTITY: {
-		WATCH_ACTIVE_ENTITY: 'gui:entities:watch_active_entity',
-		SAVE_VALUE: 'gui:entities:save',
-		SET_ACTIVE_PROCESS: 'gui:entities:open_process',
-		SET_ACTIVE_ENTITY: 'gui:entities:open_entity',
-		RESET_ACTIVE_NODE: 'gui:entities:reset_entity'
+		WATCH_ACTIVE_ENTITY: 'gui:entity:watch_active_entity',
+		SAVE_VALUE: 'gui:entity:save',
+		SET_ACTIVE_PROCESS: 'gui:entity:open_process',
+		SET_ACTIVE_ENTITY: 'gui:entity:open_entity',
+		RESET_ACTIVE_NODE: 'gui:entity:reset_entity'
 	},
 	GRAPH: {
 		UPDATE_SCALE: 'gui:graph:update_scale',
