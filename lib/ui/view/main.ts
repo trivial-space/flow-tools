@@ -10,15 +10,18 @@ import { treeView } from './tree'
 import { iconButtonLightStyle } from './styles/ui'
 import { GUI } from '../actions'
 import { visibility } from '../graph/state/gui'
-import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps } from '../graph/state/views'
+import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps, controlTitleProps } from '../graph/state/views'
 import { viewBox, viewData } from '../graph/state/graph'
 import { entityViewProps } from '../graph/state/entity'
 import { treeData } from '../graph/state/tree'
-import { selectedRuntimeId } from '../graph/state/flow'
+import { getDragDeltas } from '../../utils/component-helpers'
 
 
-function titleView (title) {
-	return ['h1', title]
+function titleView ({title}, dispatch) {
+	function move (delta) {
+		dispatch(GUI.MAIN.MOVE_WINDOW, delta)
+	}
+	return ['h1', {...getDragDeltas(move)}, title]
 }
 
 
@@ -44,7 +47,7 @@ function controls({visibility, position}, dispatch, component) {
 				onmousedown: setActiveWindow('controls', dispatch),
 				style: {...position}
 			},
-			component(titleView, selectedRuntimeId),
+			component(titleView, controlTitleProps),
 			['nav', {class: 'tvs-controls-btns'},
 				['ul',
 					['li',
@@ -74,6 +77,11 @@ function controls({visibility, position}, dispatch, component) {
 
 
 function treeWindow ({dimensions, window}, dispatch, component) {
+
+	function move (delta) {
+		dispatch(GUI.MAIN.MOVE_WINDOW, delta)
+	}
+
 	const el =
 		['article', {
 				class: classes('tvs-flow-tree', windowStyle),
@@ -81,6 +89,7 @@ function treeWindow ({dimensions, window}, dispatch, component) {
 				onmousedown: setActiveWindow('tree', dispatch)
 			},
 			['header',
+				{ ...getDragDeltas(move) },
 				icon.list(window === 'tree' ? 'selected' : ''),
 				' Tree ',
 				['span', {class: 'gap'}],
@@ -114,6 +123,10 @@ function graphWindow ({dimensions, window}, dispatch, component) {
 		}
 	}
 
+	function move (delta) {
+		dispatch(GUI.MAIN.MOVE_WINDOW, delta)
+	}
+
 	const el =
 		['article', {
 				ref: updateGraphSize,
@@ -122,6 +135,7 @@ function graphWindow ({dimensions, window}, dispatch, component) {
 				onmousedown: setActiveWindow('graph', dispatch)
 			},
 			['header',
+				{ ...getDragDeltas(move) },
 				icon.graph(window === 'graph' ? 'selected' : ''),
 				' Graph ',
 				['span', {class: 'gap'}],
@@ -150,6 +164,10 @@ function entityWindow ({dimensions, node, window}, dispatch, component) {
 		? processView(node, dispatch)
 		: component(entityView, entityViewProps)
 
+	function move (delta) {
+		dispatch(GUI.MAIN.MOVE_WINDOW, delta)
+	}
+
 	const el =
 		['article', {
 				class: classes('tvs-flow-entity', windowStyle),
@@ -157,6 +175,7 @@ function entityWindow ({dimensions, node, window}, dispatch, component) {
 				onmousedown: setActiveWindow('entity', dispatch)
 			},
 			['header',
+				{ ...getDragDeltas(move) },
 				icon.entity(window === 'entity' ? 'selected' : ''),
 				' ',
 				node && node.id,

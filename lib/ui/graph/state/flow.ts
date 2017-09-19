@@ -2,8 +2,9 @@ import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference
 import { Runtime, Graph } from 'tvs-flow/dist/lib/runtime-types'
 import { action } from '../events'
 import { defined, unequal, and } from 'tvs-libs/dist/lib/utils/predicates'
+import { clamp } from 'tvs-libs/dist/lib/math/core'
 import { FLOW, GUI } from '../../actions'
-import { UIMeta, MetaFlow, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI } from '../../types'
+import { UIMeta, MetaFlow, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI, UIMetaControls } from '../../types'
 
 
 export const runtimes = val<{[id: string]: Runtime}>({})
@@ -72,17 +73,25 @@ export const meta = stream(
 	(meta, { type, payload }, runtime) => {
 		const flow = runtime as any as MetaFlow
 
-		const graph = meta.ui && meta.ui.graph
-		const tree = meta.ui && meta.ui.tree
-		const entity = meta.ui && meta.ui.entity
+		const ui = meta.ui
+		const graph = ui && ui.graph
+		const tree = ui && ui.tree
+		const entity = ui && ui.entity
 		const viewBox = graph && graph.viewBox
+		const activeWindow = ui && ui.activeWindow
 
 		switch (type) {
 
+			case GUI.MAIN.SET_ACTIVE_WINDOW:
+				return flow.setMeta({ ui: {
+					activeWindow: payload
+				}})
+
 			case GUI.MAIN.UPDATE_VISIBILITY:
-				const currentVisibilityState = meta.ui && meta.ui[payload]
+				const currentVisibilityState = ui && ui[payload]
 				const currentVisibilityValue = currentVisibilityState && currentVisibilityState.window && currentVisibilityState.window.visible
 				return flow.setMeta({ ui: {
+					activeWindow: payload,
 					[payload]: {
 						window: {
 							visible: !currentVisibilityValue
@@ -98,6 +107,46 @@ export const meta = stream(
 						}
 					}
 				}})
+
+			case GUI.MAIN.MOVE_WINDOW:
+				if (activeWindow) {
+					const activeData = ui && ui[activeWindow]
+					if (activeData && activeData.position) {
+						const top = clamp(
+							activeData.position.top - payload.y,
+							0, window.innerHeight - 20
+						)
+						const left = clamp(
+							activeData.position.left - payload.x,
+							0, window.innerWidth - 20
+						)
+						return flow.setMeta({ ui: {
+							controls: {
+								position: { top, left }
+							}
+						} })
+					} else if (activeData) {
+						const position = activeData.window && activeData.window.area
+						if (position) {
+							const top = clamp(
+								position.top - payload.y,
+								0, window.innerHeight - 20
+							)
+							const left = clamp(
+								position.left - payload.x,
+								0, window.innerWidth - 20
+							)
+							return flow.setMeta({ ui: {
+								[activeWindow]: {
+									window: {
+										area: { top, left }
+									}
+								}
+							} })
+						}
+					}
+				}
+				break
 
 			case GUI.TREE.TOGGLE_LEVEL:
 				const treeFold = tree && tree.fold || {}
@@ -204,6 +253,12 @@ export const metaEntity: EntityRef<PartialUIMetaEntity> = stream(
 export const metaEntities: EntityRef<{[id: string]: { ui?: MetaEntitiesUI }}> = stream(
 	[meta.HOT],
 	meta => meta && meta.entities
+)
+.accept(unequal)
+
+export const metaControls: EntityRef<UIMetaControls> = stream(
+	[meta.HOT],
+	meta => meta && meta.ui && meta.ui.controls
 )
 .accept(unequal)
 

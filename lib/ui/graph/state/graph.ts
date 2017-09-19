@@ -1,12 +1,10 @@
 import { stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
-import { mouse, dragDeltas, action } from '../events'
-import { defined, unequal } from 'tvs-libs/dist/lib/utils/predicates'
+import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
 import { graph, metaGraph, metaEntities } from './flow'
 import { PORT_TYPES, Graph, PortType } from 'tvs-flow/dist/lib/runtime-types'
 import { graphWindow } from './gui'
-import { activeNode, activeEntityId } from './entity'
+import { activeNode } from './entity'
 import { GraphViewBox, graphDefaultViewBox } from '../../types'
-import { newAction, GUI } from '../../actions'
 
 
 export const viewBox: EntityRef<GraphViewBox> = stream(
@@ -32,27 +30,26 @@ export const entityPositions = stream(
 )
 
 
-action.react(
-	[activeEntityId.COLD, entityPositions.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD],
-	(_, id, positions, mouse, delta, viewBox) => {
-		const t = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
-		const targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid))
-		if (targetId
-			&& id === targetId
-			&& self[id]
-			&& (delta.x || delta.y)
-		) {
-			return newAction(GUI.GRAPH.SET_ENTITY_POSITION, {
-				eid: id,
-				pos: {
-					x: positions[id].x - delta.x * viewBox.scale,
-					y: positions[id].y - delta.y * viewBox.scale
-				}
-			})
-		}
-	}
-)
-.accept(defined)
+// action.react(
+// 	[activeEntityId.COLD, entityPositions.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD],
+// 	(_, id, positions, mouse, delta, viewBox) => {
+// 		const t = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
+// 		const targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid))
+// 		if (targetId
+// 			&& id === targetId
+// 			&& self[id]
+// 			&& (delta.x || delta.y)
+// 		) {
+// 			return newAction(GUI.GRAPH.SET_ENTITY_POSITION, {
+// 				eid: id,
+// 				pos: {
+// 					x: positions[id].x - delta.x * viewBox.scale,
+// 					y: positions[id].y - delta.y * viewBox.scale
+// 				}
+// 			})
+// 		}
+// 	}
+// )
 
 
 function getLabelGroup (id) {

@@ -29,7 +29,9 @@ export const GUI = {
 	MAIN: {
 		SET_ACTIVE_WINDOW: 'gui:main:set_active_window',
 		UPDATE_VISIBILITY: 'gui:main:update_visibility',
-		CLOSE_WINDOW: 'gui:main.close_window'
+		CLOSE_WINDOW: 'gui:main:close_window',
+		MOVE_WINDOW: 'gui:main:set_window_position',
+		SET_WINDOW_SIZE: 'gui:main:set_window_size'
 	}
 }
 

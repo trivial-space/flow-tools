@@ -1,20 +1,13 @@
 import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
-import { unequal, defined, and } from 'tvs-libs/dist/lib/utils/predicates'
-import { action, mouse, windowSize, dragDeltas } from '../events'
-import { GUI } from '../../actions'
-import { metaTree, metaGraph, metaEntity } from './flow'
-import { PartialUIWindow } from '../../types'
+import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
+import { windowSize } from '../events'
+import { metaTree, metaGraph, metaEntity, metaControls, meta } from './flow'
+import { PartialUIWindow, Position, Area } from '../../types'
 
 
 export interface Size {
 	width: number
 	height: number
-}
-
-
-export interface Position {
-	top: number
-	left: number
 }
 
 
@@ -25,21 +18,21 @@ export const metaTreeWindow: EntityRef<PartialUIWindow> = stream(
 	[metaTree.HOT],
 	t => t.window
 )
-.accept(and(defined, unequal))
+.accept(unequal)
 
 
 export const metaGraphWindow = stream(
 	[metaGraph.HOT],
 	g => g.window
 )
-.accept(and(defined, unequal))
+.accept(unequal)
 
 
 export const metaEntityWindow = stream(
 	[metaEntity.HOT],
 	t => t.window
 )
-.accept(and(defined, unequal))
+.accept(unequal)
 
 
 export const visibility = val({
@@ -67,16 +60,9 @@ export const visibility = val({
 
 
 export const activeWindow: EntityRef<string> = stream(
-	[action.HOT],
-	({ type, payload }) => {
-		if (type === GUI.MAIN.SET_ACTIVE_WINDOW
-			|| type === GUI.MAIN.UPDATE_VISIBILITY) {
-			return payload
-		}
-	}
+	[meta.HOT], meta => meta.ui && meta.ui.activeWindow
 )
-.accept(and(defined, unequal))
-.val('')
+.accept(unequal)
 
 
 export const zIndex = val(0)
@@ -86,128 +72,26 @@ export const zIndex = val(0)
 )
 
 
-export const controlsPosition = val({
-	left: 0,
-	top: 0,
-	zIndex: 0
-})
-.react(
-	[activeWindow.COLD, dragDeltas.HOT, mouse.COLD, windowSize.COLD],
-	(self, window, delta, mouse, size) => {
-		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
-
-		if (
-			window === 'controls'
-			&& target && target.closest('.tvs-flow-controls')
-			&& (delta.x || delta.y)
-		) {
-			self.left -= delta.x
-			self.top -= delta.y
-			if (self.top < 0) self.top = 0
-			if (self.left < 0) self.left = 0
-			if (self.top > size.height - 20) self.top = size.height - 20
-			if (self.left > size.width - 20) self.left = size.width - 20
-			return self
-		}
-	}
+export const controlsPosition = stream(
+	[metaControls.HOT], controls => controls.position
 )
-.accept(defined)
+.accept(unequal)
 
 
-
-export const treeWindow = val({
-	top: 100,
-	left: 0,
-	width: 300,
-	height: 400,
-	zIndex: 0
-})
-.react(
-	[activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD],
-	(self, window, mouse, delta, size) => {
-		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
-
-		if (
-			window === 'tree'
-			&& target && target.closest('.tvs-flow-tree')
-			&& (delta.x || delta.y)
-		) {
-			if (target.className === 'resize') {
-				self.width -= delta.x
-				self.height -= delta.y
-			} else {
-				self.left -= delta.x
-				self.top -= delta.y
-			}
-			return setSizeConstrains(self, size)
-		}
-	}
+export const treeWindow: EntityRef<Area> = stream(
+	[metaTreeWindow.HOT], win => win.area as Area
 )
-.accept(defined)
+.accept(unequal)
 
-
-export const graphWindow = val({
-	top: 200,
-	left: 100,
-	width: 600,
-	height: 600,
-	zIndex: 0
-})
-.react(
-	[activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD],
-	(self, window, mouse, delta, size) => {
-		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
-
-		if (
-			window === 'graph'
-			&& target && target.closest('.tvs-flow-graph')
-			&& (delta.x || delta.y)
-		) {
-			if (target.className === 'resize') {
-				self.width -= delta.x
-				self.height -= delta.y
-				return setSizeConstrains(self, size)
-			} else if (!target.closest('svg')) {
-				self.left -= delta.x
-				self.top -= delta.y
-				return setSizeConstrains(self, size)
-			}
-		}
-	}
+export const graphWindow: EntityRef<Area> = stream(
+	[metaGraphWindow.HOT], win => win.area as Area
 )
-.accept(defined)
+.accept(unequal)
 
-
-export const entityWindow = val({
-	top: 50,
-	left: 400,
-	width: 400,
-	height: 500,
-	zIndex: 0
-})
-.react(
-	[activeWindow.COLD, mouse.COLD, dragDeltas.HOT, windowSize.COLD],
-	(self, window, mouse, delta, size) => {
-		const target = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
-
-		if (
-			window === 'entity'
-			&& target && target.closest('.tvs-flow-entity')
-			&& !target.closest('pre')
-			&& (delta.x || delta.y)
-		) {
-			if (target.className === 'resize') {
-				self.width -= delta.x
-				self.height -= delta.y
-			} else {
-				self.left -= delta.x
-				self.top -= delta.y
-			}
-			return setSizeConstrains(self, size)
-		}
-	}
+export const entityWindow: EntityRef<Area> = stream(
+	[metaEntityWindow.HOT], win => win.area as Area
 )
-.accept(defined)
+.accept(unequal)
 
 
 function updateWindowZIndex (entity, name) {
@@ -215,8 +99,7 @@ function updateWindowZIndex (entity, name) {
 		[activeWindow.COLD, zIndex.HOT],
 		(self, window, zIndex) => {
 			if (window === name) {
-				self.zIndex = zIndex
-				return self
+				return { ...self, zIndex }
 			}
 		}
 	)
@@ -229,21 +112,22 @@ updateWindowZIndex(entityWindow, 'entity')
 
 
 function setSizeConstrains (dimensions, size) {
-	if (dimensions.height > size.height - 20) {
-		dimensions.height = size.height - 20
+	const dims = {...dimensions}
+	if (dims.height > size.height - 20) {
+		dims.height = size.height - 20
 	}
-	if (dimensions.width > size.width - 20) {
-		dimensions.width = size.width - 20
+	if (dims.width > size.width - 20) {
+		dims.width = size.width - 20
 	}
-	if (dimensions.top > size.height - 20) {
-		dimensions.top = size.height - 20
+	if (dims.top > size.height - 20) {
+		dims.top = size.height - 20
 	}
-	if (dimensions.left > size.width - 20) {
-		dimensions.left = size.width - 20
+	if (dims.left > size.width - 20) {
+		dims.left = size.width - 20
 	}
-	if (dimensions.top < 0) dimensions.top = 0
-	if (dimensions.left < 0) dimensions.left = 0
-	return dimensions
+	if (dims.top < 0) dims.top = 0
+	if (dims.left < 0) dims.left = 0
+	return dims
 }
 
 

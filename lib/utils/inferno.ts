@@ -91,7 +91,9 @@ export function flowComponentFactory(
 			}
 
 			render () {
-				return h(template(this.state.current, dispatch, component))
+				if (this.state.current !== undefined) {
+					return h(template(this.state.current, dispatch, component))
+				}
 			}
 
 			update = () => {
