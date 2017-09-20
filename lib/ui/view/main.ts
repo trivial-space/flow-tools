@@ -25,6 +25,14 @@ function titleView ({title}, dispatch) {
 }
 
 
+function resizeFooter (dispatch) {
+	function resize (delta) {
+		dispatch(GUI.MAIN.RESIZE_WINDOW, delta)
+	}
+	return ['footer', {...getDragDeltas(resize), class: 'resize' }]
+}
+
+
 const activeButton = style({
 	color: highlightColor
 })
@@ -101,7 +109,7 @@ function treeWindow ({dimensions, window}, dispatch, component) {
 					onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'tree')
 				})],
 			['section', {class: windowContentStyle}, component(treeView, treeData)],
-			['footer', { class: 'resize' }]]
+			resizeFooter(dispatch)]
 
 	return el
 }
@@ -153,7 +161,7 @@ function graphWindow ({dimensions, window}, dispatch, component) {
 					onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'graph')
 				})],
 			graph,
-			['footer', { class: 'resize' }]]
+			resizeFooter(dispatch)]
 
 	return el
 }
@@ -189,7 +197,7 @@ function entityWindow ({dimensions, node, window}, dispatch, component) {
 					onclick: () => dispatch(GUI.MAIN.CLOSE_WINDOW, 'entity')
 				})],
 			view,
-			['footer', { class: 'resize' }]]
+			resizeFooter(dispatch)]
 
 	return el
 }

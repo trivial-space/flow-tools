@@ -31,7 +31,7 @@ export const GUI = {
 		UPDATE_VISIBILITY: 'gui:main:update_visibility',
 		CLOSE_WINDOW: 'gui:main:close_window',
 		MOVE_WINDOW: 'gui:main:set_window_position',
-		SET_WINDOW_SIZE: 'gui:main:set_window_size'
+		RESIZE_WINDOW: 'gui:main:resize_window'
 	}
 }
 

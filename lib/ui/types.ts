@@ -190,7 +190,6 @@ export const metaGuards = {
 		},
 		graph: {
 			window: {
-				visible: false,
 				area: {
 					top: topGuard,
 					left: leftGuard,
@@ -201,7 +200,6 @@ export const metaGuards = {
 		},
 		tree: {
 			window: {
-				visible: false,
 				area: {
 					top: topGuard,
 					left: leftGuard,
@@ -217,4 +215,26 @@ export const metaGuards = {
 			}
 		}
 	}
+}
+
+
+export function applyGuard(data, guard) {
+	for (const key in data) {
+		if (typeof guard[key] === 'function') {
+			data[key] = guard[key](data[key])
+		} else if (
+			data[key]
+			&& typeof data[key] === 'object'
+			&& guard[key]
+			&& typeof guard[key] === 'object'
+		) {
+			applyGuard(data[key], guard[key])
+		}
+	}
+	return data
+}
+
+
+export function guardMeta(data) {
+	return applyGuard(data, metaGuards)
 }

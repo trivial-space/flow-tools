@@ -1,6 +1,5 @@
 import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
-import { windowSize } from '../events'
 import { metaTree, metaGraph, metaEntity, metaControls, meta } from './flow'
 import { PartialUIWindow, Position, Area } from '../../types'
 
@@ -109,33 +108,3 @@ updateWindowZIndex(controlsPosition, 'controls')
 updateWindowZIndex(treeWindow, 'tree')
 updateWindowZIndex(graphWindow, 'graph')
 updateWindowZIndex(entityWindow, 'entity')
-
-
-function setSizeConstrains (dimensions, size) {
-	const dims = {...dimensions}
-	if (dims.height > size.height - 20) {
-		dims.height = size.height - 20
-	}
-	if (dims.width > size.width - 20) {
-		dims.width = size.width - 20
-	}
-	if (dims.top > size.height - 20) {
-		dims.top = size.height - 20
-	}
-	if (dims.left > size.width - 20) {
-		dims.left = size.width - 20
-	}
-	if (dims.top < 0) dims.top = 0
-	if (dims.left < 0) dims.left = 0
-	return dims
-}
-
-
-function updateWindowPosition (entity) {
-	entity.react([windowSize.HOT], setSizeConstrains)
-}
-
-updateWindowPosition(controlsPosition)
-updateWindowPosition(treeWindow)
-updateWindowPosition(graphWindow)
-updateWindowPosition(entityWindow)

@@ -1,10 +1,9 @@
 import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { Runtime, Graph } from 'tvs-flow/dist/lib/runtime-types'
-import { action } from '../events'
-import { defined, unequal, and } from 'tvs-libs/dist/lib/utils/predicates'
-import { clamp } from 'tvs-libs/dist/lib/math/core'
+import { action, windowSize } from '../events'
+import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
 import { FLOW, GUI } from '../../actions'
-import { UIMeta, MetaFlow, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI, UIMetaControls } from '../../types'
+import { UIMeta, MetaFlow, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI, UIMetaControls, guardMeta } from '../../types'
 
 
 export const runtimes = val<{[id: string]: Runtime}>({})
@@ -19,7 +18,6 @@ export const runtimes = val<{[id: string]: Runtime}>({})
 		}
 	}
 )
-.accept(defined)
 
 
 export const selectedRuntimeId = val<string>('')
@@ -35,7 +33,7 @@ export const selectedRuntimeId = val<string>('')
 		}
 	}
 )
-.accept(and(defined, unequal))
+.accept(unequal)
 
 
 export const runtime = stream(
@@ -61,7 +59,6 @@ export const runtime = stream(
 		}
 	}
 )
-.accept(defined)
 
 
 export const meta = stream(
@@ -112,39 +109,43 @@ export const meta = stream(
 				if (activeWindow) {
 					const activeData = ui && ui[activeWindow]
 					if (activeData && activeData.position) {
-						const top = clamp(
-							activeData.position.top - payload.y,
-							0, window.innerHeight - 20
-						)
-						const left = clamp(
-							activeData.position.left - payload.x,
-							0, window.innerWidth - 20
-						)
-						return flow.setMeta({ ui: {
+						const top = activeData.position.top - payload.y
+						const left = activeData.position.left - payload.x
+						return flow.setMeta(guardMeta({ ui: {
 							controls: {
 								position: { top, left }
 							}
-						} })
+						} }))
 					} else if (activeData) {
 						const position = activeData.window && activeData.window.area
 						if (position) {
-							const top = clamp(
-								position.top - payload.y,
-								0, window.innerHeight - 20
-							)
-							const left = clamp(
-								position.left - payload.x,
-								0, window.innerWidth - 20
-							)
-							return flow.setMeta({ ui: {
+							const top = position.top - payload.y
+							const left = position.left - payload.x
+							return flow.setMeta(guardMeta({ ui: {
 								[activeWindow]: {
 									window: {
 										area: { top, left }
 									}
 								}
-							} })
+							} }))
 						}
 					}
+				}
+				break
+
+			case GUI.MAIN.RESIZE_WINDOW:
+				const area = activeWindow && ui && ui[activeWindow] && ui[activeWindow].window && ui[activeWindow].window.area
+				if (area) {
+					return flow.setMeta(guardMeta({ ui: {
+						[activeWindow as string]: {
+							window: {
+								area: {
+									width: area.width - payload.x,
+									height: area.height - payload.y
+								}
+							}
+						}
+					} }))
 				}
 				break
 
@@ -230,7 +231,11 @@ export const meta = stream(
 		}
 	}
 )
-.accept(defined)
+.react(
+	[runtime.COLD, windowSize.HOT],
+	(self, runtime, _) => runtime.setMeta(guardMeta(self))
+)
+
 
 export const metaGraph: EntityRef<PartialUIMetaGraph> = stream(
 	[meta.HOT],
