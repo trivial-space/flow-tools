@@ -71,7 +71,9 @@ export function flowComponentFactory(stateFlow, dispatchId, debug) {
                 return _this;
             }
             class_1.prototype.render = function () {
-                return h(template(this.state.current, dispatch, component));
+                if (this.state.current !== undefined) {
+                    return h(template(this.state.current, dispatch, component));
+                }
             };
             class_1.prototype.componentDidMount = function () {
                 debug && console.log('component mounted!', this);

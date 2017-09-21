@@ -18,13 +18,23 @@ import { treeView } from './tree';
 import { iconButtonLightStyle } from './styles/ui';
 import { GUI } from '../actions';
 import { visibility } from '../graph/state/gui';
-import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps } from '../graph/state/views';
+import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps, controlTitleProps } from '../graph/state/views';
 import { viewBox, viewData } from '../graph/state/graph';
 import { entityViewProps } from '../graph/state/entity';
 import { treeData } from '../graph/state/tree';
-import { selectedRuntimeId } from '../graph/state/flow';
-function titleView(title) {
-    return ['h1', title];
+import { getDragDeltas } from '../../utils/component-helpers';
+function titleView(_a, dispatch) {
+    var title = _a.title;
+    function move(delta) {
+        dispatch(GUI.MAIN.MOVE_WINDOW, delta);
+    }
+    return ['h1', __assign({}, getDragDeltas(move)), title];
+}
+function resizeFooter(dispatch) {
+    function resize(delta) {
+        dispatch(GUI.MAIN.RESIZE_WINDOW, delta);
+    }
+    return ['footer', __assign({}, getDragDeltas(resize), { class: 'resize' })];
 }
 var activeButton = style({
     color: highlightColor
@@ -42,7 +52,7 @@ function controls(_a, dispatch, component) {
             onmousedown: setActiveWindow('controls', dispatch),
             style: __assign({}, position)
         },
-        component(titleView, selectedRuntimeId),
+        component(titleView, controlTitleProps),
         ['nav', { class: 'tvs-controls-btns' },
             ['ul',
                 ['li',
@@ -70,13 +80,15 @@ function controls(_a, dispatch, component) {
 }
 function treeWindow(_a, dispatch, component) {
     var dimensions = _a.dimensions, window = _a.window;
+    function move(delta) {
+        dispatch(GUI.MAIN.MOVE_WINDOW, delta);
+    }
     var el = ['article', {
             class: classes('tvs-flow-tree', windowStyle),
             style: __assign({}, dimensions),
             onmousedown: setActiveWindow('tree', dispatch)
         },
-        ['header',
-            icon.list(window === 'tree' ? 'selected' : ''),
+        ['header', __assign({}, getDragDeltas(move)), icon.list(window === 'tree' ? 'selected' : ''),
             ' Tree ',
             ['span', { class: 'gap' }],
             ' ',
@@ -87,7 +99,7 @@ function treeWindow(_a, dispatch, component) {
                 onclick: function () { return dispatch(GUI.MAIN.CLOSE_WINDOW, 'tree'); }
             })],
         ['section', { class: windowContentStyle }, component(treeView, treeData)],
-        ['footer', { class: 'resize' }]];
+        resizeFooter(dispatch)];
     return el;
 }
 function graphWindow(_a, dispatch, component) {
@@ -104,14 +116,16 @@ function graphWindow(_a, dispatch, component) {
             });
         }
     }
+    function move(delta) {
+        dispatch(GUI.MAIN.MOVE_WINDOW, delta);
+    }
     var el = ['article', {
             ref: updateGraphSize,
             class: classes('tvs-flow-graph', windowStyle),
             style: __assign({}, dimensions),
             onmousedown: setActiveWindow('graph', dispatch)
         },
-        ['header',
-            icon.graph(window === 'graph' ? 'selected' : ''),
+        ['header', __assign({}, getDragDeltas(move)), icon.graph(window === 'graph' ? 'selected' : ''),
             ' Graph ',
             ['span', { class: 'gap' }],
             component(scaleSlider, viewBox),
@@ -128,7 +142,7 @@ function graphWindow(_a, dispatch, component) {
                 onclick: function () { return dispatch(GUI.MAIN.CLOSE_WINDOW, 'graph'); }
             })],
         graph,
-        ['footer', { class: 'resize' }]];
+        resizeFooter(dispatch)];
     return el;
 }
 function entityWindow(_a, dispatch, component) {
@@ -136,13 +150,15 @@ function entityWindow(_a, dispatch, component) {
     var view = node && node.procedure
         ? processView(node, dispatch)
         : component(entityView, entityViewProps);
+    function move(delta) {
+        dispatch(GUI.MAIN.MOVE_WINDOW, delta);
+    }
     var el = ['article', {
             class: classes('tvs-flow-entity', windowStyle),
             style: __assign({}, dimensions),
             onmousedown: setActiveWindow('entity', dispatch)
         },
-        ['header',
-            icon.entity(window === 'entity' ? 'selected' : ''),
+        ['header', __assign({}, getDragDeltas(move)), icon.entity(window === 'entity' ? 'selected' : ''),
             ' ',
             node && node.id,
             ' ',
@@ -155,7 +171,7 @@ function entityWindow(_a, dispatch, component) {
                 onclick: function () { return dispatch(GUI.MAIN.CLOSE_WINDOW, 'entity'); }
             })],
         view,
-        ['footer', { class: 'resize' }]];
+        resizeFooter(dispatch)];
     return el;
 }
 function root(visibility, _, component) {

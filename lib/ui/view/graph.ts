@@ -1,7 +1,7 @@
 import { graphViewStyle } from './styles/graph'
 import { classes } from 'typestyle/lib'
 import { GUI } from '../actions'
-import { getDragDeltas } from 'utils/component-helpers'
+import { getDragDeltas } from '../../utils/component-helpers'
 
 
 export function scaleSlider ({ scale }, dispatch) {

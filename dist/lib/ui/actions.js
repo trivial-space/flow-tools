@@ -19,7 +19,7 @@ export var GUI = {
         UPDATE_SCALE: 'gui:graph:update_scale',
         UPDATE_SIZE: 'gui:graph:update_size',
         MOVE_VIEWPORT: 'gui:graph:move_viewport',
-        SET_ENTITY_POSITION: 'gui:graph:set_entity_position'
+        MOVE_ENTITY_POSITION: 'gui:graph:set_entity_position'
     },
     TREE: {
         TOGGLE_LEVEL: 'gui:tree:toggle_level'
@@ -27,7 +27,9 @@ export var GUI = {
     MAIN: {
         SET_ACTIVE_WINDOW: 'gui:main:set_active_window',
         UPDATE_VISIBILITY: 'gui:main:update_visibility',
-        CLOSE_WINDOW: 'gui:main.close_window'
+        CLOSE_WINDOW: 'gui:main:close_window',
+        MOVE_WINDOW: 'gui:main:set_window_position',
+        RESIZE_WINDOW: 'gui:main:resize_window'
     }
 };
 export function newAction(type, payload) {

@@ -1,6 +1,8 @@
-export interface Area {
+export interface Position {
     top: number;
     left: number;
+}
+export interface Area extends Position {
     width: number;
     height: number;
 }
@@ -60,12 +62,17 @@ export interface MetaEntitiesUI {
         visible?: boolean;
     };
 }
+export interface UIMetaControls {
+    position?: Position;
+}
 export interface UIMeta {
     name?: string;
     ui?: {
         entity?: PartialUIMetaEntity;
         graph?: PartialUIMetaGraph;
         tree?: PartialUIMetaTree;
+        controls?: UIMetaControls;
+        activeWindow?: string;
     };
     entities?: {
         [id: string]: {
@@ -78,3 +85,45 @@ export interface MetaFlow {
     getMeta: () => UIMeta;
 }
 export declare const defaultUIMeta: UIMeta;
+export declare const metaGuards: {
+    ui: {
+        entity: {
+            window: {
+                area: {
+                    top: (val: number) => number;
+                    left: (val: number) => number;
+                    width: (val: number) => number;
+                    height: (val: number) => number;
+                };
+            };
+        };
+        graph: {
+            window: {
+                area: {
+                    top: (val: number) => number;
+                    left: (val: number) => number;
+                    width: (val: number) => number;
+                    height: (val: number) => number;
+                };
+            };
+        };
+        tree: {
+            window: {
+                area: {
+                    top: (val: number) => number;
+                    left: (val: number) => number;
+                    width: (val: number) => number;
+                    height: (val: number) => number;
+                };
+            };
+        };
+        controls: {
+            position: {
+                top: (val: number) => number;
+                left: (val: number) => number;
+            };
+        };
+    };
+};
+export declare function applyGuard(data: any, guard: any): any;
+export declare function guardMeta(data: any): any;

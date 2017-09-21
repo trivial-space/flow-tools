@@ -8,44 +8,31 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import { stream } from 'tvs-flow/dist/lib/utils/entity-reference';
-import { mouse, dragDeltas, action } from '../events';
-import { defined, unequal } from 'tvs-libs/dist/lib/utils/predicates';
+import { unequal } from 'tvs-libs/dist/lib/utils/predicates';
 import { graph, metaGraph, metaEntities } from './flow';
 import { PORT_TYPES } from 'tvs-flow/dist/lib/runtime-types';
 import { graphWindow } from './gui';
-import { activeNode, activeEntityId } from './entity';
+import { activeNode } from './entity';
 import { graphDefaultViewBox } from '../../types';
-import { newAction, GUI } from '../../actions';
 export var viewBox = stream([metaGraph.HOT], function (graph) { return (graph.viewBox || graphDefaultViewBox); })
     .accept(unequal);
-export var entityPositions = stream([graph.HOT, metaEntities.HOT, graphWindow.COLD], function (graph, entities, size) {
-    var positions = {};
+export var entityPositions = stream([graph.HOT], function (_) { return ({}); })
+    .react([graphWindow.HOT, metaEntities.HOT, graph.COLD], function (self, size, entities, graph) {
     for (var eid in graph.entities) {
         var e = entities[eid];
-        positions[eid] = (e && e.ui && e.ui.graph && e.ui.graph.position) || {
-            x: Math.random() * size.width,
-            y: Math.random() * size.height
-        };
+        var pos = e && e.ui && e.ui.graph && e.ui.graph.position;
+        if (pos) {
+            self[eid] = pos;
+        }
+        else if (!self[eid]) {
+            self[eid] = {
+                x: Math.random() * size.width,
+                y: Math.random() * size.height
+            };
+        }
     }
-    return positions;
+    return self;
 });
-action.react([activeEntityId.COLD, entityPositions.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD], function (_, id, positions, mouse, delta, viewBox) {
-    var t = mouse.pressed[0] && mouse.pressed[0].target;
-    var targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid));
-    if (targetId
-        && id === targetId
-        && self[id]
-        && (delta.x || delta.y)) {
-        return newAction(GUI.GRAPH.SET_ENTITY_POSITION, {
-            eid: id,
-            pos: {
-                x: positions[id].x - delta.x * viewBox.scale,
-                y: positions[id].y - delta.y * viewBox.scale
-            }
-        });
-    }
-})
-    .accept(defined);
 function getLabelGroup(id) {
     var path = id.split('.');
     var label = path.pop();
@@ -77,7 +64,7 @@ export var graphEntities = stream([graph.HOT, activeNode.HOT], function (graph, 
     return entities;
 })
     .react([entityPositions.HOT], function (self, positions) {
-    for (var eid in self) {
+    for (var eid in positions) {
         self[eid].x = positions[eid].x;
         self[eid].y = positions[eid].y;
     }

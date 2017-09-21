@@ -1,7 +1,16 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 import { graphViewStyle } from './styles/graph';
 import { classes } from 'typestyle/lib';
 import { GUI } from '../actions';
+import { getDragDeltas } from '../../utils/component-helpers';
 export function scaleSlider(_a, dispatch) {
     var scale = _a.scale;
     return ['span',
@@ -19,12 +28,11 @@ export function graphView(data, dispatch) {
     if (!data)
         return ['section', { class: graphViewStyle }];
     var entities = data.entities, processes = data.processes, edges = data.edges, _a = data.viewBox, viewBox = _a === void 0 ? {} : _a;
-    return ['section', { class: graphViewStyle }, ['svg', {
-                width: '100%',
-                height: '100%',
-                id: 'graph-ui',
-                viewBox: viewBox.x + ", " + viewBox.y + ", " + viewBox.width + ", " + viewBox.height
-            }].concat(edges.map(function (e) {
+    return ['section', { class: graphViewStyle }, ['svg', __assign({ width: '100%', height: '100%', id: 'graph-ui', viewBox: viewBox.x + ", " + viewBox.y + ", " + viewBox.width + ", " + viewBox.height }, getDragDeltas(function (d) { return dispatch(GUI.GRAPH.MOVE_VIEWPORT, d); }, function (e) {
+                if (e && e.button === 2 && e.target === e.currentTarget) {
+                    dispatch(GUI.ENTITY.RESET_ACTIVE_NODE);
+                }
+            }), { oncontextmenu: function (e) { return e.preventDefault(); } })].concat(edges.map(function (e) {
             return ['line', {
                     x1: e.from.x,
                     y1: e.from.y,
@@ -43,14 +51,10 @@ export function graphView(data, dispatch) {
                     title: p.id
                 }];
         }), entities.map(function (e) {
-            return ['g', {
-                    'data-eid': e.id,
-                    transform: "translate(" + e.x + ", " + e.y + ")",
-                    onmousedown: function () { return dispatch(GUI.ENTITY.SET_ACTIVE_ENTITY, e.id); },
-                    title: e.id,
-                    class: classes(e.class, e.active && 'active')
-                },
-                ['rect', {
+            return ['g', __assign({ 'data-eid': e.id, transform: "translate(" + e.x + ", " + e.y + ")", title: e.id, class: classes(e.class, e.active && 'active') }, getDragDeltas(function (d) { return dispatch(GUI.GRAPH.MOVE_ENTITY_POSITION, {
+                    start: e,
+                    delta: d
+                }); }, function () { return dispatch(GUI.ENTITY.SET_ACTIVE_ENTITY, e.id); })), ['rect', {
                         x: -15,
                         y: -15,
                         width: 30,

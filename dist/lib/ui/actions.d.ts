@@ -19,7 +19,7 @@ export declare const GUI: {
         UPDATE_SCALE: string;
         UPDATE_SIZE: string;
         MOVE_VIEWPORT: string;
-        SET_ENTITY_POSITION: string;
+        MOVE_ENTITY_POSITION: string;
     };
     TREE: {
         TOGGLE_LEVEL: string;
@@ -28,6 +28,8 @@ export declare const GUI: {
         SET_ACTIVE_WINDOW: string;
         UPDATE_VISIBILITY: string;
         CLOSE_WINDOW: string;
+        MOVE_WINDOW: string;
+        RESIZE_WINDOW: string;
     };
 };
 export declare function newAction(type: string, payload?: any): Action;

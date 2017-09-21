@@ -1,6 +1,6 @@
 import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { Runtime, Graph } from 'tvs-flow/dist/lib/runtime-types';
-import { UIMeta, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI } from '../../types';
+import { UIMeta, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI, UIMetaControls } from '../../types';
 export declare const runtimes: EntityRef<{
     [id: string]: Runtime;
 }>;
@@ -15,6 +15,7 @@ export declare const metaEntities: EntityRef<{
         ui?: MetaEntitiesUI;
     };
 }>;
+export declare const metaControls: EntityRef<UIMetaControls>;
 export declare const graph: EntityRef<Graph>;
 export declare const state: EntityRef<{
     [id: string]: any;

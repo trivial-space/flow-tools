@@ -8,17 +8,17 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import { val, stream } from 'tvs-flow/dist/lib/utils/entity-reference';
-import { action } from '../events';
-import { defined, unequal, and } from 'tvs-libs/dist/lib/utils/predicates';
+import { action, windowSize } from '../events';
+import { unequal } from 'tvs-libs/dist/lib/utils/predicates';
 import { FLOW, GUI } from '../../actions';
+import { guardMeta } from '../../types';
 export var runtimes = val({})
     .react([action.HOT], function (self, action) {
     if (action.type === FLOW.SET_RUNTIME) {
         return __assign({}, self, (_a = {}, _a[action.payload.label] = action.payload.runtime, _a));
     }
     var _a;
-})
-    .accept(defined);
+});
 export var selectedRuntimeId = val('')
     .react([runtimes.HOT], function (id, runtimes) { return id || Object.keys(runtimes)[0]; })
     .react([action.HOT], function (_, action) {
@@ -26,7 +26,7 @@ export var selectedRuntimeId = val('')
         return action.payload;
     }
 })
-    .accept(and(defined, unequal));
+    .accept(unequal);
 export var runtime = stream([runtimes.COLD, selectedRuntimeId.HOT], function (runtimes, id) { return runtimes[id]; })
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;
@@ -44,21 +44,28 @@ export var runtime = stream([runtimes.COLD, selectedRuntimeId.HOT], function (ru
             console.log(payload, self.get(payload));
             return;
     }
-})
-    .accept(defined);
+});
 export var meta = stream([runtime.HOT], function (runtime) { return runtime.getMeta(); })
     .react([action.HOT, runtime.COLD], function (meta, _a, runtime) {
     var type = _a.type, payload = _a.payload;
     var flow = runtime;
-    var graph = meta.ui && meta.ui.graph;
-    var tree = meta.ui && meta.ui.tree;
-    var entity = meta.ui && meta.ui.entity;
+    var ui = meta.ui;
+    var graph = ui && ui.graph;
+    var tree = ui && ui.tree;
+    var entity = ui && ui.entity;
     var viewBox = graph && graph.viewBox;
+    var activeWindow = ui && ui.activeWindow;
     switch (type) {
+        case GUI.MAIN.SET_ACTIVE_WINDOW:
+            return flow.setMeta({ ui: {
+                    activeWindow: payload
+                } });
         case GUI.MAIN.UPDATE_VISIBILITY:
-            var currentVisibilityState = meta.ui && meta.ui[payload];
+            var currentVisibilityState = ui && ui[payload];
             var currentVisibilityValue = currentVisibilityState && currentVisibilityState.window && currentVisibilityState.window.visible;
-            return flow.setMeta({ ui: (_b = {},
+            return flow.setMeta({ ui: (_b = {
+                        activeWindow: payload
+                    },
                     _b[payload] = {
                         window: {
                             visible: !currentVisibilityValue
@@ -73,12 +80,55 @@ export var meta = stream([runtime.HOT], function (runtime) { return runtime.getM
                         }
                     },
                     _c) });
+        case GUI.MAIN.MOVE_WINDOW:
+            if (activeWindow) {
+                var activeData = ui && ui[activeWindow];
+                if (activeData && activeData.position) {
+                    var top_1 = activeData.position.top - payload.y;
+                    var left = activeData.position.left - payload.x;
+                    return flow.setMeta(guardMeta({ ui: {
+                            controls: {
+                                position: { top: top_1, left: left }
+                            }
+                        } }));
+                }
+                else if (activeData) {
+                    var position = activeData.window && activeData.window.area;
+                    if (position) {
+                        var top_2 = position.top - payload.y;
+                        var left = position.left - payload.x;
+                        return flow.setMeta(guardMeta({ ui: (_d = {},
+                                _d[activeWindow] = {
+                                    window: {
+                                        area: { top: top_2, left: left }
+                                    }
+                                },
+                                _d) }));
+                    }
+                }
+            }
+            break;
+        case GUI.MAIN.RESIZE_WINDOW:
+            var area = activeWindow && ui && ui[activeWindow] && ui[activeWindow].window && ui[activeWindow].window.area;
+            if (area) {
+                return flow.setMeta(guardMeta({ ui: (_e = {},
+                        _e[activeWindow] = {
+                            window: {
+                                area: {
+                                    width: area.width - payload.x,
+                                    height: area.height - payload.y
+                                }
+                            }
+                        },
+                        _e) }));
+            }
+            break;
         case GUI.TREE.TOGGLE_LEVEL:
             var treeFold = tree && tree.fold || {};
             return flow.setMeta({ ui: {
-                    tree: { fold: (_d = {},
-                            _d[payload] = !treeFold[payload],
-                            _d) }
+                    tree: { fold: (_f = {},
+                            _f[payload] = !treeFold[payload],
+                            _f) }
                 } });
         case GUI.ENTITY.SET_ACTIVE_ENTITY:
             return flow.setMeta({ ui: { entity: {
@@ -131,22 +181,32 @@ export var meta = stream([runtime.HOT], function (runtime) { return runtime.getM
                         } } });
             }
             return;
-        case GUI.GRAPH.SET_ENTITY_POSITION:
-            return flow.setMeta({
-                entities: (_e = {},
-                    _e[payload.eid] = {
-                        ui: {
-                            graph: {
-                                position: payload.pos
-                            }
-                        }
-                    },
-                    _e)
-            });
+        case GUI.GRAPH.MOVE_ENTITY_POSITION:
+            if (entity && entity.activeEntityId) {
+                var e = meta.entities && meta.entities[entity.activeEntityId];
+                var pos = e && e.ui && e.ui.graph && e.ui.graph.position || payload.start;
+                var scale = graph && graph.viewBox && graph.viewBox.scale || 1;
+                if (pos) {
+                    return flow.setMeta({
+                        entities: (_g = {},
+                            _g[entity.activeEntityId] = {
+                                ui: {
+                                    graph: {
+                                        position: {
+                                            x: pos.x - payload.delta.x * scale,
+                                            y: pos.y - payload.delta.y * scale
+                                        }
+                                    }
+                                }
+                            },
+                            _g)
+                    });
+                }
+            }
     }
-    var _b, _c, _d, _e;
+    var _b, _c, _d, _e, _f, _g;
 })
-    .accept(defined);
+    .react([runtime.COLD, windowSize.HOT], function (self, runtime, _) { return runtime.setMeta(guardMeta(self)); });
 export var metaGraph = stream([meta.HOT], function (meta) { return meta && meta.ui && meta.ui.graph; })
     .accept(unequal);
 export var metaTree = stream([meta.HOT], function (meta) { return meta && meta.ui && meta.ui.tree; })
@@ -154,6 +214,8 @@ export var metaTree = stream([meta.HOT], function (meta) { return meta && meta.u
 export var metaEntity = stream([meta.HOT], function (meta) { return meta && meta.ui && meta.ui.entity; })
     .accept(unequal);
 export var metaEntities = stream([meta.HOT], function (meta) { return meta && meta.entities; })
+    .accept(unequal);
+export var metaControls = stream([meta.HOT], function (meta) { return meta && meta.ui && meta.ui.controls; })
     .accept(unequal);
 export var graph = stream([runtime.HOT], function (flow) { return flow.getGraph(); });
 export var state = stream([runtime.HOT], function (flow) { return flow.getState(); });
