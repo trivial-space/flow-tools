@@ -137,6 +137,13 @@ export const defaultUIMeta: UIMeta = {
 			}
 		},
 		graph: {
+			viewBox: {
+				width: 600,
+				height: 600,
+				offsetX: 0,
+				offsetY: 0,
+				scale: 1
+			},
 			window: {
 				visible: false,
 				area: {
@@ -164,7 +171,8 @@ export const defaultUIMeta: UIMeta = {
 				left: 0
 			}
 		}
-	}
+	},
+	entities: {}
 }
 
 

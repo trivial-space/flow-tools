@@ -216,18 +216,27 @@ export const meta = stream(
 				}
 				return
 
-			case GUI.GRAPH.SET_ENTITY_POSITION:
-				return flow.setMeta({
-					entities: {
-						[payload.eid]: {
-							ui: {
-								graph: {
-									position: payload.pos
+			case GUI.GRAPH.MOVE_ENTITY_POSITION:
+				if (entity && entity.activeEntityId) {
+					const e = meta.entities && meta.entities[entity.activeEntityId]
+					const pos = e && e.ui && e.ui.graph && e.ui.graph.position || payload.start
+					if (pos) {
+						return flow.setMeta({
+							entities: {
+								[entity.activeEntityId]: {
+									ui: {
+										graph: {
+											position: {
+												x: pos.x - payload.delta.x,
+												y: pos.y - payload.delta.y
+											}
+										}
+									}
 								}
 							}
-						}
+						})
 					}
-				})
+				}
 		}
 	}
 )

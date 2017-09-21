@@ -9,10 +9,13 @@ export function getDragDeltas (callback: (DragDelta) => void) {
 	let oldY = 0
 
 	function onMouseDown (e: MouseEvent) {
-		oldX = e.clientX
-		oldY = e.clientY
-		document.addEventListener('mousemove', onMouseMove)
-		document.addEventListener('mouseup', onMouseUp)
+		if (!(e as any)._dragTarget) {
+			oldX = e.clientX
+			oldY = e.clientY
+			document.addEventListener('mousemove', onMouseMove)
+			document.addEventListener('mouseup', onMouseUp)
+			; (e as any)._dragTarget = e.target
+		}
 	}
 
 	function onMouseUp () {
@@ -29,5 +32,5 @@ export function getDragDeltas (callback: (DragDelta) => void) {
 		oldY = e.clientY
 	}
 
-	return { onMouseDown }
+	return { onmousedown: onMouseDown }
 }

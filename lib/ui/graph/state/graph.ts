@@ -15,17 +15,27 @@ export const viewBox: EntityRef<GraphViewBox> = stream(
 
 
 export const entityPositions = stream(
-	[graph.HOT, metaEntities.HOT, graphWindow.COLD],
-	(graph, entities, size) => {
-		const positions = {} as { [id: string]: { x: number, y: number } }
+	[graph.HOT],
+	// Reset positions on new graph
+	(_) => ({} as { [id: string]: { x: number, y: number } })
+)
+.react(
+	[graphWindow.HOT, metaEntities.HOT, graph.COLD],
+	(self, size, entities, graph) => {
 		for (const eid in graph.entities) {
 			const e = entities[eid]
-			positions[eid] = (e && e.ui && e.ui.graph && e.ui.graph.position) || {
-				x: Math.random() * size.width,
-				y: Math.random() * size.height
+			const pos = e && e.ui && e.ui.graph && e.ui.graph.position
+			console.log(eid, pos)
+			if (pos) {
+				self[eid] = pos
+			} else if (!self[eid]) {
+				self[eid] = {
+					x: Math.random() * size.width,
+					y: Math.random() * size.height
+				}
 			}
 		}
-		return positions
+		return self
 	}
 )
 
@@ -99,7 +109,7 @@ export const graphEntities = stream(
 .react(
 	[entityPositions.HOT],
 	(self, positions) => {
-		for (const eid in self) {
+		for (const eid in positions) {
 			self[eid].x = positions[eid].x
 			self[eid].y = positions[eid].y
 		}

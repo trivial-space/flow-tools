@@ -21,7 +21,7 @@ export const GUI = {
 		UPDATE_SCALE: 'gui:graph:update_scale',
 		UPDATE_SIZE: 'gui:graph:update_size',
 		MOVE_VIEWPORT: 'gui:graph:move_viewport',
-		SET_ENTITY_POSITION: 'gui:graph:set_entity_position'
+		MOVE_ENTITY_POSITION: 'gui:graph:set_entity_position'
 	},
 	TREE: {
 		TOGGLE_LEVEL: 'gui:tree:toggle_level'

@@ -48,7 +48,7 @@ export const activeValue: EntityRef<any> = asyncStream(
 	(send, flow, eid, visibility, watching) => {
 		if (eid) {
 			const value = flow.get(eid)
-			send(value)
+			send(value === undefined ? null : value)
 			if (visibility.entity && watching) {
 				flow.on(eid, send)
 				return () => flow.off(eid, send)

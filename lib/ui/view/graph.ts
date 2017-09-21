@@ -1,6 +1,7 @@
 import { graphViewStyle } from './styles/graph'
 import { classes } from 'typestyle/lib'
 import { GUI } from '../actions'
+import { getDragDeltas } from 'utils/component-helpers'
 
 
 export function scaleSlider ({ scale }, dispatch) {
@@ -27,7 +28,8 @@ export function graphView (data, dispatch) {
 				width: '100%',
 				height: '100%',
 				id: 'graph-ui',
-				viewBox: `${viewBox.x}, ${viewBox.y}, ${viewBox.width}, ${viewBox.height}`
+				viewBox: `${viewBox.x}, ${viewBox.y}, ${viewBox.width}, ${viewBox.height}`,
+				...getDragDeltas(d => dispatch(GUI.GRAPH.MOVE_VIEWPORT, d))
 			},
 			...edges.map(e =>
 				['line', {
@@ -60,7 +62,11 @@ export function graphView (data, dispatch) {
 							y: -15,
 							width: 30,
 							height: 30,
-							class: e.accept ? 'accept' : ''
+							class: e.accept ? 'accept' : '',
+							...getDragDeltas(d => dispatch(GUI.GRAPH.MOVE_ENTITY_POSITION, {
+								start: e,
+								delta: d
+							}))
 						}],
 					['text', {
 							'text-anchor': 'middle',
