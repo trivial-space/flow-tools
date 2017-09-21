@@ -220,6 +220,7 @@ export const meta = stream(
 				if (entity && entity.activeEntityId) {
 					const e = meta.entities && meta.entities[entity.activeEntityId]
 					const pos = e && e.ui && e.ui.graph && e.ui.graph.position || payload.start
+					const scale = graph && graph.viewBox && graph.viewBox.scale || 1
 					if (pos) {
 						return flow.setMeta({
 							entities: {
@@ -227,8 +228,8 @@ export const meta = stream(
 									ui: {
 										graph: {
 											position: {
-												x: pos.x - payload.delta.x,
-												y: pos.y - payload.delta.y
+												x: pos.x - payload.delta.x * scale,
+												y: pos.y - payload.delta.y * scale
 											}
 										}
 									}

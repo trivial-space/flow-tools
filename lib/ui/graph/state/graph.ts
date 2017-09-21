@@ -25,7 +25,6 @@ export const entityPositions = stream(
 		for (const eid in graph.entities) {
 			const e = entities[eid]
 			const pos = e && e.ui && e.ui.graph && e.ui.graph.position
-			console.log(eid, pos)
 			if (pos) {
 				self[eid] = pos
 			} else if (!self[eid]) {
@@ -38,28 +37,6 @@ export const entityPositions = stream(
 		return self
 	}
 )
-
-
-// action.react(
-// 	[activeEntityId.COLD, entityPositions.COLD, mouse.COLD, dragDeltas.HOT, viewBox.COLD],
-// 	(_, id, positions, mouse, delta, viewBox) => {
-// 		const t = mouse.pressed[0] && mouse.pressed[0].target as HTMLElement
-// 		const targetId = t && (t.dataset.eid || (t.parentElement && t.parentElement.dataset.eid))
-// 		if (targetId
-// 			&& id === targetId
-// 			&& self[id]
-// 			&& (delta.x || delta.y)
-// 		) {
-// 			return newAction(GUI.GRAPH.SET_ENTITY_POSITION, {
-// 				eid: id,
-// 				pos: {
-// 					x: positions[id].x - delta.x * viewBox.scale,
-// 					y: positions[id].y - delta.y * viewBox.scale
-// 				}
-// 			})
-// 		}
-// 	}
-// )
 
 
 function getLabelGroup (id) {

@@ -29,7 +29,15 @@ export function graphView (data, dispatch) {
 				height: '100%',
 				id: 'graph-ui',
 				viewBox: `${viewBox.x}, ${viewBox.y}, ${viewBox.width}, ${viewBox.height}`,
-				...getDragDeltas(d => dispatch(GUI.GRAPH.MOVE_VIEWPORT, d))
+				...getDragDeltas(
+					d => dispatch(GUI.GRAPH.MOVE_VIEWPORT, d),
+					e => {
+						if (e && e.button === 2 && e.target === e.currentTarget) {
+							dispatch(GUI.ENTITY.RESET_ACTIVE_NODE)
+						}
+					}
+				),
+				oncontextmenu: e => e.preventDefault()
 			},
 			...edges.map(e =>
 				['line', {
@@ -53,20 +61,19 @@ export function graphView (data, dispatch) {
 				['g', {
 						'data-eid': e.id,
 						transform: `translate(${e.x}, ${e.y})`,
-						onmousedown: () => dispatch(GUI.ENTITY.SET_ACTIVE_ENTITY, e.id),
 						title: e.id,
-						class: classes(e.class, e.active && 'active')
+						class: classes(e.class, e.active && 'active'),
+						...getDragDeltas(d => dispatch(GUI.GRAPH.MOVE_ENTITY_POSITION, {
+							start: e,
+							delta: d
+						}), () => dispatch(GUI.ENTITY.SET_ACTIVE_ENTITY, e.id))
 					},
 					['rect', {
 							x: -15,
 							y: -15,
 							width: 30,
 							height: 30,
-							class: e.accept ? 'accept' : '',
-							...getDragDeltas(d => dispatch(GUI.GRAPH.MOVE_ENTITY_POSITION, {
-								start: e,
-								delta: d
-							}))
+							class: e.accept ? 'accept' : ''
 						}],
 					['text', {
 							'text-anchor': 'middle',
