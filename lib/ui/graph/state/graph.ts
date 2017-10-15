@@ -1,8 +1,7 @@
 import { stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
-import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
-import { graph, metaGraph, metaEntities } from './flow'
-import { PORT_TYPES, Graph, PortType } from 'tvs-flow/dist/lib/runtime-types'
-import { graphWindow } from './gui'
+import { equalObject } from 'tvs-libs/dist/lib/utils/predicates'
+import { graph, metaGraph, metaEntities, enhancedEntityData } from './flow'
+import { PORT_TYPES } from 'tvs-flow/dist/lib/runtime-types'
 import { activeNode } from './entity'
 import { GraphViewBox, graphDefaultViewBox } from '../../types'
 
@@ -11,7 +10,7 @@ export const viewBox: EntityRef<GraphViewBox> = stream(
 	[metaGraph.HOT],
 	graph => (graph.viewBox || graphDefaultViewBox) as GraphViewBox
 )
-.accept(unequal)
+.accept((v1, v2) => !v2 || !equalObject(v1 as any, v2 as any))
 
 
 export const entityPositions = stream(
@@ -20,8 +19,8 @@ export const entityPositions = stream(
 	(_) => ({} as { [id: string]: { x: number, y: number } })
 )
 .react(
-	[graphWindow.HOT, metaEntities.HOT, graph.COLD],
-	(self, size, entities, graph) => {
+	[metaEntities.HOT, graph.COLD],
+	(self, entities, graph) => {
 		for (const eid in graph.entities) {
 			const e = entities[eid]
 			const pos = e && e.ui && e.ui.graph && e.ui.graph.position
@@ -29,184 +28,125 @@ export const entityPositions = stream(
 				self[eid] = pos
 			} else if (!self[eid]) {
 				self[eid] = {
-					x: Math.random() * size.width,
-					y: Math.random() * size.height
+					x: Math.random() * 800,
+					y: Math.random() * 800
 				}
 			}
 		}
 		return self
-	}
-)
-
-
-function getLabelGroup (id) {
-	const path = id.split('.')
-	const label = path.pop()
-	const group = path.join('.')
-	return { label, group }
-}
-
-
-export const graphEntities = stream(
-	[graph.HOT, activeNode.HOT],
-	(graph, active) => {
-
-		const entities: any = {}
-		const groups: any = {}
-		let groupNr = 0
-
-		for (const key in graph.entities) {
-
-			const e = graph.entities[key]
-
-			const {label, group} = getLabelGroup(key)
-
-			groups[group] = groups[group] || (groupNr++ % 7) + 1
-
-			const node: any = {
-				id: e.id,
-				class: 'group-' + groups[group],
-				label,
-				active: e.id === active.id
-			}
-
-			if (e.accept != null) {
-				node.accept = true
-			}
-			if (e.value != null) {
-				node.initial = true
-			}
-
-			entities[key] = node
-		}
-
-		return entities
-	}
-)
-.react(
-	[entityPositions.HOT],
-	(self, positions) => {
-		for (const eid in positions) {
-			self[eid].x = positions[eid].x
-			self[eid].y = positions[eid].y
-		}
-		return self
-	}
-)
-
-
-export const graphProcesses = stream(
-	[graph.HOT, activeNode.HOT],
-	(graph: Graph, active) => {
-
-		const processes: any = {}
-
-		for (const key in graph.processes) {
-
-			const p = graph.processes[key]
-
-			const node: any = {
-				id: key,
-				...getLabelGroup(key),
-				from: [],
-				async: p.async,
-				autostart: p.autostart,
-				active: p.id === active.id,
-				acc: p.ports && (p.ports as PortType[]).includes(PORT_TYPES.ACCUMULATOR)
-			}
-
-			for (const akey in graph.arcs) {
-				const a = graph.arcs[akey]
-				if (a.process === key) {
-					if (a.port != null) {
-						node.from.push([a.entity, p.ports && p.ports[a.port]])
-					} else {
-						node.to = a.entity
-					}
-				}
-			}
-
-			processes[key] = node
-		}
-
-		return processes
 	}
 )
 
 
 const pDistance = 50
 
-export const viewData = stream(
-	[graphEntities.HOT, graphProcesses.HOT],
-	(entities, processes) => {
+export const graphData = stream(
+	[enhancedEntityData.HOT, activeNode.HOT, entityPositions.HOT],
+	(entityData, active, positions) => {
 
-		const ps: any[] = []
+		const groups: any = {}
+		let groupNr = 0
+
+		const processes: any[] = []
+		const entities: any[] = []
 		const edges: any[] = []
 
-		for (const pid in processes) {
-			const p = processes[pid]
-			const to = entities[p.to]
+		for (const eid in entityData) {
 
-			p.class = to.class
+			const e = entityData[eid]
 
-			if (p.from.length) {
-				p.x = 0
-				p.y = 0
+			groups[e.namespace] = groups[e.namespace] || (groupNr++ % 7) + 1
 
-				for (const [eid, type] of p.from) {
-					const from = entities[eid]
-					let x = from.x - to.x
-					let y = from.y - to.y
-					if (type === PORT_TYPES.COLD) {
-						x /= 2
-						y /= 2
-					}
-					p.x += x
-					p.y += y
-				}
-
-				const l = Math.sqrt(p.x * p.x + p.y * p.y)
-				p.x = pDistance * p.x / l + to.x
-				p.y = pDistance * p.y / l + to.y
-
-				for (const [eid, type] of p.from) {
-					const from = entities[eid]
-					p.fromIsActive = p.fromIsActive || from.active
-					edges.push({
-						from,
-						to: p,
-						class: 'from' + (type === PORT_TYPES.COLD ? ' cold' : ''),
-						title: type,
-						active: to.active || p.active || from.active
-					})
-				}
-
-			} else {
-				p.x = to.x
-				p.y = to.y - pDistance
+			const eNode: any = {
+				...positions[eid],
+				id: e.id,
+				class: 'group-' + groups[e.namespace],
+				label: e.name,
+				active: e.id === active.id
 			}
 
-			ps.push(p)
+			if (e.accept != null) {
+				eNode.accept = true
+			}
 
-			edges.push({
-				from: p,
-				to,
-				class: 'to' + (p.async ? ' async' : ''),
-				active: to.active || p.active || p.fromIsActive
-			})
+			if (e.value != null) {
+				eNode.initial = true
+			}
 
-			if (p.acc) {
+			entities.push(eNode)
+
+			for (const p of e.processes) {
+
+				const pNode: any = {
+					id: p.id,
+					async: p.async,
+					autostart: p.autostart,
+					active: p.id === active.id,
+					acc: p.reaction,
+					from: p.entities,
+					to: eid,
+					class: eNode.class
+				}
+
+				if (p.entities.length) {
+					pNode.x = 0
+					pNode.y = 0
+
+					for (const { eid, type } of p.entities) {
+						const fromPos = positions[eid]
+						if (fromPos) {
+							let x = fromPos.x - eNode.x
+							let y = fromPos.y - eNode.y
+							if (type === PORT_TYPES.COLD) {
+								x /= 2
+								y /= 2
+							}
+							pNode.x += x
+							pNode.y += y
+						}
+
+						pNode.fromIsActive = pNode.fromIsActive || eid === active.id
+
+						edges.push({
+							from: fromPos,
+							to: pNode,
+							class: 'from' + (type === PORT_TYPES.COLD ? ' cold' : ''),
+							title: type,
+							active: eNode.active || pNode.active || eid === active.id
+						})
+					}
+
+					const l = Math.sqrt(pNode.x * pNode.x + pNode.y * pNode.y)
+					pNode.x = pDistance * pNode.x / l + eNode.x
+					pNode.y = pDistance * pNode.y / l + eNode.y
+
+				} else {
+					pNode.x = eNode.x
+					pNode.y = eNode.y - pDistance
+				}
+
+				processes.push(pNode)
+
 				edges.push({
-					from: p,
-					to,
-					class: 'to acc'
+					from: pNode,
+					to: eNode,
+					class: 'to' + (p.async ? ' async' : ''),
+					active: eNode.active || pNode.active || pNode.fromIsActive
 				})
+
+				if (p.reaction) {
+					edges.push({
+						from: pNode,
+						to: eNode,
+						class: 'to acc'
+					})
+				}
 			}
 		}
 
 		return {
-			entities: Object.values(entities),
-			processes: ps,
+			entities,
+			processes,
 			edges
 		}
 	}

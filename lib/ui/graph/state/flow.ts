@@ -4,6 +4,7 @@ import { action, windowSize } from '../events'
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
 import { FLOW, GUI } from '../../actions'
 import { UIMeta, MetaFlow, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI, UIMetaControls, guardMeta } from '../../types'
+import { processEntities, ProcessedGraphEntity } from 'utils/entity-tree'
 
 
 export const runtimes = val<{[id: string]: Runtime}>({})
@@ -283,6 +284,11 @@ export const metaControls: EntityRef<UIMetaControls> = stream(
 export const graph: EntityRef<Graph> = stream(
 	[runtime.HOT],
 	flow => flow.getGraph()
+)
+
+
+export const enhancedEntityData: EntityRef<{ [id: string]: ProcessedGraphEntity }> = stream(
+	[graph.HOT], processEntities
 )
 
 

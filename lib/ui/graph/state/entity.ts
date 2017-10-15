@@ -31,7 +31,7 @@ export const activeProcess = stream(
 )
 
 
-export const activeNode = val({})
+export const activeNode = val({id: ''})
 .react([activeProcess.HOT, activeEntity.HOT], (_, p, e) => p.id ? p : e)
 
 
