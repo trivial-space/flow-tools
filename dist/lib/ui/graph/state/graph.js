@@ -8,16 +8,15 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 import { stream } from 'tvs-flow/dist/lib/utils/entity-reference';
-import { unequal } from 'tvs-libs/dist/lib/utils/predicates';
-import { graph, metaGraph, metaEntities } from './flow';
+import { equalObject } from 'tvs-libs/dist/lib/utils/predicates';
+import { graph, metaGraph, metaEntities, enhancedEntityData } from './flow';
 import { PORT_TYPES } from 'tvs-flow/dist/lib/runtime-types';
-import { graphWindow } from './gui';
 import { activeNode } from './entity';
 import { graphDefaultViewBox } from '../../types';
 export var viewBox = stream([metaGraph.HOT], function (graph) { return (graph.viewBox || graphDefaultViewBox); })
-    .accept(unequal);
+    .accept(function (v1, v2) { return !v2 || !equalObject(v1, v2); });
 export var entityPositions = stream([graph.HOT], function (_) { return ({}); })
-    .react([graphWindow.HOT, metaEntities.HOT, graph.COLD], function (self, size, entities, graph) {
+    .react([metaEntities.HOT, graph.COLD], function (self, entities, graph) {
     for (var eid in graph.entities) {
         var e = entities[eid];
         var pos = e && e.ui && e.ui.graph && e.ui.graph.position;
@@ -26,131 +25,95 @@ export var entityPositions = stream([graph.HOT], function (_) { return ({}); })
         }
         else if (!self[eid]) {
             self[eid] = {
-                x: Math.random() * size.width,
-                y: Math.random() * size.height
+                x: Math.random() * 800,
+                y: Math.random() * 800
             };
         }
     }
     return self;
 });
-function getLabelGroup(id) {
-    var path = id.split('.');
-    var label = path.pop();
-    var group = path.join('.');
-    return { label: label, group: group };
-}
-export var graphEntities = stream([graph.HOT, activeNode.HOT], function (graph, active) {
-    var entities = {};
+var pDistance = 50;
+export var graphData = stream([enhancedEntityData.HOT, activeNode.HOT, entityPositions.HOT], function (entityData, active, positions) {
     var groups = {};
     var groupNr = 0;
-    for (var key in graph.entities) {
-        var e = graph.entities[key];
-        var _a = getLabelGroup(key), label = _a.label, group = _a.group;
-        groups[group] = groups[group] || (groupNr++ % 7) + 1;
-        var node = {
-            id: e.id,
-            class: 'group-' + groups[group],
-            label: label,
-            active: e.id === active.id
-        };
+    var processes = [];
+    var entities = [];
+    var edges = [];
+    for (var eid in entityData) {
+        var e = entityData[eid];
+        groups[e.namespace] = groups[e.namespace] || (groupNr++ % 7) + 1;
+        var eNode = __assign({}, positions[eid], { id: e.id, class: 'group-' + groups[e.namespace], label: e.name, active: e.id === active.id });
         if (e.accept != null) {
-            node.accept = true;
+            eNode.accept = true;
         }
         if (e.value != null) {
-            node.initial = true;
+            eNode.initial = true;
         }
-        entities[key] = node;
-    }
-    return entities;
-})
-    .react([entityPositions.HOT], function (self, positions) {
-    for (var eid in positions) {
-        self[eid].x = positions[eid].x;
-        self[eid].y = positions[eid].y;
-    }
-    return self;
-});
-export var graphProcesses = stream([graph.HOT, activeNode.HOT], function (graph, active) {
-    var processes = {};
-    for (var key in graph.processes) {
-        var p = graph.processes[key];
-        var node = __assign({ id: key }, getLabelGroup(key), { from: [], async: p.async, autostart: p.autostart, active: p.id === active.id, acc: p.ports && p.ports.includes(PORT_TYPES.ACCUMULATOR) });
-        for (var akey in graph.arcs) {
-            var a = graph.arcs[akey];
-            if (a.process === key) {
-                if (a.port != null) {
-                    node.from.push([a.entity, p.ports && p.ports[a.port]]);
+        entities.push(eNode);
+        for (var _i = 0, _a = e.processes; _i < _a.length; _i++) {
+            var p = _a[_i];
+            var pNode = {
+                id: p.id,
+                async: p.async,
+                autostart: p.autostart,
+                active: p.id === active.id,
+                acc: p.reaction,
+                from: p.entities,
+                to: eid,
+                class: eNode.class
+            };
+            if (p.entities.length) {
+                pNode.x = 0;
+                pNode.y = 0;
+                for (var _b = 0, _c = p.entities; _b < _c.length; _b++) {
+                    var _d = _c[_b], eid_1 = _d.eid, type = _d.type;
+                    var fromPos = positions[eid_1];
+                    if (fromPos) {
+                        var x = fromPos.x - eNode.x;
+                        var y = fromPos.y - eNode.y;
+                        if (type === PORT_TYPES.COLD) {
+                            x /= 2;
+                            y /= 2;
+                        }
+                        pNode.x += x;
+                        pNode.y += y;
+                    }
+                    pNode.fromIsActive = pNode.fromIsActive || eid_1 === active.id;
+                    edges.push({
+                        from: fromPos,
+                        to: pNode,
+                        class: 'from' + (type === PORT_TYPES.COLD ? ' cold' : ''),
+                        title: type,
+                        active: eNode.active || pNode.active || eid_1 === active.id
+                    });
                 }
-                else {
-                    node.to = a.entity;
-                }
+                var l = Math.sqrt(pNode.x * pNode.x + pNode.y * pNode.y);
+                pNode.x = pDistance * pNode.x / l + eNode.x;
+                pNode.y = pDistance * pNode.y / l + eNode.y;
             }
-        }
-        processes[key] = node;
-    }
-    return processes;
-});
-var pDistance = 50;
-export var viewData = stream([graphEntities.HOT, graphProcesses.HOT], function (entities, processes) {
-    var ps = [];
-    var edges = [];
-    for (var pid in processes) {
-        var p = processes[pid];
-        var to = entities[p.to];
-        p.class = to.class;
-        if (p.from.length) {
-            p.x = 0;
-            p.y = 0;
-            for (var _i = 0, _a = p.from; _i < _a.length; _i++) {
-                var _b = _a[_i], eid = _b[0], type = _b[1];
-                var from = entities[eid];
-                var x = from.x - to.x;
-                var y = from.y - to.y;
-                if (type === PORT_TYPES.COLD) {
-                    x /= 2;
-                    y /= 2;
-                }
-                p.x += x;
-                p.y += y;
+            else {
+                pNode.x = eNode.x;
+                pNode.y = eNode.y - pDistance;
             }
-            var l = Math.sqrt(p.x * p.x + p.y * p.y);
-            p.x = pDistance * p.x / l + to.x;
-            p.y = pDistance * p.y / l + to.y;
-            for (var _c = 0, _d = p.from; _c < _d.length; _c++) {
-                var _e = _d[_c], eid = _e[0], type = _e[1];
-                var from = entities[eid];
-                p.fromIsActive = p.fromIsActive || from.active;
+            processes.push(pNode);
+            edges.push({
+                from: pNode,
+                to: eNode,
+                class: 'to' + (p.async ? ' async' : ''),
+                active: eNode.active || pNode.active || pNode.fromIsActive
+            });
+            if (p.reaction) {
                 edges.push({
-                    from: from,
-                    to: p,
-                    class: 'from' + (type === PORT_TYPES.COLD ? ' cold' : ''),
-                    title: type,
-                    active: to.active || p.active || from.active
+                    from: pNode,
+                    to: eNode,
+                    class: 'to acc'
                 });
             }
         }
-        else {
-            p.x = to.x;
-            p.y = to.y - pDistance;
-        }
-        ps.push(p);
-        edges.push({
-            from: p,
-            to: to,
-            class: 'to' + (p.async ? ' async' : ''),
-            active: to.active || p.active || p.fromIsActive
-        });
-        if (p.acc) {
-            edges.push({
-                from: p,
-                to: to,
-                class: 'to acc'
-            });
-        }
     }
     return {
-        entities: Object.values(entities),
-        processes: ps,
+        entities: entities,
+        processes: processes,
         edges: edges
     };
 })

@@ -4,7 +4,9 @@ export declare const activeEntityId: EntityRef<string>;
 export declare const activeProcessId: EntityRef<string>;
 export declare const activeEntity: EntityRef<Entity>;
 export declare const activeProcess: EntityRef<Process>;
-export declare const activeNode: EntityRef<{}>;
+export declare const activeNode: EntityRef<{
+    id: string;
+}>;
 export declare const watchingEntity: EntityRef<boolean>;
 export declare const activeValue: EntityRef<any>;
 export declare const entityViewProps: EntityRef<{

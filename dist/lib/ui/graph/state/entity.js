@@ -9,9 +9,8 @@ export var activeProcessId = stream([metaEntity.HOT], function (entity) { return
     .accept(unequal);
 export var activeEntity = stream([activeEntityId.HOT, graph.COLD], function (id, graph) { return graph.entities[id] || { id: id }; });
 export var activeProcess = stream([activeProcessId.HOT, graph.COLD], function (id, graph) { return graph.processes[id] || { id: id }; });
-export var activeNode = val({})
-    .react([activeEntity.HOT], function (_, e) { return e; })
-    .react([activeProcess.HOT], function (_, p) { return p; });
+export var activeNode = val({ id: '' })
+    .react([activeProcess.HOT, activeEntity.HOT], function (_, p, e) { return p.id ? p : e; });
 export var watchingEntity = stream([metaEntity.HOT], function (entity) { return entity.watchingEntity; })
     .accept(unequal);
 export var activeValue = asyncStream([runtime.COLD, activeEntityId.HOT, visibility.HOT, watchingEntity.HOT], function (send, flow, eid, visibility, watching) {
@@ -24,7 +23,7 @@ export var activeValue = asyncStream([runtime.COLD, activeEntityId.HOT, visibili
         }
     }
     else {
-        send('');
+        send(null);
     }
 });
 export var entityViewProps = stream([activeEntity.HOT, activeValue.HOT, watchingEntity.HOT], function (entity, value, watching) { return ({ entity: entity, value: value, watching: watching }); });

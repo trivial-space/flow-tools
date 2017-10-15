@@ -12,6 +12,7 @@ import { action, windowSize } from '../events';
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates';
 import { FLOW, GUI } from '../../actions';
 import { guardMeta } from '../../types';
+import { processEntities } from 'utils/entity-tree';
 export var runtimes = val({})
     .react([action.HOT], function (self, action) {
     if (action.type === FLOW.SET_RUNTIME) {
@@ -133,11 +134,13 @@ export var meta = stream([runtime.HOT], function (runtime) { return runtime.getM
         case GUI.ENTITY.SET_ACTIVE_ENTITY:
             return flow.setMeta({ ui: { entity: {
                         activeEntityId: payload,
+                        activeProcessId: '',
                         watchingEntity: true
                     } } });
         case GUI.ENTITY.SET_ACTIVE_PROCESS:
             return flow.setMeta({ ui: { entity: {
                         activeProcessId: payload,
+                        activeEntityId: '',
                         watchingEntity: false
                     } } });
         case GUI.ENTITY.RESET_ACTIVE_NODE:
@@ -218,5 +221,6 @@ export var metaEntities = stream([meta.HOT], function (meta) { return meta && me
 export var metaControls = stream([meta.HOT], function (meta) { return meta && meta.ui && meta.ui.controls; })
     .accept(unequal);
 export var graph = stream([runtime.HOT], function (flow) { return flow.getGraph(); });
+export var enhancedEntityData = stream([graph.HOT], processEntities);
 export var state = stream([runtime.HOT], function (flow) { return flow.getState(); });
 //# sourceMappingURL=flow.js.map

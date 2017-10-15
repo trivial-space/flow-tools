@@ -143,7 +143,7 @@
         }), n.d(t, "delta", function() {
             return _;
         }), t.isEntity = c, t.resolveEntityIds = u, t.getGraphFromAll = s;
-        var l = n(19), f = n(8), d = n(18), p = this && this.__assign || Object.assign || function(e) {
+        var l = n(20), f = n(5), d = n(19), p = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
                 t = arguments[n];
                 for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
@@ -184,7 +184,7 @@
         t.TypeStyle = i.TypeStyle;
         var o = n(46);
         t.types = o;
-        var a = n(23);
+        var a = n(24);
         t.extend = a.extend, t.classes = a.classes, t.media = a.media;
         var c = new i.TypeStyle({
             autoGenerateTag: !0
@@ -225,43 +225,45 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         }), n.d(t, "runtimes", function() {
-            return s;
-        }), n.d(t, "selectedRuntimeId", function() {
             return l;
-        }), n.d(t, "runtime", function() {
+        }), n.d(t, "selectedRuntimeId", function() {
             return f;
-        }), n.d(t, "meta", function() {
+        }), n.d(t, "runtime", function() {
             return d;
-        }), n.d(t, "metaGraph", function() {
+        }), n.d(t, "meta", function() {
             return p;
-        }), n.d(t, "metaTree", function() {
+        }), n.d(t, "metaGraph", function() {
             return h;
-        }), n.d(t, "metaEntity", function() {
+        }), n.d(t, "metaTree", function() {
             return v;
-        }), n.d(t, "metaEntities", function() {
+        }), n.d(t, "metaEntity", function() {
             return g;
-        }), n.d(t, "metaControls", function() {
+        }), n.d(t, "metaEntities", function() {
             return y;
-        }), n.d(t, "graph", function() {
+        }), n.d(t, "metaControls", function() {
             return m;
-        }), n.d(t, "state", function() {
+        }), n.d(t, "graph", function() {
             return b;
+        }), n.d(t, "enhancedEntityData", function() {
+            return _;
+        }), n.d(t, "state", function() {
+            return O;
         });
-        var r = n(0), i = n(15), o = n(11), a = n(4), c = n(16), u = this && this.__assign || Object.assign || function(e) {
+        var r = n(0), i = n(15), o = n(11), a = n(4), c = n(16), u = n(17), s = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
                 t = arguments[n];
                 for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
             }
             return e;
-        }, s = Object(r.val)({}).react([ i.action.HOT ], function(e, t) {
-            if (t.type === a.a.SET_RUNTIME) return u({}, e, (n = {}, n[t.payload.label] = t.payload.runtime, 
+        }, l = Object(r.val)({}).react([ i.action.HOT ], function(e, t) {
+            if (t.type === a.a.SET_RUNTIME) return s({}, e, (n = {}, n[t.payload.label] = t.payload.runtime, 
             n));
             var n;
-        }), l = Object(r.val)("").react([ s.HOT ], function(e, t) {
+        }), f = Object(r.val)("").react([ l.HOT ], function(e, t) {
             return e || Object.keys(t)[0];
         }).react([ i.action.HOT ], function(e, t) {
             if (t.type === a.a.SELECT_ACTIVE_RUNTIME) return t.payload;
-        }).accept(o.a), f = Object(r.stream)([ s.COLD, l.HOT ], function(e, t) {
+        }).accept(o.b), d = Object(r.stream)([ l.COLD, f.HOT ], function(e, t) {
             return e[t];
         }).react([ i.action.HOT ], function(e, t) {
             var n = t.type, r = t.payload;
@@ -278,9 +280,9 @@
               case a.a.ENTITY_INSPECT:
                 return void console.log(r, e.get(r));
             }
-        }), d = Object(r.stream)([ f.HOT ], function(e) {
+        }), p = Object(r.stream)([ d.HOT ], function(e) {
             return e.getMeta();
-        }).react([ i.action.HOT, f.COLD ], function(e, t, n) {
+        }).react([ i.action.HOT, d.COLD ], function(e, t, n) {
             var r = t.type, i = t.payload, o = n, u = e.ui, s = u && u.graph, l = u && u.tree, f = u && u.entity, d = s && s.viewBox, p = u && u.activeWindow;
             switch (r) {
               case a.b.MAIN.SET_ACTIVE_WINDOW:
@@ -375,6 +377,7 @@
                     ui: {
                         entity: {
                             activeEntityId: i,
+                            activeProcessId: "",
                             watchingEntity: !0
                         }
                     }
@@ -385,6 +388,7 @@
                     ui: {
                         entity: {
                             activeProcessId: i,
+                            activeEntityId: "",
                             watchingEntity: !1
                         }
                     }
@@ -474,21 +478,21 @@
                 }
             }
             var x, j, I, C, M, N;
-        }).react([ f.COLD, i.windowSize.HOT ], function(e, t, n) {
+        }).react([ d.COLD, i.windowSize.HOT ], function(e, t, n) {
             return t.setMeta(Object(c.c)(e));
-        }), p = Object(r.stream)([ d.HOT ], function(e) {
+        }), h = Object(r.stream)([ p.HOT ], function(e) {
             return e && e.ui && e.ui.graph;
-        }).accept(o.a), h = Object(r.stream)([ d.HOT ], function(e) {
+        }).accept(o.b), v = Object(r.stream)([ p.HOT ], function(e) {
             return e && e.ui && e.ui.tree;
-        }).accept(o.a), v = Object(r.stream)([ d.HOT ], function(e) {
+        }).accept(o.b), g = Object(r.stream)([ p.HOT ], function(e) {
             return e && e.ui && e.ui.entity;
-        }).accept(o.a), g = Object(r.stream)([ d.HOT ], function(e) {
+        }).accept(o.b), y = Object(r.stream)([ p.HOT ], function(e) {
             return e && e.entities;
-        }).accept(o.a), y = Object(r.stream)([ d.HOT ], function(e) {
+        }).accept(o.b), m = Object(r.stream)([ p.HOT ], function(e) {
             return e && e.ui && e.ui.controls;
-        }).accept(o.a), m = Object(r.stream)([ f.HOT ], function(e) {
+        }).accept(o.b), b = Object(r.stream)([ d.HOT ], function(e) {
             return e.getGraph();
-        }), b = Object(r.stream)([ f.HOT ], function(e) {
+        }), _ = Object(r.stream)([ b.HOT ], u.processEntities), O = Object(r.stream)([ d.HOT ], function(e) {
             return e.getState();
         });
     }, function(e, t, n) {
@@ -529,6 +533,53 @@
                 MOVE_WINDOW: "gui:main:set_window_position",
                 RESIZE_WINDOW: "gui:main:resize_window"
             }
+        };
+    }, function(e, t, n) {
+        "use strict";
+        function r(e) {
+            var t = e.id, n = void 0 === t ? Object(a.a)() : t, r = e.value, i = e.json, o = e.accept, c = e.reset, u = e.meta;
+            return void 0 === r && i && (r = JSON.parse(i)), {
+                id: n,
+                value: r,
+                accept: o,
+                reset: c,
+                meta: u
+            };
+        }
+        function i(e, t) {
+            var n = e.id, r = void 0 === n ? Object(a.a)() : n, i = e.ports, o = void 0 === i ? [] : i, s = e.procedure, l = e.code, f = e.autostart, d = void 0 !== f && f, p = e.async, h = void 0 !== p && p, v = e.delta, g = void 0 !== v && v, y = e.meta;
+            if (null == s && null != l && (s = Object(c.a)(l, t)), null == s) throw TypeError("Process must have procedure or code set");
+            return g && !o.length && o.push(u.HOT), {
+                id: r,
+                ports: o,
+                procedure: s,
+                autostart: d,
+                async: h,
+                delta: g,
+                meta: y
+            };
+        }
+        function o(e) {
+            var t = e.id, n = e.entity, r = e.process, i = e.port, o = e.meta;
+            if (null == n) throw TypeError("no entity specified in arc " + t);
+            if (null == r) throw TypeError("no process specified in arc " + t);
+            return null == t && (t = null == i ? r + "->" + n : n + "->" + r + "::" + i), {
+                id: t,
+                entity: n,
+                process: r,
+                port: i,
+                meta: o
+            };
+        }
+        Object.defineProperty(t, "__esModule", {
+            value: !0
+        }), t.createEntity = r, t.createProcess = i, t.createArc = o, n.d(t, "PORT_TYPES", function() {
+            return u;
+        });
+        var a = n(19), c = n(37), u = {
+            COLD: "COLD",
+            HOT: "HOT",
+            ACCUMULATOR: "ACCUMULATOR"
         };
     }, function(e, t, n) {
         "use strict";
@@ -582,82 +633,6 @@
         });
     }, function(e, t, n) {
         "use strict";
-        function r(e, t) {
-            e.react([ d.COLD, p.HOT ], function(e, n, r) {
-                if (n === t) return c({}, e, {
-                    zIndex: r
-                });
-            });
-        }
-        Object.defineProperty(t, "__esModule", {
-            value: !0
-        }), n.d(t, "metaTreeWindow", function() {
-            return u;
-        }), n.d(t, "metaGraphWindow", function() {
-            return s;
-        }), n.d(t, "metaEntityWindow", function() {
-            return l;
-        }), n.d(t, "visibility", function() {
-            return f;
-        }), n.d(t, "activeWindow", function() {
-            return d;
-        }), n.d(t, "zIndex", function() {
-            return p;
-        }), n.d(t, "controlsPosition", function() {
-            return h;
-        }), n.d(t, "treeWindow", function() {
-            return v;
-        }), n.d(t, "graphWindow", function() {
-            return g;
-        }), n.d(t, "entityWindow", function() {
-            return y;
-        });
-        var i = n(0), o = n(11), a = n(3), c = this && this.__assign || Object.assign || function(e) {
-            for (var t, n = 1, r = arguments.length; n < r; n++) {
-                t = arguments[n];
-                for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
-            }
-            return e;
-        }, u = Object(i.stream)([ a.metaTree.HOT ], function(e) {
-            return e.window;
-        }).accept(o.a), s = Object(i.stream)([ a.metaGraph.HOT ], function(e) {
-            return e.window;
-        }).accept(o.a), l = Object(i.stream)([ a.metaEntity.HOT ], function(e) {
-            return e.window;
-        }).accept(o.a), f = Object(i.val)({
-            tree: !1,
-            graph: !1,
-            entity: !1
-        }).react([ s.HOT ], function(e, t) {
-            return c({}, e, {
-                graph: !!t.visible
-            });
-        }).react([ l.HOT ], function(e, t) {
-            return c({}, e, {
-                entity: !!t.visible
-            });
-        }).react([ u.HOT ], function(e, t) {
-            return c({}, e, {
-                tree: !!t.visible
-            });
-        }).accept(function(e, t) {
-            return t && e && (t.tree !== e.tree || t.entity !== e.entity || t.graph !== e.graph);
-        }), d = Object(i.stream)([ a.meta.HOT ], function(e) {
-            return e.ui && e.ui.activeWindow;
-        }).accept(o.a), p = Object(i.val)(0).react([ d.HOT ], function(e) {
-            return e + 1;
-        }), h = Object(i.stream)([ a.metaControls.HOT ], function(e) {
-            return e.position;
-        }).accept(o.a), v = Object(i.stream)([ u.HOT ], function(e) {
-            return e.area;
-        }).accept(o.a), g = Object(i.stream)([ s.HOT ], function(e) {
-            return e.area;
-        }).accept(o.a), y = Object(i.stream)([ l.HOT ], function(e) {
-            return e.area;
-        }).accept(o.a);
-        r(h, "controls"), r(v, "tree"), r(g, "graph"), r(y, "entity");
-    }, function(e, t, n) {
-        "use strict";
         Object.defineProperty(t, "__esModule", {
             value: !0
         }), n.d(t, "activeEntityId", function() {
@@ -677,11 +652,11 @@
         }), n.d(t, "entityViewProps", function() {
             return h;
         });
-        var r = n(0), i = n(11), o = n(3), a = n(6), c = Object(r.stream)([ o.metaEntity.HOT ], function(e) {
+        var r = n(0), i = n(11), o = n(3), a = n(10), c = Object(r.stream)([ o.metaEntity.HOT ], function(e) {
             return e.activeEntityId;
-        }).accept(i.a), u = Object(r.stream)([ o.metaEntity.HOT ], function(e) {
+        }).accept(i.b), u = Object(r.stream)([ o.metaEntity.HOT ], function(e) {
             return e.activeProcessId;
-        }).accept(i.a), s = Object(r.stream)([ c.HOT, o.graph.COLD ], function(e, t) {
+        }).accept(i.b), s = Object(r.stream)([ c.HOT, o.graph.COLD ], function(e, t) {
             return t.entities[e] || {
                 id: e
             };
@@ -689,19 +664,19 @@
             return t.processes[e] || {
                 id: e
             };
-        }), f = Object(r.val)({}).react([ s.HOT ], function(e, t) {
-            return t;
-        }).react([ l.HOT ], function(e, t) {
-            return t;
+        }), f = Object(r.val)({
+            id: ""
+        }).react([ l.HOT, s.HOT ], function(e, t, n) {
+            return t.id ? t : n;
         }), d = Object(r.stream)([ o.metaEntity.HOT ], function(e) {
             return e.watchingEntity;
-        }).accept(i.a), p = Object(r.asyncStream)([ o.runtime.COLD, c.HOT, a.visibility.HOT, d.HOT ], function(e, t, n, r, i) {
+        }).accept(i.b), p = Object(r.asyncStream)([ o.runtime.COLD, c.HOT, a.visibility.HOT, d.HOT ], function(e, t, n, r, i) {
             if (n) {
                 var o = t.get(n);
                 if (e(void 0 === o ? null : o), r.entity && i) return t.on(n, e), function() {
                     return t.off(n, e);
                 };
-            } else e("");
+            } else e(null);
         }), h = Object(r.stream)([ s.HOT, p.HOT, d.HOT ], function(e, t, n) {
             return {
                 entity: e,
@@ -709,53 +684,6 @@
                 watching: n
             };
         });
-    }, function(e, t, n) {
-        "use strict";
-        function r(e) {
-            var t = e.id, n = void 0 === t ? Object(a.a)() : t, r = e.value, i = e.json, o = e.accept, c = e.reset, u = e.meta;
-            return void 0 === r && i && (r = JSON.parse(i)), {
-                id: n,
-                value: r,
-                accept: o,
-                reset: c,
-                meta: u
-            };
-        }
-        function i(e, t) {
-            var n = e.id, r = void 0 === n ? Object(a.a)() : n, i = e.ports, o = void 0 === i ? [] : i, s = e.procedure, l = e.code, f = e.autostart, d = void 0 !== f && f, p = e.async, h = void 0 !== p && p, v = e.delta, g = void 0 !== v && v, y = e.meta;
-            if (null == s && null != l && (s = Object(c.a)(l, t)), null == s) throw TypeError("Process must have procedure or code set");
-            return g && !o.length && o.push(u.HOT), {
-                id: r,
-                ports: o,
-                procedure: s,
-                autostart: d,
-                async: h,
-                delta: g,
-                meta: y
-            };
-        }
-        function o(e) {
-            var t = e.id, n = e.entity, r = e.process, i = e.port, o = e.meta;
-            if (null == n) throw TypeError("no entity specified in arc " + t);
-            if (null == r) throw TypeError("no process specified in arc " + t);
-            return null == t && (t = null == i ? r + "->" + n : n + "->" + r + "::" + i), {
-                id: t,
-                entity: n,
-                process: r,
-                port: i,
-                meta: o
-            };
-        }
-        Object.defineProperty(t, "__esModule", {
-            value: !0
-        }), t.createEntity = r, t.createProcess = i, t.createArc = o, n.d(t, "PORT_TYPES", function() {
-            return u;
-        });
-        var a = n(18), c = n(37), u = {
-            COLD: "COLD",
-            HOT: "HOT",
-            ACCUMULATOR: "ACCUMULATOR"
-        };
     }, function(e, t, n) {
         "use strict";
         (function(e) {
@@ -1003,7 +931,7 @@
         }), n.d(t, "b", function() {
             return s;
         });
-        var r = n(1), i = (n.n(r), n(5)), o = (Object(r.style)({
+        var r = n(1), i = (n.n(r), n(6)), o = (Object(r.style)({
             margin: "0 4px",
             verticalAlign: "top",
             display: "inline-block",
@@ -1039,10 +967,100 @@
         });
     }, function(e, t, n) {
         "use strict";
-        n.d(t, "a", function() {
-            return r;
+        function r(e, t) {
+            e.react([ d.COLD, p.HOT ], function(e, n, r) {
+                if (n === t) return c({}, e, {
+                    zIndex: r
+                });
+            });
+        }
+        Object.defineProperty(t, "__esModule", {
+            value: !0
+        }), n.d(t, "metaTreeWindow", function() {
+            return u;
+        }), n.d(t, "metaGraphWindow", function() {
+            return s;
+        }), n.d(t, "metaEntityWindow", function() {
+            return l;
+        }), n.d(t, "visibility", function() {
+            return f;
+        }), n.d(t, "activeWindow", function() {
+            return d;
+        }), n.d(t, "zIndex", function() {
+            return p;
+        }), n.d(t, "controlsPosition", function() {
+            return h;
+        }), n.d(t, "treeWindow", function() {
+            return v;
+        }), n.d(t, "graphWindow", function() {
+            return g;
+        }), n.d(t, "entityWindow", function() {
+            return y;
         });
-        var r = function(e, t) {
+        var i = n(0), o = n(11), a = n(3), c = this && this.__assign || Object.assign || function(e) {
+            for (var t, n = 1, r = arguments.length; n < r; n++) {
+                t = arguments[n];
+                for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
+            }
+            return e;
+        }, u = Object(i.stream)([ a.metaTree.HOT ], function(e) {
+            return e.window;
+        }).accept(o.b), s = Object(i.stream)([ a.metaGraph.HOT ], function(e) {
+            return e.window;
+        }).accept(o.b), l = Object(i.stream)([ a.metaEntity.HOT ], function(e) {
+            return e.window;
+        }).accept(o.b), f = Object(i.val)({
+            tree: !1,
+            graph: !1,
+            entity: !1
+        }).react([ s.HOT ], function(e, t) {
+            return c({}, e, {
+                graph: !!t.visible
+            });
+        }).react([ l.HOT ], function(e, t) {
+            return c({}, e, {
+                entity: !!t.visible
+            });
+        }).react([ u.HOT ], function(e, t) {
+            return c({}, e, {
+                tree: !!t.visible
+            });
+        }).accept(function(e, t) {
+            return t && e && (t.tree !== e.tree || t.entity !== e.entity || t.graph !== e.graph);
+        }), d = Object(i.stream)([ a.meta.HOT ], function(e) {
+            return e.ui && e.ui.activeWindow;
+        }).accept(o.b), p = Object(i.val)(0).react([ d.HOT ], function(e) {
+            return e + 1;
+        }), h = Object(i.stream)([ a.metaControls.HOT ], function(e) {
+            return e.position;
+        }).accept(o.b), v = Object(i.stream)([ u.HOT ], function(e) {
+            return e.area;
+        }).accept(o.b), g = Object(i.stream)([ s.HOT ], function(e) {
+            return e.area;
+        }).accept(o.b), y = Object(i.stream)([ l.HOT ], function(e) {
+            return e.area;
+        }).accept(o.b);
+        r(h, "controls"), r(v, "tree"), r(g, "graph"), r(y, "entity");
+    }, function(e, t, n) {
+        "use strict";
+        function r(e, t) {
+            if (e.length !== t.length) return !1;
+            for (var n = 0; n < e.length; n++) if (e[n] !== t[n]) return !1;
+            return !0;
+        }
+        function i(e, t) {
+            var n = Object.keys(e);
+            if (!r(n, Object.keys(t))) return !1;
+            for (var i = 0, o = n; i < o.length; i++) {
+                var a = o[i];
+                if (e[a] !== t[a]) return !1;
+            }
+            return !0;
+        }
+        n.d(t, "b", function() {
+            return o;
+        }), t.a = i;
+        var o = function(e, t) {
             return e !== t;
         };
     }, function(e, t, n) {
@@ -1157,7 +1175,7 @@
         }
         t.a = r, t.d = i, t.e = o, t.c = a, t.g = c, t.j = u, t.k = s, t.h = l, t.i = f, 
         t.b = d, t.f = p;
-        var h = n(21), v = n(5), g = Object(h.b)({
+        var h = n(22), v = n(6), g = Object(h.b)({
             display: "inline-block",
             width: "1.1em",
             height: "1.1em",
@@ -1183,7 +1201,7 @@
             return a && (u[1].key = a), u;
         }
         t.a = r;
-        var i = n(1), o = (n.n(i), n(10));
+        var i = n(1), o = (n.n(i), n(9));
     }, function(e, t, n) {
         "use strict";
         n.d(t, "a", function() {
@@ -1197,7 +1215,7 @@
         }), n.d(t, "b", function() {
             return l;
         });
-        var r = n(1), i = (n.n(r), n(5)), o = this && this.__assign || Object.assign || function(e) {
+        var r = n(1), i = (n.n(r), n(6)), o = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
                 t = arguments[n];
                 for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
@@ -1433,6 +1451,75 @@
             }
         };
     }, function(e, t, n) {
+        "use strict";
+        function r(e, t) {
+            void 0 === t && (t = ".");
+            var n = {};
+            return Object.keys(e).sort().forEach(function(r) {
+                var i = e[r], o = i.id.split(t), a = n, c = o.slice(), u = [];
+                o.forEach(function() {
+                    var e = c.shift();
+                    c.length ? (u.push(e), a = a[e] = a[e] || {
+                        __path__: u.join(t)
+                    }) : a[e] = {
+                        __entity__: i
+                    };
+                });
+            }), n;
+        }
+        function i(e) {
+            var t = e.split(".");
+            return {
+                label: t.pop(),
+                group: t.join(".")
+            };
+        }
+        function o(e) {
+            var t = {};
+            for (var n in e.entities) {
+                var r = e.entities[n], o = i(n);
+                t[n] = u({}, r, {
+                    name: o.label,
+                    namespace: o.group,
+                    processes: a(r, e)
+                });
+            }
+            return t;
+        }
+        function a(e, t) {
+            return Object.values(t.arcs).filter(function(t) {
+                return t.entity === e.id && null == t.port;
+            }).map(function(n) {
+                var r = t.processes[n.process], i = r.ports.indexOf(c.PORT_TYPES.ACCUMULATOR), o = [];
+                return i >= 0 && (o[i] = {
+                    eid: e.id,
+                    type: c.PORT_TYPES.ACCUMULATOR
+                }), u({}, r, {
+                    reaction: i >= 0,
+                    entities: Object.values(t.arcs).filter(function(e) {
+                        return e.process === r.id && null != e.port;
+                    }).reduce(function(e, t) {
+                        return e[t.port] = {
+                            eid: t.entity,
+                            type: r.ports[t.port]
+                        }, e;
+                    }, o).filter(function(t) {
+                        return t.eid !== e.id;
+                    })
+                });
+            });
+        }
+        Object.defineProperty(t, "__esModule", {
+            value: !0
+        }), t.createEntityTree = r, t.processEntities = o, t.getProcessesOfEntity = a;
+        var c = n(5), u = this && this.__assign || Object.assign || function(e) {
+            for (var t, n = 1, r = arguments.length; n < r; n++) {
+                t = arguments[n];
+                for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
+            }
+            return e;
+        };
+    }, function(e, t, n) {
         e.exports = n(66).default, e.exports.default = e.exports;
     }, function(e, t, n) {
         "use strict";
@@ -1504,7 +1591,7 @@
         n.d(t, "b", function() {
             return c;
         });
-        var r = n(40), i = n(43), o = (n.n(i), n(22));
+        var r = n(40), i = n(43), o = (n.n(i), n(23));
         n.d(t, "a", function() {
             return o.a;
         });
@@ -1577,7 +1664,7 @@
         n.d(t, "a", function() {
             return a;
         });
-        var r = n(2), i = n(25), o = function(e) {
+        var r = n(2), i = n(26), o = function(e) {
             return function() {
                 return Object(r.d)(arguments, function(e) {
                     return e || 0 === e;
@@ -1639,7 +1726,7 @@
         }), n.d(t, "graphWindowProps", function() {
             return f;
         });
-        var r = n(0), i = n(7), o = n(6), a = n(3), c = Object(r.stream)([ o.entityWindow.HOT, i.activeNode.HOT, o.activeWindow.HOT ], function(e, t, n) {
+        var r = n(0), i = n(7), o = n(10), a = n(3), c = Object(r.stream)([ o.entityWindow.HOT, i.activeNode.HOT, o.activeWindow.HOT ], function(e, t, n) {
             return {
                 dimensions: e,
                 node: t,
@@ -1668,121 +1755,96 @@
         });
     }, function(e, t, n) {
         "use strict";
-        function r(e) {
-            var t = e.split(".");
-            return {
-                label: t.pop(),
-                group: t.join(".")
-            };
-        }
         Object.defineProperty(t, "__esModule", {
             value: !0
         }), n.d(t, "viewBox", function() {
-            return d;
+            return l;
         }), n.d(t, "entityPositions", function() {
-            return p;
-        }), n.d(t, "graphEntities", function() {
-            return h;
-        }), n.d(t, "graphProcesses", function() {
-            return v;
-        }), n.d(t, "viewData", function() {
-            return g;
+            return f;
+        }), n.d(t, "graphData", function() {
+            return d;
         });
-        var i = n(0), o = n(11), a = n(3), c = n(8), u = n(6), s = n(7), l = n(16), f = this && this.__assign || Object.assign || function(e) {
+        var r = n(0), i = n(11), o = n(3), a = n(5), c = n(7), u = n(16), s = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
                 t = arguments[n];
                 for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
             }
             return e;
-        }, d = Object(i.stream)([ a.metaGraph.HOT ], function(e) {
-            return e.viewBox || l.b;
-        }).accept(o.a), p = Object(i.stream)([ a.graph.HOT ], function(e) {
+        }, l = Object(r.stream)([ o.metaGraph.HOT ], function(e) {
+            return e.viewBox || u.b;
+        }).accept(function(e, t) {
+            return !t || !Object(i.a)(e, t);
+        }), f = Object(r.stream)([ o.graph.HOT ], function(e) {
             return {};
-        }).react([ u.graphWindow.HOT, a.metaEntities.HOT, a.graph.COLD ], function(e, t, n, r) {
-            for (var i in r.entities) {
-                var o = n[i], a = o && o.ui && o.ui.graph && o.ui.graph.position;
-                a ? e[i] = a : e[i] || (e[i] = {
-                    x: Math.random() * t.width,
-                    y: Math.random() * t.height
+        }).react([ o.metaEntities.HOT, o.graph.COLD ], function(e, t, n) {
+            for (var r in n.entities) {
+                var i = t[r], o = i && i.ui && i.ui.graph && i.ui.graph.position;
+                o ? e[r] = o : e[r] || (e[r] = {
+                    x: 800 * Math.random(),
+                    y: 800 * Math.random()
                 });
             }
             return e;
-        }), h = Object(i.stream)([ a.graph.HOT, s.activeNode.HOT ], function(e, t) {
-            var n = {}, i = {}, o = 0;
-            for (var a in e.entities) {
-                var c = e.entities[a], u = r(a), s = u.label, l = u.group;
-                i[l] = i[l] || o++ % 7 + 1;
-                var f = {
-                    id: c.id,
-                    class: "group-" + i[l],
-                    label: s,
-                    active: c.id === t.id
-                };
-                null != c.accept && (f.accept = !0), null != c.value && (f.initial = !0), n[a] = f;
-            }
-            return n;
-        }).react([ p.HOT ], function(e, t) {
-            for (var n in t) e[n].x = t[n].x, e[n].y = t[n].y;
-            return e;
-        }), v = Object(i.stream)([ a.graph.HOT, s.activeNode.HOT ], function(e, t) {
-            var n = {};
-            for (var i in e.processes) {
-                var o = e.processes[i], a = f({
-                    id: i
-                }, r(i), {
-                    from: [],
-                    async: o.async,
-                    autostart: o.autostart,
-                    active: o.id === t.id,
-                    acc: o.ports && o.ports.includes(c.PORT_TYPES.ACCUMULATOR)
+        }), d = Object(r.stream)([ o.enhancedEntityData.HOT, c.activeNode.HOT, f.HOT ], function(e, t, n) {
+            var r = {}, i = 0, o = [], c = [], u = [];
+            for (var l in e) {
+                var f = e[l];
+                r[f.namespace] = r[f.namespace] || i++ % 7 + 1;
+                var d = s({}, n[l], {
+                    id: f.id,
+                    class: "group-" + r[f.namespace],
+                    label: f.name,
+                    active: f.id === t.id
                 });
-                for (var u in e.arcs) {
-                    var s = e.arcs[u];
-                    s.process === i && (null != s.port ? a.from.push([ s.entity, o.ports && o.ports[s.port] ]) : a.to = s.entity);
+                null != f.accept && (d.accept = !0), null != f.value && (d.initial = !0), c.push(d);
+                for (var p = 0, h = f.processes; p < h.length; p++) {
+                    var v = h[p], g = {
+                        id: v.id,
+                        async: v.async,
+                        autostart: v.autostart,
+                        active: v.id === t.id,
+                        acc: v.reaction,
+                        from: v.entities,
+                        to: l,
+                        class: d.class
+                    };
+                    if (v.entities.length) {
+                        g.x = 0, g.y = 0;
+                        for (var y = 0, m = v.entities; y < m.length; y++) {
+                            var b = m[y], _ = b.eid, O = b.type, w = n[_];
+                            if (w) {
+                                var T = w.x - d.x, k = w.y - d.y;
+                                O === a.PORT_TYPES.COLD && (T /= 2, k /= 2), g.x += T, g.y += k;
+                            }
+                            g.fromIsActive = g.fromIsActive || _ === t.id, u.push({
+                                from: w,
+                                to: g,
+                                class: "from" + (O === a.PORT_TYPES.COLD ? " cold" : ""),
+                                title: O,
+                                active: d.active || g.active || _ === t.id
+                            });
+                        }
+                        var E = Math.sqrt(g.x * g.x + g.y * g.y);
+                        g.x = 50 * g.x / E + d.x, g.y = 50 * g.y / E + d.y;
+                    } else g.x = d.x, g.y = d.y - 50;
+                    o.push(g), u.push({
+                        from: g,
+                        to: d,
+                        class: "to" + (v.async ? " async" : ""),
+                        active: d.active || g.active || g.fromIsActive
+                    }), v.reaction && u.push({
+                        from: g,
+                        to: d,
+                        class: "to acc"
+                    });
                 }
-                n[i] = a;
-            }
-            return n;
-        }), g = Object(i.stream)([ h.HOT, v.HOT ], function(e, t) {
-            var n = [], r = [];
-            for (var i in t) {
-                var o = t[i], a = e[o.to];
-                if (o.class = a.class, o.from.length) {
-                    o.x = 0, o.y = 0;
-                    for (var u = 0, s = o.from; u < s.length; u++) {
-                        var l = s[u], f = l[0], d = l[1], p = e[f], h = p.x - a.x, v = p.y - a.y;
-                        d === c.PORT_TYPES.COLD && (h /= 2, v /= 2), o.x += h, o.y += v;
-                    }
-                    var g = Math.sqrt(o.x * o.x + o.y * o.y);
-                    o.x = 50 * o.x / g + a.x, o.y = 50 * o.y / g + a.y;
-                    for (var y = 0, m = o.from; y < m.length; y++) {
-                        var b = m[y], f = b[0], d = b[1], p = e[f];
-                        o.fromIsActive = o.fromIsActive || p.active, r.push({
-                            from: p,
-                            to: o,
-                            class: "from" + (d === c.PORT_TYPES.COLD ? " cold" : ""),
-                            title: d,
-                            active: a.active || o.active || p.active
-                        });
-                    }
-                } else o.x = a.x, o.y = a.y - 50;
-                n.push(o), r.push({
-                    from: o,
-                    to: a,
-                    class: "to" + (o.async ? " async" : ""),
-                    active: a.active || o.active || o.fromIsActive
-                }), o.acc && r.push({
-                    from: o,
-                    to: a,
-                    class: "to acc"
-                });
             }
             return {
-                entities: Object.values(e),
-                processes: n,
-                edges: r
+                entities: c,
+                processes: o,
+                edges: u
             };
-        }).react([ d.HOT ], function(e, t) {
+        }).react([ l.HOT ], function(e, t) {
             return e.viewBox = {
                 x: t.offsetX * t.scale,
                 y: t.offsetY * t.scale,
@@ -1799,9 +1861,7 @@
         }), n.d(t, "treeData", function() {
             return u;
         });
-        var r = n(0), i = n(7), o = n(3), a = n(30), c = Object(r.stream)([ o.graph.HOT ], function(e) {
-            return Object(a.createEntityTree)(e.entities);
-        }), u = Object(r.stream)([ o.metaTree.HOT, c.HOT, i.activeEntity.HOT ], function(e, t, n) {
+        var r = n(0), i = n(7), o = n(3), a = n(17), c = Object(r.stream)([ o.enhancedEntityData.HOT ], a.createEntityTree), u = Object(r.stream)([ o.metaTree.HOT, c.HOT, i.activeEntity.HOT ], function(e, t, n) {
             return {
                 fold: e.fold || {},
                 tree: t,
@@ -1812,26 +1872,6 @@
             tree: null,
             selected: {}
         });
-    }, function(e, t, n) {
-        "use strict";
-        function r(e, t) {
-            void 0 === t && (t = ".");
-            var n = {};
-            return Object.keys(e).sort().forEach(function(r) {
-                var i = e[r], o = i.id.split(t), a = n, c = o.slice(), u = [];
-                o.forEach(function() {
-                    var e = c.shift();
-                    c.length ? (u.push(e), a = a[e] = a[e] || {
-                        __path__: u.join(t)
-                    }) : a[e] = {
-                        __entity__: i
-                    };
-                });
-            }), n;
-        }
-        Object.defineProperty(t, "__esModule", {
-            value: !0
-        }), t.createEntityTree = r;
     }, function(e, t, n) {
         "use strict";
         function r() {
@@ -1922,7 +1962,7 @@
         }), n.d(t, "utils", function() {
             return l;
         });
-        var r = n(34), i = n(79), o = n(30), a = n(20), c = n(31);
+        var r = n(34), i = n(79), o = n(17), a = n(21), c = n(31);
         t.default = r;
         var u = r, s = {
             tree: i
@@ -1992,7 +2032,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         }), t.start = i;
-        var o = n(35), a = n(20), c = n(39), u = n(31), s = n(15), l = n(68), f = n.n(l), d = n(17), p = n.n(d), h = n(32), v = n.n(h), g = n(4), y = n(3), m = n(16), b = n(76), _ = (n.n(b), 
+        var o = n(35), a = n(21), c = n(39), u = n(31), s = n(15), l = n(68), f = n.n(l), d = n(18), p = n.n(d), h = n(32), v = n.n(h), g = n(4), y = n(3), m = n(16), b = n(76), _ = (n.n(b), 
         this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
                 t = arguments[n];
@@ -2003,7 +2043,7 @@
     }, function(e, t, n) {
         "use strict";
         var r = n(36);
-        n(0), n(19), n(8);
+        n(0), n(20), n(5);
         t.a = r;
         r.create;
     }, function(e, t, n) {
@@ -2014,12 +2054,12 @@
                     entities: N,
                     processes: A,
                     arcs: P,
-                    meta: R
+                    meta: H
                 };
             }
             function t() {
                 var e = {};
-                for (var t in H.es) e[t] = H.es[t].val;
+                for (var t in R.es) e[t] = R.es[t].val;
                 return e;
             }
             function n() {
@@ -2029,17 +2069,17 @@
                 W = e;
             }
             function c() {
-                return R;
+                return H;
             }
             function u(e) {
-                return null == e || "object" != typeof e || Array.isArray(e) || (R = Object(o.a)(R, e)), 
-                R;
+                return null == e || "object" != typeof e || Array.isArray(e) || (H = Object(o.a)(H, e)), 
+                H;
             }
             function s(e) {
                 U = e;
             }
             function l(e) {
-                return H.es[e] && H.es[e].val;
+                return R.es[e] && R.es[e].val;
             }
             function f(e, t) {
                 S(C(e), t, !0) && k();
@@ -2060,7 +2100,7 @@
                 var t = Object(i.createEntity)(e);
                 N[t.id] = t;
                 var n = C(t.id);
-                return void 0 === t.value || !t.reset && void 0 !== n.val || (n.val = t.value, V[t.id] = !1, 
+                return void 0 === t.value || !t.reset && void 0 !== n.val || (n.val = t.value, D[t.id] = !1, 
                 Y = !0), n.accept = t.accept, t.meta && u({
                     entities: (r = {}, r[t.id] = t.meta, r)
                 }), t;
@@ -2072,7 +2112,7 @@
                 var r = N[e];
                 r && r.meta && u({
                     entities: (i = {}, i[r.id] = void 0, i)
-                }), delete H.es[e], delete N[e];
+                }), delete R.es[e], delete N[e];
                 var i;
             }
             function y(e) {
@@ -2094,7 +2134,7 @@
                 var t = M(e);
                 t.stop && (t.stop(), delete t.stop);
                 for (var n in t.arcs) _(n);
-                delete H.ps[e];
+                delete R.ps[e];
                 var r = A[e];
                 r && r.meta && u({
                     processes: (i = {}, i[r.id] = void 0, i)
@@ -2130,7 +2170,7 @@
                 a.ports && null != a.ports[e.port] && (r.sources[e.port] = o, a.ports[e.port] === i.PORT_TYPES.HOT && (o.effects[t] = r))) : (r.out = o, 
                 null != r.acc ? (r.sources[r.acc] = o, o.reactions[t] = r) : delete o.reactions[t], 
                 r.sink = function(e) {
-                    S(o, e, !0) && !D && k();
+                    S(o, e, !0) && !V && k();
                 }));
             }
             function w(e) {
@@ -2156,25 +2196,25 @@
                 }).forEach(m), w(e);
             }
             function k() {
-                U && console.log("flushing graph recursively with", V);
-                for (var e = Object.keys(V), t = 0, n = e; t < n.length; t++) {
+                U && console.log("flushing graph recursively with", D);
+                for (var e = Object.keys(D), t = 0, n = e; t < n.length; t++) {
                     var r = n[t];
-                    if (V[r]) {
-                        var i = H.es[r];
+                    if (D[r]) {
+                        var i = R.es[r];
                         for (var o in i.reactions) E(i.reactions[o]);
                     }
                 }
                 var a = {};
-                V = {}, Y = !1, D = !0;
+                D = {}, Y = !1, V = !0;
                 for (var c = 0, u = e; c < u.length; c++) {
-                    var r = u[c], i = H.es[r];
+                    var r = u[c], i = R.es[r];
                     i.cb.length > 0 && (L[r] = i);
                     for (var o in i.effects) a[o] || (E(i.effects[o]), a[o] = !0);
                 }
-                if (D = !1, Y) k(); else {
+                if (V = !1, Y) k(); else {
                     var s = Object.keys(L);
                     L = {};
-                    for (var l in s) for (var i = H.es[s[l]], f = 0, d = i.cb; f < d.length; f++) {
+                    for (var l in s) for (var i = R.es[s[l]], f = 0, d = i.cb; f < d.length; f++) {
                         var p = d[f];
                         p(i.val);
                     }
@@ -2204,12 +2244,12 @@
             }
             function S(e, t, n) {
                 return !(void 0 === t || e.accept && !e.accept(t, e.val)) && (e.oldVal = e.val, 
-                e.val = t, V[e.id] = n, Y = !0, !0);
+                e.val = t, D[e.id] = n, Y = !0, !0);
             }
             function x(e) {
                 e.async ? requestAnimationFrame(function() {
                     E(e);
-                }) : (E(e), e.out && (V[e.out.id] = !1));
+                }) : (E(e), e.out && (D[e.out.id] = !1));
             }
             function j(e) {
                 var t = M(e);
@@ -2222,7 +2262,7 @@
             function C(e) {
                 return N[e] || v({
                     id: e
-                }), H.es[e] || (H.es[e] = {
+                }), R.es[e] || (R.es[e] = {
                     id: e,
                     val: void 0,
                     reactions: {},
@@ -2232,16 +2272,16 @@
                 });
             }
             function M(e) {
-                return H.ps[e] || (H.ps[e] = {
+                return R.ps[e] || (R.ps[e] = {
                     id: e,
                     arcs: {},
                     sink: function() {}
                 });
             }
-            var N = {}, A = {}, P = {}, H = {
+            var N = {}, A = {}, P = {}, R = {
                 es: {},
                 ps: {}
-            }, R = {}, W = null, U = !1, L = {}, V = {}, D = !1, Y = !1;
+            }, H = {}, W = null, U = !1, L = {}, D = {}, V = !1, Y = !1;
             return {
                 addEntity: v,
                 removeEntity: g,
@@ -2272,7 +2312,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         }), t.create = r;
-        var i = n(8), o = n(38), a = this && this.__assign || Object.assign || function(e) {
+        var i = n(5), o = n(38), a = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
                 t = arguments[n];
                 for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
@@ -2395,7 +2435,7 @@
             function a(e) {
                 t(O.b.MAIN.MOVE_WINDOW, e);
             }
-            var c = e.dimensions, u = e.window, s = n(y.a, k.viewData);
+            var c = e.dimensions, u = e.window, s = n(y.a, k.graphData);
             return [ "article", {
                 ref: r,
                 class: Object(d.a)("tvs-flow-graph", g.e),
@@ -2446,7 +2486,7 @@
             return e(l, w.visibility);
         }
         t.a = f;
-        var d = n(21), p = n(12), h = n(5), v = n(13), g = n(14), y = n(58), m = n(60), b = n(61), _ = n(10), O = n(4), w = n(6), T = n(27), k = n(28), E = n(7), S = n(29), x = n(26), j = this && this.__assign || Object.assign || function(e) {
+        var d = n(22), p = n(12), h = n(6), v = n(13), g = n(14), y = n(58), m = n(60), b = n(61), _ = n(9), O = n(4), w = n(10), T = n(28), k = n(29), E = n(7), S = n(30), x = n(27), j = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
                 t = arguments[n];
                 for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
@@ -2460,7 +2500,7 @@
         n.d(t, "a", function() {
             return c;
         });
-        var r = n(41), i = n(22), o = n(9), a = (n.n(o), function() {
+        var r = n(41), i = n(23), o = n(8), a = (n.n(o), function() {
             return o.create(void 0, !0);
         }), c = function() {
             function e(e) {
@@ -2557,7 +2597,7 @@
             return t;
         }
         t.a = r, t.b = i;
-        var o = n(9);
+        var o = n(8);
         n.n(o);
     }, function(e, t) {
         function n() {
@@ -2649,7 +2689,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var r = n(45), i = n(23), o = n(9), a = function() {
+        var r = n(45), i = n(24), o = n(8), a = function() {
             return o.create(void 0, !0);
         }, c = function() {
             function e(e) {
@@ -2749,7 +2789,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var o = n(9);
+        var o = n(8);
         t.ensureStringObj = r, t.explodeKeyframes = i;
     }, function(e, t, n) {
         "use strict";
@@ -2768,7 +2808,7 @@
         n.d(t, "a", function() {
             return r.a;
         });
-        n(55), n(24), n(56), n(57), n(25);
+        n(55), n(25), n(56), n(57), n(26);
     }, function(e, t, n) {
         "use strict";
         n(2);
@@ -2824,7 +2864,7 @@
         t.a = r;
     }, function(e, t, n) {
         "use strict";
-        var r = (n(2), n(24));
+        var r = (n(2), n(25));
         r.a, r.a, r.a;
     }, function(e, t, n) {
         "use strict";
@@ -3217,7 +3257,7 @@
             })) ];
         }
         t.b = r, t.a = i;
-        var o = n(59), a = n(1), c = (n.n(a), n(4)), u = n(26), s = this && this.__assign || Object.assign || function(e) {
+        var o = n(59), a = n(1), c = (n.n(a), n(4)), u = n(27), s = this && this.__assign || Object.assign || function(e) {
             for (var t, n = 1, r = arguments.length; n < r; n++) {
                 t = arguments[n];
                 for (var i in t) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
@@ -3229,7 +3269,7 @@
         n.d(t, "a", function() {
             return o;
         });
-        var r = n(1), i = (n.n(r), n(5)), o = Object(r.style)(i.b, {
+        var r = n(1), i = (n.n(r), n(6)), o = Object(r.style)(i.b, {
             position: "relative",
             flexGrow: 1,
             $nest: {
@@ -3420,7 +3460,7 @@
         "use strict";
         function r(e, t, n) {
             var r = "";
-            try {
+            if (null != e) try {
                 r = JSON.stringify(e, null, "  ");
             } catch (e) {
                 r = "Error: " + e.message;
@@ -3475,7 +3515,7 @@
             }, [ "div", {
                 class: s.d,
                 key: n.id + o
-            }, r(i, o, f) ], d ];
+            }, r(i, o, f) ], n.id && d ];
         }
         function o(e, t) {
             var n = [ "div", {
@@ -3500,7 +3540,7 @@
             }, [ "code", [ "pre", e.procedure.toString() ] ] ], n ];
         }
         t.a = i, t.b = o;
-        var a = n(12), c = n(13), u = n(10), s = n(14), l = n(4);
+        var a = n(12), c = n(13), u = n(9), s = n(14), l = n(4);
     }, function(e, t, n) {
         "use strict";
         function r(e, t, n, i, o) {
@@ -3556,7 +3596,7 @@
             return c;
         }
         t.a = i;
-        var o = n(14), a = n(1), c = (n.n(a), n(12)), u = n(13), s = n(10), l = n(4), f = Object(a.style)({
+        var o = n(14), a = n(1), c = (n.n(a), n(12)), u = n(13), s = n(9), l = n(4), f = Object(a.style)({
             transform: "rotate(90deg)"
         });
     }, function(e, t, n) {
@@ -3664,7 +3704,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var g = n(17), y = "$NO_OP", m = "a runtime error occured! Use Inferno in development environment to find the error.", b = Array.isArray, _ = new Map(), O = Promise.resolve(), w = function(e, t) {
+        var g = n(18), y = "$NO_OP", m = "a runtime error occured! Use Inferno in development environment to find the error.", b = Array.isArray, _ = new Map(), O = Promise.resolve(), w = function(e, t) {
             this.state = null, this._blockRender = !1, this._blockSetState = !0, this._pendingSetState = !1, 
             this._pendingState = null, this._lastInput = null, this._vNode = null, this._unmounted = !1, 
             this._lifecycle = null, this._childContext = null, this._isSVG = !1, this._updating = !0, 
@@ -3856,11 +3896,11 @@
                 if (r && o(c) && (c = n.defaultValue), dt(i)) for (var u = 0, s = i.length; u < s; u++) C(i[u], c); else Ze(i) && C(i, c);
             }
         }
-        function H(e) {
+        function R(e) {
             var t = this.vNode.props || Ct, n = t.onChange;
             n.event ? n.event(n.data, e) : n(e);
         }
-        function R(e) {
+        function H(e) {
             var t = this.vNode, n = t.props || Ct, r = n.value;
             if (n.onInput) {
                 var i = n.onInput;
@@ -3870,7 +3910,7 @@
             r !== (o.props || Ct).value && U(o, t.dom, !1);
         }
         function W(e, t, n, r, i) {
-            U(n, t, r), i && (t.vNode = e, r && (t.oninput = R, t.oninput.wrapped = !0, n.onChange && (t.onchange = H, 
+            U(n, t, r), i && (t.vNode = e, r && (t.oninput = H, t.oninput.wrapped = !0, n.onChange && (t.onchange = R, 
             t.onchange.wrapped = !0)));
         }
         function U(e, t, n) {
@@ -3886,10 +3926,10 @@
         function L(e, t, n, r, i, o) {
             512 & e && j(t, n, r, i, o), 2048 & e && A(t, n, r, i, o), 1024 & e && W(t, n, r, i, o);
         }
-        function V(e) {
+        function D(e) {
             return e.type && k(e.type) ? !o(e.checked) : !o(e.value);
         }
-        function D(e) {
+        function V(e) {
             for (var t = e.firstChild; t; ) if (8 === t.nodeType) if ("!" === t.data) {
                 var n = document.createTextNode("");
                 e.replaceChild(n, t), t = t.nextSibling;
@@ -3914,12 +3954,12 @@
             var c = e.children, u = e.props, s = e.className, l = e.flags, f = e.ref;
             if (i = i || (128 & l) > 0, 1 !== t.nodeType || t.tagName.toLowerCase() !== e.type) {
                 var d = ke(e, null, n, r, i);
-                return e.dom = d, Ve(t.parentNode, d, t), d;
+                return e.dom = d, De(t.parentNode, d, t), d;
             }
             if (e.dom = t, a(c) ? null === t.firstChild || Be(t, u) || (t.textContent = "") : G(c, t, n, r, i), 
             u) {
                 var p = !1, h = (3584 & l) > 0;
-                h && (p = V(u));
+                h && (p = D(u));
                 for (var v in u) ye(v, null, u[v], t, i, p);
                 h && L(l, e, t, u, !0, p);
             }
@@ -3927,7 +3967,7 @@
             f && Ie(t, f, n), t;
         }
         function G(e, t, n, r, o) {
-            D(t);
+            V(t);
             var a = t.firstChild;
             if (i(e)) l(a) || 3 !== a.nodeType ? "" === e ? t.appendChild(document.createTextNode("")) : t.textContent = e : a.nodeValue !== e && (a.nodeValue = e), 
             l(a) || (a = a.nextSibling); else if (dt(e)) for (var c = 0, u = e.length; c < u; c++) {
@@ -3945,7 +3985,7 @@
         function z(e, t) {
             if (3 !== t.nodeType) {
                 var n = we(e, null);
-                return e.dom = n, Ve(t.parentNode, n, t), n;
+                return e.dom = n, De(t.parentNode, n, t), n;
             }
             var r = e.children;
             return t.nodeValue !== r && (t.nodeValue = r), e.dom = t, t;
@@ -4032,7 +4072,7 @@
                 if (!l(m)) for (var T in m) null !== m[T] && ge(T) && (me(T, m[T], null, s), m[T] = null);
                 pt.recyclingEnabled && (t || r) && J(e);
             }
-            l(t) || De(t, s);
+            l(t) || Ve(t, s);
         }
         function ee(e) {
             pt.findDOMNodeEnabled || h();
@@ -4101,7 +4141,7 @@
                     var b = l || Ct, _ = f || Ct, O = !1;
                     if (_ !== Ct) {
                         var w = (3584 & v) > 0;
-                        w && (O = V(_));
+                        w && (O = D(_));
                         for (var T in _) {
                             var k = _[T];
                             ye(T, b[T], k, s, a, O);
@@ -4116,7 +4156,7 @@
         }
         function se(e, t, n, r, o, c, u, s, l) {
             var f = !1, d = !1;
-            if (64 & t ? f = !0 : (32 & e) > 0 && (32 & t) > 0 ? (d = !0, f = !0) : a(r) ? ce(n, o, c, l) : a(n) ? i(r) ? Pe(o, r) : dt(r) ? Ee(r, o, c, u, s) : Oe(r, o, c, u, s) : i(r) ? i(n) ? He(o, r) : (ce(n, o, c, l), 
+            if (64 & t ? f = !0 : (32 & e) > 0 && (32 & t) > 0 ? (d = !0, f = !0) : a(r) ? ce(n, o, c, l) : a(n) ? i(r) ? Pe(o, r) : dt(r) ? Ee(r, o, c, u, s) : Oe(r, o, c, u, s) : i(r) ? i(n) ? Re(o, r) : (ce(n, o, c, l), 
             Pe(o, r)) : dt(r) ? dt(n) ? (f = !0, Ge(n, r) && (d = !0)) : (ce(n, o, c, l), Ee(r, o, c, u, s)) : dt(n) ? (Ye(o, n, c, l), 
             Oe(r, o, c, u, s)) : Ze(r) && (Ze(n) ? ae(n, r, o, c, u, s, l) : (ce(n, o, c, l), 
             Oe(r, o, c, u, s))), f) {
@@ -4132,7 +4172,7 @@
                 var O = e.children;
                 if (O._updating = !0, O._unmounted) {
                     if (l(n)) return !0;
-                    Ve(n, Se(t, null, r, c, u, (4 & t.flags) > 0), e.dom);
+                    De(n, Se(t, null, r, c, u, (4 & t.flags) > 0), e.dom);
                 } else {
                     var w = !d(O.componentDidUpdate), T = O.state, k = w ? v(T, null) : T, E = O.props;
                     t.children = O, O._isSVG = u;
@@ -4148,12 +4188,12 @@
                 }
                 O._updating = !1;
             } else {
-                var C = !0, M = e.props, N = t.ref, A = !o(N), P = e.children, H = P;
+                var C = !0, M = e.props, N = t.ref, A = !o(N), P = e.children, R = P;
                 t.dom = e.dom, t.children = P, m !== b ? C = !0 : A && !o(N.onComponentShouldUpdate) && (C = N.onComponentShouldUpdate(M, _)), 
                 !1 !== C && (A && !o(N.onComponentWillUpdate) && N.onComponentWillUpdate(M, _), 
-                H = y(_, c), a(H) ? H = Je() : i(H) && H !== st ? H = Xe(H, null) : dt(H) ? h() : p(H) && (l(H.dom) || (H = qe(H))), 
-                H !== st && (ae(P, H, n, r, c, u, f), t.children = H, A && !o(N.onComponentDidUpdate) && N.onComponentDidUpdate(M, _), 
-                t.dom = H.dom)), 28 & H.flags ? H.parentVNode = t : 28 & P.flags && (P.parentVNode = t);
+                R = y(_, c), a(R) ? R = Je() : i(R) && R !== st ? R = Xe(R, null) : dt(R) ? h() : p(R) && (l(R.dom) || (R = qe(R))), 
+                R !== st && (ae(P, R, n, r, c, u, f), t.children = R, A && !o(N.onComponentDidUpdate) && N.onComponentDidUpdate(M, _), 
+                t.dom = R.dom)), 28 & R.flags ? R.parentVNode = t : 28 & P.flags && (P.parentVNode = t);
             }
             return !1;
         }
@@ -4171,7 +4211,7 @@
             }
             if (c < u) for (l = s; l < u; l++) {
                 var d = t[l];
-                d.dom && (d = t[l] = qe(d)), Re(n, Oe(d, null, r, i, o));
+                d.dom && (d = t[l] = qe(d)), He(n, Oe(d, null, r, i, o));
             } else if (c > u) for (l = s; l < c; l++) Q(e[l], n, r, !1, a);
         }
         function he(e, t, n, r, i, o, a, c, u) {
@@ -4281,15 +4321,15 @@
         }
         function we(e, t) {
             var n = document.createTextNode(e.children);
-            return e.dom = n, l(t) || Re(t, n), n;
+            return e.dom = n, l(t) || He(t, n), n;
         }
         function Te(e, t) {
             var n = document.createTextNode("");
-            return e.dom = n, l(t) || Re(t, n), n;
+            return e.dom = n, l(t) || He(t, n), n;
         }
         function ke(e, t, n, r, o) {
             var c;
-            if (pt.recyclingEnabled && (c = K(e, n, r, o), !l(c))) return l(t) || Re(t, c), 
+            if (pt.recyclingEnabled && (c = K(e, n, r, o), !l(c))) return l(t) || He(t, c), 
             c;
             var u = e.flags;
             o = o || (128 & u) > 0, c = Ue(e.type, o);
@@ -4300,12 +4340,12 @@
             }
             if (!l(f)) {
                 var v = !1, g = (3584 & u) > 0;
-                g && (v = V(f));
+                g && (v = D(f));
                 for (var y in f) ye(y, null, f[y], c, o, v);
                 g && L(u, e, c, f, !0, v);
             }
             return null !== d && (o ? c.setAttribute("class", d) : c.className = d), l(p) || Ie(c, p, n), 
-            l(t) || Re(t, c), c;
+            l(t) || He(t, c), c;
         }
         function Ee(e, t, n, r, i) {
             for (var o = 0, c = e.length; o < c; o++) {
@@ -4315,16 +4355,16 @@
         }
         function Se(e, t, n, r, i, o) {
             var a;
-            if (pt.recyclingEnabled && (a = X(e, n, r, i), !l(a))) return l(t) || Re(t, a), 
+            if (pt.recyclingEnabled && (a = X(e, n, r, i), !l(a))) return l(t) || He(t, a), 
             a;
             var c = e.type, u = e.props || Ct, s = e.ref;
             if (o) {
                 var f = Ce(e, c, u, r, i, n), d = f._lastInput;
-                f._vNode = e, e.dom = a = Oe(d, null, n, f._childContext, i), l(t) || Re(t, a), 
+                f._vNode = e, e.dom = a = Oe(d, null, n, f._childContext, i), l(t) || He(t, a), 
                 xe(e, s, f, n), f._updating = !1, pt.findDOMNodeEnabled && xt.set(f, a);
             } else {
                 var p = Ae(e, c, u, r);
-                e.dom = a = Oe(p, null, n, r, i), e.children = p, je(u, s, a, n), l(t) || Re(t, a);
+                e.dom = a = Oe(p, null, n, r, i), e.children = p, je(u, s, a, n), l(t) || He(t, a);
             }
             return a;
         }
@@ -4371,7 +4411,7 @@
             Ne(n, Oe(t, null, r, i, o), e, r, a);
         }
         function Ne(e, t, n, r, i) {
-            Q(n, null, r, !1, i), Ve(e, t, n.dom);
+            Q(n, null, r, !1, i), De(e, t, n.dom);
         }
         function Ae(e, t, n, r) {
             var o = t(n, r);
@@ -4381,14 +4421,14 @@
         function Pe(e, t) {
             "" !== t ? e.textContent = t : e.appendChild(document.createTextNode(""));
         }
-        function He(e, t) {
+        function Re(e, t) {
             e.firstChild.nodeValue = t;
         }
-        function Re(e, t) {
+        function He(e, t) {
             e.appendChild(t);
         }
         function We(e, t, n) {
-            o(n) ? Re(e, t) : e.insertBefore(t, n);
+            o(n) ? He(e, t) : e.insertBefore(t, n);
         }
         function Ue(e, t) {
             return !0 === t ? document.createElementNS(gt, e) : document.createElement(e);
@@ -4396,12 +4436,12 @@
         function Le(e, t, n, r, i, o, a) {
             Q(e, null, r, !1, a);
             var c = Oe(t, null, r, i, o);
-            t.dom = c, Ve(n, c, e.dom);
+            t.dom = c, De(n, c, e.dom);
         }
-        function Ve(e, t, n) {
+        function De(e, t, n) {
             e || (e = n.parentNode), e.replaceChild(t, n);
         }
-        function De(e, t) {
+        function Ve(e, t) {
             e.removeChild(t);
         }
         function Ye(e, t, n, r) {
@@ -4676,7 +4716,7 @@
         Object.defineProperty(t, "__esModule", {
             value: !0
         });
-        var f = n(17), d = new Set();
+        var f = n(18), d = new Set();
         d.add("onComponentWillMount"), d.add("onComponentDidMount"), d.add("onComponentWillUnmount"), 
         d.add("onComponentShouldUpdate"), d.add("onComponentWillUpdate"), d.add("onComponentDidUpdate"), 
         t.default = l;
@@ -5136,10 +5176,10 @@
             "./events.ts": 15,
             "./state/entity.ts": 7,
             "./state/flow.ts": 3,
-            "./state/graph.ts": 28,
-            "./state/gui.ts": 6,
-            "./state/tree.ts": 29,
-            "./state/views.ts": 27
+            "./state/graph.ts": 29,
+            "./state/gui.ts": 10,
+            "./state/tree.ts": 30,
+            "./state/views.ts": 28
         };
         r.keys = function() {
             return Object.keys(o);

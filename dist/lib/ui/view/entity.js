@@ -6,11 +6,13 @@ import { windowContentStyle, entityViewStyle } from './styles/components';
 import { GUI, FLOW } from '../actions';
 function jsonCode(entityValue, watching, editingValue) {
     var code = '';
-    try {
-        code = JSON.stringify(entityValue, null, '  ');
-    }
-    catch (e) {
-        code = 'Error: ' + e.message;
+    if (entityValue != null) {
+        try {
+            code = JSON.stringify(entityValue, null, '  ');
+        }
+        catch (e) {
+            code = 'Error: ' + e.message;
+        }
     }
     return ['code',
         ['pre', {
@@ -63,7 +65,7 @@ export function entityView(_a, dispatch) {
         },
         ['div', { class: windowContentStyle, key: entity.id + watching },
             jsonCode(value, watching, editingValue)],
-        buttons];
+        entity.id && buttons];
     return el;
 }
 export function processView(process, dispatch) {

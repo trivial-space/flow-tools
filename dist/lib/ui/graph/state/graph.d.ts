@@ -7,9 +7,7 @@ export declare const entityPositions: EntityRef<{
         y: number;
     };
 }>;
-export declare const graphEntities: EntityRef<any>;
-export declare const graphProcesses: EntityRef<any>;
-export declare const viewData: EntityRef<{
+export declare const graphData: EntityRef<{
     entities: any[];
     processes: any[];
     edges: any[];

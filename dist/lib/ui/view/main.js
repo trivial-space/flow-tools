@@ -19,7 +19,7 @@ import { iconButtonLightStyle } from './styles/ui';
 import { GUI } from '../actions';
 import { visibility } from '../graph/state/gui';
 import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps, controlTitleProps } from '../graph/state/views';
-import { viewBox, viewData } from '../graph/state/graph';
+import { viewBox, graphData } from '../graph/state/graph';
 import { entityViewProps } from '../graph/state/entity';
 import { treeData } from '../graph/state/tree';
 import { getDragDeltas } from '../../utils/component-helpers';
@@ -104,7 +104,7 @@ function treeWindow(_a, dispatch, component) {
 }
 function graphWindow(_a, dispatch, component) {
     var dimensions = _a.dimensions, window = _a.window;
-    var graph = component(graphView, viewData);
+    var graph = component(graphView, graphData);
     function updateGraphSize(parent) {
         if (parent && parent.querySelector) {
             var graphNode_1 = parent.querySelector('section');
