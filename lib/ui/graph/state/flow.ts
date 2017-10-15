@@ -160,12 +160,14 @@ export const meta = stream(
 			case GUI.ENTITY.SET_ACTIVE_ENTITY:
 				return flow.setMeta({ ui: { entity: {
 					activeEntityId: payload,
+					activeProcessId: '',
 					watchingEntity: true
 				} } })
 
 			case GUI.ENTITY.SET_ACTIVE_PROCESS:
 				return flow.setMeta({ ui: { entity: {
 					activeProcessId: payload,
+					activeEntityId: '',
 					watchingEntity: false
 				} } })
 

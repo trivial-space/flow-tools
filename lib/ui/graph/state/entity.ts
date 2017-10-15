@@ -32,8 +32,7 @@ export const activeProcess = stream(
 
 
 export const activeNode = val({})
-.react([activeEntity.HOT], (_, e) => e)
-.react([activeProcess.HOT], (_, p) => p)
+.react([activeProcess.HOT, activeEntity.HOT], (_, p, e) => p.id ? p : e)
 
 
 export const watchingEntity = stream(
@@ -54,7 +53,7 @@ export const activeValue: EntityRef<any> = asyncStream(
 				return () => flow.off(eid, send)
 			}
 		} else {
-			send('')
+			send(null)
 		}
 	}
 )
