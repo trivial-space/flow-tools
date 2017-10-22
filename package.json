@@ -6,7 +6,7 @@
 	"types": "dist/lib/index.d.ts",
 	"typings": "dist/lib/index.d.ts",
 	"scripts": {
-		"examples": "webpack-dev-server --config webpack.config.examples.js --port 8081",
+		"dev": "webpack-dev-server --config webpack.config.examples.js --port 8081",
 		"build": "rm -rf dist; tsc; webpack"
 	},
 	"repository": {
