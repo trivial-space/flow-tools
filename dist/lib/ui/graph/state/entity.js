@@ -1,13 +1,13 @@
 "use strict";
 import { val, stream, asyncStream } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates';
-import { runtime, graph, metaEntity } from './flow';
+import { runtime, graph, metaEntity, enhancedEntityData } from './flow';
 import { visibility } from './gui';
 export var activeEntityId = stream([metaEntity.HOT], function (entity) { return entity.activeEntityId; })
     .accept(unequal);
 export var activeProcessId = stream([metaEntity.HOT], function (entity) { return entity.activeProcessId; })
     .accept(unequal);
-export var activeEntity = stream([activeEntityId.HOT, graph.COLD], function (id, graph) { return graph.entities[id] || { id: id }; });
+export var activeEntity = stream([activeEntityId.HOT, enhancedEntityData.COLD], function (id, graph) { return graph[id] || { id: id }; });
 export var activeProcess = stream([activeProcessId.HOT, graph.COLD], function (id, graph) { return graph.processes[id] || { id: id }; });
 export var activeNode = val({ id: '' })
     .react([activeProcess.HOT, activeEntity.HOT], function (_, p, e) { return p.id ? p : e; });

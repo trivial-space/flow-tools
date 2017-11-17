@@ -7,5 +7,5 @@ export var entityTree = stream([enhancedEntityData.HOT], createEntityTree);
 export var treeData = stream([metaTree.HOT, entityTree.HOT, activeEntity.HOT], function (metaTree, tree, selected) { return ({
     fold: metaTree.fold || {},
     tree: tree, selected: selected
-}); }).val({ fold: null, tree: null, selected: {} });
+}); }).val({ fold: {}, tree: {}, selected: null });
 //# sourceMappingURL=tree.js.map

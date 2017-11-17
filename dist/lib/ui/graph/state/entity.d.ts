@@ -1,8 +1,9 @@
 import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
-import { Entity, Process } from 'tvs-flow/dist/lib/runtime-types';
+import { Process } from 'tvs-flow/dist/lib/runtime-types';
+import { ProcessedGraphEntity } from '../../../utils/entity-tree';
 export declare const activeEntityId: EntityRef<string>;
 export declare const activeProcessId: EntityRef<string>;
-export declare const activeEntity: EntityRef<Entity>;
+export declare const activeEntity: EntityRef<ProcessedGraphEntity>;
 export declare const activeProcess: EntityRef<Process>;
 export declare const activeNode: EntityRef<{
     id: string;

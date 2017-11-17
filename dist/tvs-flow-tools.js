@@ -656,8 +656,8 @@
             return e.activeEntityId;
         }).accept(i.b), u = Object(r.stream)([ o.metaEntity.HOT ], function(e) {
             return e.activeProcessId;
-        }).accept(i.b), s = Object(r.stream)([ c.HOT, o.graph.COLD ], function(e, t) {
-            return t.entities[e] || {
+        }).accept(i.b), s = Object(r.stream)([ c.HOT, o.enhancedEntityData.COLD ], function(e, t) {
+            return t[e] || {
                 id: e
             };
         }), l = Object(r.stream)([ u.HOT, o.graph.COLD ], function(e, t) {
@@ -1868,9 +1868,9 @@
                 selected: n
             };
         }).val({
-            fold: null,
-            tree: null,
-            selected: {}
+            fold: {},
+            tree: {},
+            selected: null
         });
     }, function(e, t, n) {
         "use strict";

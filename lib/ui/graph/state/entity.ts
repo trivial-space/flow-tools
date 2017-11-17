@@ -3,7 +3,7 @@ import { Process } from 'tvs-flow/dist/lib/runtime-types'
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
 import { runtime, graph, metaEntity, enhancedEntityData } from './flow'
 import { visibility } from './gui'
-import { ProcessedGraphEntity } from 'utils/entity-tree'
+import { ProcessedGraphEntity } from '../../../utils/entity-tree'
 
 
 export const activeEntityId = stream(
