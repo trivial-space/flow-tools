@@ -1,8 +1,9 @@
 import { val, stream, asyncStream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
-import { Entity, Process } from 'tvs-flow/dist/lib/runtime-types'
+import { Process } from 'tvs-flow/dist/lib/runtime-types'
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
-import { runtime, graph, metaEntity } from './flow'
+import { runtime, graph, metaEntity, enhancedEntityData } from './flow'
 import { visibility } from './gui'
+import { ProcessedGraphEntity } from 'utils/entity-tree'
 
 
 export const activeEntityId = stream(
@@ -20,8 +21,8 @@ export const activeProcessId = stream(
 
 
 export const activeEntity = stream(
-	[activeEntityId.HOT, graph.COLD],
-	(id, graph) => graph.entities[id] || ({id} as Entity)
+	[activeEntityId.HOT, enhancedEntityData.COLD],
+	(id, graph) => graph[id] || ({id} as ProcessedGraphEntity)
 )
 
 
