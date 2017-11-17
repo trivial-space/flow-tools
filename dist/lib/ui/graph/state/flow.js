@@ -12,7 +12,7 @@ import { action, windowSize } from '../events';
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates';
 import { FLOW, GUI } from '../../actions';
 import { guardMeta } from '../../types';
-import { processEntities } from 'utils/entity-tree';
+import { processEntities } from '../../../utils/entity-tree';
 export var runtimes = val({})
     .react([action.HOT], function (self, action) {
     if (action.type === FLOW.SET_RUNTIME) {

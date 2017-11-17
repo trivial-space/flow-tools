@@ -4,7 +4,7 @@ import { action, windowSize } from '../events'
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
 import { FLOW, GUI } from '../../actions'
 import { UIMeta, MetaFlow, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI, UIMetaControls, guardMeta } from '../../types'
-import { processEntities, ProcessedGraphEntity } from 'utils/entity-tree'
+import { processEntities, ProcessedGraphEntity } from '../../../utils/entity-tree'
 
 
 export const runtimes = val<{[id: string]: Runtime}>({})
