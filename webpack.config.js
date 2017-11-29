@@ -36,9 +36,7 @@ module.exports = {
 	},
 
 	plugins: [
-		new UglifyJsPlugin({
-			beautify: true
-		}),
+		new UglifyJsPlugin(),
 		new webpack.DefinePlugin({
 			'process.env': {
 				'NODE_ENV': JSON.stringify('production')

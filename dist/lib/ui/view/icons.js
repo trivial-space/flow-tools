@@ -1,4 +1,3 @@
-"use strict";
 import { style, classes } from 'typestyle';
 import { highlightColor } from './styles/main';
 export var iconClass = style({

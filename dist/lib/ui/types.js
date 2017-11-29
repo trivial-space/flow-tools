@@ -1,4 +1,3 @@
-"use strict";
 import { clamp } from 'tvs-libs/dist/lib/math/core';
 export var graphDefaultViewBox = {
     width: 0,

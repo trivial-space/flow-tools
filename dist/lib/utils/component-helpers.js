@@ -1,4 +1,3 @@
-"use strict";
 var targets = [];
 export function getDragDeltas(onDragDelta, onMouseDown) {
     var oldX = 0;

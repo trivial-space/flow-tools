@@ -1,4 +1,3 @@
-"use strict";
 import { val, stream, asyncStream } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates';
 import { runtime, graph, metaEntity, enhancedEntityData } from './flow';

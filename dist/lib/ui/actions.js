@@ -1,4 +1,3 @@
-"use strict";
 export var FLOW = {
     ENTITY_INSPECT: 'flow:entity_inspect',
     ENTITY_RESET: 'flow:entity_reset',

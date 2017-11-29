@@ -1,4 +1,3 @@
-"use strict";
 import { val, asyncStreamStart } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { windowSize as getWindowSize } from 'tvs-libs/dist/lib/events/dom';
 export var windowSize = asyncStreamStart(null, getWindowSize);

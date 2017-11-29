@@ -1,4 +1,3 @@
-"use strict";
 export function create(flow) {
     function callAll(name) {
         return function () {

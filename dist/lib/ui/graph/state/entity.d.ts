@@ -11,7 +11,7 @@ export declare const activeNode: EntityRef<{
 export declare const watchingEntity: EntityRef<boolean>;
 export declare const activeValue: EntityRef<any>;
 export declare const entityViewProps: EntityRef<{
-    entity: any;
+    entity: ProcessedGraphEntity;
     value: any;
-    watching: any;
+    watching: boolean;
 }>;

@@ -1,4 +1,3 @@
-"use strict";
 import { stream } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { activeEntity } from './entity';
 import { metaTree, enhancedEntityData } from './flow';

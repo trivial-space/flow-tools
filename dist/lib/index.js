@@ -1,4 +1,3 @@
-"use strict";
 import * as gui from './ui/index';
 import * as consoleTree from './console/tree';
 import * as uetree from './utils/entity-tree';
