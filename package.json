@@ -31,7 +31,9 @@
 		"inferno": "^3.10.1",
 		"inferno-component": "^3.10.1",
 		"inferno-create-element": "^3.10.1",
-		"lodash.debounce": "^4.0.8"
+		"lodash.debounce": "^4.0.8",
+		"tvs-flow": "^0.9.0",
+		"tvs-libs": "^0.4.1"
 	},
 	"devDependencies": {
 		"@types/node": "^8.0.53",
@@ -40,8 +42,6 @@
 		"inferno-devtools": "^3.10.1",
 		"ts-loader": "^3.2.0",
 		"tslint": "^5.8.0",
-		"tvs-flow": "^0.9.0",
-		"tvs-libs": "^0.4.1",
 		"typescript": "^2.6.2",
 		"typestyle": "^1.5.1",
 		"uglifyjs-webpack-plugin": "^1.1.1",

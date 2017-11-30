@@ -1,39 +1,150 @@
-import { stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
+import { stream, EntityRef, asyncStream, val } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { equalObject } from 'tvs-libs/dist/lib/utils/predicates'
-import { graph, metaGraph, metaEntities, enhancedEntityData } from './flow'
+import { metaGraph, metaEntities, enhancedEntityData, graph, runtime } from './flow'
 import { PORT_TYPES } from 'tvs-flow/dist/lib/runtime-types'
 import { activeNode } from './entity'
 import { GraphViewBox, graphDefaultViewBox } from '../../types'
+import { sub, normalize, length, mul, add } from 'tvs-libs/dist/lib/math/vectors'
 
 
 export const viewBox: EntityRef<GraphViewBox> = stream(
 	[metaGraph.HOT],
 	graph => (graph.viewBox || graphDefaultViewBox) as GraphViewBox
 )
-.accept((v1, v2) => !v2 || !equalObject(v1 as any, v2 as any))
+	.accept((v1, v2) => !v2 || !equalObject(v1 as any, v2 as any))
 
 
-export const entityPositions = stream(
+export const simulationSteps = val(500)
+
+
+export interface Positions { [id: string]: { x: number, y: number } }
+
+
+export const initialPosition = stream(
 	[graph.HOT],
-	// Reset positions on new graph
-	(_) => ({} as { [id: string]: { x: number, y: number } })
-)
-.react(
-	[metaEntities.HOT, graph.COLD],
-	(self, entities, graph) => {
+	(graph) => {
+
+		const positions = {} as Positions
+
 		for (const eid in graph.entities) {
-			const e = entities[eid]
-			const pos = e && e.ui && e.ui.graph && e.ui.graph.position
-			if (pos) {
-				self[eid] = pos
-			} else if (!self[eid]) {
-				self[eid] = {
-					x: Math.random() * 800,
-					y: Math.random() * 800
-				}
+			positions[eid] = {
+				x: Math.random() * 800,
+				y: Math.random() * 800
 			}
 		}
-		return self
+
+		return positions
+	}
+)
+
+
+export const entityPositions = asyncStream(
+	[metaEntities.HOT, simulationSteps.HOT, enhancedEntityData.COLD, initialPosition.HOT],
+	(send: (ps: Positions) => void, esMeta, steps, esData, positions) => {
+
+		for (const eid in esData) {
+			const e = esMeta[eid]
+			const pos = e && e.ui && e.ui.graph && e.ui.graph.position
+			if (pos) {
+				positions[eid] = pos
+			}
+		}
+
+		send(positions)
+
+		const ids = Object.keys(esData)
+
+		function simulateForces () {
+			const forces = {} as { [id: string]: number[] }
+
+			for (let i = 0; i < ids.length; i++) {
+				const eid = ids[i]
+				const e = esData[eid]
+				const e1Pos = positions[eid]
+
+				for (const p of e.processes) {
+					for (const eP of p.entities) {
+						const springLength = esData[eP.eid].namespace === e.namespace ? 200 : 300
+
+						const e2Pos = positions[eP.eid]
+						const vec = sub([e2Pos.x, e2Pos.y], [e1Pos.x, e1Pos.y])
+						const dist = length(vec)
+						const dir = normalize(vec)
+						const diff = dist - springLength
+						const force = eP.type === PORT_TYPES.COLD ? diff * 0.5 : diff * 2
+						forces[eid] = add(forces[eid] || [0, 0], mul(dir, force))
+						forces[eP.eid] = add(forces[eP.eid] || [0, 0], mul(dir, force * -1))
+					}
+				}
+
+				for (let j = i + 1; j < ids.length; j++) {
+					const eid2 = ids[j]
+					const e2 = esData[eid2]
+					const e2Pos = positions[eid2]
+
+					const vec = sub([e2Pos.x, e2Pos.y], [e1Pos.x, e1Pos.y])
+					const dist = length(vec)
+					const dir = normalize(vec)
+					const force = Math.max(100 - dist, 0)
+					forces[eid] = add(forces[eid] || [0, 0], mul(dir, force * -1))
+					forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force))
+
+					if (e.namespace === e2.namespace) {
+						const force = dist - 300
+						forces[eid] = add(forces[eid] || [0, 0], mul(dir, force))
+						forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force * -1))
+					} else {
+						const force = Math.max(400 - dist, 0)
+						forces[eid] = add(forces[eid] || [0, 0], mul(dir, force * -1))
+						forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force))
+					}
+				}
+			}
+
+			let updated = false
+
+			for (const eid in forces) {
+				const force = forces[eid]
+				const l = length(force) - 10
+				if (l > 0) {
+					const n = normalize(force)
+					const pos = positions[eid]
+					const [x, y] = add([pos.x, pos.y], mul(n, l / steps))
+					positions[eid] = { x, y }
+					updated = true
+				}
+			}
+
+			if (updated) {
+				send(positions)
+			}
+		}
+
+		let i = steps
+
+		function animate () {
+			if (i > 0) {
+				simulateForces()
+				requestAnimationFrame(animate)
+				i--
+			}
+		}
+
+		requestAnimationFrame(animate)
+
+		return function() { i = 0 }
+	}
+)
+
+
+runtime.react(
+	[entityPositions.HOT],
+	(self, pos) => {
+		const meta: any = {}
+		for (const eid in pos) {
+			meta[eid] = { ui: { graph: { position: pos[eid] } } }
+		}
+		self.setMeta({ entities: meta })
 	}
 )
 
@@ -151,7 +262,7 @@ export const graphData = stream(
 		}
 	}
 )
-.react(
+	.react(
 	[viewBox.HOT],
 	(self: any, viewBox) => {
 		self.viewBox = {
@@ -162,4 +273,4 @@ export const graphData = stream(
 		}
 		return self
 	}
-)
+	)
