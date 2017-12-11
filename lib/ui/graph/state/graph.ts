@@ -42,7 +42,7 @@ export const entityPositions = asyncStream(
 	[metaEntities.HOT, simulationSteps.HOT, enhancedEntityData.COLD, initialPosition.HOT],
 	(send: (ps: Positions) => void, esMeta, steps, esData, positions) => {
 
-		for (const eid in esData) {
+		for (const eid in esMeta) {
 			const e = esMeta[eid]
 			const pos = e && e.ui && e.ui.graph && e.ui.graph.position
 			if (pos) {
@@ -94,39 +94,55 @@ export const entityPositions = asyncStream(
 						forces[eid] = add(forces[eid] || [0, 0], mul(dir, force))
 						forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force * -1))
 					} else {
-						const force = Math.max(400 - dist, 0)
+						const force = Math.max(300 - dist, 0)
 						forces[eid] = add(forces[eid] || [0, 0], mul(dir, force * -1))
 						forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force))
 					}
 				}
 			}
 
-			let updated = false
-
 			for (const eid in forces) {
 				const force = forces[eid]
-				const l = length(force) - 10
-				if (l > 0) {
+				const l = length(force)
+				if (l > steps / 2) {
 					const n = normalize(force)
 					const pos = positions[eid]
 					const [x, y] = add([pos.x, pos.y], mul(n, l / steps))
-					positions[eid] = { x, y }
-					updated = true
+					positions[eid] = { x: Math.floor(x), y: Math.floor(y) }
 				}
-			}
-
-			if (updated) {
-				send(positions)
 			}
 		}
 
 		let i = steps
 
 		function animate () {
-			if (i > 0) {
-				simulateForces()
-				requestAnimationFrame(animate)
-				i--
+			if (i > 10) {
+
+				const oldPositions: any = {}
+				for (const eid in positions) {
+					oldPositions[eid] = positions[eid]
+				}
+
+				for (let j = 10; j > 0; j--) {
+					simulateForces()
+					i--
+				}
+
+				let equals = true
+				for (const eid in positions) {
+					const o = oldPositions[eid]
+					const n = positions[eid]
+					if (o !== n && (o.x !== n.x || o.y !== n.y)) {
+						equals = false
+					}
+				}
+
+				if (!equals) {
+					send(positions)
+					if (i > 10) {
+						setTimeout(animate, 60)
+					}
+				}
 			}
 		}
 
