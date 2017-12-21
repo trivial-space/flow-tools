@@ -60,10 +60,10 @@ export var defaultUIMeta = {
     },
     entities: {}
 };
-var topGuard = function (val) { return clamp(val, 0, window.innerHeight - 20); };
-var leftGuard = function (val) { return clamp(val, 0, window.innerWidth - 20); };
-var widthGuard = function (val) { return Math.min(val, window.innerWidth - 20); };
-var heightGuard = function (val) { return Math.min(val, window.innerHeight - 20); };
+var topGuard = function (val) { return clamp(0, window.innerHeight - 20, val); };
+var leftGuard = function (val) { return clamp(0, window.innerWidth - 20, val); };
+var widthGuard = function (val) { return Math.min(window.innerWidth - 20, val); };
+var heightGuard = function (val) { return Math.min(window.innerHeight - 20, val); };
 export var metaGuards = {
     ui: {
         entity: {

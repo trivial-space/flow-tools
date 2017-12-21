@@ -178,10 +178,10 @@ export const defaultUIMeta: UIMeta = {
 
 // Guards
 
-const topGuard = (val: number) => clamp(val, 0, window.innerHeight - 20)
-const leftGuard = (val: number) => clamp(val, 0, window.innerWidth - 20)
-const widthGuard = (val: number) => Math.min(val, window.innerWidth - 20)
-const heightGuard = (val: number) => Math.min(val, window.innerHeight - 20)
+const topGuard = (val: number) => clamp(0, window.innerHeight - 20, val)
+const leftGuard = (val: number) => clamp(0, window.innerWidth - 20, val)
+const widthGuard = (val: number) => Math.min(window.innerWidth - 20, val)
+const heightGuard = (val: number) => Math.min(window.innerHeight - 20, val)
 
 
 export const metaGuards = {

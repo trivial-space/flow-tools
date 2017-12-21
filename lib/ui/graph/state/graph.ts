@@ -72,8 +72,8 @@ export const entityPositions = asyncStream(
 						const dir = normalize(vec)
 						const diff = dist - springLength
 						const force = eP.type === PORT_TYPES.COLD ? diff * 0.5 : diff * 2
-						forces[eid] = add(forces[eid] || [0, 0], mul(dir, force))
-						forces[eP.eid] = add(forces[eP.eid] || [0, 0], mul(dir, force * -1))
+						forces[eid] = add(forces[eid] || [0, 0], mul(force, dir))
+						forces[eP.eid] = add(forces[eP.eid] || [0, 0], mul(force * -1, dir))
 					}
 				}
 
@@ -86,17 +86,17 @@ export const entityPositions = asyncStream(
 					const dist = length(vec)
 					const dir = normalize(vec)
 					const force = Math.max(100 - dist, 0)
-					forces[eid] = add(forces[eid] || [0, 0], mul(dir, force * -1))
-					forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force))
+					forces[eid] = add(forces[eid] || [0, 0], mul(force * -1, dir))
+					forces[eid2] = add(forces[eid2] || [0, 0], mul(force, dir))
 
 					if (e.namespace === e2.namespace) {
 						const force = dist - 300
-						forces[eid] = add(forces[eid] || [0, 0], mul(dir, force))
-						forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force * -1))
+						forces[eid] = add(forces[eid] || [0, 0], mul(force, dir))
+						forces[eid2] = add(forces[eid2] || [0, 0], mul(force * -1, dir))
 					} else {
 						const force = Math.max(300 - dist, 0)
-						forces[eid] = add(forces[eid] || [0, 0], mul(dir, force * -1))
-						forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force))
+						forces[eid] = add(forces[eid] || [0, 0], mul(force * -1, dir))
+						forces[eid2] = add(forces[eid2] || [0, 0], mul(force, dir))
 					}
 				}
 			}
@@ -107,7 +107,7 @@ export const entityPositions = asyncStream(
 				if (l > steps / 2) {
 					const n = normalize(force)
 					const pos = positions[eid]
-					const [x, y] = add([pos.x, pos.y], mul(n, l / steps))
+					const [x, y] = add([pos.x, pos.y], mul(l / steps, n))
 					positions[eid] = { x: Math.floor(x), y: Math.floor(y) }
 				}
 			}

@@ -53,8 +53,8 @@ export var entityPositions = asyncStream([metaEntities.HOT, simulationSteps.HOT,
                     var dir = normalize(vec);
                     var diff = dist - springLength;
                     var force = eP.type === PORT_TYPES.COLD ? diff * 0.5 : diff * 2;
-                    forces[eid] = add(forces[eid] || [0, 0], mul(dir, force));
-                    forces[eP.eid] = add(forces[eP.eid] || [0, 0], mul(dir, force * -1));
+                    forces[eid] = add(forces[eid] || [0, 0], mul(force, dir));
+                    forces[eP.eid] = add(forces[eP.eid] || [0, 0], mul(force * -1, dir));
                 }
             }
             for (var j = i_1 + 1; j < ids.length; j++) {
@@ -65,17 +65,17 @@ export var entityPositions = asyncStream([metaEntities.HOT, simulationSteps.HOT,
                 var dist = length(vec);
                 var dir = normalize(vec);
                 var force = Math.max(100 - dist, 0);
-                forces[eid] = add(forces[eid] || [0, 0], mul(dir, force * -1));
-                forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force));
+                forces[eid] = add(forces[eid] || [0, 0], mul(force * -1, dir));
+                forces[eid2] = add(forces[eid2] || [0, 0], mul(force, dir));
                 if (e.namespace === e2.namespace) {
                     var force_1 = dist - 300;
-                    forces[eid] = add(forces[eid] || [0, 0], mul(dir, force_1));
-                    forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force_1 * -1));
+                    forces[eid] = add(forces[eid] || [0, 0], mul(force_1, dir));
+                    forces[eid2] = add(forces[eid2] || [0, 0], mul(force_1 * -1, dir));
                 }
                 else {
                     var force_2 = Math.max(300 - dist, 0);
-                    forces[eid] = add(forces[eid] || [0, 0], mul(dir, force_2 * -1));
-                    forces[eid2] = add(forces[eid2] || [0, 0], mul(dir, force_2));
+                    forces[eid] = add(forces[eid] || [0, 0], mul(force_2 * -1, dir));
+                    forces[eid2] = add(forces[eid2] || [0, 0], mul(force_2, dir));
                 }
             }
         }
@@ -85,7 +85,7 @@ export var entityPositions = asyncStream([metaEntities.HOT, simulationSteps.HOT,
             if (l > steps / 2) {
                 var n = normalize(force);
                 var pos = positions[eid];
-                var _d = add([pos.x, pos.y], mul(n, l / steps)), x = _d[0], y = _d[1];
+                var _d = add([pos.x, pos.y], mul(l / steps, n)), x = _d[0], y = _d[1];
                 positions[eid] = { x: Math.floor(x), y: Math.floor(y) };
             }
         }
