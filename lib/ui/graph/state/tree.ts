@@ -1,12 +1,12 @@
 import { stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { activeEntity } from './entity'
-import { metaTree, enhancedEntityData } from './flow'
+import { metaTree, enhancedGraphData } from './flow'
 import { createEntityTree } from '../../../utils/entity-tree'
 import { Entity } from 'tvs-flow/dist/lib/runtime-types'
 
 
 export const entityTree: EntityRef<{}> = stream(
-	[enhancedEntityData.HOT], createEntityTree
+	[enhancedGraphData.HOT], g => createEntityTree(g.entities)
 )
 
 

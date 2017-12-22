@@ -5,11 +5,11 @@ import { windowContentStyle, entityViewStyle } from './styles/components'
 import { GUI, FLOW } from '../actions'
 
 
-function jsonCode (entityValue, watching, editingValue) {
-	let code = ''
-	if (entityValue != null) {
+function jsonCode (initialValue, readonly, currentValueContainer) {
+	let code = 'no value set'
+	if (initialValue !== undefined) {
 		try {
-			code = JSON.stringify(entityValue, null, '  ')
+			code = JSON.stringify(initialValue, null, '  ')
 		} catch (e) {
 			code = 'Error: ' + e.message
 		}
@@ -17,8 +17,8 @@ function jsonCode (entityValue, watching, editingValue) {
 
 	return ['code',
 		['pre', {
-				contentEditable: !watching,
-				onInput: e => editingValue.value = e.target.textContent
+				contentEditable: !readonly,
+				onInput: e => currentValueContainer.value = e.target.textContent
 			},
 			code]]
 }

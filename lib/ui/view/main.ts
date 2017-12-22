@@ -168,6 +168,7 @@ function graphWindow ({dimensions, window}, dispatch, component) {
 
 
 function entityWindow ({dimensions, node, window}, dispatch, component) {
+	console.log('entityWindow: ', node)
 	const view = node && node.procedure
 		? processView(node, dispatch)
 		: component(entityView, entityViewProps)

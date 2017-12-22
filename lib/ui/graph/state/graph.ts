@@ -1,6 +1,6 @@
 import { stream, EntityRef, asyncStream, val } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { equalObject } from 'tvs-libs/dist/lib/utils/predicates'
-import { metaGraph, metaEntities, enhancedEntityData, graph, runtime } from './flow'
+import { metaGraph, metaEntities, graph, runtime, enhancedGraphData } from './flow'
 import { PORT_TYPES } from 'tvs-flow/dist/lib/runtime-types'
 import { activeNode } from './entity'
 import { GraphViewBox, graphDefaultViewBox } from '../../types'
@@ -11,7 +11,7 @@ export const viewBox: EntityRef<GraphViewBox> = stream(
 	[metaGraph.HOT],
 	graph => (graph.viewBox || graphDefaultViewBox) as GraphViewBox
 )
-	.accept((v1, v2) => !v2 || !equalObject(v1 as any, v2 as any))
+.accept((v1, v2) => !v2 || !equalObject(v1 as any, v2 as any))
 
 
 export const simulationSteps = val(500)
@@ -39,8 +39,8 @@ export const initialPosition = stream(
 
 
 export const entityPositions = asyncStream(
-	[metaEntities.HOT, simulationSteps.HOT, enhancedEntityData.COLD, initialPosition.HOT],
-	(send: (ps: Positions) => void, esMeta, steps, esData, positions) => {
+	[metaEntities.HOT, simulationSteps.HOT, enhancedGraphData.COLD, initialPosition.HOT],
+	(send: (ps: Positions) => void, esMeta, steps, graphData, positions) => {
 
 		for (const eid in esMeta) {
 			const e = esMeta[eid]
@@ -52,19 +52,20 @@ export const entityPositions = asyncStream(
 
 		send(positions)
 
-		const ids = Object.keys(esData)
+		const ids = Object.keys(graphData.entities)
 
 		function simulateForces () {
 			const forces = {} as { [id: string]: number[] }
 
 			for (let i = 0; i < ids.length; i++) {
 				const eid = ids[i]
-				const e = esData[eid]
+				const e = graphData.entities[eid]
 				const e1Pos = positions[eid]
 
-				for (const p of e.processes) {
-					for (const eP of p.entities) {
-						const springLength = esData[eP.eid].namespace === e.namespace ? 200 : 300
+				for (const pid of e.processes) {
+					const p = graphData.processes[pid]
+					for (const eP of p.inputs) {
+						const springLength = graphData.entities[eP.eid].namespace === e.namespace ? 200 : 300
 
 						const e2Pos = positions[eP.eid]
 						const vec = sub([e2Pos.x, e2Pos.y], [e1Pos.x, e1Pos.y])
@@ -79,7 +80,7 @@ export const entityPositions = asyncStream(
 
 				for (let j = i + 1; j < ids.length; j++) {
 					const eid2 = ids[j]
-					const e2 = esData[eid2]
+					const e2 = graphData.entities[eid2]
 					const e2Pos = positions[eid2]
 
 					const vec = sub([e2Pos.x, e2Pos.y], [e1Pos.x, e1Pos.y])
@@ -168,8 +169,8 @@ runtime.react(
 const pDistance = 50
 
 export const graphData = stream(
-	[enhancedEntityData.HOT, activeNode.HOT, entityPositions.HOT],
-	(entityData, active, positions) => {
+	[enhancedGraphData.HOT, activeNode.HOT, entityPositions.HOT],
+	(graphData, active, positions) => {
 
 		const groups: any = {}
 		let groupNr = 0
@@ -178,9 +179,9 @@ export const graphData = stream(
 		const entities: any[] = []
 		const edges: any[] = []
 
-		for (const eid in entityData) {
+		for (const eid in graphData.entities) {
 
-			const e = entityData[eid]
+			const e = graphData.entities[eid]
 
 			groups[e.namespace] = groups[e.namespace] || (groupNr++ % 7) + 1
 
@@ -202,7 +203,8 @@ export const graphData = stream(
 
 			entities.push(eNode)
 
-			for (const p of e.processes) {
+			for (const pid of e.processes) {
+				const p = graphData.processes[pid]
 
 				const pNode: any = {
 					id: p.id,
@@ -210,16 +212,16 @@ export const graphData = stream(
 					autostart: p.autostart,
 					active: p.id === active.id,
 					acc: p.reaction,
-					from: p.entities,
+					from: p.inputs,
 					to: eid,
 					class: eNode.class
 				}
 
-				if (p.entities.length) {
+				if (p.inputs.length) {
 					pNode.x = 0
 					pNode.y = 0
 
-					for (const { eid, type } of p.entities) {
+					for (const { eid, type } of p.inputs) {
 						const fromPos = positions[eid]
 						if (fromPos) {
 							let x = fromPos.x - eNode.x
