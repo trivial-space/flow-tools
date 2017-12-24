@@ -280,7 +280,7 @@ export const graphData = stream(
 		}
 	}
 )
-	.react(
+.react(
 	[viewBox.HOT],
 	(self: any, viewBox) => {
 		self.viewBox = {
@@ -291,4 +291,4 @@ export const graphData = stream(
 		}
 		return self
 	}
-	)
+)

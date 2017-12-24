@@ -52,10 +52,17 @@ export interface PartialUIMetaGraph {
 }
 
 
+export enum EntityViewMode {
+	DETAILS = 'details',
+	VALUE = 'value'
+}
+
+
 export interface UIEntityProperties {
 	activeEntityId: string
 	activeProcessId: string
 	watchingEntity: boolean
+	viewMode: EntityViewMode
 }
 
 export interface UIMetaEntity extends UIEntityProperties {

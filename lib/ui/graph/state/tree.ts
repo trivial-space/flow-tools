@@ -1,7 +1,7 @@
 import { stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { activeEntity } from './entity'
 import { metaTree, enhancedGraphData } from './flow'
-import { createEntityTree } from '../../../utils/entity-tree'
+import { createEntityTree } from '../../../utils/entity-data-helpers'
 import { Entity } from 'tvs-flow/dist/lib/runtime-types'
 
 

@@ -4,7 +4,7 @@ import { action, windowSize } from '../events'
 import { unequal } from 'tvs-libs/dist/lib/utils/predicates'
 import { FLOW, GUI } from '../../actions'
 import { UIMeta, MetaFlow, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI, UIMetaControls, guardMeta } from '../../types'
-import { processGraph, ProcessedGraph } from '../../../utils/entity-tree'
+import { processGraph, ProcessedGraph } from '../../../utils/entity-data-helpers'
 
 
 export const runtimes = val<{[id: string]: Runtime}>({})
@@ -193,6 +193,12 @@ export const meta = stream(
 					watchingEntity: payload
 				} } })
 
+			case GUI.ENTITY.SET_VIEW_MODE:
+				console.log('setting viewmode', payload)
+				return flow.setMeta({ ui: { entity: {
+					viewMode: payload
+				} } })
+
 			case GUI.GRAPH.MOVE_VIEWPORT:
 				return flow.setMeta({ ui: { graph: {
 					viewBox: {
@@ -290,10 +296,3 @@ export const graph: EntityRef<Graph> = stream(
 export const enhancedGraphData: EntityRef<ProcessedGraph> = stream(
 	[graph.HOT], processGraph
 )
-
-
-export const state = stream(
-	[runtime.HOT],
-	flow => flow.getState()
-)
-

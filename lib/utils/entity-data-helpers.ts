@@ -109,3 +109,10 @@ export function processGraph (graph: Graph): ProcessedGraph {
 
 	return { entities, processes }
 }
+
+
+export function printEntityName (e: ProcessedGraphEntity | ProcessedGraphProcess) {
+	return e.name
+		? e.namespace + ' / ' + e.name
+		: e.id || 'No entity selected'
+}

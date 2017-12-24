@@ -1,8 +1,8 @@
 import * as gui from './ui/index'
 import * as consoleTree from './console/tree'
-import * as uetree from './utils/entity-tree'
-import * as uwebpack from './utils/webpack'
-import * as uinferno from './utils/inferno'
+import * as uEntityData from './utils/entity-data-helpers'
+import * as uWebpack from './utils/webpack'
+import * as uInferno from './utils/inferno'
 
 
 export default gui
@@ -14,7 +14,7 @@ export const console = {
 }
 
 export const utils = {
-	entityTree: uetree,
-	webpack: uwebpack,
-	yoyo: uinferno
+	entityData: uEntityData,
+	webpack: uWebpack,
+	yoyo: uInferno
 }

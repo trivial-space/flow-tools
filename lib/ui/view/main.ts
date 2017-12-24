@@ -5,23 +5,33 @@ import { highlightColor, mainStyle } from './styles/main'
 import { iconBtn } from './ui'
 import { windowContentStyle, controlsStyle, windowStyle } from './styles/components'
 import { graphView, scaleSlider } from './graph'
-import { processView, entityView } from './entity'
+import { processValueView, entityValueView, processDetailsView, entityDetailsView } from './entity'
 import { treeView } from './tree'
 import { iconButtonLightStyle } from './styles/ui'
 import { GUI } from '../actions'
 import { visibility } from '../graph/state/gui'
-import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps, controlTitleProps } from '../graph/state/views'
+import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps, processViewProps, entityViewProps } from '../graph/state/views'
 import { viewBox, graphData } from '../graph/state/graph'
-import { entityViewProps } from '../graph/state/entity'
+import { activeNode } from '../graph/state/entity'
 import { treeData } from '../graph/state/tree'
 import { getDragDeltas } from '../../utils/component-helpers'
+import { EntityViewMode } from '../../ui/types'
+import { printEntityName } from '../../utils/entity-data-helpers'
 
 
-function titleView ({title}, dispatch) {
+// function titleView (title, dispatch) {
+// 	function move (delta) {
+// 		dispatch(GUI.MAIN.MOVE_WINDOW, delta)
+// 	}
+// 	return ['h1', {...getDragDeltas(move)}, title]
+// }
+
+
+function entityName (entity, dispatch) {
 	function move (delta) {
 		dispatch(GUI.MAIN.MOVE_WINDOW, delta)
 	}
-	return ['h1', {...getDragDeltas(move)}, title]
+	return ['h2', {...getDragDeltas(move)}, printEntityName(entity)]
 }
 
 
@@ -45,6 +55,9 @@ function setActiveWindow(label, dispatch) {
 
 function controls({visibility, position}, dispatch, component) {
 
+	function move (delta) {
+		dispatch(GUI.MAIN.MOVE_WINDOW, delta)
+	}
 	const click =
 		label =>
 			() => dispatch(GUI.MAIN.UPDATE_VISIBILITY, label)
@@ -55,8 +68,10 @@ function controls({visibility, position}, dispatch, component) {
 				onmousedown: setActiveWindow('controls', dispatch),
 				style: {...position}
 			},
-			component(titleView, controlTitleProps),
-			['nav', {class: 'tvs-controls-btns'},
+			['nav', {
+					class: 'tvs-controls-btns',
+					...getDragDeltas(move)
+				},
 				['ul',
 					['li',
 						iconBtn({
@@ -78,7 +93,11 @@ function controls({visibility, position}, dispatch, component) {
 							onclick: click('entity'),
 							icon: icon.entity(),
 							title: 'toggle entity details'
-						})]]]]
+						})]
+					]
+			],
+			component(entityName, activeNode)
+		]
 
 	return el
 }
@@ -167,14 +186,29 @@ function graphWindow ({dimensions, window}, dispatch, component) {
 }
 
 
-function entityWindow ({dimensions, node, window}, dispatch, component) {
-	console.log('entityWindow: ', node)
-	const view = node && node.procedure
-		? processView(node, dispatch)
-		: component(entityView, entityViewProps)
+function entityWindow ({dimensions, node, window, viewMode}, dispatch, component) {
+	console.log('viewMode Prop', viewMode)
+	viewMode = viewMode || EntityViewMode.VALUE
+
+	const isProcess = node && node.procedure
+	const isValueMode = viewMode === EntityViewMode.VALUE
+
+	const view = isValueMode
+		? isProcess
+			? component(processValueView, processViewProps)
+			: component(entityValueView, entityViewProps)
+		: isProcess
+			? component(processDetailsView, processViewProps)
+			: component(entityDetailsView, entityViewProps)
 
 	function move (delta) {
 		dispatch(GUI.MAIN.MOVE_WINDOW, delta)
+	}
+
+	function onChange (this: any, e) {
+		console.log(this)
+		dispatch(GUI.ENTITY.SET_VIEW_MODE, e.currentTarget.value)
+		console.log(e.currentTarget.value)
 	}
 
 	const el =
@@ -186,11 +220,13 @@ function entityWindow ({dimensions, node, window}, dispatch, component) {
 			['header',
 				{ ...getDragDeltas(move) },
 				icon.entity(window === 'entity' ? 'selected' : ''),
-				' ',
-				node && node.id,
-				' ',
+				isProcess ? ' Process ' : ' Entity ',
 				['span', {class: 'gap'}, ' '],
-				' ',
+				['select', {
+					onChange },
+					['option', {value: EntityViewMode.VALUE, selected: viewMode === EntityViewMode.VALUE}, 'value'],
+					['option', {value: EntityViewMode.DETAILS, selected: viewMode === EntityViewMode.DETAILS}, 'details']
+				],
 				iconBtn({
 					icon: icon.close(),
 					class: iconButtonLightStyle,

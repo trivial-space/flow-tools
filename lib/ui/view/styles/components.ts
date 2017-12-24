@@ -8,7 +8,7 @@ export const controlsStyle = style(element, {
 	padding: 2,
 	whiteSpace: 'nowrap',
 	$nest: {
-		'& h1': {
+		'& h1, & h2': {
 			display: 'inline-block',
 			margin: '0 8px',
 			fontSize,
