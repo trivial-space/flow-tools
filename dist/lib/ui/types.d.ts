@@ -30,10 +30,15 @@ export interface PartialUIMetaGraph {
     viewBox?: Partial<GraphViewBox>;
     window?: PartialUIWindow;
 }
+export declare enum EntityViewMode {
+    DETAILS = "details",
+    VALUE = "value",
+}
 export interface UIEntityProperties {
     activeEntityId: string;
     activeProcessId: string;
     watchingEntity: boolean;
+    viewMode: EntityViewMode;
 }
 export interface UIMetaEntity extends UIEntityProperties {
     window: UIWindow;

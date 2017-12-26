@@ -39,34 +39,47 @@ function getLabelGroup(id) {
     var group = path.join('.');
     return { label: label, group: group };
 }
-export function processEntities(graph) {
+export function processGraph(graph) {
     var entities = {};
-    for (var eid in graph.entities) {
+    var processes = {};
+    var _loop_1 = function (eid) {
         var e = graph.entities[eid];
         var ns = getLabelGroup(eid);
-        entities[eid] = __assign({}, e, { name: ns.label, namespace: ns.group, processes: getProcessesOfEntity(e, graph) });
+        entities[eid] = __assign({}, e, { name: ns.label, namespace: ns.group, processes: Object.values(graph.arcs)
+                .filter(function (arc) { return arc.entity === e.id && arc.port == null; })
+                .map(function (arc) { return arc.process; }) });
+    };
+    for (var eid in graph.entities) {
+        _loop_1(eid);
     }
-    return entities;
-}
-export function getProcessesOfEntity(entity, graph) {
-    return Object.values(graph.arcs)
-        .filter(function (arc) { return arc.entity === entity.id && arc.port == null; })
-        .map(function (arc) {
-        var p = graph.processes[arc.process];
+    var _loop_2 = function (pid) {
+        var p = graph.processes[pid];
+        var ns = getLabelGroup(pid.split('::').shift());
         var acc = p.ports.indexOf(PORT_TYPES.ACCUMULATOR);
         var startEntities = [];
-        if (acc >= 0)
-            startEntities[acc] = { eid: entity.id, type: PORT_TYPES.ACCUMULATOR };
-        return __assign({}, p, { reaction: acc >= 0, entities: Object.values(graph.arcs)
-                .filter(function (a) { return a.process === p.id && a.port != null; })
+        var outArc = Object.values(graph.arcs).find(function (a) { return a.process === pid && a.port == null; });
+        var outEntity = outArc && outArc.entity;
+        if (acc >= 0 && outEntity) {
+            startEntities[acc] = { eid: outEntity, type: PORT_TYPES.ACCUMULATOR };
+        }
+        processes[pid] = __assign({}, p, { name: ns.label, namespace: ns.group, reaction: acc >= 0, output: outEntity, inputs: Object.values(graph.arcs)
+                .filter(function (a) { return a.process === pid && a.port != null; })
                 .reduce(function (acc, a) {
                 acc[a.port] = {
                     eid: a.entity,
                     type: p.ports[a.port]
                 };
                 return acc;
-            }, startEntities)
-                .filter(function (e) { return e.eid !== entity.id; }) });
-    });
+            }, startEntities) });
+    };
+    for (var pid in graph.processes) {
+        _loop_2(pid);
+    }
+    return { entities: entities, processes: processes };
 }
-//# sourceMappingURL=entity-tree.js.map
+export function printEntityName(e) {
+    return e.name
+        ? e.namespace + ' / ' + e.name
+        : e.id || 'No entity selected';
+}
+//# sourceMappingURL=entity-data-helpers.js.map

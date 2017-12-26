@@ -6,12 +6,12 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
-import { val, stream } from 'tvs-flow/dist/lib/utils/entity-reference';
+import { val, stream, delta } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { action, windowSize } from '../events';
-import { unequal } from 'tvs-libs/dist/lib/utils/predicates';
+import { unequal, equalObject, not } from 'tvs-libs/dist/lib/utils/predicates';
 import { FLOW, GUI } from '../../actions';
 import { guardMeta } from '../../types';
-import { processEntities } from '../../../utils/entity-tree';
+import { processGraph } from '../../../utils/entity-data-helpers';
 export var runtimes = val({})
     .react([action.HOT], function (self, action) {
     if (action.type === FLOW.SET_RUNTIME) {
@@ -160,6 +160,13 @@ export var meta = stream([runtime.HOT], function (runtime) { return runtime.getM
             return flow.setMeta({ ui: { entity: {
                         watchingEntity: payload
                     } } });
+        case GUI.ENTITY.SET_VIEW_MODE:
+            return flow.setMeta({ ui: { entity: {
+                        viewMode: payload
+                    } } });
+        case GUI.ENTITY.SAVE_META:
+            console.log('saving meta', payload);
+            return flow.setMeta({ entities: (_g = {}, _g[payload.id] = payload.value, _g) });
         case GUI.GRAPH.MOVE_VIEWPORT:
             return flow.setMeta({ ui: { graph: {
                         viewBox: {
@@ -190,8 +197,8 @@ export var meta = stream([runtime.HOT], function (runtime) { return runtime.getM
                 var scale = graph && graph.viewBox && graph.viewBox.scale || 1;
                 if (pos) {
                     return flow.setMeta({
-                        entities: (_g = {},
-                            _g[entity.activeEntityId] = {
+                        entities: (_h = {},
+                            _h[entity.activeEntityId] = {
                                 ui: {
                                     graph: {
                                         position: {
@@ -201,12 +208,12 @@ export var meta = stream([runtime.HOT], function (runtime) { return runtime.getM
                                     }
                                 }
                             },
-                            _g)
+                            _h)
                     });
                 }
             }
     }
-    var _b, _c, _d, _e, _f, _g;
+    var _b, _c, _d, _e, _f, _g, _h;
 })
     .react([runtime.COLD, windowSize.HOT], function (self, runtime, _) { return runtime.setMeta(guardMeta(self)); });
 export var metaGraph = stream([meta.HOT], function (meta) { return meta && meta.ui && meta.ui.graph; })
@@ -216,10 +223,16 @@ export var metaTree = stream([meta.HOT], function (meta) { return meta && meta.u
 export var metaEntity = stream([meta.HOT], function (meta) { return meta && meta.ui && meta.ui.entity; })
     .accept(unequal);
 export var metaEntities = stream([meta.HOT], function (meta) { return meta && meta.entities; })
-    .accept(unequal);
+    .accept(not(equalObject));
+export var entitiesDelta = delta(meta, function (a, b) {
+    var foo = {};
+    Object.keys(a.entities).forEach(function (k) {
+        foo[k] = a.entities[k] === b.entities[k];
+    });
+    return foo;
+});
 export var metaControls = stream([meta.HOT], function (meta) { return meta && meta.ui && meta.ui.controls; })
     .accept(unequal);
 export var graph = stream([runtime.HOT], function (flow) { return flow.getGraph(); });
-export var enhancedEntityData = stream([graph.HOT], processEntities);
-export var state = stream([runtime.HOT], function (flow) { return flow.getState(); });
+export var enhancedGraphData = stream([graph.HOT], processGraph);
 //# sourceMappingURL=flow.js.map

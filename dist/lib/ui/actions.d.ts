@@ -11,9 +11,11 @@ export declare const GUI: {
     ENTITY: {
         WATCH_ACTIVE_ENTITY: string;
         SAVE_VALUE: string;
+        SAVE_META: string;
         SET_ACTIVE_PROCESS: string;
         SET_ACTIVE_ENTITY: string;
         RESET_ACTIVE_NODE: string;
+        SET_VIEW_MODE: string;
     };
     GRAPH: {
         UPDATE_SCALE: string;

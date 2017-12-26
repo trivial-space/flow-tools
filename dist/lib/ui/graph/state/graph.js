@@ -8,7 +8,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 import { stream, asyncStream, val } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { equalObject } from 'tvs-libs/dist/lib/utils/predicates';
-import { metaGraph, metaEntities, enhancedEntityData, graph, runtime } from './flow';
+import { metaGraph, metaEntities, graph, runtime, enhancedGraphData } from './flow';
 import { PORT_TYPES } from 'tvs-flow/dist/lib/runtime-types';
 import { activeNode } from './entity';
 import { graphDefaultViewBox } from '../../types';
@@ -26,7 +26,7 @@ export var initialPosition = stream([graph.HOT], function (graph) {
     }
     return positions;
 });
-export var entityPositions = asyncStream([metaEntities.HOT, simulationSteps.HOT, enhancedEntityData.COLD, initialPosition.HOT], function (send, esMeta, steps, esData, positions) {
+export var entityPositions = asyncStream([metaEntities.HOT, simulationSteps.HOT, enhancedGraphData.COLD, initialPosition.HOT], function (send, esMeta, steps, graphData, positions) {
     for (var eid in esMeta) {
         var e = esMeta[eid];
         var pos = e && e.ui && e.ui.graph && e.ui.graph.position;
@@ -35,18 +35,19 @@ export var entityPositions = asyncStream([metaEntities.HOT, simulationSteps.HOT,
         }
     }
     send(positions);
-    var ids = Object.keys(esData);
+    var ids = Object.keys(graphData.entities);
     function simulateForces() {
         var forces = {};
         for (var i_1 = 0; i_1 < ids.length; i_1++) {
             var eid = ids[i_1];
-            var e = esData[eid];
+            var e = graphData.entities[eid];
             var e1Pos = positions[eid];
             for (var _i = 0, _a = e.processes; _i < _a.length; _i++) {
-                var p = _a[_i];
-                for (var _b = 0, _c = p.entities; _b < _c.length; _b++) {
+                var pid = _a[_i];
+                var p = graphData.processes[pid];
+                for (var _b = 0, _c = p.inputs; _b < _c.length; _b++) {
                     var eP = _c[_b];
-                    var springLength = esData[eP.eid].namespace === e.namespace ? 200 : 300;
+                    var springLength = graphData.entities[eP.eid].namespace === e.namespace ? 200 : 300;
                     var e2Pos = positions[eP.eid];
                     var vec = sub([e2Pos.x, e2Pos.y], [e1Pos.x, e1Pos.y]);
                     var dist = length(vec);
@@ -59,7 +60,7 @@ export var entityPositions = asyncStream([metaEntities.HOT, simulationSteps.HOT,
             }
             for (var j = i_1 + 1; j < ids.length; j++) {
                 var eid2 = ids[j];
-                var e2 = esData[eid2];
+                var e2 = graphData.entities[eid2];
                 var e2Pos = positions[eid2];
                 var vec = sub([e2Pos.x, e2Pos.y], [e1Pos.x, e1Pos.y]);
                 var dist = length(vec);
@@ -128,14 +129,14 @@ runtime.react([entityPositions.HOT], function (self, pos) {
     self.setMeta({ entities: meta });
 });
 var pDistance = 50;
-export var graphData = stream([enhancedEntityData.HOT, activeNode.HOT, entityPositions.HOT], function (entityData, active, positions) {
+export var graphData = stream([enhancedGraphData.HOT, activeNode.HOT, entityPositions.HOT], function (graphData, active, positions) {
     var groups = {};
     var groupNr = 0;
     var processes = [];
     var entities = [];
     var edges = [];
-    for (var eid in entityData) {
-        var e = entityData[eid];
+    for (var eid in graphData.entities) {
+        var e = graphData.entities[eid];
         groups[e.namespace] = groups[e.namespace] || (groupNr++ % 7) + 1;
         var eNode = __assign({}, positions[eid], { id: e.id, class: 'group-' + groups[e.namespace], label: e.name, active: e.id === active.id });
         if (e.accept != null) {
@@ -146,21 +147,22 @@ export var graphData = stream([enhancedEntityData.HOT, activeNode.HOT, entityPos
         }
         entities.push(eNode);
         for (var _i = 0, _a = e.processes; _i < _a.length; _i++) {
-            var p = _a[_i];
+            var pid = _a[_i];
+            var p = graphData.processes[pid];
             var pNode = {
                 id: p.id,
                 async: p.async,
                 autostart: p.autostart,
                 active: p.id === active.id,
                 acc: p.reaction,
-                from: p.entities,
+                from: p.inputs,
                 to: eid,
                 class: eNode.class
             };
-            if (p.entities.length) {
+            if (p.inputs.length) {
                 pNode.x = 0;
                 pNode.y = 0;
-                for (var _b = 0, _c = p.entities; _b < _c.length; _b++) {
+                for (var _b = 0, _c = p.inputs; _b < _c.length; _b++) {
                     var _d = _c[_b], eid_1 = _d.eid, type = _d.type;
                     var fromPos = positions[eid_1];
                     if (fromPos) {

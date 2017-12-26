@@ -14,7 +14,7 @@ export var controlsStyle = style(element, {
     padding: 2,
     whiteSpace: 'nowrap',
     $nest: {
-        '& h1': {
+        '& h1, & h2': {
             display: 'inline-block',
             margin: '0 8px',
             fontSize: fontSize,
@@ -66,7 +66,28 @@ export var windowContentStyle = style(content, {
     overflow: 'auto',
     position: 'relative',
     flexGrow: 1,
-    padding: 5
+    padding: 5,
+    $nest: {
+        '& a': {
+            $nest: {
+                '&:hover, &:focus': {
+                    cursor: 'pointer',
+                    textDecoration: 'underline'
+                }
+            }
+        },
+        '& td': {
+            paddingRight: '1em',
+            paddingBottom: '0.5em',
+            verticalAlign: 'top',
+            $nest: {
+                '& p, & div': {
+                    marginTop: 0,
+                    marginBottom: '0.5em'
+                }
+            }
+        }
+    }
 });
 export var treeViewStyle = style(resetUl, {
     margin: 0,

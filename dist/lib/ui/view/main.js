@@ -12,22 +12,23 @@ import { highlightColor, mainStyle } from './styles/main';
 import { iconBtn } from './ui';
 import { windowContentStyle, controlsStyle, windowStyle } from './styles/components';
 import { graphView, scaleSlider } from './graph';
-import { processView, entityView } from './entity';
+import { processValueView, entityValueView, processDetailsView, entityDetailsView } from './entity';
 import { treeView } from './tree';
 import { iconButtonLightStyle } from './styles/ui';
 import { GUI } from '../actions';
 import { visibility } from '../graph/state/gui';
-import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps, controlTitleProps } from '../graph/state/views';
+import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps, processViewProps, entityViewProps } from '../graph/state/views';
 import { viewBox, graphData } from '../graph/state/graph';
-import { entityViewProps } from '../graph/state/entity';
+import { activeNode } from '../graph/state/entity';
 import { treeData } from '../graph/state/tree';
 import { getDragDeltas } from '../../utils/component-helpers';
-function titleView(_a, dispatch) {
-    var title = _a.title;
+import { EntityViewMode } from '../../ui/types';
+import { printEntityName } from '../../utils/entity-data-helpers';
+function entityName(entity, dispatch) {
     function move(delta) {
         dispatch(GUI.MAIN.MOVE_WINDOW, delta);
     }
-    return ['h1', __assign({}, getDragDeltas(move)), title];
+    return ['h2', __assign({}, getDragDeltas(move)), printEntityName(entity)];
 }
 function resizeFooter(dispatch) {
     function resize(delta) {
@@ -43,6 +44,9 @@ function setActiveWindow(label, dispatch) {
 }
 function controls(_a, dispatch, component) {
     var visibility = _a.visibility, position = _a.position;
+    function move(delta) {
+        dispatch(GUI.MAIN.MOVE_WINDOW, delta);
+    }
     var click = function (label) {
         return function () { return dispatch(GUI.MAIN.UPDATE_VISIBILITY, label); };
     };
@@ -51,9 +55,7 @@ function controls(_a, dispatch, component) {
             onmousedown: setActiveWindow('controls', dispatch),
             style: __assign({}, position)
         },
-        component(titleView, controlTitleProps),
-        ['nav', { class: 'tvs-controls-btns' },
-            ['ul',
+        ['nav', __assign({ class: 'tvs-controls-btns' }, getDragDeltas(move)), ['ul',
                 ['li',
                     iconBtn({
                         class: visibility.tree && activeButton,
@@ -74,7 +76,11 @@ function controls(_a, dispatch, component) {
                         onclick: click('entity'),
                         icon: icon.entity(),
                         title: 'toggle entity details'
-                    })]]]];
+                    })]
+            ]
+        ],
+        component(entityName, activeNode)
+    ];
     return el;
 }
 function treeWindow(_a, dispatch, component) {
@@ -145,12 +151,22 @@ function graphWindow(_a, dispatch, component) {
     return el;
 }
 function entityWindow(_a, dispatch, component) {
-    var dimensions = _a.dimensions, node = _a.node, window = _a.window;
-    var view = node && node.procedure
-        ? processView(node, dispatch)
-        : component(entityView, entityViewProps);
+    var dimensions = _a.dimensions, node = _a.node, window = _a.window, viewMode = _a.viewMode;
+    viewMode = viewMode || EntityViewMode.VALUE;
+    var isProcess = node && node.procedure;
+    var isValueMode = viewMode === EntityViewMode.VALUE;
+    var view = isValueMode
+        ? isProcess
+            ? component(processValueView, processViewProps)
+            : component(entityValueView, entityViewProps)
+        : isProcess
+            ? component(processDetailsView, processViewProps)
+            : component(entityDetailsView, entityViewProps);
     function move(delta) {
         dispatch(GUI.MAIN.MOVE_WINDOW, delta);
+    }
+    function onChange(e) {
+        dispatch(GUI.ENTITY.SET_VIEW_MODE, e.currentTarget.value);
     }
     var el = ['article', {
             class: classes('tvs-flow-entity', windowStyle),
@@ -158,11 +174,14 @@ function entityWindow(_a, dispatch, component) {
             onmousedown: setActiveWindow('entity', dispatch)
         },
         ['header', __assign({}, getDragDeltas(move)), icon.entity(window === 'entity' ? 'selected' : ''),
-            ' ',
-            node && node.id,
-            ' ',
+            isProcess ? ' Process ' : ' Entity ',
             ['span', { class: 'gap' }, ' '],
-            ' ',
+            ['select', {
+                    onChange: onChange
+                },
+                ['option', { value: EntityViewMode.VALUE, selected: viewMode === EntityViewMode.VALUE }, 'value'],
+                ['option', { value: EntityViewMode.DETAILS, selected: viewMode === EntityViewMode.DETAILS }, 'details']
+            ],
             iconBtn({
                 icon: icon.close(),
                 class: iconButtonLightStyle,

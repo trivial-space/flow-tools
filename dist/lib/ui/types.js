@@ -6,6 +6,11 @@ export var graphDefaultViewBox = {
     offsetY: 0,
     scale: 1
 };
+export var EntityViewMode;
+(function (EntityViewMode) {
+    EntityViewMode["DETAILS"] = "details";
+    EntityViewMode["VALUE"] = "value";
+})(EntityViewMode || (EntityViewMode = {}));
 export var defaultUIMeta = {
     ui: {
         entity: {

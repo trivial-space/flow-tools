@@ -9,10 +9,12 @@ export var FLOW = {
 export var GUI = {
     ENTITY: {
         WATCH_ACTIVE_ENTITY: 'gui:entity:watch_active_entity',
-        SAVE_VALUE: 'gui:entity:save',
+        SAVE_VALUE: 'gui:entity:save_value',
+        SAVE_META: 'gui:entity:save_meta',
         SET_ACTIVE_PROCESS: 'gui:entity:open_process',
         SET_ACTIVE_ENTITY: 'gui:entity:open_entity',
-        RESET_ACTIVE_NODE: 'gui:entity:reset_entity'
+        RESET_ACTIVE_NODE: 'gui:entity:reset_entity',
+        SET_VIEW_MODE: 'gui:entity:set_view_mode'
     },
     GRAPH: {
         UPDATE_SCALE: 'gui:graph:update_scale',

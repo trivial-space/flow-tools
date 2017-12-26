@@ -1,7 +1,7 @@
 import { EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference';
 import { Runtime, Graph } from 'tvs-flow/dist/lib/runtime-types';
 import { UIMeta, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI, UIMetaControls } from '../../types';
-import { ProcessedGraphEntity } from '../../../utils/entity-tree';
+import { ProcessedGraph } from '../../../utils/entity-data-helpers';
 export declare const runtimes: EntityRef<{
     [id: string]: Runtime;
 }>;
@@ -16,11 +16,9 @@ export declare const metaEntities: EntityRef<{
         ui?: MetaEntitiesUI;
     };
 }>;
+export declare const entitiesDelta: EntityRef<{
+    [id: string]: boolean;
+}>;
 export declare const metaControls: EntityRef<UIMetaControls>;
 export declare const graph: EntityRef<Graph>;
-export declare const enhancedEntityData: EntityRef<{
-    [id: string]: ProcessedGraphEntity;
-}>;
-export declare const state: EntityRef<{
-    [id: string]: any;
-}>;
+export declare const enhancedGraphData: EntityRef<ProcessedGraph>;
