@@ -71,10 +71,15 @@ export function entityValueView(_a, dispatch) {
 }
 export function entityDetailsView(_a, dispatch) {
     var entity = _a.entity, graph = _a.graph, meta = _a.meta;
+    if (!entity.id) {
+        return ['section',
+            { class: entityViewStyle },
+            ['div', { class: windowContentStyle }]];
+    }
     var processes = (entity.processes || []).map(function (pid) { return graph.processes[pid]; });
     var streams = processes.filter(function (p) { return !p.reaction; });
     var reactions = processes.filter(function (p) { return p.reaction; });
-    var tempMeta = { value: meta ? JSON.stringify(meta, null, '  ') : '' };
+    var tempMeta = meta ? JSON.stringify(meta, null, '  ') : '';
     function printProcessInputs(p) {
         var parts = [
             '(',
@@ -102,41 +107,43 @@ export function entityDetailsView(_a, dispatch) {
         ['div', { class: windowContentStyle },
             ['table',
                 ['tr',
-                    ['td', 'name'],
+                    ['th', 'name'],
                     ['td', entity.name]],
                 ['tr',
-                    ['td', 'namespace'],
+                    ['th', 'namespace'],
                     ['td', entity.namespace]],
                 (streams.length > 0 && ['tr',
-                    ['td', 'streams'], ['td'].concat(streams.map(function (s) { return ['p',
+                    ['th', 'streams'], ['td'].concat(streams.map(function (s) { return ['p',
                         ['a', {
                                 onClick: function () { return dispatch(GUI.ENTITY.SET_ACTIVE_PROCESS, s.id); }
                             }, printProcessInputs(s)]]; }))]),
                 (reactions.length > 0 && ['tr',
-                    ['td', 'reactions'], ['td'].concat(reactions.map(function (r) { return ['p',
+                    ['th', 'reactions'], ['td'].concat(reactions.map(function (r) { return ['p',
                         ['a', {
                                 onClick: function () { return dispatch(GUI.ENTITY.SET_ACTIVE_PROCESS, r.id); }
                             }, printProcessInputs(r)]]; }))])
             ],
-            (entity.value && ['p', 'initial value']),
+            (entity.value && ['h3', ' initial value  ',
+                iconBtn({
+                    onclick: function () { return dispatch(FLOW.ENTITY_RESET, entity.id); },
+                    icon: icon.reset(),
+                    title: 'Reset entity value'
+                })
+            ]),
             (entity.value && ['code', ['pre', JSON.stringify(entity.value, null, '  ')]]),
-            (meta && ['p', 'meta data']),
-            (meta && ['code', ['pre', {
-                        contentEditable: true,
-                        onInput: function (e) { tempMeta.value = e.target.textContent; console.log(tempMeta); }
-                    }, tempMeta.value]]),
-            ['div', {
-                    'style': 'margin-top: 4px'
-                },
-                ['button', {
+            (meta && ['h3', ' meta data  ', [
+                    'button', {
                         class: buttonStyle,
                         onclick: function () {
-                            console.log(tempMeta.value);
-                            var value = JSON.parse(tempMeta.value);
+                            var value = JSON.parse(tempMeta);
                             dispatch(GUI.ENTITY.SAVE_META, { id: entity.id, value: value });
                         }
-                    }, 'Save']
-            ]
+                    }, 'Save'
+                ]]),
+            (meta && ['code', ['pre', {
+                        contentEditable: true,
+                        onInput: function (e) { return tempMeta = e.target.textContent; }
+                    }, tempMeta]])
         ],
         ['div', {
                 'style': 'margin-top: 4px'

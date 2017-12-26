@@ -10,19 +10,11 @@ export declare function entityDetailsView({entity, graph, meta}: {
     meta: any;
 }, dispatch: any): (string | {
     class: string;
-} | (string | (string | boolean | (string | (string | (string | (string | {
+} | (string | (string | any[])[] | (string | boolean | (string | (string | (string | (string | {
     onClick: () => any;
 })[])[])[])[])[] | {
     class: string;
-} | (string | (string | {
-    contentEditable: boolean;
-    onInput: (e: any) => void;
-})[])[] | (string | {
-    'style': string;
-} | (string | {
-    class: string;
-    onclick: () => void;
-})[])[])[] | (string | any[] | {
+})[] | (string | any[] | {
     'style': string;
 })[])[];
 export declare function processValueView({process}: {

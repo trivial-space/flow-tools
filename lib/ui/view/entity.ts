@@ -87,12 +87,16 @@ export function entityValueView ({entity, value, watching}, dispatch) {
 
 
 export function entityDetailsView ({ entity, graph, meta }: { entity: ProcessedGraphEntity, graph: ProcessedGraph, meta: any }, dispatch) {
+	if (!entity.id) {
+		return ['section',
+			{ class: entityViewStyle },
+			['div', { class: windowContentStyle }]]
+	}
 
 	const processes = (entity.processes || []).map(pid => graph.processes[pid])
 	const streams = processes.filter(p => !p.reaction)
 	const reactions = processes.filter(p => p.reaction)
-	const tempMeta = { value: meta ? JSON.stringify(meta, null, '  ') : '' }
-	// console.log('setting new meta', tempMeta.value)
+	let tempMeta = meta ? JSON.stringify(meta, null, '  ') : ''
 
 	function printProcessInputs(p: ProcessedGraphProcess) {
 		const parts = [
@@ -124,45 +128,46 @@ export function entityDetailsView ({ entity, graph, meta }: { entity: ProcessedG
 		['div', { class: windowContentStyle },
 			['table',
 				['tr',
-					['td', 'name'],
+					['th', 'name'],
 					['td', entity.name]],
 				['tr',
-					['td', 'namespace'],
+					['th', 'namespace'],
 					['td', entity.namespace]],
 				(streams.length > 0 && ['tr',
-					['td', 'streams'],
+					['th', 'streams'],
 					['td', ...streams.map(s => ['p',
 						['a', {
 							onClick: () => dispatch(GUI.ENTITY.SET_ACTIVE_PROCESS, s.id)
 						}, printProcessInputs(s)]])]]),
 				(reactions.length > 0 && ['tr',
-					['td', 'reactions'],
+					['th', 'reactions'],
 					['td', ...reactions.map(r => ['p',
 						['a', {
 							onClick: () => dispatch(GUI.ENTITY.SET_ACTIVE_PROCESS, r.id)
 						}, printProcessInputs(r)]])]])
 			],
-			(entity.value && ['p', 'initial value']),
+			(entity.value && ['h3', ' initial value  ',
+				iconBtn({
+					onclick: () => dispatch(FLOW.ENTITY_RESET, entity.id),
+					icon: icon.reset(),
+					title: 'Reset entity value'
+				})
+			]),
 			(entity.value && ['code', ['pre', JSON.stringify(entity.value, null, '  ')]]),
-			(meta && ['p', 'meta data']),
+			(meta && ['h3', ' meta data  ', [
+				'button', {
+					class: buttonStyle,
+					onclick: () => {
+						const value = JSON.parse(tempMeta)
+						dispatch(GUI.ENTITY.SAVE_META, { id: entity.id, value })
+					}
+				}, 'Save'
+			]]),
 			(meta && ['code', ['pre', {
 					contentEditable: true,
-					onInput: e => {tempMeta.value = e.target.textContent; console.log(tempMeta)}
-				}, tempMeta.value]]),
-			['div', {
-				'style': 'margin-top: 4px'
-				},
-				['button', {
-						class: buttonStyle,
-						onclick: () => {
-							console.log(tempMeta.value)
-							const value = JSON.parse(tempMeta.value)
-							dispatch(GUI.ENTITY.SAVE_META, {id: entity.id, value})
-						}
-					}, 'Save']
-			]
+					onInput: e => tempMeta = e.target.textContent
+				}, tempMeta]])
 		],
-
 		['div', {
 			'style': 'margin-top: 4px'
 			},

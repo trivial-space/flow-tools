@@ -1,10 +1,11 @@
-import { val, stream, EntityRef, delta } from 'tvs-flow/dist/lib/utils/entity-reference'
+import { val, stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { Runtime, Graph } from 'tvs-flow/dist/lib/runtime-types'
 import { action, windowSize } from '../events'
-import { unequal, equalObject, not } from 'tvs-libs/dist/lib/utils/predicates'
+import { unequal, not } from 'tvs-libs/dist/lib/utils/predicates'
 import { FLOW, GUI } from '../../actions'
 import { UIMeta, MetaFlow, PartialUIMetaEntity, PartialUIMetaTree, PartialUIMetaGraph, MetaEntitiesUI, UIMetaControls, guardMeta } from '../../types'
 import { processGraph, ProcessedGraph } from '../../../utils/entity-data-helpers'
+import * as deepEqual from 'fast-deep-equal'
 
 
 export const runtimes = val<{[id: string]: Runtime}>({})
@@ -199,7 +200,6 @@ export const meta = stream(
 				} } })
 
 			case GUI.ENTITY.SAVE_META:
-				console.log('saving meta', payload)
 				return flow.setMeta({ entities: { [payload.id]: payload.value } })
 
 			case GUI.GRAPH.MOVE_VIEWPORT:
@@ -281,15 +281,7 @@ export const metaEntities: EntityRef<{[id: string]: { ui?: MetaEntitiesUI }}> = 
 	[meta.HOT],
 	meta => meta && meta.entities
 )
-.accept(not(equalObject))
-
-export const entitiesDelta = delta(meta, (a, b) => {
-	const foo: {[id: string]: boolean} = {}
-	Object.keys(a.entities as any).forEach(k => {
-		foo[k] = (a.entities as any)[k] === (b.entities as any)[k]
-	})
-	return foo
-})
+.accept(not(deepEqual))
 
 export const metaControls: EntityRef<UIMetaControls> = stream(
 	[meta.HOT],

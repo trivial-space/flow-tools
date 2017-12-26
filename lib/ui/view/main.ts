@@ -7,7 +7,7 @@ import { windowContentStyle, controlsStyle, windowStyle } from './styles/compone
 import { graphView, scaleSlider } from './graph'
 import { processValueView, entityValueView, processDetailsView, entityDetailsView } from './entity'
 import { treeView } from './tree'
-import { iconButtonLightStyle } from './styles/ui'
+import { iconButtonLightStyle, buttonStyle } from './styles/ui'
 import { GUI } from '../actions'
 import { visibility } from '../graph/state/gui'
 import { controlProps, entityWindowProps, graphWindowProps, treeWindowProps, processViewProps, entityViewProps } from '../graph/state/views'
@@ -204,10 +204,6 @@ function entityWindow ({dimensions, node, window, viewMode}, dispatch, component
 		dispatch(GUI.MAIN.MOVE_WINDOW, delta)
 	}
 
-	function onChange (this: any, e) {
-		dispatch(GUI.ENTITY.SET_VIEW_MODE, e.currentTarget.value)
-	}
-
 	const el =
 		['article', {
 				class: classes('tvs-flow-entity', windowStyle),
@@ -219,11 +215,14 @@ function entityWindow ({dimensions, node, window, viewMode}, dispatch, component
 				icon.entity(window === 'entity' ? 'selected' : ''),
 				isProcess ? ' Process ' : ' Entity ',
 				['span', {class: 'gap'}, ' '],
-				['select', {
-					onChange },
-					['option', {value: EntityViewMode.VALUE, selected: viewMode === EntityViewMode.VALUE}, 'value'],
-					['option', {value: EntityViewMode.DETAILS, selected: viewMode === EntityViewMode.DETAILS}, 'details']
-				],
+				['button', {
+					class: classes(buttonStyle, 'tiny', viewMode === EntityViewMode.VALUE && 'selected'),
+					onClick: () => dispatch(GUI.ENTITY.SET_VIEW_MODE, EntityViewMode.VALUE)
+				}, 'value'],
+				['button', {
+					class: classes(buttonStyle, 'tiny', viewMode === EntityViewMode.DETAILS && 'selected'),
+					onClick: () => dispatch(GUI.ENTITY.SET_VIEW_MODE, EntityViewMode.DETAILS)
+				}, 'details'],
 				iconBtn({
 					icon: icon.close(),
 					class: iconButtonLightStyle,

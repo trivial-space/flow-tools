@@ -16,9 +16,6 @@ export declare const metaEntities: EntityRef<{
         ui?: MetaEntitiesUI;
     };
 }>;
-export declare const entitiesDelta: EntityRef<{
-    [id: string]: boolean;
-}>;
 export declare const metaControls: EntityRef<UIMetaControls>;
 export declare const graph: EntityRef<Graph>;
 export declare const enhancedGraphData: EntityRef<ProcessedGraph>;

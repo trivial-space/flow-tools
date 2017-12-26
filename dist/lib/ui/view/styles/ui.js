@@ -19,9 +19,19 @@ var button = {
     fontSize: '1.0em',
     verticalAlign: 'middle',
     cursor: 'pointer',
+    outline: 'none',
     $nest: {
         '& > svg': {
             verticalAlign: 'middle'
+        },
+        '&.selected': {
+            backgroundColor: 'transparent'
+        },
+        '&.tiny': {
+            margin: 0,
+            fontSize: '0.9em',
+            padding: '2px 5px',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
         }
     }
 };

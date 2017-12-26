@@ -73,6 +73,9 @@ export const windowContentStyle = style(content, {
 	flexGrow: 1,
 	padding: 5,
 	$nest: {
+		'& h3': {
+			fontSize: '1em'
+		},
 		'& a': {
 			$nest: {
 				'&:hover, &:focus': {
@@ -81,16 +84,15 @@ export const windowContentStyle = style(content, {
 				}
 			}
 		},
-		'& td': {
+		'& td, & th': {
 			paddingRight: '1em',
 			paddingBottom: '0.5em',
 			verticalAlign: 'top',
-			$nest: {
-				'& p, & div': {
-					marginTop: 0,
-					marginBottom: '0.5em'
-				}
-			}
+			textAlign: 'left'
+		},
+		'& p, & div': {
+			marginTop: 0,
+			marginBottom: '0.5em'
 		}
 	}
 })
