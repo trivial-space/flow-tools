@@ -71,7 +71,28 @@ export const windowContentStyle = style(content, {
 	overflow: 'auto',
 	position: 'relative',
 	flexGrow: 1,
-	padding: 5
+	padding: 5,
+	$nest: {
+		'& a': {
+			$nest: {
+				'&:hover, &:focus': {
+					cursor: 'pointer',
+					textDecoration: 'underline'
+				}
+			}
+		},
+		'& td': {
+			paddingRight: '1em',
+			paddingBottom: '0.5em',
+			verticalAlign: 'top',
+			$nest: {
+				'& p, & div': {
+					marginTop: 0,
+					marginBottom: '0.5em'
+				}
+			}
+		}
+	}
 })
 
 

@@ -187,7 +187,6 @@ function graphWindow ({dimensions, window}, dispatch, component) {
 
 
 function entityWindow ({dimensions, node, window, viewMode}, dispatch, component) {
-	console.log('viewMode Prop', viewMode)
 	viewMode = viewMode || EntityViewMode.VALUE
 
 	const isProcess = node && node.procedure
@@ -206,9 +205,7 @@ function entityWindow ({dimensions, node, window, viewMode}, dispatch, component
 	}
 
 	function onChange (this: any, e) {
-		console.log(this)
 		dispatch(GUI.ENTITY.SET_VIEW_MODE, e.currentTarget.value)
-		console.log(e.currentTarget.value)
 	}
 
 	const el =

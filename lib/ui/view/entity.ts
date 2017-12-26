@@ -4,6 +4,7 @@ import { buttonStyle } from './styles/ui'
 import { windowContentStyle, entityViewStyle } from './styles/components'
 import { GUI, FLOW } from '../actions'
 import { printEntityName, ProcessedGraphProcess, ProcessedGraph, ProcessedGraphEntity } from '../../utils/entity-data-helpers'
+import { PORT_TYPES } from 'tvs-flow/dist/lib/runtime-types'
 
 
 function jsonCode (initialValue, readonly, currentValueContainer) {
@@ -85,7 +86,37 @@ export function entityValueView ({entity, value, watching}, dispatch) {
 }
 
 
-export function entityDetailsView ({entity, graph}: {entity: ProcessedGraphEntity, graph: ProcessedGraph}, dispatch) {
+export function entityDetailsView ({ entity, graph, meta }: { entity: ProcessedGraphEntity, graph: ProcessedGraph, meta: any }, dispatch) {
+
+	const processes = (entity.processes || []).map(pid => graph.processes[pid])
+	const streams = processes.filter(p => !p.reaction)
+	const reactions = processes.filter(p => p.reaction)
+	const tempMeta = { value: meta ? JSON.stringify(meta, null, '  ') : '' }
+	// console.log('setting new meta', tempMeta.value)
+
+	function printProcessInputs(p: ProcessedGraphProcess) {
+		const parts = [
+			'(',
+			p.inputs
+				.filter(p => p.type !== PORT_TYPES.ACCUMULATOR)
+				.map(ePort => {
+					const e = graph.entities[ePort.eid]
+					return (e.namespace === entity.namespace
+						? e.name
+						: e.namespace + '/' + e.name) + '::' + ePort.type
+				}).join(', '),
+			')'
+		]
+
+		if (p.autostart) {
+			parts.unshift('S')
+		}
+		if (p.async) {
+			parts.unshift('A')
+		}
+
+		return parts.join('')
+	}
 
 	const el = ['section', {
 			class: entityViewStyle
@@ -95,10 +126,42 @@ export function entityDetailsView ({entity, graph}: {entity: ProcessedGraphEntit
 				['tr',
 					['td', 'name'],
 					['td', entity.name]],
-				...entity.processes.map(p => ['tr',
-					['td', 'process'],
-					['td', printEntityName(graph.processes[p])]])
-			]],
+				['tr',
+					['td', 'namespace'],
+					['td', entity.namespace]],
+				(streams.length > 0 && ['tr',
+					['td', 'streams'],
+					['td', ...streams.map(s => ['p',
+						['a', {
+							onClick: () => dispatch(GUI.ENTITY.SET_ACTIVE_PROCESS, s.id)
+						}, printProcessInputs(s)]])]]),
+				(reactions.length > 0 && ['tr',
+					['td', 'reactions'],
+					['td', ...reactions.map(r => ['p',
+						['a', {
+							onClick: () => dispatch(GUI.ENTITY.SET_ACTIVE_PROCESS, r.id)
+						}, printProcessInputs(r)]])]])
+			],
+			(entity.value && ['p', 'initial value']),
+			(entity.value && ['code', ['pre', JSON.stringify(entity.value, null, '  ')]]),
+			(meta && ['p', 'meta data']),
+			(meta && ['code', ['pre', {
+					contentEditable: true,
+					onInput: e => {tempMeta.value = e.target.textContent; console.log(tempMeta)}
+				}, tempMeta.value]]),
+			['div', {
+				'style': 'margin-top: 4px'
+				},
+				['button', {
+						class: buttonStyle,
+						onclick: () => {
+							console.log(tempMeta.value)
+							const value = JSON.parse(tempMeta.value)
+							dispatch(GUI.ENTITY.SAVE_META, {id: entity.id, value})
+						}
+					}, 'Save']
+			]
+		],
 
 		['div', {
 			'style': 'margin-top: 4px'
@@ -163,20 +226,33 @@ export function processDetailsView ({process, graph}: {process: ProcessedGraphPr
 		type += ' Autostart'
 	}
 
+	if (process.delta) {
+		type = 'Delta ' + type
+	}
+
 	const el = ['section', {
 			class: entityViewStyle
 		},
 		['div', { class: windowContentStyle },
 			['table',
 				['tr',
-					['td', 'name'],
-					['td', process.name]],
-				['tr',
 					['td', 'type'],
 					['td', type]],
 				['tr',
 					['td', 'output'],
-					['td', ['a', printEntityName(graph.entities[process.output])]]]
+					['td', ['a', {
+							onClick: () => dispatch(GUI.ENTITY.SET_ACTIVE_ENTITY, process.output)
+						},
+						printEntityName(graph.entities[process.output])]]],
+				['tr',
+					['td', 'inputs'],
+					['td',
+						...process.inputs
+							.filter(i => i.type !== PORT_TYPES.ACCUMULATOR)
+							.map(i => ['p', ['a', {
+									onClick: () => dispatch(GUI.ENTITY.SET_ACTIVE_ENTITY, i.eid)
+								},
+								printEntityName(graph.entities[i.eid]) + ' :: ' + i.type]])]]
 				]],
 		getProcessButtons(process, dispatch)]
 

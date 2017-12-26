@@ -1,7 +1,7 @@
 import { stream, EntityRef } from 'tvs-flow/dist/lib/utils/entity-reference'
 import { activeNode, activeEntity, activeValue, watchingEntity, activeProcess } from './entity'
 import { activeWindow, visibility, controlsPosition, treeWindow, graphWindow, entityWindow } from './gui'
-import { metaEntity, enhancedGraphData } from '../../graph/state/flow'
+import { metaEntity, enhancedGraphData, metaEntities } from '../../graph/state/flow'
 import { ProcessedGraph, ProcessedGraphEntity, ProcessedGraphProcess } from '../../../utils/entity-data-helpers'
 
 
@@ -35,10 +35,11 @@ export const entityViewProps: EntityRef<{
 	entity: ProcessedGraphEntity,
 	value: any,
 	watching: boolean,
-	graph: ProcessedGraph
+	graph: ProcessedGraph,
+	meta: any
 }> = stream(
-	[activeEntity.HOT, activeValue.HOT, watchingEntity.HOT, enhancedGraphData.COLD],
-	(entity, value, watching, graph) => ({ entity, value, watching, graph })
+	[activeEntity.HOT, activeValue.HOT, watchingEntity.HOT, enhancedGraphData.COLD, metaEntities.HOT],
+	(entity, value, watching, graph, meta) => ({ entity, value, watching, graph, meta: meta[entity.id] })
 )
 
 
