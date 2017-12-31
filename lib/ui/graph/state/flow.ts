@@ -35,7 +35,6 @@ export const selectedRuntimeId = val<string>('')
 		}
 	}
 )
-.accept(unequal)
 
 
 export const runtime = stream(

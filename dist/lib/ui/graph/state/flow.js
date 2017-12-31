@@ -26,8 +26,7 @@ export var selectedRuntimeId = val('')
     if (action.type === FLOW.SELECT_ACTIVE_RUNTIME) {
         return action.payload;
     }
-})
-    .accept(unequal);
+});
 export var runtime = stream([runtimes.COLD, selectedRuntimeId.HOT], function (runtimes, id) { return runtimes[id]; })
     .react([action.HOT], function (self, _a) {
     var type = _a.type, payload = _a.payload;
