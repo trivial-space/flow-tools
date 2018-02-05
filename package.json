@@ -37,16 +37,16 @@
 		"tvs-libs": "^0.5.0"
 	},
 	"devDependencies": {
-		"@types/node": "^8.0.53",
-		"@types/webpack-env": "^1.13.2",
+		"@types/node": "^9.4.0",
+		"@types/webpack-env": "^1.13.5",
 		"csx": "^8.5.0",
 		"inferno-devtools": "^3.10.1",
-		"ts-loader": "^3.2.0",
-		"tslint": "^5.8.0",
-		"typescript": "^2.6.2",
-		"typestyle": "^1.5.1",
-		"uglifyjs-webpack-plugin": "^1.1.1",
-		"webpack": "^3.8.1",
-		"webpack-dev-server": "^2.9.5"
+		"ts-loader": "^3.4.0",
+		"tslint": "^5.9.1",
+		"typescript": "^2.7.1",
+		"typestyle": "^1.7.1",
+		"uglifyjs-webpack-plugin": "^1.1.8",
+		"webpack": "^3.10.0",
+		"webpack-dev-server": "^2.11.1"
 	}
 }
