@@ -9,10 +9,7 @@ Other utilities, like a console tool and some webpack helpers are part of this p
 
 Developed and build for usage with TypeScript.
 
-*This library is fluctuating a lot, and changed frequently. Not recommended for production usage!*
-
-Flow tools are used primarily in the [trivial space playground](https://github.com/trivial-space/playground) to experiment with graphics live coding inside browsers. See it in action there.
-
+_This library is fluctuating a lot, and changed frequently. Not recommended for production usage!_
 
 ## License
 
